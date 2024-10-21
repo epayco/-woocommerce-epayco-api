@@ -1,0 +1,6 @@
+{
+  "require": {
+    "epayco/epayco-php": "dev-master"
+  }
+}
+
