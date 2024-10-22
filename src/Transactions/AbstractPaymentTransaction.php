@@ -47,8 +47,6 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
      */
     public function createTcPayment($order_id, array $checkout)
     {
-        global $woocommerce;
-        $payment = $this->getTransaction('Payment');
         $order = new \WC_Order($order_id);
         $descripcionParts = array();
         $iva=0;
