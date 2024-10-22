@@ -1056,7 +1056,7 @@ class AdminTranslations
     private function setStatusSyncTranslations(): void
     {
         $this->statusSync = [
-            'metabox_title'                                    => __('Payment status on Sdk', 'woocommerce-epayco'),
+            'metabox_title'                                    => __('Payment status on ePayco', 'woocommerce-epayco'),
             'card_title'                                       => __('This is the payment status of your Sdk Activities. To check the order status, please refer to Order details.', 'woocommerce-epayco'),
             'link_description_success'                         => __('View purchase details at Sdk', 'woocommerce-epayco'),
             'sync_button_success'                              => __('Sync order status', 'woocommerce-epayco'),

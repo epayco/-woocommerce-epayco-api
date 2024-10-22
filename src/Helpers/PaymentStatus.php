@@ -18,13 +18,16 @@ final class PaymentStatus
     public static function getStatusType(string $paymentStatus): string
     {
         $paymentStatusMap = [
-            'approved'     => 'success',
-            'authorized'   => 'success',
-            'pending'      => 'pending',
-            'in_process'   => 'pending',
-            'in_mediation' => 'pending',
-            'rejected'     => 'rejected',
-            'canceled'     => 'rejected',
+            'aceptada'      => 'success',
+            'accepted'      => 'success',
+            'pendiente'     => 'pending',
+            'pending'       => 'pending',
+            'rechazada'     => 'rejected',
+            'rejected'      => 'rejected',
+            'cancelada'     => 'rejected',
+            'canceled'      =>  'rejected',
+            'fallida'       =>  'rejected',
+            'failed'        =>  'rejected',
             'refunded'     => 'refunded',
             'charged_back' => 'charged_back',
             'generic'      => 'rejected'

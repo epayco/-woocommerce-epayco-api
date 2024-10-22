@@ -12,7 +12,6 @@ use Epayco\Woocommerce\Helpers\Cart;
 use Epayco\Woocommerce\Helpers\Images;
 use Epayco\Woocommerce\Helpers\Session;
 use Epayco\Woocommerce\Hooks\Blocks;
-use Epayco\Woocommerce\Order\OrderBilling;
 use Epayco\Woocommerce\Order\OrderMetadata;
 use Epayco\Woocommerce\Configs\Seller;
 use Epayco\Woocommerce\Configs\Store;
@@ -45,10 +44,10 @@ use Epayco\Woocommerce\Hooks\Template;
 use Epayco\Woocommerce\Libraries\Logs\Logs;
 use Epayco\Woocommerce\Libraries\Logs\Transports\File;
 use Epayco\Woocommerce\Libraries\Logs\Transports\Remote;
-use Epayco\Woocommerce\Order\OrderShipping;
 use Epayco\Woocommerce\Order\OrderStatus;
 use Epayco\Woocommerce\Translations\AdminTranslations;
 use Epayco\Woocommerce\Translations\StoreTranslations;
+use Epayco\Woocommerce\WoocommerceEpayco;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -56,6 +55,12 @@ if (!defined('ABSPATH')) {
 
 class Dependencies
 {
+
+    /**
+     * @var WoocommerceEpayco
+     */
+    public $epayco;
+
     /**
      * @var \WooCommerce
      */
@@ -257,19 +262,10 @@ class Dependencies
     public $logs;
 
     /**
-     * @var OrderBilling
-     */
-    public $orderBilling;
-
-    /**
      * @var OrderMetadata
      */
     public $orderMetadata;
 
-    /**
-     * @var OrderShipping
-     */
-    public $orderShipping;
 
     /**
      * @var OrderStatus
@@ -297,7 +293,9 @@ class Dependencies
     public function __construct()
     {
         global $woocommerce;
+        global $epayco;
 
+        $this->epayco                  = $epayco;
         $this->woocommerce             = $woocommerce;
         $this->adminHook               = new Admin();
         $this->cartHook                = new Hooks\Cart();
@@ -314,8 +312,6 @@ class Dependencies
         $this->imagesHelper            = new Images();
         $this->sessionHelper           = new Session();
         $this->stringsHelper           = new Strings();
-        $this->orderBilling            = new OrderBilling();
-        $this->orderShipping           = new OrderShipping();
         $this->orderMetadata           = $this->setOrderMetadata();
         $this->requesterHelper         = $this->setRequester();
         $this->storeConfig             = $this->setStore();

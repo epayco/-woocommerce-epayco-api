@@ -49,6 +49,7 @@ return array(
     'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Client' => $baseDir . '/src/Sdk/Entity/Payment/Client.php',
     'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Customer' => $baseDir . '/src/Sdk/Entity/Payment/Customer.php',
     'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Daviplata' => $baseDir . '/src/Sdk/Entity/Payment/Daviplata.php',
+    'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Transaction' => $baseDir . '/src/Sdk/Entity/Payment/Transaction.php',
     'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Cash' => $baseDir . '/src/Sdk/Entity/Payment/Cash.php',
     'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Charge' => $baseDir . '/src/Sdk/Entity/Payment/Charge.php',
     'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Seller' => $baseDir . '/src/Sdk/Entity/Payment/Seller.php',

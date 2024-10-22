@@ -11,15 +11,14 @@
             if (!document.getElementById('payment_method_woo-epayco-daviplata').checked) {
                 return true;
             }
-            let ticketContent = document.querySelector("form.checkout").getElementsByClassName("mp-checkout-daviplata-content")[0];
-            //let ticketContent = document.querySelector(CheckoutTicketElements.ticketContent);
-            let ticketHelpers = ticketContent.querySelectorAll('input-helper');
-            verifyName(ticketContent)
-            verifyEmail(ticketContent)
-            verifyAddress(ticketContent)
-            cellphoneDocument(ticketContent)
-            verifyDocument(ticketContent);
-            verifyPaymentMethods(ticketContent);
+            let DaviplataContent = document.querySelector("form.checkout").getElementsByClassName("mp-checkout-daviplata-content")[0];
+            //let DaviplataContent = document.querySelector(CheckoutTicketElements.DaviplataContent);
+            let ticketHelpers = DaviplataContent.querySelectorAll('input-helper');
+            verifyName(DaviplataContent)
+            verifyEmail(DaviplataContent)
+            verifyAddress(DaviplataContent)
+            cellphoneDocument(DaviplataContent)
+            verifyDocument(DaviplataContent);
 
             if (checkForErrors(ticketHelpers)) {
                 removeBlockOverlay();
@@ -94,36 +93,7 @@
             }
         }
 
-        function verifyPaymentMethods(ticketContent) {
-            ticketContent.querySelector('#more-options').addEventListener('click', () => {
-                setTimeout(() => {
-                    removeErrorFromInputTableContainer(ticketContent);
-                }, 300);
-            });
 
-            let paymentOptionSelected = false;
-            ticketContent.querySelectorAll('.mp-input-radio-radio').forEach((item) => {
-                if (item.checked) {
-                    paymentOptionSelected = true;
-                }
-            });
-
-            if (paymentOptionSelected === false) {
-                CheckoutTicketPage.setDisplayOfError('fcInputTableContainer', 'add', 'mp-error', 'ticketContent');
-                CheckoutTicketPage.setDisplayOfInputHelper('mp-payment-method', 'flex', 'ticketContent');
-            }
-
-            removeErrorFromInputTableContainer(ticketContent);
-        }
-
-        function removeErrorFromInputTableContainer(ticketContent) {
-            ticketContent.querySelectorAll('.mp-input-table-label').forEach((item) => {
-                item.addEventListener('click', () => {
-                    CheckoutTicketPage.setDisplayOfError('fcInputTableContainer', 'remove', 'mp-error', 'ticketContent');
-                    CheckoutTicketPage.setDisplayOfInputHelper('mp-payment-method', 'none', 'ticketContent');
-                });
-            });
-        }
 
         // Process when submit the checkout form
         $('form.checkout').on('checkout_place_order_woo-epayco-daviplata', function () {

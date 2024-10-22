@@ -142,11 +142,12 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
         $private_key = $this->epayco->sellerConfig->getCredentialsPrivateKeyPayment();
         $pCustId = $this->epayco->sellerConfig->getCredentialsPCustId();
         $pKey = $this->epayco->sellerConfig->getCredentialsPkey();
-        $isTestMode = $this->epayco->storeConfig->isTestMode();
+        $isTestMode = $this->epayco->storeConfig->isTestMode()?"true":"false";
+        $idioma = substr(get_locale(), 0, 2);
         return new EpaycoSdk([
             "apiKey" => $public_key,
             "privateKey" =>$private_key,
-            "lenguage" => strtoupper("es"),
+            "lenguage" => strtoupper($idioma),
             "test" => $isTestMode
         ],
             "",
@@ -565,7 +566,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
      */
     public function processReturnFail(\Exception $e, string $message, string $source, array $context = [], bool $notice = false): array
     {
-        $this->epayco->logs->file->error('Message: ' . $e->getMessage() . ' \n\n\n' . 'Stackstrace: ' . $e->getTraceAsString() . ' \n\n\n', $source, $context);
 
         $errorMessages = [
             "Invalid test user email" => $this->epayco->storeTranslations->commonMessages['invalid_users'],

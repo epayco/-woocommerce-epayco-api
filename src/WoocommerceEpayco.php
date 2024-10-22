@@ -13,12 +13,9 @@ use Epayco\Woocommerce\Blocks\TicketBlock;
 use Epayco\Woocommerce\Blocks\PseBlock;
 use Epayco\Woocommerce\Configs\Metadata;
 use Epayco\Woocommerce\Funnel\Funnel;
-use Epayco\Woocommerce\Order\OrderBilling;
 use Epayco\Woocommerce\Order\OrderMetadata;
 use Epayco\Woocommerce\Configs\Seller;
 use Epayco\Woocommerce\Configs\Store;
-use Epayco\Woocommerce\Libraries\Logs\Logs;
-use Epayco\Woocommerce\Order\OrderShipping;
 use Epayco\Woocommerce\Order\OrderStatus;
 use Epayco\Woocommerce\Translations\AdminTranslations;
 use Epayco\Woocommerce\Translations\StoreTranslations;
@@ -107,24 +104,9 @@ class WoocommerceEpayco
     public $storeConfig;
 
     /**
-     * @var Logs
-     */
-    public $logs;
-
-    /**
-     * @var OrderBilling
-     */
-    public $orderBilling;
-
-    /**
      * @var OrderMetadata
      */
     public $orderMetadata;
-
-    /**
-     * @var OrderShipping
-     */
-    public $orderShipping;
 
     /**
      * @var OrderStatus
@@ -269,10 +251,10 @@ class WoocommerceEpayco
 
         $this->registerBlocks();
         $this->registerGateways();
-        $this->registerActionsWhenGatewayIsNotCalled();
+        //$this->registerActionsWhenGatewayIsNotCalled();
 
-        $this->hooks->plugin->registerEnableCreditsAction([$this->helpers->creditsEnabled, 'enableCreditsAction']);
-        $this->hooks->plugin->executeCreditsAction();
+        //$this->hooks->plugin->registerEnableCreditsAction([$this->helpers->creditsEnabled, 'enableCreditsAction']);
+        //$this->hooks->plugin->executeCreditsAction();
         $this->hooks->plugin->executePluginLoadedAction();
         $this->hooks->plugin->registerActivatePlugin([$this, 'activatePlugin']);
         $this->hooks->gateway->registerSaveCheckoutSettings();
@@ -319,8 +301,6 @@ class WoocommerceEpayco
         $this->metadataConfig = $dependencies->metadataConfig;
 
         // Order
-        $this->orderBilling  = $dependencies->orderBilling;
-        $this->orderShipping = $dependencies->orderShipping;
         $this->orderMetadata = $dependencies->orderMetadata;
         $this->orderStatus   = $dependencies->orderStatus;
 
@@ -329,9 +309,6 @@ class WoocommerceEpayco
 
         // Hooks
         $this->hooks = $dependencies->hooks;
-
-        // General
-        $this->logs = $dependencies->logs;
 
         // Exclusive
         $this->settings = $dependencies->settings;
@@ -490,4 +467,5 @@ class WoocommerceEpayco
             }
         );
     }
+
 }

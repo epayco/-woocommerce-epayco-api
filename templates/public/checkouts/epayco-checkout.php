@@ -36,10 +36,3 @@ if (!defined('ABSPATH')) {
     <?php endif; ?>
 </div>
 
-<script type="text/javascript">
-    if (document.getElementById("payment_method_woo-epayco-custom")) {
-        jQuery("form.checkout").on("checkout_place_order_woo-epayco-chekout", function() {
-            cardFormLoad();
-        });
-    }
-</script>

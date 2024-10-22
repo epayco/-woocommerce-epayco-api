@@ -303,6 +303,7 @@ final class Country
      */
     public function getOrderGatewayForCountry(): array
     {
+        $public = $this->seller->getCredentialsPublicKeyPayment();
         return [
             //'Epayco\Woocommerce\Gateways\BasicGateway',
             'Epayco\Woocommerce\Gateways\CheckoutGateway',

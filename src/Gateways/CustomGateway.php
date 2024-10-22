@@ -158,16 +158,6 @@ class CustomGateway extends AbstractGateway
             $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/custom/library', '.js')
         );
 
-        /*$this->epayco->hooks->scripts->registerCheckoutScript(
-            'wc_epayco_custom_page',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/custom/ep-custom-page', '.js')
-        );*/
-/*
-        $this->epayco->hooks->scripts->registerCheckoutScript(
-            'wc_epayco_custom_elements',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/custom/ep-custom-elements', '.js')
-        );*/
-
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_custom_checkout',
             $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/custom/ep-custom-checkout', '.js'),

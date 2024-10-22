@@ -16,12 +16,12 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
 
         $this->transaction = $this->sdk->getPaymentInstance();
 
-        $this->setCommonTransaction();
+        /*$this->setCommonTransaction();
         $this->setPayerTransaction();
         $this->setAdditionalInfoTransaction();
 
         $this->transaction->description        = implode(', ', $this->listOfItems);
-        $this->transaction->transaction_amount = Numbers::format($this->orderTotal);
+        $this->transaction->transaction_amount = Numbers::format($this->orderTotal);*/
     }
 
     /**
@@ -118,8 +118,6 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
      */
     public function createPsePayment($order_id, array $checkout)
     {
-        global $woocommerce;
-        $payment = $this->getTransaction('Payment');
         $order = new \WC_Order($order_id);
         $descripcionParts = array();
         $iva=0;
@@ -195,8 +193,6 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
      */
     public function createCashPayment($order_id, array $checkout)
     {
-        global $woocommerce;
-        $payment = $this->getTransaction('Payment');
         $order = new \WC_Order($order_id);
         $descripcionParts = array();
         $iva=0;
@@ -278,8 +274,6 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
      */
     public function createDaviplataPayment($order_id, array $checkout)
     {
-        global $woocommerce;
-        $payment = $this->getTransaction('Payment');
         $order = new \WC_Order($order_id);
         $descripcionParts = array();
         $iva=0;

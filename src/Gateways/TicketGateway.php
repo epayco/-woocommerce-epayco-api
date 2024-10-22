@@ -279,7 +279,7 @@ class TicketGateway extends AbstractGateway
 
                 if (is_array($response) && $response['success']) {
                     //$this->handleWithRejectPayment($response);
-                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$response['data']['refPayco']]);
+                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$response['data']['refPayco']]);
                     if (isset($response['data']['token'])) {
                         $response['urlPayment'] = 'https://vtex.epayco.io/es/pin?token='.$response['data']['token'];
                         $this->epayco->hooks->order->setTicketMetadata($order, $response);

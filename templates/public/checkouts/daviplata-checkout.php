@@ -137,22 +137,6 @@ if (!defined('ABSPATH')) {
                 </div>
 
 
-                <p class="mp-checkout-ticket-text" data-cy="checkout-ticket-text">
-                    <?= esc_html($ticket_text_label); ?>
-                </p>
-
-                <input-table
-                        name="epayco_daviplata[payment_method_id]"
-                        button-name=<?= esc_html($input_table_button); ?>
-                        columns='<?= esc_attr(wp_json_encode($payment_methods)); ?>'>
-                </input-table>
-
-                <input-helper
-                        isVisible=false
-                        message="<?= esc_html($input_helper_label); ?>"
-                        input-id="mp-payment-method-helper"
-                        id="payment-method-helper">
-                </input-helper>
 
                 <!-- NOT DELETE LOADING-->
                 <div id="mp-box-loading"></div>
@@ -187,11 +171,5 @@ if (!defined('ABSPATH')) {
     <input type="hidden" id="cardholderName" data-checkout="cardholderName" value="form-checkout__cardholderName" name="epayco_custom[cardholderName]"/>
 </div>
 
-<script type="text/javascript">
-    function submitWalletButton(event) {
-        event.preventDefault();
-        jQuery('#mp_checkout_type').val('wallet_button');
-        jQuery('form.checkout, form#order_review').submit();
-    }
-</script>
+
 

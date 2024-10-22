@@ -85,6 +85,7 @@ class ComposerStaticInit13fcaf83d5496a4fa4e35c9150f0d908
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Client' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Client.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Customer' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Customer.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Daviplata' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Daviplata.php',
+        'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Transaction' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Transaction.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Charge' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Charge.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Cash' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Cash.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Seller' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Seller.php',

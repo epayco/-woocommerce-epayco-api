@@ -260,11 +260,4 @@ if (!defined('ABSPATH')) {
     <input type="hidden" id="mpCardSessionId" name="epayco_custom[session_id]" />
 </div>
 
-<script type="text/javascript">
-    function submitWalletButton(event) {
-        event.preventDefault();
-        jQuery('#mp_checkout_type').val('wallet_button');
-        jQuery('form.checkout, form#order_review').submit();
-    }
-</script>
 

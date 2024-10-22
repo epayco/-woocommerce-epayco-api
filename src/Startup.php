@@ -32,7 +32,8 @@ class Startup
      */
     public static function available(): bool
     {
-        return self::haveAutoload() && self::havePackages();
+        //return self::haveAutoload() && self::havePackages();
+        return self::haveAutoload();
     }
 
     /**

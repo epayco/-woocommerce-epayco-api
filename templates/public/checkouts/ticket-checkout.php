@@ -131,24 +131,24 @@ if (!defined('ABSPATH')) {
                     </input-document>
                 </div>
 
+                <div class="mp-checkout-ticket-payment-method">
+                    <p class="mp-checkout-ticket-text" data-cy="checkout-ticket-text">
+                        <?= esc_html($ticket_text_label); ?>
+                    </p>
 
-                <p class="mp-checkout-ticket-text" data-cy="checkout-ticket-text">
-                    <?= esc_html($ticket_text_label); ?>
-                </p>
+                    <input-table
+                        name="epayco_ticket[payment_method_id]"
+                        button-name=<?= esc_html($input_table_button); ?>
+                        columns='<?= esc_attr(wp_json_encode($payment_methods)); ?>'>
+                    </input-table>
 
-                <input-table
-                    name="epayco_ticket[payment_method_id]"
-                    button-name=<?= esc_html($input_table_button); ?>
-                    columns='<?= esc_attr(wp_json_encode($payment_methods)); ?>'>
-                </input-table>
-
-                <input-helper
-                    isVisible=false
-                    message="<?= esc_html($input_helper_label); ?>"
-                    input-id="mp-payment-method-helper"
-                    id="payment-method-helper">
-                </input-helper>
-
+                    <input-helper
+                        isVisible=false
+                        message="<?= esc_html($input_helper_label); ?>"
+                        input-id="mp-payment-method-helper"
+                        id="payment-method-helper">
+                    </input-helper>
+                </div>
                 <!-- NOT DELETE LOADING-->
                 <div id="mp-box-loading"></div>
 
@@ -173,10 +173,3 @@ if (!defined('ABSPATH')) {
     <?php endif; ?> 
 </div>
 
-<script type="text/javascript">
-    if (document.getElementById("payment_method_woo-mercado-pago-custom")) {
-        jQuery("form.checkout").on("checkout_place_order_woo-epayco-ticket", function() {
-            cardFormLoad();
-        });
-    }
-</script>

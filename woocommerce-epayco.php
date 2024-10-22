@@ -58,39 +58,6 @@ function mp_disable_plugin(): void
     $GLOBALS['epayco']->disablePlugin();
 }
 
-add_action( 'woocommerce_admin_order_data_after_payment_info', 'my_custom_checkout_field_display_admin_order_meta', 10, 1 );
-function my_custom_checkout_field_display_admin_order_meta( $order ){
-    $order_id = method_exists( $order, 'get_id' ) ? $order->get_id() : $order->id;
-    if( null !== get_post_meta( $order_id, 'modo', true ) && null !== get_post_meta( $order_id, 'fecha', true )
-        && null !== get_post_meta( $order_id, 'franquicia', true ) && null !== get_post_meta( $order_id, 'autorizacion', true )
-    ){
-        echo '<br>
-    <h3>Detalle de la transacción</h3>
-    <div>
-        <div class="order_data_column_container">
-            <div class="order_data_column">
-                <div class="address">    
-                    <p><strong>'.__('Pago con ePayco').':</strong> ' . get_post_meta( $order_id, 'refPayco', true ) . '</p>
-                    <p><strong>'.__('Modo').':</strong> ' . get_post_meta( $order_id, 'modo', true ) . '</p>
-                </div>
-            </div>
-            <div class="order_data_column">
-                <div class="address">    
-                    <p><strong>'.__('Fecha y hora transacción').':</strong> ' . get_post_meta( $order_id, 'fecha', true ) . '</p>
-                    <p><strong>'.__('Franquicia/Medio de pago').':</strong> ' . get_post_meta( $order_id, 'franquicia', true ) . '</p>
-                </div>
-            </div>
-            <div class="order_data_column">
-                <div class="address">    
-                    <p><strong>'.__('Código de autorización').':</strong> ' . get_post_meta( $order_id, 'autorizacion', true ) . '</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    ';
-    }
-
-}
 function activate_epayco_customer()
 {
     global $wpdb;
@@ -100,7 +67,6 @@ function activate_epayco_customer()
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
     if ($wpdb->get_var("SHOW TABLES LIKE '$table_epayco_customer '") !== $table_epayco_customer) {
-
         $sql = "CREATE TABLE IF NOT  EXISTS $table_epayco_customer (
             id INT NOT NULL AUTO_INCREMENT,
             customer_id TEXT NULL,

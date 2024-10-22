@@ -37,7 +37,7 @@ if (!defined('ABSPATH')) {
                 <?php echo esc_html($alert_description); ?>
             </p>
 
-            <p style="margin: 12px 0 4px; display: flex; align-items: center; justify-content: flex-start;">
+            <!--<p style="margin: 12px 0 4px; display: flex; align-items: center; justify-content: flex-start;">
 
                 <button type="button" id="mp-sync-payment-status-button" class="mp-status-sync-metabox-button primary">
                     <span><?php echo esc_html($sync_button_text); ?></span>
@@ -51,7 +51,29 @@ if (!defined('ABSPATH')) {
                 >
                     <?php echo esc_html($link_description); ?>
                 </a>
-            </p>
+            </p>-->
+        </div>
+    </div>
+
+    <div>
+        <div class="order_data_column_container">
+            <div class="order_data_column">
+                <div class="address">
+                    <p><strong>Ref_payco:</strong> <?php echo esc_html($ref_payco); ?></p>
+                    <p><strong>Modo:</strong> <?php echo esc_html($test); ?></p>
+                </div>
+            </div>
+            <div class="order_data_column">
+                <div class="address">
+                    <p><strong>Fecha y hora transacción:</strong> <?php echo esc_html($transactionDateTime); ?></p>
+                    <p><strong>Franquicia/Medio de pago:</strong> <?php echo esc_html($bank); ?></p>
+                </div>
+            </div>
+            <div class="order_data_column">
+                <div class="address">
+                    <p><strong>Código de autorización:</strong> <?php echo esc_html($authorization); ?></p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

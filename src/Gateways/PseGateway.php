@@ -294,7 +294,8 @@ class PseGateway extends AbstractGateway
      */
     private function getFinancialInstitutions(): array
     {
-        $test = $this->sdk->test;
+        //$test = $this->sdk->test;
+        $test = $this->epayco->storeConfig->isTestMode();
         $bancos = $this->sdk->bank->pseBank($test);
         if(isset($bancos) && isset($bancos->data) ){
             $banks = (array) $bancos->data;

@@ -11,14 +11,14 @@
       if (!document.getElementById('payment_method_woo-epayco-ticket').checked) {
         return true;
       }
-
-      let ticketContent = document.querySelector(CheckoutTicketElements.ticketContent);
+      let ticketContent = document.querySelector("form.checkout").getElementsByClassName("mp-checkout-ticket-content")[0];
+      //let ticketContent = document.querySelector(CheckoutTicketElements.ticketContent);
       let ticketHelpers = ticketContent.querySelectorAll('input-helper');
-
-      if (wc_epayco_ticket_checkout_params.site_id === 'MLB' || wc_epayco_ticket_checkout_params.site_id === 'MLU') {
-        verifyDocument(ticketContent, ticketHelpers);
-      }
-
+      verifyName(ticketContent)
+      verifyEmail(ticketContent)
+      verifyAddress(ticketContent)
+      cellphoneDocument(ticketContent)
+      verifyDocument(ticketContent);
       verifyPaymentMethods(ticketContent);
 
       if (checkForErrors(ticketHelpers)) {
@@ -43,22 +43,58 @@
       return hasError;
     }
 
-    function verifyDocument(ticketContent, ticketHelpers) {
-      let documentElement = ticketContent.querySelector('.mp-document');
+    function verifyName(pseContent) {
+      let nameElement = pseContent.querySelector('#form-checkout__identificationName-container').querySelector('input');
+      if (nameElement.value === '') {
+        nameElement.parentElement.classList.add('mp-error');
+        let pseHelpers = pseContent.parentElement.querySelector('input-helper');
+        let child = pseHelpers.querySelector('div');
+        child.style.display = 'flex';
+      }
+    }
 
+    function verifyEmail(pseContent) {
+      let emailElement = pseContent.querySelector('#form-checkout__identificationEmail-container').querySelector('input');
+      if (emailElement.value === '') {
+        emailElement.parentElement.classList.add('mp-error');
+        let pseHelpers = pseContent.querySelector('#form-checkout__identificationEmail-container').parentElement.querySelector('input-helper');
+        let child = pseHelpers.querySelector('div');
+        child.style.display = 'flex';
+      }
+    }
+
+    function verifyAddress(pseContent) {
+      let addressElement = pseContent.querySelector('#form-checkout__identificationAddress-container').querySelector('input');
+      if (addressElement.value === '') {
+        addressElement.parentElement.classList.add('mp-error');
+        let pseHelpers = pseContent.querySelector('#form-checkout__identificationAddress-container').parentElement.querySelector('input-helper');
+        let child = pseHelpers.querySelector('div');
+        child.style.display = 'flex';
+      }
+    }
+
+    function cellphoneDocument(pseContent) {
+      let addressElement = pseContent.querySelector('#form-checkout__identificationCellphone-container').querySelector('input');
+      if (addressElement.value === '') {
+        addressElement.parentElement.classList.add('mp-error');
+        let pseHelpers = pseContent.querySelector('#form-checkout__identificationCellphone-container').parentElement.querySelector('input-helper');
+        let child = pseHelpers.querySelector('div');
+        child.style.display = 'flex';
+      }
+    }
+
+    function verifyDocument(ticketContent) {
+      let documentElement = ticketContent.querySelector('.mp-document');
       if (documentElement.value === '') {
-        ticketContent.querySelector('.mp-input').classList.add('mp-error');
-        let child = ticketHelpers[0].querySelector('div');
+        ticketContent.querySelector('.mp-input-document > div').classList.add('mp-error');
+        //pseContent.querySelector('.mp-input').classList.add('mp-error');
+        let pseHelpers = ticketContent.querySelector('.mp-input-document').querySelector('input-helper');
+        let child = pseHelpers.querySelector('div');
         child.style.display = 'flex';
       }
     }
 
     function verifyPaymentMethods(ticketContent) {
-      ticketContent.querySelector('#more-options').addEventListener('click', () => {
-        setTimeout(() => {
-          removeErrorFromInputTableContainer(ticketContent);
-        }, 300);
-      });
 
       let paymentOptionSelected = false;
       ticketContent.querySelectorAll('.mp-input-radio-radio').forEach((item) => {
@@ -68,8 +104,10 @@
       });
 
       if (paymentOptionSelected === false) {
-        CheckoutTicketPage.setDisplayOfError('fcInputTableContainer', 'add', 'mp-error', 'ticketContent');
-        CheckoutTicketPage.setDisplayOfInputHelper('mp-payment-method', 'flex', 'ticketContent');
+        let documentElement = ticketContent.querySelector('.mp-checkout-ticket-payment-method');
+        let pseHelpers = documentElement.querySelector('input-helper');
+        let child = pseHelpers.querySelector('div');
+        child.style.display = 'flex';
       }
 
       removeErrorFromInputTableContainer(ticketContent);
@@ -78,8 +116,10 @@
     function removeErrorFromInputTableContainer(ticketContent) {
       ticketContent.querySelectorAll('.mp-input-table-label').forEach((item) => {
         item.addEventListener('click', () => {
-          CheckoutTicketPage.setDisplayOfError('fcInputTableContainer', 'remove', 'mp-error', 'ticketContent');
-          CheckoutTicketPage.setDisplayOfInputHelper('mp-payment-method', 'none', 'ticketContent');
+          let documentElement = ticketContent.querySelector('.mp-checkout-ticket-payment-method');
+          let pseHelpers = documentElement.querySelector('input-helper');
+          let child = pseHelpers.querySelector('div');
+          child.style.display = 'none';
         });
       });
     }

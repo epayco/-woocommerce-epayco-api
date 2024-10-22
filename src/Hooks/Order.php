@@ -3,12 +3,9 @@
 namespace Epayco\Woocommerce\Hooks;
 
 use Exception;
-use epayco\PP\Sdk\Common\AbstractCollection;
-use epayco\PP\Sdk\Common\AbstractEntity;
 use Epayco\Woocommerce\Configs\Seller;
 use Epayco\Woocommerce\Order\OrderMetadata;
 use Epayco\Woocommerce\Configs\Store;
-use Epayco\Woocommerce\Gateways\AbstractGateway;
 use Epayco\Woocommerce\Helpers\Cron;
 use Epayco\Woocommerce\Helpers\CurrentUser;
 use Epayco\Woocommerce\Helpers\Form;
@@ -21,6 +18,7 @@ use Epayco\Woocommerce\Translations\AdminTranslations;
 use Epayco\Woocommerce\Translations\StoreTranslations;
 use Epayco\Woocommerce\Libraries\Logs\Logs;
 use Epayco\Woocommerce\Libraries\Metrics\Datadog;
+use Epayco\Woocommerce\Sdk\EpaycoSdk;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -28,6 +26,7 @@ if (!defined('ABSPATH')) {
 
 class Order
 {
+
     /**
      * @var Template
      */
@@ -115,7 +114,6 @@ class Order
 
     /**
      * Order constructor
-     *
      * @param Template $template
      * @param OrderMetadata $orderMetadata
      * @param OrderStatus $orderStatus
@@ -166,9 +164,38 @@ class Order
         $this->logs              = $logs;
         $this->datadog           = Datadog::getInstance();
 
+        $this->sdk  = $this->getSdkInstance();
+
         $this->registerStatusSyncMetaBox();
         $this->registerSyncPendingStatusOrdersAction();
         $this->endpoints->registerAjaxEndpoint('ep_sync_payment_status', [$this, 'paymentStatusSync']);
+    }
+
+
+    /**
+     * Get SDK instance
+     */
+    public function getSdkInstance():EpaycoSdk
+    {
+
+        $public_key = $this->seller->getCredentialsPublicKeyPayment();
+        $private_key = $this->seller->getCredentialsPrivateKeyPayment();
+        $pCustId = $this->seller->getCredentialsPCustId();
+        $pKey = $this->seller->getCredentialsPkey();
+        $isTestMode = $this->seller->isTestUser()?"true":"false";
+        $idioma = substr(get_locale(), 0, 2);
+        return new EpaycoSdk([
+            "apiKey" => $public_key,
+            "privateKey" =>$private_key,
+            "lenguage" => strtoupper($idioma),
+            "test" => $isTestMode
+        ],
+            "",
+            $public_key,
+            $private_key,
+            $pCustId,
+            $pKey
+        );
     }
 
     /**
@@ -234,15 +261,27 @@ class Order
      */
     private function getMetaboxData(\WC_Order $order): array
     {
-        $paymentInfo  = $this->getLastPaymentInfo($order);
+        //$paymentInfo  = $this->getLastPaymentInfo($order);
+        //$paymentInfo = json_decode(json_encode($paymentInfo), true);
+        $paymentInfo = json_decode('{"success":true,"titleResponse":"Successful consult","textResponse":"successful consult","lastAction":"successful consult","data":{"pagination":{"totalCount":1,"limit":50,"page":1},"data":[{"referencePayco":101638598,"referenceClient":"32_test_1","transactionDate":"2024-10-19","description":"my coffe suscription","paymentMethod":"DP","amount":22000,"status":"Rechazada","test":true,"currency":"COP","transactionDateTime":"2024-10-19 16:45:18","iva":0,"bank":"DaviPlata","card":"DP","receipt":"10163859820241019112993","authorization":"000000","response":"C\u00f3digo de confirmaci\u00f3n incorrecto","trmdia":null,"docType":"CC","document":"8019","names":"Paola","lastnames":"Margarita","cicloPse":null}],"aggregations":{"status":[{"key":"Rechazada","doc_count":1}],"transactionType":{"produccion":{"doc_count":0},"pruebas":{"doc_count":1}},"transactionFranchises":{"American Express":{"doc_count":0},"Baloto":{"doc_count":0},"Bot\u00f3n Bancolombia":{"doc_count":0},"Codensa":{"doc_count":0},"Credibanco Bot\u00f3n":{"doc_count":0},"Cr\u00e9dito Credencial":{"doc_count":0},"Cr\u00e9dito Mastercard":{"doc_count":0},"Cr\u00e9dito Visa":{"doc_count":0},"C\u00f3digo QR":{"doc_count":0},"Daviplata":{"doc_count":1},"Daviplata App":{"doc_count":0},"Debito Mastercard":{"doc_count":0},"Debito Visa":{"doc_count":0},"Diners Club":{"doc_count":0},"D\u00e9bito Autom\u00e1tico Interbancario":{"doc_count":0},"Efecty":{"doc_count":0},"Epm":{"doc_count":0},"Gana":{"doc_count":0},"PSE":{"doc_count":0},"PayPal":{"doc_count":0},"Punto Red":{"doc_count":0},"Puntos Colombia":{"doc_count":0},"Puntos y Cr\u00e9dito Davivienda":{"doc_count":0},"Recarga Daviplata PSE":{"doc_count":0},"Red Servi":{"doc_count":0},"SafetyPay":{"doc_count":0},"Sin medio de Pago":{"doc_count":0},"Split Payment":{"doc_count":0},"Split Receiver Fee":{"doc_count":0},"Sured":{"doc_count":0},"Tarjeta Mef\u00eda":{"doc_count":0}},"transactionStatus":{"Abandonada":{"doc_count":0},"Aceptada":{"doc_count":0},"Antifraude":{"doc_count":0},"Cancelada":{"doc_count":0},"Expirada":{"doc_count":0},"Fallida":{"doc_count":0},"Iniciada":{"doc_count":0},"Pendiente":{"doc_count":0},"Rechazada":{"doc_count":1},"Retenida":{"doc_count":0},"Reversada":{"doc_count":0}}}}}', true);
+        $status = 'pending';
+        $alert_title = '';
+        foreach ($paymentInfo['data']['data'] as $data) {
+            $status = $data['status'];
+            $alert_title = $data['response'];
+            $ref_payco = $data['referencePayco'];
+            $test = $data['test'] ? 'Pruebas' : 'Producción';
+            $transactionDateTime= $data['transactionDateTime'];
+            $bank= $data['bank'];
+            $authorization= $data['authorization'];
+        }
 
-        $isCreditCard      = $paymentInfo['payment_type_id'] === 'credit_card';
-        $paymentStatusType = PaymentStatus::getStatusType($paymentInfo['status']);
+        $paymentStatusType = PaymentStatus::getStatusType(strtolower($status));
 
         $cardContent = PaymentStatus::getCardDescription(
             $this->adminTranslations->statusSync,
-            $paymentInfo['status_detail'],
-            $isCreditCard
+            'by_collector',
+            false
         );
 
         switch ($paymentStatusType) {
@@ -250,24 +289,34 @@ class Order
                 return [
                     'card_title'        => $this->adminTranslations->statusSync['card_title'],
                     'img_src'           => $this->url->getPluginFileUrl('assets/images/icons/icon-success', '.png', true),
-                    'alert_title'       => $cardContent['alert_title'],
-                    'alert_description' => $cardContent['description'],
+                    'alert_title'       => $alert_title,
+                    'alert_description' => $alert_title,
                     'link'              => 'https://www.epayco.com',
                     'border_left_color' => '#00A650',
                     'link_description'  => $this->adminTranslations->statusSync['link_description_success'],
                     'sync_button_text'  => $this->adminTranslations->statusSync['sync_button_success'],
+                    'ref_payco'         => $ref_payco,
+                    'test'              => $test,
+                    'transactionDateTime'              => $transactionDateTime,
+                    'bank'              => $bank,
+                    'authorization'     => $authorization
                 ];
 
             case 'pending':
                 return [
                     'card_title'        => $this->adminTranslations->statusSync['card_title'],
                     'img_src'           => $this->url->getPluginFileUrl('assets/images/icons/icon-alert', '.png', true),
-                    'alert_title'       => $cardContent['alert_title'],
-                    'alert_description' => $cardContent['description'],
+                    'alert_title'       => $alert_title,
+                    'alert_description' => $alert_title,
                     'link'              => 'https://www.epayco.com',
                     'border_left_color' => '#f73',
                     'link_description'  => $this->adminTranslations->statusSync['link_description_pending'],
                     'sync_button_text'  => $this->adminTranslations->statusSync['sync_button_pending'],
+                    'ref_payco'         => $ref_payco,
+                    'test'              => $test,
+                    'transactionDateTime'              => $transactionDateTime,
+                    'bank'              => $bank,
+                    'authorization'     => $authorization
                 ];
 
             case 'rejected':
@@ -276,12 +325,17 @@ class Order
                 return [
                     'card_title'        => $this->adminTranslations->statusSync['card_title'],
                     'img_src'           => $this->url->getPluginFileUrl('assets/images/icons/icon-warning', '.png', true),
-                    'alert_title'       => $cardContent['alert_title'],
-                    'alert_description' => $cardContent['description'],
+                    'alert_title'       => $alert_title,
+                    'alert_description' => $alert_title,
                     'link'              => $this->adminTranslations->links['reasons_refusals'],
                     'border_left_color' => '#F23D4F',
                     'link_description'  => $this->adminTranslations->statusSync['link_description_failure'],
                     'sync_button_text'  => $this->adminTranslations->statusSync['sync_button_failure'],
+                    'ref_payco'         => $ref_payco,
+                    'test'              => $test,
+                    'transactionDateTime'              => $transactionDateTime,
+                    'bank'              => $bank,
+                    'authorization'     => $authorization
                 ];
 
             default:
@@ -294,7 +348,7 @@ class Order
      *
      * @param \WC_Order $order
      *
-     * @return bool|AbstractCollection|AbstractEntity|object
+     * @return bool|object
      */
     private function getLastPaymentInfo(\WC_Order $order)
     {
@@ -305,11 +359,12 @@ class Order
             if (!$lastPaymentId) {
                 return false;
             }
+            $data = array(
+                "filter" => array("referencePayco" => $lastPaymentId),
+                "success" =>true
+            );
+            return $this->sdk->transaction->get($data);
 
-            $headers  = ['Authorization: Bearer ' . $this->seller->getCredentialsAccessToken()];
-            $response = $this->requester->get("/v1/payments/$lastPaymentId", $headers);
-
-            return $response->getData();
         } catch (\Exception $e) {
             return false;
         }

@@ -160,11 +160,3 @@ if (! defined('ABSPATH')) {
 </div>
 <div>
 </div>
-<script type="text/javascript">
-    if (document.getElementById("payment_method_woo-epayco-custom")) {
-        jQuery("form.checkout").on("checkout_place_order_woo-epayco-pse", function() {
-            cardFormLoad();
-        });
-    }
-
-</script>

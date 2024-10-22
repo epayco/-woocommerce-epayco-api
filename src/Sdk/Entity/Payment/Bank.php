@@ -19,12 +19,12 @@ Class Bank extends Resource
         return $this->request(
             "GET",
             $url,
-            $api_key = $this->epayco->api_key,
-            $options = null,
-            $private_key = $this->epayco->private_key,
+            $this->epayco->api_key,
+            null,
+            $this->epayco->private_key,
             $this->epayco->test,
-            $switch = true,
-            $lang = $this->epayco->lang,
+            true,
+            $this->epayco->lang,
             null,
             null,
             false

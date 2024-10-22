@@ -11,6 +11,7 @@ use Epayco\Woocommerce\Sdk\Entity\Payment\Cash;
 use Epayco\Woocommerce\Sdk\Entity\Payment\Charge;
 use Epayco\Woocommerce\Sdk\Entity\Payment\Customer;
 use Epayco\Woocommerce\Sdk\Entity\Payment\Daviplata;
+use Epayco\Woocommerce\Sdk\Entity\Payment\Transaction;
 use Epayco\Woocommerce\Sdk\HttpClient\HttpClient;
 use Epayco\Woocommerce\Sdk\HttpClient\Requester\CurlRequester;
 use Epayco\Woocommerce\Sdk\HttpClient\Requester\RequesterInterface;
@@ -98,6 +99,7 @@ class EpaycoSdk
         $this->charge = new Charge($this);
         $this->customer = new Customer($this);
         $this->daviplata = new Daviplata($this);
+        $this->transaction = new Transaction($this);
     }
 
 

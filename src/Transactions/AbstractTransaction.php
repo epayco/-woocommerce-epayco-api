@@ -109,11 +109,12 @@ abstract class AbstractTransaction
         $private_key = $this->epayco->sellerConfig->getCredentialsPrivateKeyPayment();
         $pCustId = $this->epayco->sellerConfig->getCredentialsPCustId();
         $pKey = $this->epayco->sellerConfig->getCredentialsPkey();
-        $isTestMode = $this->epayco->storeConfig->isTestMode();
+        $isTestMode = $this->epayco->storeConfig->isTestMode()?"true":"false";
+        $idioma = substr(get_locale(), 0, 2);
         return new EpaycoSdk([
             "apiKey" => $public_key,
             "privateKey" =>$private_key,
-            "lenguage" => strtoupper("es"),
+            "lenguage" => strtoupper($idioma),
             "test" => $isTestMode
         ],
         "",
