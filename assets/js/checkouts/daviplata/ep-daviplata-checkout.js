@@ -12,12 +12,11 @@
                 return true;
             }
             let DaviplataContent = document.querySelector("form.checkout").getElementsByClassName("mp-checkout-daviplata-content")[0];
-            //let DaviplataContent = document.querySelector(CheckoutTicketElements.DaviplataContent);
             let ticketHelpers = DaviplataContent.querySelectorAll('input-helper');
             verifyName(DaviplataContent)
             verifyEmail(DaviplataContent)
             verifyAddress(DaviplataContent)
-            cellphoneDocument(DaviplataContent)
+            verifyCellphone(DaviplataContent)
             verifyDocument(DaviplataContent);
 
             if (checkForErrors(ticketHelpers)) {
@@ -42,52 +41,53 @@
             return hasError;
         }
 
-        function verifyName(pseContent) {
-            let nameElement = pseContent.querySelector('#form-checkout__identificationName-container').querySelector('input');
+        function verifyName(psedaviplataContent) {
+            let nameElement = psedaviplataContent.querySelector('#form-checkout__identificationName-container').querySelector('input');
             if (nameElement.value === '') {
                 nameElement.parentElement.classList.add('mp-error');
-                let pseHelpers = pseContent.parentElement.querySelector('input-helper');
+                let pseHelpers = psedaviplataContent.parentElement.querySelector('input-helper');
                 let child = pseHelpers.querySelector('div');
                 child.style.display = 'flex';
             }
         }
 
-        function verifyEmail(pseContent) {
-            let emailElement = pseContent.querySelector('#form-checkout__identificationEmail-container').querySelector('input');
+        function verifyEmail(psedaviplataContent) {
+            let emailElement = psedaviplataContent.querySelector('#form-checkout__identificationEmail-container').querySelector('input');
             if (emailElement.value === '') {
                 emailElement.parentElement.classList.add('mp-error');
-                let pseHelpers = pseContent.querySelector('#form-checkout__identificationEmail-container').parentElement.querySelector('input-helper');
+                let pseHelpers = psedaviplataContent.querySelector('#form-checkout__identificationEmail-container').parentElement.querySelector('input-helper');
                 let child = pseHelpers.querySelector('div');
                 child.style.display = 'flex';
             }
         }
 
-        function verifyAddress(pseContent) {
-            let addressElement = pseContent.querySelector('#form-checkout__identificationAddress-container').querySelector('input');
+        function verifyAddress(psedaviplataContent) {
+            let addressElement = psedaviplataContent.querySelector('#form-checkout__identificationAddress-container').querySelector('input');
             if (addressElement.value === '') {
                 addressElement.parentElement.classList.add('mp-error');
-                let pseHelpers = pseContent.querySelector('#form-checkout__identificationAddress-container').parentElement.querySelector('input-helper');
+                let pseHelpers = psedaviplataContent.querySelector('#form-checkout__identificationAddress-container').parentElement.querySelector('input-helper');
                 let child = pseHelpers.querySelector('div');
                 child.style.display = 'flex';
             }
         }
 
-        function cellphoneDocument(pseContent) {
-            let addressElement = pseContent.querySelector('#form-checkout__identificationCellphone-container').querySelector('input');
+        function verifyCellphone(psedaviplataContent) {
+            let addressElement = psedaviplataContent.querySelector('#form-checkout__identificationCellphone-container').querySelector('input');
             if (addressElement.value === '') {
-                addressElement.parentElement.classList.add('mp-error');
-                let pseHelpers = pseContent.querySelector('#form-checkout__identificationCellphone-container').parentElement.querySelector('input-helper');
+                addressElement.parentElement.classList.add("mp-error");
+                addressElement.parentElement.parentElement.firstChild.classList.add("mp-error");
+                let pseHelpers = psedaviplataContent.querySelector('#form-checkout__identificationCellphone-container').parentElement.querySelector('input-helper');
                 let child = pseHelpers.querySelector('div');
                 child.style.display = 'flex';
             }
         }
 
-        function verifyDocument(pseContent) {
-            let documentElement = pseContent.querySelector('.mp-document');
-            if (documentElement.value === '') {
-                pseContent.querySelector('.mp-input-document > div').classList.add('mp-error');
-                //pseContent.querySelector('.mp-input').classList.add('mp-error');
-                let pseHelpers = pseContent.querySelector('.mp-input-document').querySelector('input-helper');
+        function verifyDocument(psedaviplataContent) {
+            let addressElement = psedaviplataContent.querySelector('#form-checkout__identificationNumber-container').querySelector('input');
+            if (addressElement.value === '') {
+                addressElement.parentElement.classList.add("mp-error");
+                addressElement.parentElement.parentElement.firstChild.classList.add("mp-error");
+                let pseHelpers = psedaviplataContent.querySelector('#form-checkout__identificationNumber-container').parentElement.querySelector('input-helper');
                 let child = pseHelpers.querySelector('div');
                 child.style.display = 'flex';
             }

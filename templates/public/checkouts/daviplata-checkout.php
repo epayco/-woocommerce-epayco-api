@@ -25,6 +25,7 @@
  * @var string $input_helper_label
  * @var string $amount
  * @var string $currency_ratio
+ * @var string $terms_and_conditions_label
  * @var string $terms_and_conditions_description
  * @var string $terms_and_conditions_link_text
  * @var string $terms_and_conditions_link_src
@@ -104,11 +105,16 @@ if (!defined('ABSPATH')) {
                             label-message="<?= esc_html($input_ind_phone_label); ?>"
                             helper-message="<?= esc_html($input_ind_phone_helper); ?>"
                             input-name='epayco_daviplata[cellphone]'
-                            select-name='epayco_daviplata[cellphonetype]'
-                            select-id='cellphoneType'
-                            flag-error='epayco_daviplata[numberCellphoneError]'
-                            documents='["+57","+1"]'
+                            hidden-id="cellphoneType"
+                            input-data-checkout="doc_number"
+                            select-id="cellphoneType"
+                            input-id="cellphoneTypeNumber"
+                            select-name="cellphoneType"
+                            select-data-checkout="doc_type"
+                            flag-error="cellphoneTypeError"
+                            flag-error='epayco_daviplata[cellphoneTypeError]'
                             validate=true
+                            placeholder="0000000000"
                     >
                     </input-cellphone>
                 </div>
@@ -128,11 +134,28 @@ if (!defined('ABSPATH')) {
                             label-message="<?= esc_html($input_document_label); ?>"
                             helper-message="<?= esc_html($input_document_helper); ?>"
                             input-name='epayco_daviplata[doc_number]'
-                            select-name='epayco_daviplata[doc_type]'
-                            select-id='doc_type'
+                            hidden-id="dentificationType"
+                            input-data-checkout="doc_number"
+                            select-id="dentificationType"
+                            input-id="dentificationTypeNumber"
+                            select-name="identificationType"
+                            select-data-checkout="doc_type"
+                            flag-error="docNumberError"
                             flag-error='epayco_daviplata[docNumberError]'
-                            documents='["CC","CE","NIT","TI","PPN","SSN","LIC","DNI"]'
-                            validate=true>
+                            documents='[
+                                    {"id":"Type"},
+                                    {"id":"CC"},
+                                    {"id":"CE"},
+                                    {"id":"NIT"},
+                                    {"id":"TI"},
+                                    {"id":"PPN"},
+                                    {"id":"SSN"},
+                                    {"id":"LIC"},
+                                    {"id":"DNI"}
+                                    ]'
+                            validate=true
+                            placeholder="0000000000"
+                    >
                     </input-document>
                 </div>
 
@@ -154,6 +177,7 @@ if (!defined('ABSPATH')) {
 
             <div class="mp-checkout-ticket-terms-and-conditions">
                 <terms-and-conditions
+                        label="<?= esc_html($terms_and_conditions_label); ?>"
                         description="<?= esc_html($terms_and_conditions_description); ?>"
                         link-text="<?= esc_html($terms_and_conditions_link_text); ?>"
                         link-src="<?= esc_html($terms_and_conditions_link_src); ?>">

@@ -11,11 +11,10 @@
         return true;
       }
       let pseContent = document.querySelector("form.checkout").getElementsByClassName("mp-checkout-pse-content")[0];
-      //let pseContent = document.querySelector(CheckoutPseElements.pseContent);
       verifyName(pseContent)
       verifyEmail(pseContent)
       verifyAddress(pseContent)
-      cellphoneDocument(pseContent)
+      verifyCellphone(pseContent)
       verifyDocument(pseContent);
       verifyFinancial(pseContent);
       if (checkForErrors(pseContent.querySelectorAll('input-helper'))) {
@@ -54,10 +53,11 @@
       }
     }
 
-    function cellphoneDocument(pseContent) {
+    function verifyCellphone(pseContent) {
       let addressElement = pseContent.querySelector('#form-checkout__identificationCellphone-container').querySelector('input');
       if (addressElement.value === '') {
-        addressElement.parentElement.classList.add('mp-error');
+        addressElement.parentElement.classList.add("mp-error");
+        addressElement.parentElement.parentElement.firstChild.classList.add("mp-error");
         let pseHelpers = pseContent.querySelector('#form-checkout__identificationCellphone-container').parentElement.querySelector('input-helper');
         let child = pseHelpers.querySelector('div');
         child.style.display = 'flex';
@@ -65,11 +65,11 @@
     }
 
     function verifyDocument(pseContent) {
-      let documentElement = pseContent.querySelector('.mp-document');
-      if (documentElement.value === '') {
-        pseContent.querySelector('.mp-input-document > div').classList.add('mp-error');
-        //pseContent.querySelector('.mp-input').classList.add('mp-error');
-        let pseHelpers = pseContent.querySelector('.mp-input-document').querySelector('input-helper');
+      let addressElement = pseContent.querySelector('#form-checkout__identificationNumber-container').querySelector('input');
+      if (addressElement.value === '') {
+        addressElement.parentElement.classList.add("mp-error");
+        addressElement.parentElement.parentElement.firstChild.classList.add("mp-error");
+        let pseHelpers = pseContent.querySelector('#form-checkout__identificationNumber-container').parentElement.querySelector('input-helper');
         let child = pseHelpers.querySelector('div');
         child.style.display = 'flex';
       }

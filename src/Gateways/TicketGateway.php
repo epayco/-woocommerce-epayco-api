@@ -45,11 +45,11 @@ class TicketGateway extends AbstractGateway
         ],
         [
             "id" =>"PR",
-            "name" =>"punto red"
+            "name" =>"puntored"
         ],
         [
             "id" =>"RS",
-            "name" =>"red servi"
+            "name" =>"redservi"
         ],
         [
             "id" =>"SR",
@@ -230,6 +230,7 @@ class TicketGateway extends AbstractGateway
             'ticket_text_label'                => $this->storeTranslations['ticket_text_label'],
             'input_table_button'               => $this->storeTranslations['input_table_button'],
             'input_helper_label'               => $this->storeTranslations['input_helper_label'],
+            'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],

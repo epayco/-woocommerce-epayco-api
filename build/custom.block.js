@@ -189,17 +189,13 @@
             return window.mpFormId = "blocks_checkout_form",
                 window.mpCheckoutForm = document.querySelector(".wc-block-components-form.wc-block-checkout__form"),
                 jQuery(window.mpCheckoutForm).prop("id", mpFormId),
-                (0, c.useEffect)(( () => {
+                /*(0, c.useEffect)(( () => {
                     var e, a;
                     e = t.billing.cartTotal.value,
                         a = t.billing.currency, cardFormMounted && cardForm.unmount()
-                    /*initCardForm(function (e, t) {
-                        if (!Number.isInteger(e) || "object" != typeof t) throw new Error("Invalid input");
-                        const a = (e / Math.pow(10, t.minorUnit)).toFixed(t.minorUnit).split(".");
-                        return `${a[0]}.${a[1]}`
-                    }(e, a))*/
 
-                }),[t.billing.cartTotal.value]),
+
+                }),[t.billing.cartTotal.value]),*/
                 (0, c.useEffect)((() => {
                     const card = document.querySelector("#form-checkout__cardNumber-container");
                     card.addEventListener('input', function (e) {

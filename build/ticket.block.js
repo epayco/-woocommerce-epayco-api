@@ -6,66 +6,7 @@
         a = window.wp.element,
         c = window.wp.htmlEntities,
         o = "epayco_blocks_update_cart",
-        s = ({
-                 labelMessage: t,
-                 helperMessage: n,
-                 inputName: a,
-                 hiddenId: c,
-                 inputDataCheckout: o,
-                 selectId: s,
-                 selectName: r,
-                 selectDataCheckout: i,
-                 flagError: m,
-                 documents: l,
-                 validate: d
-             }) =>
-            (0, e.createElement)("div", {className: "mp-checkout-ticket-input-document"},
-                (0, e.createElement)("input-document", {
-                    "label-message": t,
-                    "helper-message": n,
-                    "input-name": a,
-                    "hidden-id": c,
-                    "input-data-checkout": o,
-                    "select-id": s,
-                    "select-name": r,
-                    "select-data-checkout": i,
-                    "flag-error": m,
-                    documents: l,
-                    validate: d
-                })
-            ),
-        r = ({
-                 isVisible: t,
-                 message: n,
-                 inputId: a,
-                 id: c,
-                 dataMain: o
-             }) => (0, e.createElement)("input-helper", {
-            isVisible: t,
-            message: n,
-            "input-id": a,
-            id: c,
-            "data-main": o
-        }),
-        i = ({name: t, buttonName: n, columns: a}) =>
-            (0, e.createElement)("input-table", {
-                name: t,
-                "button-name": n,
-                columns: a
-            }),
-        m = ({
-                 description: t,
-                 linkText: n,
-                 linkSrc: a,
-                 checkoutClass: c = "pro"
-             }) => (0, e.createElement)("div", {className: `mp-checkout-${c}-terms-and-conditions`},
-            (0, e.createElement)("terms-and-conditions", {
-                description: t,
-                "link-text": n,
-                "link-src": a
-            })
-        ),
-        l = ({
+        test = ({
                  title: t,
                  description: n,
                  linkText: a,
@@ -78,54 +19,89 @@
                 "link-src": c
             })
         ),
-        rr = ({isOptinal: t, message: a, forId: o}) =>
-            (0, e.createElement)("input-label", {
-                isOptinal: t,
-                message: a,
-                for: o
-            }),
-        ss = ({
-                  isVisible: t,
-                  message: a,
-                  inputId: o,
-                  id: n,
-                  dataMain: c
-              }) => (0, e.createElement)("input-helper", {
-            isVisible: t,
-            message: a,
-            "input-id": o,
-            id: n,
-            "data-main": c
+        name = ({
+                 labelMessage:Al,
+                 helperMessage:Ah,
+                 placeholder:s,
+                 inputName:i,
+                 flagError:f,
+                 validate:v,
+                 hiddenId:h
+             }) => (0, e.createElement)("input-name", {
+            labelMessage:Al,
+            helperMessage:Ah,
+            placeholder:s,
+            inputName:i,
+            flagError:f,
+            validate:v,
+            hiddenId:h
         }),
-        ph = ({
+        email = ({
+               labelMessage:Al,
+               helperMessage:Ah,
+               placeholder:s,
+               inputName:i,
+               flagError:f,
+               validate:v,
+               hiddenId:h
+                   }) => (0, e.createElement)("input-email", {
+            labelMessage:Al,
+            helperMessage:Ah,
+            placeholder:s,
+            inputName:i,
+            flagError:f,
+            validate:v,
+            hiddenId:h
+        }),
+        address = ({
+                  labelMessage:Al,
+                  helperMessage:Ah,
+                  placeholder:s,
+                  inputName:i,
+                  flagError:f,
+                  validate:v,
+                  hiddenId:h
+              }) => (0, e.createElement)("input-address", {
+                    labelMessage:Al,
+                    helperMessage:Ah,
+                    placeholder:s,
+                    inputName:i,
+                    flagError:f,
+                    validate:v,
+                    hiddenId:h
+              }),
+        cellphone = ({
                   labelMessage: t,
                   helperMessage: n,
+                  inputId: ii,
                   inputName: a,
                   hiddenId: c,
                   inputDataCheckout: o,
-                  selectId: ph,
+                  selectId: s,
                   selectName: r,
                   selectDataCheckout: i,
-                  flagError: l,
-                  documents: pp,
-                  validate: m
+                  flagError: m,
+                  documents: l,
+                  validate: d,
+                  placeholder: p
               }) =>
-            (0, e.createElement)("div", {className: "mp-checkout-ticket-input-cellphone"},
                 (0, e.createElement)("input-cellphone", {
                     "label-message": t,
                     "helper-message": n,
+                    "input-id": ii,
                     "input-name": a,
                     "hidden-id": c,
                     "input-data-checkout": o,
-                    "select-id": ph,
+                    "select-id": s,
                     "select-name": r,
                     "select-data-checkout": i,
-                    "flag-error": l,
-                    documents: pp,
-                    validate: m
+                    "flag-error": m,
+                    documents: l,
+                    validate: d,
+                    placeholder: p
                 })
-            ),
-        ps = ({
+            ,
+        personType = ({
                   name: t,
                   label: n,
                   optional: a,
@@ -142,8 +118,67 @@
                 "helper-message": o,
                 "hidden-id": s,
                 "default-option": r
+            }),
+        document = ({
+                        labelMessage: t,
+                        helperMessage: n,
+                        inputId: ii,
+                        inputName: a,
+                        hiddenId: c,
+                        inputDataCheckout: o,
+                        selectId: s,
+                        selectName: r,
+                        selectDataCheckout: i,
+                        flagError: m,
+                        documents: l,
+                        validate: d,
+                        placeholder: p
+                    }) =>
+            (0, e.createElement)("div", {className: "mp-checkout-ticket-input-document"},
+                (0, e.createElement)("input-document", {
+                    "label-message": t,
+                    "helper-message": n,
+                    "input-id": ii,
+                    "input-name": a,
+                    "hidden-id": c,
+                    "input-data-checkout": o,
+                    "select-id": s,
+                    "select-name": r,
+                    "select-data-checkout": i,
+                    "flag-error": m,
+                    documents: l,
+                    validate: d,
+                    placeholder: p
+                })
+            ),
+        paymentsTable = ({name: t, buttonName: n, columns: a}) =>
+            (0, e.createElement)("input-table", {
+                name: t,
+                "button-name": n,
+                columns: a
+            }),
+        inputHelper = ({isVisible: t, message: m, inputId: n, id: a}) =>
+            (0, e.createElement)("input-helper", {
+                isVisible: t,
+                message: m,
+                "input-id": n,
+                id: a
+            }),
+        termscondictions =
+            ({
+                label: l,
+                description: t,
+                linkText: n,
+                linkSrc: a,
+                checkoutClass: c = "pro"
+            }) => (0, e.createElement)("div", {className: `mp-checkout-${c}-terms-and-conditions`},
+            (0, e.createElement)("terms-and-conditions", {
+                label: l,
+                description: t,
+                "link-text": n,
+                "link-src": a
             })
-    ;
+        );
     var p;
     const u = "mp_checkout_blocks",
         _ = "woo-epayco-ticket",
@@ -207,6 +242,7 @@
                 payment_methods: w,
                 amount: b,
                 site_id: C,
+                terms_and_conditions_label: ll,
                 terms_and_conditions_description: v,
                 terms_and_conditions_link_text: N,
                 terms_and_conditions_link_src: T,
@@ -221,151 +257,167 @@
             let B = {
                 labelMessage: h,
                 helperMessage: y,
-                validate: "true",
-                selectId: "docType",
-                flagError: "epayco_ticket[docNumberError]",
+                inputId:"dentificationTypeNumber",
                 inputName: "epayco_ticket[docNumber]",
-                selectName: "epayco_ticket[docType]",
-                documents: '["CC","CE","NIT","TI","PPN","SSN","LIC","DNI"]'
+                hiddenId: "dentificationType",
+                inputDataCheckout: "doc_number",
+                selectId: "dentificationType",
+                selectName: "identificationType",
+                selectDataCheckout: "doc_type",
+                flagError: "docNumberError",
+                documents: '[{"id":"Type"},{"id":"CC"},{"id":"CE"},{"id":"NIT"},{"id":"TI"},{"id":"PPN"},{"id":"SSN"},{"id":"LIC"},{"id":"DNI"}]',
+                validate: "true",
+                placeholder: "0000000000"
             };
             return (0, a.useEffect)((() => {
-                const holderName =  document.getElementById('form-checkout__cardholderName');
-                const holderNameHelper = document.getElementById('mp-card-holder-name-helper');
-                holderName.addEventListener('input', function (e) {
-                    const input = event.target;
-                    input.value = input.value.replace(/[0-9]/g, '');
-                });
-                holderName.addEventListener("focus", function(e)  {
-                    holderName.classList.add("mp-focus"),
-                        holderName.classList.remove("mp-error")
-                    holderNameHelper.style.display = "none"
-                });
-                holderName.addEventListener("focusout", function(e)  {
-                    holderName.classList.remove("mp-focus");
-                    const input = event.target;
-                    if(input.value !== ""){
-                        holderName.classList.remove("mp-error")
-                    }else{
-                        holderName.classList.add("mp-error"),
-                            holderNameHelper.style.display = "flex"
+                const ticketContentName = M.current.querySelector('input-name').querySelector('input');
+                const nameHelpers =  M.current.querySelector('input-helper').querySelector("div");
+                const verifyName = (nameElement) => {
+                    if (nameElement.value === '') {
+                        M.current.querySelector('input-name').querySelector(".mp-input").classList.add("mp-error");
+                        nameHelpers.style.display = 'flex';
                     }
-                });
-                const holderAddress =  document.getElementById('form-checkout__cardholderAddress');
-                const holderAddressHelper = document.getElementById('mp-card-holder-address-helper');
-                holderAddress.addEventListener("focus", function(e)  {
-                    holderAddress.classList.add("mp-focus"),
-                        holderAddress.classList.remove("mp-error")
-                    holderAddressHelper.style.display = "none"
-                });
-                holderAddress.addEventListener("focusout", function(e)  {
-                    holderAddress.classList.remove("mp-focus");
-                    const input = event.target;
-                    if(input.value !== ""){
-                        holderAddress.classList.remove("mp-error")
-                    }else{
-                        holderAddress.classList.add("mp-error"),
-                            holderAddressHelper.style.display = "flex"
-                    }
-                });
+                }
 
-                const holderEmail =  document.getElementById('form-checkout__cardholderEmail');
-                const holderEmailHelper = document.getElementById('mp-card-holder-email-helper');
-                holderEmail.addEventListener('input', function (e) {
-                    const input = event.target;
-                    const emailValue = input.value;
-                    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-                    if (!emailPattern.test(emailValue)) {
-                        holderEmail.classList.add("mp-error")
-                        holderEmailHelper.style.display = "flex"
-                    } else {
-                        holderEmail.classList.remove("mp-error")
-                        holderEmailHelper.style.display = "none"// Limpia el mensaje de error
+                const ticketContentEmail = M.current.querySelector('input-email').querySelector('input');
+                const emailHelpers =  M.current.querySelector('input-email').querySelector("input-helper").querySelector("div");
+                const verifyEmail = (emailElement) => {
+                    if (emailElement.value === '') {
+                        M.current.querySelector('input-email').querySelector(".mp-input").classList.add("mp-error");
+                        emailHelpers.style.display = 'flex';
                     }
-                });
-                holderEmail.addEventListener("focus", function(e)  {
-                    holderEmail.classList.add("mp-focus"),
-                        holderEmail.classList.remove("mp-error")
-                    holderEmailHelper.style.display = "none"
-                });
-                holderEmail.addEventListener("focusout", function(e)  {
-                    holderEmail.classList.remove("mp-focus");
-                    const input = event.target;
-                    if(input.value !== ""){
-                        holderEmail.classList.remove("mp-error")
-                    }else{
-                        holderEmail.classList.add("mp-error"),
-                            holderEmailHelper.style.display = "flex"
-                    }
-                });
+                }
 
-                var paymentSelected;
-                var selectElement = M.current.querySelector(".mp-input-table-list");
-                selectElement.addEventListener("click", function() {
-                    var radios = selectElement.querySelectorAll('input[type="radio"]');
-                    radios.forEach(function(radio) {
-                        if (radio.checked) {
-                            paymentSelected = radio;
+                const ticketContentAddress = M.current.querySelector('input-address').querySelector('input');
+                const addressHelpers =  M.current.querySelector('input-address').querySelector("input-helper").querySelector("div");
+                const verifyAddress = (addressElement) => {
+                    if (addressElement.value === '') {
+                        M.current.querySelector('input-address').querySelector(".mp-input").classList.add("mp-error");
+                        addressHelpers.style.display = 'flex';
+                    }
+                }
+
+                const ticketContentCellphone = M.current.querySelector('input-cellphone').querySelector('input');
+                const cellphoneHelpers =  M.current.querySelector('input-cellphone').querySelector("input-helper").querySelector("div");
+                const verifyCellphone = (ticketContentCellphone) => {
+                    if (ticketContentCellphone.value === '') {
+                        M.current.querySelector('input-cellphone').querySelector(".mp-input").classList.add("mp-error");
+                        M.current.querySelector('input-cellphone').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
+                        cellphoneHelpers.style.display = 'flex';
+                    }
+                }
+
+                const ticketContentDocument = M.current.querySelector('input-document').querySelector('input');
+                const documentHelpers =  M.current.querySelector('input-document').querySelector("input-helper").querySelector("div");
+                const verifyDocument = (ticketContentDocument) => {
+                    if (ticketContentDocument.value === '') {
+                        M.current.querySelector('input-document').querySelector(".mp-input").classList.add("mp-error");
+                        M.current.querySelector('input-document').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
+                        documentHelpers.style.display = 'flex';
+                    }
+                }
+
+
+                const verifyPaymentMethods = (ticketContent) => {
+                    let paymentOptionSelected = false;
+                    ticketContent.querySelectorAll('.mp-input-radio-radio').forEach((item) => {
+                        if (item.checked) {
+                            paymentOptionSelected = true;
                         }
                     });
-                });
+
+                    if (paymentOptionSelected === false) {
+                        let documentElement = ticketContent.querySelector('.mp-checkout-ticket-payment-method');
+                        documentElement.querySelector("input-table > div").classList.add("mp-error")
+                        let pseHelpers = documentElement.querySelector('input-helper');
+                        let child = pseHelpers.querySelector('div');
+                        child.style.display = 'flex';
+                    }
+
+                    removeErrorFromInputTableContainer(ticketContent);
+                }
+
+                const removeErrorFromInputTableContainer = (ticketContent) => {
+                    ticketContent.querySelectorAll('.mp-input-table-label').forEach((item) => {
+                        item.addEventListener('click', () => {
+                            let documentElement = ticketContent.querySelector('.mp-checkout-ticket-payment-method');
+                            documentElement.querySelector("input-table > div").classList.remove("mp-error")
+                            let pseHelpers = documentElement.querySelector('input-helper');
+                            let child = pseHelpers.querySelector('div');
+                            child.style.display = 'none';
+                        });
+                    });
+                }
+
+                //verifyPaymentMethods(M.current)
+
 
                 const e = O((async () => {
-                    const person_type = M.current.querySelector("#epayco_ticket\\[person_type\\]");
-                    const doc_number = M.current.querySelector("#form-checkout__identificationNumber-container > input");
-                    const holder_name = M.current.querySelector("#form-checkout__cardholderName").value;
-                    const holder_address = M.current.querySelector("#form-checkout__cardholderAddress").value;
-                    const holder_email = M.current.querySelector("#form-checkout__cardholderEmail").value;
-                    const cellphoneType = M.current.querySelector("#type_cellphone")?.value.split("+")[1];
-                    const cellphone = M.current.querySelector("#form-checkout__identificationCellphone-container > input")?.value;
-                    const person_type_value = person_type.value;
-                    const doc_type = M.current.querySelector("#docType")?.value;
-                    const doc_number_value = doc_number?.value;
-                    const e = document.getElementById("mp-doc-number-helper"),
-                        t = document.getElementById("mp-payment-method-helper"),
-                        n = {
+                    var paymentOptionSelected = null;
+                    M.current.querySelectorAll('.mp-input-radio-radio').forEach((item) => {
+                        if (item.checked) {
+                            paymentOptionSelected = item.value;
+                        }
+                    });
+
+                    if(paymentOptionSelected == null){
+                        verifyPaymentMethods(M.current)
+                    }
+
+                    const doc_type = ticketContentDocument.parentElement.parentElement.querySelector("#identificationType").value;
+                    const cellphoneType = ticketContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
+                    const person_type_value = M.current.querySelector("#epayco_ticket\\[person_type\\]").value;
+                    const doc_number_value = M.current.querySelector("#dentificationTypeNumber").querySelector("input").value;
+                    const n = {
                             "epayco_ticket[site_id]": C,
                             "epayco_ticket[amount]": b.toString(),
-                            "epayco_ticket[name]": holder_name,
-                            "epayco_ticket[address]": holder_address,
-                            "epayco_ticket[email]": holder_email,
+                            "epayco_ticket[name]": ticketContentName.value,
+                            "epayco_ticket[address]": ticketContentAddress.value,
+                            "epayco_ticket[email]": ticketContentEmail.value,
                             "epayco_ticket[cellphoneType]": cellphoneType,
-                            "epayco_ticket[cellphone]": cellphone,
+                            "epayco_ticket[cellphone]": ticketContentCellphone.value,
                             "epayco_ticket[person_type]": person_type_value,
-                            "epayco_ticket[doc_type]": doc_type,
+                            "epayco_ticket[identificationtype]": doc_type,
                             "epayco_ticket[doc_number]": doc_number_value,
-                        },
+                            "epayco_ticket[payment_method_id]": paymentOptionSelected
+                        };
+                    "" === ticketContentName.value && verifyName(ticketContentName);
+                    "" === ticketContentEmail.value && verifyEmail(ticketContentEmail);
+                    "" === ticketContentAddress.value && verifyAddress(ticketContentAddress);
+                    "" === ticketContentCellphone.value && verifyCellphone(ticketContentCellphone);
+                    "Type" === doc_type.value && verifyDocument(ticketContentDocument);
+                    "" === ticketContentDocument.value && verifyDocument(ticketContentDocument);
 
-                        a = paymentSelected;
-                    const ne = document.getElementById("mp-card-holder-name-helper");
-                    "" === holder_name && c(ne, "flex");
-                    const ad = document.getElementById("mp-card-holder-address-helper");
-                    "" === holder_address && c(ad, "flex");
-                    const em = document.getElementById("mp-card-holder-email-helper")
-                    "" === holder_email && c(em, "flex");
-                    const ee = document.getElementById("mp-doc-cellphone-helper");
-                    "" === cellphone && c(ee, "flex");
-                    const dn = doc_number.parentElement.parentElement.querySelector("input-helper > div");
-                    "" === doc_number_value && c(dn, "flex");
                     function c(e, t) {
                         e && e.style && (e.style.display = t)
                     }
 
                     function o(e) {
+                        console.log(e && "flex" === e.style.display)
                         return e && "flex" === e.style.display
                     }
 
-                    return a &&
+                    /*return a &&
                     "" !== holder_name &&
                     "" !== holder_address &&
                     "" !== holder_email &&
                     "" !== cellphone &&
                     "" !== doc_number
-
                     && (n["epayco_ticket[payment_method_id]"] = M.current.querySelector(`#${a.id}`).value, t.style.display = "none"),
                     n["epayco_ticket[payment_method_id]"] || c(t, "flex"),
                         {
                             type: o(e) || o(t) ? P.responseTypes.ERROR : P.responseTypes.SUCCESS,
+                            meta: {paymentMethodData: n}
+                        }*/
+                    let paymentMethodHelpers = M.current.querySelector('.mp-checkout-ticket-payment-method').querySelector('input-helper').querySelector('div');
+                    return "" !== ticketContentName.value &&
+                    "" !== ticketContentAddress.value &&
+                    "" !==  ticketContentEmail.value &&
+                    "" !== ticketContentCellphone.value &&
+                    "" !== ticketContentDocument.value &&
+                    "Type" !== doc_type,
+                        {
+                            type: o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers) || o(paymentMethodHelpers)? P.responseTypes.ERROR : P.responseTypes.SUCCESS,
                             meta: {paymentMethodData: n}
                         }
                 }));
@@ -377,105 +429,89 @@
                                 ref: M,
                                 className: "mp-checkout-ticket-content"
                             },
-                            R ? (0, e.createElement)(l, {
+                            R ? (0, e.createElement)(test, {
                                 title: n,
                                 description: c,
                                 "link-text": p,
                                 "link-src": g
                             }) : null,
-                            (0, e.createElement)("div", {className: "mp-checkout-pse-input-cellphone", id: "mp-card-holder-div"},
-                                (0, e.createElement)(rr, {
-                                    message: Nl,
-                                    isOptinal: !1
+                            (0, e.createElement)("div", {className: "mp-checkout-ticket-input-document"},
+                                (0, e.createElement)(name, {
+                                    labelMessage:Nl,
+                                    helperMessage:Nh,
+                                    placeholder:"jonh doe",
+                                    inputName:'epayco_ticket[name]',
+                                    flagError:'epayco_ticket[nameError]',
+                                    validate:"true",
+                                    hiddenId:"hidden-name-ticket"
                                 }),
-                                (0, e.createElement)("input", {
-                                    className: "mp-checkout-pse-card-input mp-card-holder-name ",
-                                    placeholder: "Jonh Doe",
-                                    id: "form-checkout__cardholderName",
-                                    name: "mp-card-holder-name",
-                                    "data-checkout": "cardholderName"
+                            ),
+                            (0, e.createElement)("div", {className: "mp-checkout-ticket-input-document"},
+                                (0, e.createElement)(email, {
+                                    labelMessage:Em,
+                                    helperMessage:Eh,
+                                    placeholder:"jonh@doe.com",
+                                    inputName:'epayco_ticket[email]',
+                                    flagError:'epayco_ticket[emailError]',
+                                    validate:"true",
+                                    hiddenId:"hidden-email-ticket"
                                 }),
-                                (0, e.createElement)(ss, {
-                                    isVisible: !1,
-                                    message: Nh,
-                                    inputId: "mp-card-holder-name-helper",
-                                    dataMain: "mp-card-holder-name"
+                            ),
+                            (0, e.createElement)("div", {className: "mp-checkout-ticket-input-document"},
+                                (0, e.createElement)(address, {
+                                    labelMessage:Al,
+                                    helperMessage:Ah,
+                                    placeholder:"Street 123",
+                                    inputName:'epayco_ticket[address]',
+                                    flagError:'epayco_ticket[addressError]',
+                                    validate:"true",
+                                    hiddenId:"hidden-address-ticket"
                                 })
                             ),
-                            (0, e.createElement)("div", {className: "mp-checkout-pse-input-cellphone", id: "mp-card-holder-div"},
-                                (0, e.createElement)(rr, {
-                                    message: Em,
-                                    isOptinal: !1
-                                }),
-                                (0, e.createElement)("input", {
-                                    className: "mp-checkout-pse-card-input mp-card-holder-name ",
-                                    placeholder: "example@email.com",
-                                    id: "form-checkout__cardholderEmail",
-                                    name: "mp-card-holder-email",
-                                    "data-checkout": "cardholderEmail"
-                                }),
-                                (0, e.createElement)(ss, {
-                                    isVisible: !1,
-                                    message: Eh,
-                                    inputId: "mp-card-holder-email-helper",
-                                    dataMain: "mp-card-holder-email"
-                                })
-                            ),
-                            (0, e.createElement)("div", {className: "mp-checkout-pse-input-cellphone", id: "mp-card-holder-div"},
-                                (0, e.createElement)(rr, {
-                                    message: Al,
-                                    isOptinal: !1
-                                }),
-                                (0, e.createElement)("input", {
-                                    className: "mp-checkout-pse-card-input mp-card-holder-name ",
-                                    placeholder: "Street 123",
-                                    id: "form-checkout__cardholderAddress",
-                                    name: "mp-card-holder-address",
-                                    "data-checkout": "cardholderAddress"
-                                }),
-                                (0, e.createElement)(ss, {
-                                    isVisible: !1,
-                                    message: Ah,
-                                    inputId: "mp-card-holder-address-helper",
-                                    dataMain: "mp-card-holder-address"
-                                })
-                            ),
-                            (0, e.createElement)("div", {className: "mp-checkout-pse-input-cellphone", id: "mp-pse-holder-div"},
-                                (0, e.createElement)(ph, {
+                            (0, e.createElement)("div", {className: "mp-checkout-ticket-input-document"},
+                                (0, e.createElement)(cellphone, {
                                     labelMessage: kk,
                                     helperMessage: hh,
-                                    validate: "true",
-                                    selectId: "type_cellphone",
-                                    flagError: "epayco_ticket[numberCellphoneError]",
+                                    inputId:"cellphoneTypeNumber",
                                     inputName: "epayco_ticket[cellphone]",
-                                    selectName: "epayco_ticket[cellphoneType]",
-                                    documents: '["+57","+1"]'
+                                    hiddenId: "cellphoneType",
+                                    inputDataCheckout: "doc_number",
+                                    selectId: "cellphoneType",
+                                    selectName: "cellphoneType",
+                                    selectDataCheckout: "doc_type",
+                                    flagError: "cellphoneTypeError",
+                                    validate: "true",
+                                    placeholder: "0000000000"
                                 })
                             ),
-                            (0, e.createElement)("div", {className: "mp-checkout-pse-person"},
-                                (0, e.createElement)(ps, {
+                            (0, e.createElement)("div", {className: "mp-checkout-ticket-input-document"},
+                                (0, e.createElement)(personType, {
                                     name: "epayco_ticket[person_type]",
                                     label: PT,
                                     optional: !1,
                                     options: '[{"id":"PN", "description": "Persona natural"},{"id":"PJ", "description": "Persona jurídica"}]'
                                 })
                             ),
-                            B.documents ? (0, e.createElement)(s, {...B}) : null,
-                            (0, e.createElement)("p", {className: "mp-checkout-ticket-text"}, E),
-                            (0, e.createElement)(i, {
-                                name: "epayco_ticket[payment_method_id]",
-                                buttonName: S,
-                                columns: JSON.stringify(w)
-                            }),
-                            (0, e.createElement)(r, {
-                                isVisible: "false",
-                                message: f,
-                                inputId: "mp-payment-method-helper",
-                                id: "payment-method-helper"
-                            }), (0, e.createElement)("div", {id: "mp-box-loading"})
+                            B.documents ? (0, e.createElement)(document, {...B}) : null,
+                            (0, e.createElement)("div", {className: "mp-checkout-ticket-payment-method"},
+                                (0, e.createElement)("p", {className: "mp-checkout-ticket-text"}, E),
+                                (0, e.createElement)(paymentsTable, {
+                                    name: "epayco_ticket[payment_method_id]",
+                                    buttonName: S,
+                                    columns: JSON.stringify(w)
+                                }),
+                                (0, e.createElement)(inputHelper, {
+                                    isVisible: "false",
+                                    message: f,
+                                    inputId: "mp-payment-method-helper",
+                                    id: "payment-method-helper"
+                                }),
+                            ),
+                            (0, e.createElement)("div", {id: "mp-box-loading"})
                         )
                     ),
-                    (0, e.createElement)(m, {
+                    (0, e.createElement)(termscondictions, {
+                        label: ll,
                         description: v,
                         linkText: N,
                         linkSrc: T,

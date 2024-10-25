@@ -183,8 +183,9 @@ class StoreTranslations
             'checkout_benefits_tip'                     => __('If you don’t have Mercado Credito yet, activate it when paying.', 'woocommerce-epayco'),
             'checkout_redirect_text'                    => __('Next, we’ll take you to Mercado Pago to log in and complete your purchase.', 'woocommerce-epayco'),
             'checkout_redirect_alt'                     => __('Checkout Pro redirect info image', 'woocommerce-epayco'),
-            'terms_and_conditions_description'          => __('By continuing, you agree with our', 'woocommerce-epayco'),
-            'terms_and_conditions_link_text'            => __('Terms and conditions', 'woocommerce-epayco'),
+            'terms_and_conditions_label'                          => __('I agree with the', 'woocommerce-epayco'),
+            'terms_and_conditions_description'                    => __('and accept them', 'woocommerce-epayco'),
+            'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woocommerce-epayco'),
             'tooltip_link'                              => __('Learn more', 'woocommerce-epayco'),
             'modal_title'                               => __('Buy through Mercado Credito without cards and pay month by month', 'woocommerce-epayco'),
             'modal_step_1'                              => __('Add your product to the cart and, for the payment, select Mercado Credito.', 'woocommerce-epayco'),
@@ -257,6 +258,8 @@ class StoreTranslations
             'available_payments_credit_card_label'                => __('Up to 12 installments', 'woocommerce-epayco'),
             'available_payments_debit_card_title'                 => __('Debit cards', 'woocommerce-epayco'),
             'payment_methods_promotion_text'                      => __('See current promotions', 'woocommerce-epayco'),
+            'card_form_title'                                     => __('Card details', 'woocommerce-epayco'),
+            'card_customer_title'                                 => __('Customer data', 'woocommerce-epayco'),
             'card_number_input_label'                             => __('Card number', 'woocommerce-epayco'),
             'card_number_input_helper'                            => __('Required Card number', 'woocommerce-epayco'),
             'card_holder_name_input_label'                        => __('Holder name as it appears on the card', 'woocommerce-epayco'),
@@ -276,7 +279,8 @@ class StoreTranslations
             'card_installments_input_helper'                      => __('Select the number of fees', 'woocommerce-epayco'),
             'card_cellphone_input_label'                          => __('Cellphone', 'woocommerce-epayco'),
             'card_cellphone_input_helper'                         => __('Holder cellphone is required', 'woocommerce-epayco'),
-            'terms_and_conditions_description'                    => __('By continuing, you agree with our', 'woocommerce-epayco'),
+            'terms_and_conditions_label'                          => __('I agree with the', 'woocommerce-epayco'),
+            'terms_and_conditions_description'                    => __('and accept them', 'woocommerce-epayco'),
             'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woocommerce-epayco'),
             'placeholders_card_expiration_date'                   => __('mm/yy', 'woocommerce-epayco'),
             'placeholders_issuer'                                 => __('Issuer', 'woocommerce-epayco'),
@@ -359,7 +363,8 @@ class StoreTranslations
             'ticket_text_label'                => __('Select where you want to pay', 'woocommerce-epayco'),
             'input_table_button'               => __('more options', 'woocommerce-epayco'),
             'input_helper_label'               => __('Select a payment method', 'woocommerce-epayco'),
-            'terms_and_conditions_description' => __('By continuing, you agree with our', 'woocommerce-epayco'),
+            'terms_and_conditions_label'       => __('I agree with the', 'woocommerce-epayco'),
+            'terms_and_conditions_description' => __('and accept them', 'woocommerce-epayco'),
             'terms_and_conditions_link_text'   => __('Terms and conditions', 'woocommerce-epayco'),
             'print_ticket_label'               => __('Great, we processed your purchase order. Complete the payment with ticket so that we finish approving it.', 'woocommerce-epayco'),
             'print_ticket_link'                => __('Print ticket', 'woocommerce-epayco'),
@@ -401,6 +406,9 @@ class StoreTranslations
             'financial_placeholder'            => __('Select the institution', 'woocommerce-epayco'),
             'customer_not_paid'                => __('ePayco: The customer has not paid yet.', 'woocommerce-epayco'),
             'message_error_amount'             => __('There was an error. Please try again in a few minutes.', 'woocommerce-epayco'),
+            'terms_and_conditions_label'                          => __('I agree with the', 'woocommerce-epayco'),
+            'terms_and_conditions_description'                    => __('and accept them', 'woocommerce-epayco'),
+            'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woocommerce-epayco'),
 
         ];
     }
@@ -418,6 +426,9 @@ class StoreTranslations
             'test_mode_link_text'              => __('See the rules for the test mode.', 'woocommerce-epayco'),
             'print_ticket_label'               => __('Great, we processed your purchase order. Complete the payment with ticket so that we finish approving it.', 'woocommerce-epayco'),
             'message_error_amount'             => __('There was an error. Please try again in a few minutes.', 'woocommerce-epayco'),
+            'terms_and_conditions_label'                          => __('I agree with the', 'woocommerce-epayco'),
+            'terms_and_conditions_description'                    => __('and accept them', 'woocommerce-epayco'),
+            'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woocommerce-epayco'),
         ];
     }
 
@@ -446,6 +457,9 @@ class StoreTranslations
             'print_daviplata_label'            => __('Great, we processed your purchase order. Complete the payment with daviplata so that we finish approving it.', 'woocommerce-epayco'),
             'print_daviplata_link'             => __('finish payment process', 'woocommerce-epayco'),
             'message_error_amount'             => __('There was an error. Please try again in a few minutes.', 'woocommerce-epayco'),
+            'terms_and_conditions_label'                          => __('I agree with the', 'woocommerce-epayco'),
+            'terms_and_conditions_description'                    => __('and accept them', 'woocommerce-epayco'),
+            'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woocommerce-epayco'),
         ];
     }
 

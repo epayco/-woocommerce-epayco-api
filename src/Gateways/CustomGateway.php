@@ -162,56 +162,7 @@ class CustomGateway extends AbstractGateway
             'wc_epayco_custom_checkout',
             $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/custom/ep-custom-checkout', '.js'),
             [
-                'public_key_epayco'        => $this->epayco->sellerConfig->getCredentialsPublicKeyPayment(),
-                'public_key'        => 'TEST-b4d31623-a3ef-4fef-b735-63704fceb999',
-                'intl'              => $this->countryConfigs['intl'],
-                'site_id'           => $this->countryConfigs['site_id'],
-                'currency'          => $this->countryConfigs['currency'],
-                'theme'             => get_stylesheet(),
-                'location'          => '/checkout',
-                'plugin_version'    => EP_VERSION,
-                'platform_version'  => $this->epayco->woocommerce->version,
-                'cvvText'           => $this->storeTranslations['cvv_text'],
-                'installmentObsFee' => $this->storeTranslations['installment_obs_fee'],
-                'installmentButton' => $this->storeTranslations['installment_button'],
-                'bankInterestText'  => $this->storeTranslations['bank_interest_text'],
-                'interestText'      => $this->storeTranslations['interest_text'],
-                'placeholders' => [
-                    'issuer'             => $this->storeTranslations['placeholders_issuer'],
-                    'installments'       => $this->storeTranslations['placeholders_installments'],
-                    'cardExpirationDate' => $this->storeTranslations['placeholders_card_expiration_date'],
-                ],
-                'cvvHint' => [
-                    'back'  => $this->storeTranslations['cvv_hint_back'],
-                    'front' => $this->storeTranslations['cvv_hint_front'],
-                ],
-                'input_helper_message' => [
-                    'cardNumber' => [
-                        'invalid_type'   => $this->storeTranslations['input_helper_message_invalid_type'],
-                        'invalid_length' => $this->storeTranslations['input_helper_message_invalid_length'],
-                    ],
-                    'cardholderName' => [
-                        '221' => $this->storeTranslations['input_helper_message_card_holder_name_221'],
-                        '316' => $this->storeTranslations['input_helper_message_card_holder_name_316'],
-                    ],
-                    'cardholderEmail' => [
-                        '221' => $this->storeTranslations['input_helper_message_card_holder_email_221'],
-                        '316' => $this->storeTranslations['input_helper_message_card_holder_email_316'],
-                    ],
-                    'cardholderAdress' => [
-                        '221' => $this->storeTranslations['input_helper_message_card_holder_adress_221'],
-                        '316' => $this->storeTranslations['input_helper_message_card_holder_adress_316'],
-                    ],
-                    'expirationDate' => [
-                        'invalid_type'   => $this->storeTranslations['input_helper_message_expiration_date_invalid_type'],
-                        'invalid_length' => $this->storeTranslations['input_helper_message_expiration_date_invalid_length'],
-                        'invalid_value'  => $this->storeTranslations['input_helper_message_expiration_date_invalid_value'],
-                    ],
-                    'securityCode' => [
-                        'invalid_type'   => $this->storeTranslations['input_helper_message_security_code_invalid_type'],
-                        'invalid_length' => $this->storeTranslations['input_helper_message_security_code_invalid_length'],
-                    ]
-                ]
+                'public_key_epayco'        => $this->epayco->sellerConfig->getCredentialsPublicKeyPayment()
             ]
         );
     }
@@ -257,7 +208,8 @@ class CustomGateway extends AbstractGateway
             'payment_methods_promotion_link'   => $this->links['epayco_debts'],
             'payment_methods_promotion_text'   => $this->storeTranslations['payment_methods_promotion_text'],
             'site_id'                          => $this->epayco->sellerConfig->getSiteId() ?: $this->epayco->helpers->country::SITE_ID_MLA,
-            //'card_form_title'                  => $this->storeTranslations['card_form_title'],
+            'card_form_title'                  => $this->storeTranslations['card_form_title'],
+            'card_customer_title'              => $this->storeTranslations['card_customer_title'],
             'card_number_input_label'          => $this->storeTranslations['card_number_input_label'],
             'card_number_input_helper'         => $this->storeTranslations['card_number_input_helper'],
             'card_holder_name_input_label'     => $this->storeTranslations['card_holder_name_input_label'],
@@ -282,6 +234,7 @@ class CustomGateway extends AbstractGateway
             'card_installments_input_helper'   => $this->storeTranslations['card_installments_input_helper'],
             'card_holder_cellphone_input_label'   => $this->storeTranslations['card_cellphone_input_label'],
             'card_holder_cellphone_input_helper'  => $this->storeTranslations['card_cellphone_input_helper'],
+            'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],

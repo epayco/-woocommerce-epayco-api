@@ -111,7 +111,7 @@ final class Links
             'epayco_pix'                  => self::MP_URL_PREFIX . '.com.br/ferramentas-para-vender/aceitar-pix',
             'epayco_debts'                => self::MP_URL_PREFIX . '.com.ar/cuotas',
             'epayco_support'              => self::MP_URL_PREFIX . $countryConfig['suffix_url'] . '/developers/' . $countryConfig['translate'] . '/support/contact?utm_source=CPWOOCOMMERCE',
-            'epayco_terms_and_conditions' => self::MP_URL_PREFIX . $countryConfig['suffix_url'] . $countryConfig['help'] . $countryConfig['terms_and_conditions'],
+            'epayco_terms_and_conditions' => 'https://epayco.com/terminos-y-condiciones-epayco-vende/',
             'epayco_pix_config'           => self::MP_URL_PREFIX . '.com.br/stop/pix?url=https://www.epayco.com.br/admin-pix-keys/my-keys?authentication_mode=required',
         ];
     }

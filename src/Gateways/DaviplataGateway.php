@@ -180,6 +180,10 @@ class DaviplataGateway extends AbstractGateway
             'site_id'                          => $this->epayco->sellerConfig->getSiteId(),
             'amount'                           => $amountAndCurrencyRatio['amount'],
             'message_error_amount'             => $this->storeTranslations['message_error_amount'],
+            'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
+            'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
+            'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
+            'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
         ];
     }
 

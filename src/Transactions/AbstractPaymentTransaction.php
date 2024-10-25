@@ -224,7 +224,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $lastName = $explodeName[1];
         $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
         $holder_address= $checkout["address"]??$checkout[""]["address"];
-        $doc_type= $checkout["doc_type"]??$checkout[""]["doc_type"];
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"];
         $doc_number= $checkout["doc_number"]??$checkout[""]["number"];
         $email= $checkout["email"]??$checkout[""]["email"];
         $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];

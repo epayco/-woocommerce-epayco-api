@@ -26,6 +26,7 @@
  * @var string $financial_institutions_helper
  * @var string $financial_placeholder
  * @var string $site_id
+ * @var string $terms_and_conditions_label
  * @var string $terms_and_conditions_description
  * @var string $terms_and_conditions_link_text
  * @var string $terms_and_conditions_link_src
@@ -98,11 +99,16 @@ if (! defined('ABSPATH')) {
                             label-message="<?= esc_html($input_ind_phone_label); ?>"
                             helper-message="<?= esc_html($input_ind_phone_helper); ?>"
                             input-name='epayco_pse[cellphone]'
-                            select-name='epayco_pse[cellphoneType]'
-                            select-id='cellphoneType'
-                            flag-error='epayco_pse[numberCellphoneError]'
-                            documents='["+57","+1"]'
+                            hidden-id="cellphoneType"
+                            input-data-checkout="doc_number"
+                            select-id="cellphoneType"
+                            input-id="cellphoneTypeNumber"
+                            select-name="cellphoneType"
+                            select-data-checkout="doc_type"
+                            flag-error="cellphoneTypeError"
+                            flag-error='epayco_pse[cellphoneTypeError]'
                             validate=true
+                            placeholder="0000000000"
                     >
                     </input-cellphone>
                 </div>
@@ -117,14 +123,31 @@ if (! defined('ABSPATH')) {
                 </div>
                     <div class="mp-checkout-pse-input-document">
                         <input-document
-                            label-message="<?= esc_html($input_document_label); ?>"
-                            helper-message="<?= esc_html($input_document_helper); ?>"
-                            input-name='epayco_pse[doc_number]'
-                            select-name='epayco_pse[doc_type]'
-                            select-id='doc_type'
-                            flag-error='epayco_pse[docNumberError]'
-                            documents='["CC","CE","NIT","TI","PPN","SSN","LIC","DNI"]'
-                            validate=true>
+                                label-message="<?= esc_html($input_document_label); ?>"
+                                helper-message="<?= esc_html($input_document_helper); ?>"
+                                input-name='epayco_pse[doc_number]'
+                                hidden-id="dentificationType"
+                                input-data-checkout="doc_number"
+                                select-id="dentificationType"
+                                input-id="dentificationTypeNumber"
+                                select-name="identificationType"
+                                select-data-checkout="doc_type"
+                                flag-error="docNumberError"
+                                flag-error='epayco_pse[docNumberError]'
+                                documents='[
+                                    {"id":"Type"},
+                                    {"id":"CC"},
+                                    {"id":"CE"},
+                                    {"id":"NIT"},
+                                    {"id":"TI"},
+                                    {"id":"PPN"},
+                                    {"id":"SSN"},
+                                    {"id":"LIC"},
+                                    {"id":"DNI"}
+                                    ]'
+                                validate=true
+                                placeholder="0000000000"
+                        >
                         </input-document>
                     </div>
                 <div class="mp-checkout-pse-bank">
@@ -154,6 +177,15 @@ if (! defined('ABSPATH')) {
                     <input type="hidden" id="campaignPse" name="epayco_pse[campaign]" />
                     <input type="hidden" id="discountPse" name="epayco_pse[discount]" />
                 </div>
+
+            <div class="mp-checkout-ticket-terms-and-conditions">
+                <terms-and-conditions
+                        label="<?= esc_html($terms_and_conditions_label); ?>"
+                        description="<?= esc_html($terms_and_conditions_description); ?>"
+                        link-text="<?= esc_html($terms_and_conditions_link_text); ?>"
+                        link-src="<?= esc_html($terms_and_conditions_link_src); ?>">
+                </terms-and-conditions>
+            </div>
 
         </div>
     <?php endif; ?> 
