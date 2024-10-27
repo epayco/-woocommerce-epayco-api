@@ -212,7 +212,9 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
 
         $descripcion = implode(' - ', $descripcionParts);
         $currency = strtolower(get_woocommerce_currency());
-        $basedCountry = WC()->countries->get_base_country();
+        //$basedCountry = WC()->countries->get_base_country();
+        $basedCountry = $checkout["countryType"]??$checkout["countrytype"];
+        $city = $checkout["country"];
         $myIp=$this->getCustomerIp();
         $confirm_url = $checkout["confirm_url"];
         $response_url = $checkout["confirm_url"];
@@ -222,12 +224,12 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $explodeName = explode(" ", $customerName);
         $name = $explodeName[0];
         $lastName = $explodeName[1];
-        $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
-        $holder_address= $checkout["address"]??$checkout[""]["address"];
+        $person_type= $checkout["person_type"];
+        $holder_address= $checkout["address"];
         $doc_type= $checkout["identificationtype"]??$checkout["identificationType"];
-        $doc_number= $checkout["doc_number"]??$checkout[""]["number"];
-        $email= $checkout["email"]??$checkout[""]["email"];
-        $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
+        $doc_number= $checkout["doc_number"];
+        $email= $checkout["email"];
+        $cellphone= $checkout["cellphone"];
         $data = array(
             "paymentMethod" => $checkout["paymentMethod"],
             "invoice" => (string)$order->get_id()."_test_1",
@@ -244,6 +246,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "lastName" => $lastName,
             "email" => $email,
             "country" => $basedCountry,
+            "city" => $city,
             "cellPhone" => $cellphone,
             "endDate" => $end_date,
             "ip" => $myIp,

@@ -384,6 +384,8 @@ class WoocommerceEpayco
         $this->define('EP_PRODUCT_ID_DESKTOP', self::PRODUCT_ID_DESKTOP);
         $this->define('EP_PRODUCT_ID_MOBILE', self::PRODUCT_ID_MOBILE);
         $this->define('EP_TICKET_DATE_EXPIRATION', self::TICKET_TIME_EXPIRATION);
+        $this->define( 'EP_WOOCOMMERCE_VERSION', '5.3.0' );
+        $this->define( 'EP_PLUGIN_URL',sprintf('%s%s', plugin_dir_url(__FILE__), '../assets/json/'));
     }
 
     /**

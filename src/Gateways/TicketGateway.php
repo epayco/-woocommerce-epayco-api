@@ -224,6 +224,8 @@ class TicketGateway extends AbstractGateway
             'input_email_helper'               => $this->storeTranslations['input_email_helper'],
             'input_ind_phone_label'            => $this->storeTranslations['input_ind_phone_label'],
             'input_ind_phone_helper'           => $this->storeTranslations['input_ind_phone_helper'],
+            'input_country_label'              => $this->storeTranslations['input_country_label'],
+            'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'person_type_label'                => $this->storeTranslations['person_type_label'],
             'input_document_label'             => $this->storeTranslations['input_document_label'],
             'input_document_helper'            => $this->storeTranslations['input_document_helper'],

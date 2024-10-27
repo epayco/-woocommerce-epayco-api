@@ -257,7 +257,7 @@ class CheckoutGateway extends AbstractGateway
         $redirect_url = $order->get_checkout_order_received_url();
 
         $myIp= $this->getCustomerIp();
-        $lang = substr(get_locale(), 0, 2);;
+        $lang = substr(get_locale(), 0, 2);
 
         $name_billing=$order->get_billing_first_name().' '.$order->get_billing_last_name();
         $address_billing=$order->get_billing_address_1();

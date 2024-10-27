@@ -157,6 +157,37 @@
                 "button-name": n,
                 columns: a
             }),
+        country = ({
+                         labelMessage: t,
+                         helperMessage: n,
+                         inputId: ii,
+                         inputName: a,
+                         hiddenId: c,
+                         inputDataCheckout: o,
+                         selectId: s,
+                         selectName: r,
+                         selectDataCheckout: i,
+                         flagError: m,
+                         documents: l,
+                         validate: d,
+                         placeholder: p
+                     }) =>
+            (0, e.createElement)("input-country", {
+                "label-message": t,
+                "helper-message": n,
+                "input-id": ii,
+                "input-name": a,
+                "hidden-id": c,
+                "input-data-checkout": o,
+                "select-id": s,
+                "select-name": r,
+                "select-data-checkout": i,
+                "flag-error": m,
+                documents: l,
+                validate: d,
+                placeholder: p
+            })
+        ,
         inputHelper = ({isVisible: t, message: m, inputId: n, id: a}) =>
             (0, e.createElement)("input-helper", {
                 isVisible: t,
@@ -233,6 +264,8 @@
                 input_email_helper: Eh,
                 input_ind_phone_label: kk,
                 input_ind_phone_helper: hh,
+                input_country_label: cl,
+                input_country_helper: ch,
                 person_type_label: PT,
                 input_document_label: h,
                 input_document_helper: y,
@@ -297,15 +330,16 @@
                     }
                 }
 
-                const ticketContentCellphone = M.current.querySelector('input-cellphone').querySelector('input');
+
+                const ticketContentCellphone = M.current.querySelector('input-cellphone').querySelector('#cellphoneTypeNumber').querySelector('input');
                 const cellphoneHelpers =  M.current.querySelector('input-cellphone').querySelector("input-helper").querySelector("div");
-                const verifyCellphone = (ticketContentCellphone) => {
-                    if (ticketContentCellphone.value === '') {
-                        M.current.querySelector('input-cellphone').querySelector(".mp-input").classList.add("mp-error");
-                        M.current.querySelector('input-cellphone').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
-                        cellphoneHelpers.style.display = 'flex';
-                    }
-                }
+               const verifyCellphone = (ticketContentCellphone) => {
+                   if (ticketContentCellphone.value === '') {
+                       M.current.querySelector('input-cellphone').querySelector(".mp-input").classList.add("mp-error");
+                       M.current.querySelector('input-cellphone').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
+                       cellphoneHelpers.style.display = 'flex';
+                   }
+               }
 
                 const ticketContentDocument = M.current.querySelector('input-document').querySelector('input');
                 const documentHelpers =  M.current.querySelector('input-document').querySelector("input-helper").querySelector("div");
@@ -314,6 +348,16 @@
                         M.current.querySelector('input-document').querySelector(".mp-input").classList.add("mp-error");
                         M.current.querySelector('input-document').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
                         documentHelpers.style.display = 'flex';
+                    }
+                }
+
+                const ticketContentCountry = M.current.querySelector('#form-checkout__identificationCountry-container').lastChild.querySelector('input');
+                const countryHelpers =  M.current.querySelector('input-country').querySelector("input-helper").querySelector("div");
+                const verifyCountry = (ticketContentCountry) => {
+                    if (ticketContentCountry.value === '') {
+                        M.current.querySelector('input-country').querySelector(".mp-input").classList.add("mp-error");
+                        M.current.querySelector('input-country').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
+                        cellphoneHelpers.style.display = 'flex';
                     }
                 }
 
@@ -366,6 +410,7 @@
 
                     const doc_type = ticketContentDocument.parentElement.parentElement.querySelector("#identificationType").value;
                     const cellphoneType = ticketContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
+                    const countryType = ticketContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                     const person_type_value = M.current.querySelector("#epayco_ticket\\[person_type\\]").value;
                     const doc_number_value = M.current.querySelector("#dentificationTypeNumber").querySelector("input").value;
                     const n = {
@@ -379,7 +424,9 @@
                             "epayco_ticket[person_type]": person_type_value,
                             "epayco_ticket[identificationtype]": doc_type,
                             "epayco_ticket[doc_number]": doc_number_value,
-                            "epayco_ticket[payment_method_id]": paymentOptionSelected
+                            "epayco_ticket[payment_method_id]": paymentOptionSelected,
+                            "epayco_ticket[countryType]": countryType,
+                            "epayco_ticket[country]": ticketContentCountry.value
                         };
                     "" === ticketContentName.value && verifyName(ticketContentName);
                     "" === ticketContentEmail.value && verifyEmail(ticketContentEmail);
@@ -387,37 +434,26 @@
                     "" === ticketContentCellphone.value && verifyCellphone(ticketContentCellphone);
                     "Type" === doc_type.value && verifyDocument(ticketContentDocument);
                     "" === ticketContentDocument.value && verifyDocument(ticketContentDocument);
+                    "" === ticketContentCountry.value && verifyCountry(ticketContentCountry);
 
                     function c(e, t) {
                         e && e.style && (e.style.display = t)
                     }
 
                     function o(e) {
-                        console.log(e && "flex" === e.style.display)
                         return e && "flex" === e.style.display
                     }
 
-                    /*return a &&
-                    "" !== holder_name &&
-                    "" !== holder_address &&
-                    "" !== holder_email &&
-                    "" !== cellphone &&
-                    "" !== doc_number
-                    && (n["epayco_ticket[payment_method_id]"] = M.current.querySelector(`#${a.id}`).value, t.style.display = "none"),
-                    n["epayco_ticket[payment_method_id]"] || c(t, "flex"),
-                        {
-                            type: o(e) || o(t) ? P.responseTypes.ERROR : P.responseTypes.SUCCESS,
-                            meta: {paymentMethodData: n}
-                        }*/
                     let paymentMethodHelpers = M.current.querySelector('.mp-checkout-ticket-payment-method').querySelector('input-helper').querySelector('div');
                     return "" !== ticketContentName.value &&
                     "" !== ticketContentAddress.value &&
                     "" !==  ticketContentEmail.value &&
                     "" !== ticketContentCellphone.value &&
                     "" !== ticketContentDocument.value &&
+                    "" !== ticketContentCountry.value &&
                     "Type" !== doc_type,
                         {
-                            type: o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers) || o(paymentMethodHelpers)? P.responseTypes.ERROR : P.responseTypes.SUCCESS,
+                            type: o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers) || o(paymentMethodHelpers) || o(countryHelpers) ? P.responseTypes.ERROR : P.responseTypes.SUCCESS,
                             meta: {paymentMethodData: n}
                         }
                 }));
@@ -493,6 +529,22 @@
                                 })
                             ),
                             B.documents ? (0, e.createElement)(document, {...B}) : null,
+                            (0, e.createElement)("div", {className: "mp-checkout-ticket-input-document"},
+                                (0, e.createElement)(country, {
+                                    labelMessage: cl,
+                                    helperMessage: ch,
+                                    inputId:"countryType",
+                                    inputName: "epayco_ticket[country]",
+                                    hiddenId: "countryType",
+                                    inputDataCheckout: "country_number",
+                                    selectId: "countryType",
+                                    selectName: "countryType",
+                                    selectDataCheckout: "country_type",
+                                    flagError: "countryTypeError",
+                                    validate: "true",
+                                    placeholder: "city"
+                                })
+                            ),
                             (0, e.createElement)("div", {className: "mp-checkout-ticket-payment-method"},
                                 (0, e.createElement)("p", {className: "mp-checkout-ticket-text"}, E),
                                 (0, e.createElement)(paymentsTable, {

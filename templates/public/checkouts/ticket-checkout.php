@@ -15,6 +15,8 @@
  * @var string $input_address_helper
  * @var string $input_ind_phone_label
  * @var string $input_ind_phone_helper
+ * @var string $input_country_label
+ * @var string $input_country_helper
  * @var string $person_type_label
  * @var string $input_document_label
  * @var string $input_document_helper
@@ -150,6 +152,24 @@ if (!defined('ABSPATH')) {
                             placeholder="0000000000"
                     >
                     </input-document>
+                </div>
+
+                <div class="mp-checkout-ticket-input-document">
+                    <input-country
+                            label-message="<?= esc_html($input_country_label); ?>"
+                            helper-message="<?= esc_html($input_country_helper); ?>"
+                            input-name='epayco_ticket[country]'
+                            hidden-id="countryType"
+                            input-data-checkout="country_number"
+                            select-id="countryType"
+                            input-id="countryTypeNumber"
+                            select-name="epayco_ticket[countryType]"
+                            select-data-checkout="doc_type"
+                            flag-error="countryTypeError"
+                            validate=true
+                            placeholder="City"
+                    >
+                    </input-country>
                 </div>
 
                 <div class="mp-checkout-ticket-payment-method">

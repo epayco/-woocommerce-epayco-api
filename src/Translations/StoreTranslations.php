@@ -357,6 +357,8 @@ class StoreTranslations
             'input_email_helper'               => __('Invalid email', 'woocommerce-epayco'),
             'input_ind_phone_label'            => __('Holder cellphone', 'woocommerce-epayco'),
             'input_ind_phone_helper'           => __('Invalid cellphone', 'woocommerce-epayco'),
+            'input_country_label'              => __('Holder Country', 'woocommerce-epayco'),
+            'input_country_helper'             => __('Invalid City', 'woocommerce-epayco'),
             'person_type_label'                => __('Person type', 'woocommerce-epayco'),
             'input_document_label'             => __('Holder document', 'woocommerce-epayco'),
             'input_document_helper'            => __('Invalid document', 'woocommerce-epayco'),

@@ -294,6 +294,10 @@ div .mp-error {
     height: 48px !important;
     /*width: 100%;*/
 }
+
+.with-country{
+    width: 100% !important
+}
 .mp-input-cellphone .mp-input {
     align-items: center !important;
     background: #fff !important;
