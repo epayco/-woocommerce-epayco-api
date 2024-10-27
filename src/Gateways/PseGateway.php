@@ -191,6 +191,8 @@ class PseGateway extends AbstractGateway
             'input_document_helper'            => $this->storeTranslations['input_document_helper'],
             'input_ind_phone_label'            => $this->storeTranslations['input_ind_phone_label'],
             'input_ind_phone_helper'           => $this->storeTranslations['input_ind_phone_helper'],
+            'input_country_label'              => $this->storeTranslations['input_country_label'],
+            'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'input_table_button'               => $this->storeTranslations['input_table_button'],
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
@@ -241,6 +243,8 @@ class PseGateway extends AbstractGateway
                 //$this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$response['id']]);
                 //$this->handleWithRejectPayment($response);
                 if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
+                    $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
+                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
                     $order->update_status("on-hold");
                     $this->epayco->woocommerce->cart->empty_cart();
                     /*if ($this->epayco->hooks->options->getGatewayOption($this, 'stock_reduce_mode', 'no') === 'yes') {

@@ -37,6 +37,8 @@
  * @var string $card_security_code_input_helper
  * @var string $input_ind_phone_label
  * @var string $input_ind_phone_helper
+ * @var string $input_country_label
+ * @var string $input_country_helper
  * @var string $card_document_input_label
  * @var string $card_document_input_helper
  * @var string $card_installments_title
@@ -176,10 +178,9 @@ if (!defined('ABSPATH')) {
                                 input-data-checkout="doc_number"
                                 select-id="dentificationType"
                                 input-id="dentificationTypeNumber"
-                                select-name="identificationType"
+                                select-name="epayco_custom[identificationType]"
                                 select-data-checkout="doc_type"
-                                flag-error="docNumberError"
-                                flag-error='epayco_custom[docNumberError]'
+                                flag-error="identificationTypeError"
                                 documents='[
                                     {"id":"Type"},
                                     {"id":"CC"},
@@ -199,13 +200,13 @@ if (!defined('ABSPATH')) {
 
                     <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
                         <input-address
-                                label-message="<?= esc_html($card_holder_address_input_label); ?>"
-                                helper-message="<?= esc_html($card_holder_address_input_helper); ?>"
+                                labelMessage="<?= esc_html($card_holder_address_input_label); ?>"
+                                helperMessage="<?= esc_html($card_holder_address_input_helper); ?>"
                                 placeholder="Street 123"
-                                input-name='epayco_custom[address]'
-                                flag-error='epayco_custom[addressError]'
+                                inputName='epayco_custom[address]'
+                                flagError='epayco_custom[addressError]'
                                 validate=true
-                                hidden-id= "hidden-adress-custom"
+                                hiddenId= "hidden-adress-custom"
                         >
                         </input-address>
                     </div>
@@ -242,6 +243,23 @@ if (!defined('ABSPATH')) {
                         </input-cellphone>
                     </div>
 
+                    <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
+                        <input-country
+                                label-message="<?= esc_html($input_country_label); ?>"
+                                helper-message="<?= esc_html($input_country_helper); ?>"
+                                input-name='epayco_custom[country]'
+                                hidden-id="countryType"
+                                input-data-checkout="country_number"
+                                select-id="countryType"
+                                input-id="countryTypeNumber"
+                                select-name="epayco_custom[countryType]"
+                                select-data-checkout="doc_type"
+                                flag-error="countryTypeError"
+                                validate=true
+                                placeholder="City"
+                        >
+                        </input-country>
+                    </div>
 
 
                 </div>

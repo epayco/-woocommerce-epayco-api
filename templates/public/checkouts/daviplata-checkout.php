@@ -16,6 +16,8 @@
  * @var string $input_address_helper
  * @var string $input_ind_phone_label
  * @var string $input_ind_phone_helper
+ * @var string $input_country_label
+ * @var string $input_country_helper
  * @var string $person_type_label
  * @var string $input_document_label
  * @var string $input_document_helper
@@ -63,39 +65,39 @@ if (!defined('ABSPATH')) {
                 <?php endif; ?>
                 <div class="mp-checkout-ticket-input-document">
                     <input-name
-                            label-message="<?= esc_html($input_name_label); ?>"
-                            helper-message="<?= esc_html($input_name_helper); ?>"
+                            labelMessage="<?= esc_html($input_name_label); ?>"
+                            helperMessage="<?= esc_html($input_name_helper); ?>"
                             placeholder="Ex: John Doe"
-                            input-name='epayco_daviplata[name]'
-                            flag-error='epayco_daviplata[nameError]'
+                            inputName='epayco_daviplata[name]'
+                            flagError='epayco_daviplata[nameError]'
                             validate=true
-                            hidden-id= "hidden-name-pse"
+                            hiddenId= "hidden-name-daviplata"
                     >
                     </input-name>
                 </div>
 
                 <div class="mp-checkout-ticket-input-document">
                     <input-email
-                            label-message="<?= esc_html($input_email_label); ?>"
-                            helper-message="<?= esc_html($input_email_helper); ?>"
+                            labelMessage="<?= esc_html($input_email_label); ?>"
+                            helperMessage="<?= esc_html($input_email_helper); ?>"
                             placeholder="jonhdoe@example.com"
-                            input-name='epayco_daviplata[email]'
-                            flag-error='epayco_daviplata[emailError]'
+                            inputName='epayco_daviplata[email]'
+                            flagError='epayco_daviplata[emailError]'
                             validate=true
-                            hidden-id= "hidden-email-pse"
+                            hiddenId= "hidden-email-daviplata"
                     >
                     </input-email>
                 </div>
 
                 <div class="mp-checkout-ticket-input-document">
                     <input-address
-                            label-message="<?= esc_html($input_address_label); ?>"
-                            helper-message="<?= esc_html($input_address_helper); ?>"
+                            labelMessage="<?= esc_html($input_address_label); ?>"
+                            helperMessage="<?= esc_html($input_address_helper); ?>"
                             placeholder="Street 123"
-                            input-name='epayco_daviplata[address]'
-                            flag-error='epayco_daviplata[addressError]'
+                            inputName='epayco_daviplata[address]'
+                            flagError='epayco_daviplata[addressError]'
                             validate=true
-                            hidden-id= "hidden-adress-pse"
+                            hiddenId= "hidden-adress-daviplata"
                     >
                     </input-address>
                 </div>
@@ -138,10 +140,9 @@ if (!defined('ABSPATH')) {
                             input-data-checkout="doc_number"
                             select-id="dentificationType"
                             input-id="dentificationTypeNumber"
-                            select-name="identificationType"
+                            select-name="epayco_daviplata[identificationType]"
                             select-data-checkout="doc_type"
-                            flag-error="docNumberError"
-                            flag-error='epayco_daviplata[docNumberError]'
+                            flag-error="identificationTypeError"
                             documents='[
                                     {"id":"Type"},
                                     {"id":"CC"},
@@ -157,6 +158,24 @@ if (!defined('ABSPATH')) {
                             placeholder="0000000000"
                     >
                     </input-document>
+                </div>
+
+                <div class="mp-checkout-ticket-input-document">
+                    <input-country
+                            label-message="<?= esc_html($input_country_label); ?>"
+                            helper-message="<?= esc_html($input_country_helper); ?>"
+                            input-name='epayco_daviplata[country]'
+                            hidden-id="countryType"
+                            input-data-checkout="country_number"
+                            select-id="countryType"
+                            input-id="countryTypeNumber"
+                            select-name="epayco_daviplata[countryType]"
+                            select-data-checkout="doc_type"
+                            flag-error="countryTypeError"
+                            validate=true
+                            placeholder="City"
+                    >
+                    </input-country>
                 </div>
 
 

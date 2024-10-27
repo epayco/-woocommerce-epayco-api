@@ -18,6 +18,7 @@
             verifyAddress(DaviplataContent)
             verifyCellphone(DaviplataContent)
             verifyDocument(DaviplataContent);
+            verifyCountry(DaviplataContent)
 
             if (checkForErrors(ticketHelpers)) {
                 removeBlockOverlay();
@@ -88,6 +89,17 @@
                 addressElement.parentElement.classList.add("mp-error");
                 addressElement.parentElement.parentElement.firstChild.classList.add("mp-error");
                 let pseHelpers = psedaviplataContent.querySelector('#form-checkout__identificationNumber-container').parentElement.querySelector('input-helper');
+                let child = pseHelpers.querySelector('div');
+                child.style.display = 'flex';
+            }
+        }
+
+        function verifyCountry(psedaviplataContent) {
+            let addressElement = psedaviplataContent.querySelector('#form-checkout__identificationCountry-container').querySelector('input');
+            if (addressElement.value === '') {
+                addressElement.parentElement.classList.add("mp-error");
+                addressElement.parentElement.parentElement.firstChild.classList.add("mp-error");
+                let pseHelpers = psedaviplataContent.querySelector('#form-checkout__identificationCountry-container').parentElement.querySelector('input-helper');
                 let child = pseHelpers.querySelector('div');
                 child.style.display = 'flex';
             }

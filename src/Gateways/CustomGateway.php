@@ -229,6 +229,8 @@ class CustomGateway extends AbstractGateway
             'input_ind_phone_helper'           => $this->storeTranslations['card_cellphone_input_helper'],
             'card_document_input_label'        => $this->storeTranslations['card_document_input_label'],
             'card_document_input_helper'       => $this->storeTranslations['card_document_input_helper'],
+            'input_country_label'              => $this->storeTranslations['input_country_label'],
+            'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'card_installments_title'          => $this->storeTranslations['card_installments_title'],
             'card_issuer_input_label'          => $this->storeTranslations['card_issuer_input_label'],
             'card_installments_input_helper'   => $this->storeTranslations['card_installments_input_helper'],
@@ -260,8 +262,7 @@ class CustomGateway extends AbstractGateway
 
             parent::process_payment($order_id);
 
-            $this->epayco->logs->file->info('Preparing to get response of custom checkout', self::LOG_SOURCE);
-
+            $checkout['cardTokenId'] = '22';
             $checkout['token'] = $checkout['cardTokenId'] ?? $checkout['cardtokenid'];
             if (
                 !empty($checkout['token'])
@@ -273,9 +274,12 @@ class CustomGateway extends AbstractGateway
                 $redirect_url = 'http://696c-2800-e2-580-61c-1b36-86bb-aec2-9a0b.ngrok-free.app/wordpress2/wordpress/?wc-api=WC_Epayco_Custom_Gateway&order_id='.$order_id;
                 $confirm_url = $redirect_url.'&confirmation=1';
                 $checkout['confirm_url'] = $confirm_url;
+                $checkout['response_url'] = $order->get_checkout_order_received_url();
                 $response = $this->transaction->createTcPayment($order_id, $checkout);
                 $response = json_decode(json_encode($response), true);
                 if (is_array($response) && $response['success']) {
+                    $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
+                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                     if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();

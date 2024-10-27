@@ -1,138 +1,5 @@
+/* globals wc_epayco_checkout_components_params */
 (() => {
-    class t extends HTMLElement {
-        static get observedAttributes() {
-            return ["title", "description", "retryButtonText"]
-        }
-
-        connectedCallback() {
-            this.build()
-        }
-
-        attributeChangedCallback() {
-            this.firstElementChild && (this.removeChild(this.firstElementChild), this.build())
-        }
-
-        build() {
-            const t = this.createAlertDetails(), e = this.createCardContent();
-            t.appendChild(e), this.appendChild(t)
-        }
-
-        createAlertDetails() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-alert-details-card"), t
-        }
-
-        createCardContent() {
-            const t = document.createElement("div");
-            t.classList.add("mp-alert-details-card-content");
-            const e = document.createElement("div");
-            e.classList.add("mp-alert-details-card-content-left");
-            const i = document.createElement("div");
-            i.classList.add("mp-alert-details-card-content-right"), t.appendChild(e), t.appendChild(i);
-            const n = this.createBadge(), s = this.createTitle(), a = this.createDescription(),
-                r = this.createRetryButton();
-            return e.appendChild(n), i.appendChild(s), i.appendChild(a), i.appendChild(r), t
-        }
-
-        createBadge() {
-            const t = document.createElement("div");
-            return t.innerHTML = "!", t.classList.add("mp-alert-details-badge"), t
-        }
-
-        createTitle() {
-            const t = document.createElement("p");
-            return t.innerHTML = this.getAttribute("title"), t.classList.add("mp-alert-details-title"), t
-        }
-
-        createDescription() {
-            const t = document.createElement("p");
-            return t.innerHTML = this.getAttribute("description"), t.classList.add("mp-alert-details-description"), t
-        }
-
-        createRetryButton() {
-            const t = this.getAttribute("retryButtonText"), e = document.createElement("button");
-            return e.classList.add("mp-alert-details-retry-button"), e.innerHTML = t, e.onclick = () => document.location.reload(), e
-        }
-    }
-
-    customElements.define("alert-details", t)
-})(), (() => {
-    class t extends HTMLElement {
-        connectedCallback() {
-            this.build()
-        }
-
-        build() {
-            this.appendChild(this.createContainer())
-        }
-
-        createContainer() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-checkout-benefits-container"), t.appendChild(this.createTitle()), t.appendChild(this.createList()), t
-        }
-
-        createTitle() {
-            const t = document.createElement("p");
-            t.classList.add("mp-checkout-benefits-title"), t.innerHTML = this.getAttribute("title");
-            const e = this.getAttribute("title-align");
-            return "center" === e && t.style.setProperty("text-align", "center", "important"), "left" === e && t.style.setProperty("text-align", "left", "important"), t
-        }
-
-        createList() {
-            const t = JSON.parse(this.getAttribute("items")), e = document.createElement("div");
-            return e.classList.add("mp-checkout-benefits-list"), t.forEach(((t, i) => {
-                e.appendChild(this.createItem(t, i))
-            })), e
-        }
-
-        createItem(t, e) {
-            const i = document.createElement("div");
-            i.classList.add("mp-checkout-benefits-item");
-            const n = this.getAttribute("list-mode");
-            return "count" === n ? (i.appendChild(this.createCountList(e)), i.appendChild(this.createSimpleText(t)), i) : "bullet" === n ? (i.appendChild(this.createBulletList()), i.appendChild(this.createSimpleText(t)), i) : "image" === n && "object" == typeof t ? (i.appendChild(this.createImageList(t)), i.appendChild(this.createCompositeText(t)), i) : i
-        }
-
-        createSimpleText(t) {
-            const e = document.createElement("span");
-            return e.innerHTML = t, e
-        }
-
-        createCompositeText({title: t, subtitle: e}) {
-            const i = document.createElement("p");
-            i.classList.add("mp-checkout-benefits-item-title"), i.innerHTML = t;
-            const n = document.createElement("p");
-            n.classList.add("mp-checkout-benefits-item-subtitle"), n.innerHTML = e;
-            const s = document.createElement("span");
-            return s.appendChild(i), s.appendChild(n), s
-        }
-
-        createCountList(t) {
-            const e = document.createElement("p");
-            e.innerText = 1 + t, e.classList.add("mp-checkout-benefits-count-list-item");
-            const i = document.createElement("div");
-            return i.classList.add("mp-checkout-benefits-count-list-div"), i.appendChild(e), i
-        }
-
-        createBulletList() {
-            const t = document.createElement("div");
-            t.classList.add("mp-checkout-benefits-tick-mark-container");
-            const e = document.createElement("div");
-            return e.classList.add("mp-checkout-benefits-tick-mark"), t.appendChild(e), t
-        }
-
-        createImageList({image: t}) {
-            const e = document.createElement("div");
-            return e.classList.add("mp-checkout-benefits-image-list"), e.appendChild(this.createImage(t)), e
-        }
-
-        createImage({src: t, alt: e}) {
-            const i = document.createElement("img");
-            return i.classList.add("mp-checkout-benefits-image"), i.setAttribute("src", t), i.setAttribute("alt", e), i
-        }
-    }
-
-    customElements.define("checkout-benefits", t)
-})(), (() => {
     class t extends HTMLElement {
         connectedCallback() {
             this.build()
@@ -157,7 +24,6 @@
             return t.classList.add("mp-checkout-redirect-v2-text"), t.innerHTML = this.getAttribute("text"), t
         }
     }
-
     customElements.define("checkout-redirect-v2", t)
 })(), (() => {
     class t extends HTMLElement {
@@ -184,677 +50,1950 @@
             return t.classList.add("mp-checkout-redirect-text"), t.innerHTML = this.getAttribute("text"), t
         }
     }
-
     customElements.define("checkout-redirect", t)
-})(), (() => {
+})(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
+            build() {
+                this.appendChild(this.createContainer())
+            }
+            createContainer() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-terms-and-conditions-container"),
+                    t.setAttribute("data-cy", "terms-and-conditions-container"),
+                    //t.appendChild(this.createText()),
+                    //t.appendChild(this.createLink()),
+                    t.appendChild(this.createLabel()),
+                    t
+            }
+            createText() {
+                const t = document.createElement("span");
+                return t.classList.add("mp-terms-and-conditions-text"), t.innerHTML = this.getAttribute("description"), t
+            }
+            createLink() {
+                const t = document.createElement("a");
+                return t.classList.add("mp-terms-and-conditions-link"), t.innerHTML = this.getAttribute("link-text"), t.href = this.getAttribute("link-src"), t.target = "blank", t
+            }
+            createLabel(){
+                const t = document.createElement("label");
+                const s = this.createInput(t);
+                const pp = document.createElement("p");
+                let label =this.getAttribute("label")+"<a target='_blank' href=\""+this.getAttribute("link-src")+"\">"+this.getAttribute("link-text")+"</a>"+this.getAttribute("description");
+                pp.innerHTML = label;
+                return t.appendChild(s),
+                    t.appendChild(pp),
+                    t
+            }
+            createInput(t) {
+                const n = document.createElement("input");
+                return n.type = "checkbox",
+                    t.appendChild(n),
+                    n
+            }
+        }
+        customElements.define("terms-and-conditions", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            static get observedAttributes() {
+                return ["title", "description", "retryButtonText"]
+            }
+
+            connectedCallback() {
+                this.build()
+            }
+
+            attributeChangedCallback() {
+                this.firstElementChild && (this.removeChild(this.firstElementChild), this.build())
+            }
+
+            build() {
+                const t = this.createAlertDetails(), e = this.createCardContent();
+                t.appendChild(e), this.appendChild(t)
+            }
+
+            createAlertDetails() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-alert-details-card"), t
+            }
+
+            createCardContent() {
+                const t = document.createElement("div");
+                t.classList.add("mp-alert-details-card-content");
+                const e = document.createElement("div");
+                e.classList.add("mp-alert-details-card-content-left");
+                const i = document.createElement("div");
+                i.classList.add("mp-alert-details-card-content-right"), t.appendChild(e), t.appendChild(i);
+                const n = this.createBadge(), s = this.createTitle(), a = this.createDescription(),
+                    r = this.createRetryButton();
+                return e.appendChild(n), i.appendChild(s), i.appendChild(a), i.appendChild(r), t
+            }
+
+            createBadge() {
+                const t = document.createElement("div");
+                return t.innerHTML = "x", t.classList.add("mp-alert-details-badge"), t
+            }
+
+            createTitle() {
+                const t = document.createElement("p");
+                return t.innerHTML = this.getAttribute("title"), t.classList.add("mp-alert-details-title"), t
+            }
+
+            createDescription() {
+                const t = document.createElement("p");
+                return t.innerHTML = this.getAttribute("description"), t.classList.add("mp-alert-details-description"), t
+            }
+
+            createRetryButton() {
+                const t = this.getAttribute("retryButtonText"), e = document.createElement("button");
+                return e.classList.add("mp-alert-details-retry-button"), e.innerHTML = t, e.onclick = () => document.location.reload(), e
+            }
+        }
+        customElements.define("alert-details", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
+            build() {
+                const t = this.createContainer();
+                this.appendChild(t)
+            }
+            createContainer() {
+                const t = document.createElement("div");
+                const e = this.createLabel(this.getAttribute("label-message")),
+                    i = this.createHelper(this.getAttribute("helper-message")),
+                    n = this.createHiddenField(this.getAttribute("hidden-id")),
+                    s = this.createInputDocument(i, n);
+                return t.classList.add("mp-input-select-container"),
+                    t.appendChild(e),
+                    t.appendChild(s),
+                    t.appendChild(n),
+                    t.appendChild(i),
+                    t
+            }
+            createInputDocument(i, n) {
+                const t = document.createElement("div");
+                t.classList.add("mp-input-element","flex-gap"),
+                    t.setAttribute("data-cy", "input-document-container"),
+                    t.setAttribute("id", "form-checkout__identificationNumber-container");
+                const ii = document.createElement("div");
+                ii.classList.add("mp-input"),
+                    ii.style.width='200px';
+                ii.setAttribute("id",this.getAttribute("select-id"));
+                const aa = document.createElement("div");
+                aa.classList.add("mp-input"),
+                    aa.setAttribute("id",this.getAttribute("input-id"));
+                const e = this.createLabel(this.getAttribute("label-message")),
+                    s = this.createInput(i,ii, n, aa, t),
+                    c = this.createDocument(aa, t);
+                return t.appendChild(s),
+                    t.appendChild(aa),
+                    t
+            }
+            createLabel(t) {
+                const e = document.createElement("input-label");
+                return e.setAttribute("message", t), e.setAttribute("isOptional", "false"), e
+            }
+            createHelper(t) {
+                const e = document.createElement("input-helper");
+                return e.setAttribute("isVisible", !1), e.setAttribute("message", t), e.setAttribute("input-id", "mp-doc-cellphone-helper"), e
+            }
+            createHiddenField(t) {
+                const e = document.createElement("input");
+                return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
+            }
+            createInput(t,i,e,aa, tt) {
+                const n = JSON.parse(this.getAttribute("documents")),
+                    s = this.getAttribute("validate"),
+                    r = this.createSelect(i, t, n, s, aa, tt);
+                return i.classList.add("mp-input-select-input"),
+                    r.addEventListener("change", ((e) => {
+                        const selectedValue = e.target.value;
+                        if(selectedValue == 'Type'){
+                            aa.querySelector("input").parentElement.classList.add("mp-error");
+                            tt.querySelector("select").parentElement.classList.add("mp-error");
+                        }else{
+                            aa.querySelector("input").parentElement.classList.remove("mp-error");
+                            tt.querySelector("select").parentElement.classList.remove("mp-error");
+                        }
+                        i.classList.remove("mp-focus");
+                        //i.classList.remove("mp-error");
+                    })),
+                    i.appendChild(r),
+                    i
+            }
+            createSelect(i, ee, n, s, aa, tt) {
+                const t = document.createElement("select"),
+                    e = this.getAttribute("select-name");
+                t.classList.add("mp-input-select-select"),
+                    t.setAttribute("id", e),
+                    t.setAttribute("name", e),
+                    t.setAttribute("data-checkout", this.getAttribute("select-data-checkout")),
+                    t.setAttribute("data-cy", "select-document");
+                if (this.getAttribute("default-option")) {
+                    const e = document.createElement("option");
+                    e.setAttribute("selected", "selected"),
+                        e.setAttribute("hidden", "hidden"),
+                        e.innerHTML = this.getAttribute("default-option"),
+                        t.appendChild(e)
+                }
+                return n && 0 !== n.length && n.forEach((e => {
+                    t.appendChild(this.createOption(e))
+                })),
+                n && (t.addEventListener("focus", (() => {
+                    i.classList.add("mp-focus"),
+                        ee.firstElementChild.style.display = "none"
+                })), t.addEventListener("focusout", (() => {
+                    i.classList.remove("mp-focus"),
+                        ee.firstElementChild.style.display = "none"
+                }))),
+                    t
+            }
+            createOption(t) {
+                const e = document.createElement("option");
+                return e.innerHTML = t.id, e.value = t.id, e
+            }
+            createDocument(t, i) {
+                const n = document.createElement("input");
+                return n.setAttribute("name", this.getAttribute("input-name")),
+                    n.setAttribute("data-checkout", this.getAttribute("input-data-checkout")),
+                    n.setAttribute("data-cy", "input-document"),
+                    n.classList.add("mp-cellphone"),
+                    n.type = "text",
+                    n.inputMode = "text",
+                    n.placeholder = this.getAttribute("placeholder"),
+                    n.addEventListener("focus", (() => {
+                        i.querySelector("select").parentElement.classList.add("mp-focus"),
+                            t.querySelector("input").parentElement.classList.add("mp-focus")
+                        i.parentElement.querySelector("input-helper > div").style.display = "none"
+                    }))
+                    , n.addEventListener("focusout", (() => {
+                    //t.querySelector("input").parentElement.classList.add("mp-error");
+                    //i.querySelector("select").parentElement.classList.remove("mp-error");
+                    void 0 !== ((n.value !=='' &&  i.querySelector("select").value !=='Type')  ? (
+                                t.querySelector("input").parentElement.classList.remove("mp-error"),
+                                    i.querySelector("select").parentElement.classList.remove("mp-error"),
+                                    i.parentElement.querySelector("input-helper > div").style.display = "none",
+                                    n.setAttribute("name", this.getAttribute("input-name"))) :
+                            (
+                                i.querySelector("select").parentElement.classList.add("mp-error"),
+                                    t.querySelector("input").parentElement.classList.add("mp-error"),
+                                    i.parentElement.querySelector("input-helper > div").style.display = "flex",
+                                    n.setAttribute("name", this.getAttribute("flag-error"))
+                            )
+                    )
+                })),
+                    t.appendChild(n),
+                    n
+            }
+        }
+        customElements.define("input-document", t)
+    })(), (() => {
     class t extends HTMLElement {
         connectedCallback() {
             this.build()
         }
-
-        build() {
-            const t = this.createInputDocument();
+        async build() {
+            const t = this.createContainer();
             this.appendChild(t)
         }
-
-        createInputDocument() {
+        createContainer() {
             const t = document.createElement("div");
-            t.classList.add("mp-input-document"), t.setAttribute("data-cy", "input-document-container");
             const e = this.createLabel(this.getAttribute("label-message")),
                 i = this.createHelper(this.getAttribute("helper-message")),
-                n = this.createHiddenField(this.getAttribute("hidden-id")), s = this.createInput(i, n);
-            return t.appendChild(e), t.appendChild(s), t.appendChild(n), t.appendChild(i), t
+                n = this.createHiddenField(this.getAttribute("hidden-id")),
+                s =  this.createInputDocument(i, n);
+            return t.classList.add("mp-input-select-container"),
+                t.appendChild(e),
+                t.appendChild(s),
+                t.appendChild(n),
+                t.appendChild(i),
+                t
         }
-
+        createInputDocument(i, n) {
+            const t = document.createElement("div");
+            t.classList.add("mp-input-element","flex-gap"),
+                t.setAttribute("data-cy", "input-document-container"),
+                t.setAttribute("id", "form-checkout__identificationCellphone-container");
+            const ii = document.createElement("div");
+            ii.classList.add("mp-input"),
+                ii.style.width='200px';
+            ii.setAttribute("id",this.getAttribute("select-id"));
+            const aa = document.createElement("div");
+            aa.classList.add("mp-input"),
+                aa.setAttribute("id",this.getAttribute("input-id"));
+            const e = this.createLabel(this.getAttribute("label-message")),
+                s = this.createInput(i,ii, n),
+                c = this.createDocument(aa, t);
+            return t.appendChild(s),
+                t.appendChild(aa),
+                t
+        }
         createLabel(t) {
             const e = document.createElement("input-label");
             return e.setAttribute("message", t), e.setAttribute("isOptional", "false"), e
         }
-
-        createInput(t, e) {
-            const i = document.createElement("div");
-            i.classList.add("mp-input"), i.setAttribute("id", "form-checkout__identificationNumber-container");
-            const n = JSON.parse(this.getAttribute("documents")), s = this.getAttribute("validate"),
-                a = this.createVerticalLine(), r = this.createSelect(i, t, n, s), c = this.createDocument(i, r, t);
-            return r.addEventListener("change", (() => {
-                i.classList.remove("mp-focus"), i.classList.remove("mp-error"), this.setInpuProperties(r, c), this.setMaskInputDocument(r, c, e)
-            })), i.appendChild(r), i.appendChild(a), i.appendChild(c), this.setMaskInputDocument(r, c, e), i
-        }
-
-        setInpuProperties(t, e) {
-            "CPF" === t.value ? (e.value = "", e.setAttribute("maxlength", "14"), e.setAttribute("placeholder", "999.999.999-99")) : "CNPJ" === t.value ? (e.value = "", e.setAttribute("maxlength", "18"), e.setAttribute("placeholder", "99.999.999/0001-99")) : "CI" === t.value ? (e.value = "", e.setAttribute("maxlength", "8"), e.setAttribute("placeholder", "99999999")) : (e.value = "", e.setAttribute("maxlength", "20"), e.setAttribute("placeholder", ""))
-        }
-
-        createSelect(t, e, i, n) {
-            const s = document.createElement("select");
-            return s.classList.add("mp-document-select"), s.setAttribute("name", this.getAttribute("select-name")), s.setAttribute("id", this.getAttribute("select-id")), s.setAttribute("data-checkout", this.getAttribute("select-data-checkout")), s.setAttribute("data-cy", "select-document"), i && i.forEach((t => {
-                this.createOption(s, t)
-            })), n && (s.addEventListener("focus", (() => {
-                t.classList.add("mp-focus"), e.firstElementChild.style.display = "none"
-            })), s.addEventListener("focusout", (() => {
-                t.classList.remove("mp-focus"), e.firstElementChild.style.display = "none"
-            }))), s
-        }
-
-        createOption(t, e) {
-            const i = document.createElement("option");
-            i.innerHTML = e, i.value = e, t.appendChild(i)
-        }
-
-        createHiddenField(t) {
-            const e = document.createElement("input");
-            return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
-        }
-
-        createVerticalLine() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-vertical-line"), t
-        }
-
-        isValidCPF(t) {
-            if ("string" != typeof t) return !1;
-            if (!(t = t.replace(/[\s.-]*/gim, "")) || 11 !== t.length || "00000000000" === t || "11111111111" === t || "22222222222" === t || "33333333333" === t || "44444444444" === t || "55555555555" === t || "66666666666" === t || "77777777777" === t || "88888888888" === t || "99999999999" === t) return !1;
-            let e, i = 0;
-            for (let e = 1; e <= 9; e += 1) i += parseInt(t.substring(e - 1, e)) * (11 - e);
-            if (e = 10 * i % 11, 10 !== e && 11 !== e || (e = 0), e !== parseInt(t.substring(9, 10))) return !1;
-            i = 0;
-            for (let e = 1; e <= 10; e += 1) i += parseInt(t.substring(e - 1, e)) * (12 - e);
-            return e = 10 * i % 11, 10 !== e && 11 !== e || (e = 0), e === parseInt(t.substring(10, 11))
-        }
-
-        isValidCNPJ(t) {
-            if ("" === (t = t.replace(/[^\d]+/g, ""))) return !1;
-            if (14 !== t.length) return !1;
-            if ("00000000000000" === t || "11111111111111" === t || "22222222222222" === t || "33333333333333" === t || "44444444444444" === t || "55555555555555" === t || "66666666666666" === t || "77777777777777" === t || "88888888888888" === t || "99999999999999" === t) return !1;
-            let e = t.length - 2, i = t.substring(0, e);
-            const n = t.substring(e);
-            let s = 0, a = e - 7;
-            for (let t = e; t >= 1; t -= 1) s += i.charAt(e - t) * a--, a < 2 && (a = 9);
-            let r = s % 11 < 2 ? 0 : 11 - s % 11;
-            if (r !== Number(n.charAt(0))) return !1;
-            e += 1, i = t.substring(0, e), s = 0, a = e - 7;
-            for (let t = e; t >= 1; t -= 1) s += i.charAt(e - t) * a--, a < 2 && (a = 9);
-            return r = s % 11 < 2 ? 0 : 11 - s % 11, r === Number(n.charAt(1))
-        }
-
-        isValidCI(t) {
-            let e = 0, i = 0, n = 0;
-            const s = t[t.length - 1];
-            if (t.length <= 6) for (i = t.length; i < 7; i += 1) t = `0${t}`;
-            for (i = 0; i < 7; i += 1) e += parseInt("2987634"[i], 10) * parseInt(t[i], 10) % 10;
-            return n = e % 10 == 0 ? 0 : 10 - e % 10, s === n.toString()
-        }
-
-        isValidCC(t) {
-            return "string" == typeof t && t.length > 0
-        }
-
-        isValidCE(t) {
-            return "string" == typeof t && t.length > 0
-        }
-
-        isValidNIT(t) {
-            return "string" == typeof t && t.length > 0
-        }
-
-        setMaskInputDocument(t, e, i) {
-            const n = {
-                CPF: t => t.replace(/\D+/g, "").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})/, "$1-$2").replace(/(-\d{2})\d+?$/, "$1"),
-                CNPJ: t => t.replace(/\D+/g, "").replace(/(\d{2})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1/$2").replace(/(\d{4})(\d)/, "$1-$2").replace(/(-\d{2})\d+?$/, "$1"),
-                CI: t => t.replace(/\D+/g, "")
-            };
-            e.addEventListener("input", (e => {
-                if (void 0 !== n[t.value] && (e.target.value = n[t.value](e.target.value)), i) {
-                    const t = e.target.value.replace(/[^\w\s]/gi, "");
-                    i.value = t
-                }
-            }))
-        }
-
-        createDocument(t, e, i) {
-            const n = document.createElement("input");
-            return n.setAttribute("name", this.getAttribute("input-name")), n.setAttribute("data-checkout", this.getAttribute("input-data-checkout")), n.setAttribute("data-cy", "input-document"), n.classList.add("mp-document"), n.type = "text", n.inputMode = "text", this.setInpuProperties(e, n), n.addEventListener("focus", (() => {
-                t.classList.add("mp-focus"), t.classList.remove("mp-error"), i.firstElementChild.style.display = "none"
-            })), n.addEventListener("focusout", (() => {
-                t.classList.remove("mp-focus");
-                const s = {
-                    CPF: t => this.isValidCPF(t),
-                    CNPJ: t => this.isValidCNPJ(t),
-                    CI: t => this.isValidCI(t),
-                    CC: t => this.isValidCC(t),
-                    CE: t => this.isValidCE(t),
-                    NIT: t => this.isValidNIT(t)
-                };
-                void 0 !== s[e.value] && (s[e.value](n.value) ? (t.classList.remove("mp-error"), i.firstElementChild.style.display = "none", n.setAttribute("name", this.getAttribute("input-name"))) : (t.classList.add("mp-error"), i.firstElementChild.style.display = "flex", n.setAttribute("name", this.getAttribute("flag-error"))))
-            })), n
-        }
-
         createHelper(t) {
             const e = document.createElement("input-helper");
-            return e.setAttribute("isVisible", !1), e.setAttribute("message", t), e.setAttribute("input-id", "mp-doc-number-helper"), e
+            return e.setAttribute("isVisible", !1), e.setAttribute("message", t), e.setAttribute("input-id", "mp-doc-cellphone-helper"), e
         }
-    }
-
-    customElements.define("input-document", t)
-})(), (() => {
-    class t extends HTMLElement {
-        connectedCallback() {
-            this.build()
-        }
-
-        build() {
-            this.appendChild(this.createHelper())
-        }
-
-        createHelper() {
-            const t = document.createElement("div");
-            t.classList.add("mp-helper"), t.setAttribute("id", this.getAttribute("input-id")), t.setAttribute("data-cy", "helper-container"), this.validateVisibility(t);
-            const e = this.createIcon(), i = this.getAttribute("message"), n = this.createHelperMessage(i);
-            return t.appendChild(e), t.appendChild(n), t
-        }
-
-        createIcon() {
-            const t = document.createElement("div");
-            return t.innerHTML = "!", t.classList.add("mp-helper-icon"), t
-        }
-
-        createHelperMessage(t) {
-            const e = document.createElement("div");
-            return e.innerHTML = t, e.classList.add("mp-helper-message"), e.setAttribute("data-cy", "helper-message"), e
-        }
-
-        validateVisibility(t) {
-            let e = this.getAttribute("isVisible");
-            "string" == typeof e && (e = "false" !== e), t.style.display = e ? "flex" : "none"
-        }
-    }
-
-    customElements.define("input-helper", t)
-})(), (() => {
-    class t extends HTMLElement {
-        connectedCallback() {
-            this.build()
-        }
-
-        build() {
-            this.appendChild(this.createLabel())
-        }
-
-        createLabel() {
-            const t = document.createElement("div");
-            t.classList.add("mp-input-label"), t.setAttribute("data-cy", "input-label");
-            const e = this.getAttribute("message");
-            t.innerHTML = e;
-            let i = this.getAttribute("isOptional");
-            if ("string" == typeof i && (i = "false" !== i), !i) {
-                const e = document.createElement("b");
-                e.innerHTML = "*", e.style = "color: red", t.appendChild(e)
-            }
-            return t
-        }
-    }
-
-    customElements.define("input-label", t)
-})(), (() => {
-    class t extends HTMLElement {
-        connectedCallback() {
-            this.build()
-        }
-
-        build() {
-            this.appendChild(this.createContainer())
-        }
-
-        createContainer() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-input-radio-container"), t.appendChild(this.createRadio()), t.appendChild(this.createLabel()), t
-        }
-
-        createRadio() {
-            const t = document.createElement("input"), e = this.getAttribute("dataRate");
-            return t.classList.add("mp-input-radio-radio"), t.type = "radio", t.id = this.getAttribute("identification"), t.name = this.getAttribute("name"), t.value = this.getAttribute("value"), t.setAttribute("data-cy", "input-radio"), e && t.setAttribute("dataRate", e), t
-        }
-
-        createLabel() {
-            const t = document.createElement("label");
-            return t.classList.add("mp-input-radio-label"), t.htmlFor = this.getAttribute("identification"), t
-        }
-    }
-
-    customElements.define("input-radio", t)
-})(), (() => {
-    class t extends HTMLElement {
-        connectedCallback() {
-            this.build()
-        }
-
-        build() {
-            this.appendChild(this.createContainer())
-        }
-
-        createContainer() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-input-select-container"), t.appendChild(this.createLabel()), t.appendChild(this.createInput()), t.appendChild(this.createHelper()), t
-        }
-
-        createInput() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-input-select-input"), t.appendChild(this.createSelect()), t
-        }
-
-        createSelect() {
-            const t = document.createElement("select"), e = this.getAttribute("name");
-            t.classList.add("mp-input-select-select"), t.setAttribute("id", e), t.setAttribute("name", e);
-            const i = this.getAttribute("options") && JSON.parse(this.getAttribute("options"));
-            if (this.getAttribute("default-option")) {
-                const e = document.createElement("option");
-                e.setAttribute("selected", "selected"), e.setAttribute("hidden", "hidden"), e.innerHTML = this.getAttribute("default-option"), t.appendChild(e)
-            }
-            return i && 0 !== i.length && i.forEach((e => {
-                t.appendChild(this.createOption(e))
-            })), t
-        }
-
-        createOption(t) {
-            const e = document.createElement("option");
-            return e.innerHTML = t.description, e.value = t.id, e
-        }
-
-        createLabel() {
-            const t = document.createElement("input-label"), e = this.getAttribute("optional");
-            return t.setAttribute("message", this.getAttribute("label")), "false" === e ? t.setAttribute("isOptional", e) : t.setAttribute("isOptional", "true"), t
-        }
-
-        createHelper() {
-            const t = document.createElement("input-helper");
-            return t.setAttribute("isVisible", !1), t.setAttribute("message", this.getAttribute("helper-message")), t.setAttribute("input-id", "mp-doc-number-helper"), t
-        }
-
         createHiddenField(t) {
             const e = document.createElement("input");
             return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
         }
-    }
-
-    customElements.define("input-select", t)
-})(), (() => {
-    class t extends HTMLElement {
-        static get observedAttributes() {
-            return ["columns", "name", "button-name", "bank-interest-text"]
+        createInput(t,i,e) {
+            //let cellphoneList = await this.cellphoneList()
+            let cellphoneList = [
+                {
+                    "name": "Colombia",
+                    "name_es": "Colombia",
+                    "continent_en": "South America",
+                    "continent_es": "América del Sur",
+                    "capital_en": "Bogota",
+                    "capital_es": "Bogotá",
+                    "dial_code": "+57",
+                    "id": "CO",
+                    "code_3": "COL",
+                    "tld": ".co",
+                    "km2": 1141748,
+                    "emoji": "🇨🇴"
+                },
+                {
+                    "name": "Afghanistan",
+                    "name_es": "Afganistán",
+                    "continent_en": "Africa",
+                    "continent_es": "África",
+                    "capital_en": "Kabul",
+                    "capital_es": "Kabul",
+                    "dial_code": "+93",
+                    "id": "AF",
+                    "code_3": "AFG",
+                    "tld": ".af",
+                    "km2": 652230,
+                    "emoji": "🇦🇫"
+                }]
+            const n = cellphoneList.map(item => `${item.emoji} ${item.dial_code}`),
+                //const n = JSON.parse(this.getAttribute("documents")),
+                s = this.getAttribute("validate"),
+                r = this.createSelect(i, t, n, s);
+            return i.classList.add("mp-input-select-input"),
+                r.addEventListener("change", (() => {
+                    i.classList.remove("mp-focus"),
+                        i.classList.remove("mp-error");
+                })),
+                i.appendChild(r),
+                i
         }
 
-        constructor() {
-            super(), this.index = 0, this.limit = 5, this.offset = this.limit, this.columns = null, this.total = 0
-        }
 
-        connectedCallback() {
-            this.build()
-        }
-
-        attributeChangedCallback() {
-            this.firstElementChild && (this.removeChild(this.firstElementChild), this.build())
-        }
-
-        build() {
-            this.appendChild(this.createContainer())
-        }
-
-        setColumns() {
-            return this.columns = JSON.parse(this.getAttribute("columns")), this
-        }
-
-        setTotal() {
-            return this.total = this.columns.length, this
-        }
-
-        createContainer() {
-            const t = document.createElement("div");
-            return this.setColumns(), this.columns && (this.setTotal(), t.classList.add("mp-input-table-container"), t.setAttribute("data-cy", "input-table-container"), t.appendChild(this.createList()), t.appendChild(this.createBankInterestDisclaimer())), t
-        }
-
-        createList() {
-            const t = document.createElement("div");
-            t.classList.add("mp-input-table-list"), t.setAttribute("data-cy", "input-table-list");
-            const e = this.createLink();
-            return e.onclick = () => this.appendItems(this.columns, t, e, !0), this.appendItems(this.columns, t, e, !1), t.appendChild(e), t
-        }
-
-        createItem(t) {
-            const e = document.createElement("div");
-            return e.classList.add("mp-input-table-item"), e.appendChild(this.createLabel(t)), e
-        }
-
-        createLabel(t) {
-            const {id: e, value: i, rowText: n, rowObs: s, highlight: a, img: r, alt: c, dataRate: d} = t,
-                l = this.getAttribute("name"), o = document.createElement("div");
-            return o.classList.add("mp-input-table-label"), o.appendChild(this.createOption(e, l, i, n, r, c, d)), s && o.appendChild(this.createRowObs(s, a)), o.onclick = () => {
-                document.getElementById(e).checked = !0
-            }, o
-        }
-
-        createOption(t, e, i, n, s, a, r) {
-            const c = document.createElement("div");
-            return c.classList.add("mp-input-table-option"), c.appendChild(this.createRadio(t, e, i, r)), s ? c.appendChild(this.createRowTextWithImg(n, s, a)) : c.appendChild(this.createRowText(n)), c
-        }
-
-        createRadio(t, e, i, n) {
-            const s = document.createElement("input-radio");
-            return s.setAttribute("name", e), s.setAttribute("value", i), s.setAttribute("identification", t), s.setAttribute("dataRate", n), s
-        }
-
-        createRowText(t) {
-            const e = document.createElement("span");
-            return e.classList.add("mp-input-table-row-text"), e.innerHTML = t, e
-        }
-
-        createRowTextWithImg(t, e, i) {
-            const n = document.createElement("span"), s = document.createElement("payment-method-logo");
-            return s.setAttribute("src", e), s.setAttribute("alt", i), s.style.marginRight = "10px", n.classList.add("mp-input-table-row-text-image"), n.innerHTML = t, n.appendChild(s), n
-        }
-
-        createRowObs(t, e) {
-            const i = document.createElement("span");
-            return e ? i.classList.add("mp-input-table-row-obs-highlight") : i.classList.add("mp-input-table-row-obs"), i.innerHTML = t, i
-        }
-
-        createLink() {
-            const t = document.createElement("div");
-            t.classList.add("mp-input-table-container-link");
-            const e = document.createElement("a");
-            return e.setAttribute("id", "more-options"), e.classList.add("mp-input-table-link"), e.innerHTML = this.getAttribute("button-name"), t.appendChild(e), t
-        }
-
-        createBankInterestDisclaimer() {
-            const t = document.createElement("div");
-            t.classList.add("mp-input-table-bank-interest-container");
-            const e = document.createElement("p");
-            return e.classList.add("mp-input-table-bank-interest-text"), e.innerText = this.getAttribute("bank-interest-text"), t.appendChild(e), t
-        }
-
-        appendItems(t, e, i, n) {
-            this.validateLimit();
-            for (let s = this.index; s < this.limit; s += 1) n ? e.insertBefore(this.createItem(t[s]), i) : e.appendChild(this.createItem(t[s]));
-            this.limit >= this.total && i.style.setProperty("display", "none", "important"), this.index += this.offset, this.limit += this.offset, this.validateLimit()
-        }
-
-        validateLimit() {
-            this.limit > this.total && (this.limit = this.total)
-        }
-    }
-
-    customElements.define("input-table", t)
-})(), (() => {
-    class t extends HTMLElement {
-        connectedCallback() {
-            this.build()
-        }
-
-        build() {
-            this.appendChild(this.createContainer())
-        }
-
-        createContainer() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-payment-method-logo-slider-container"), t.appendChild(this.createContent()), t
-        }
-
-        createContent() {
-            const t = JSON.parse(this.getAttribute("methods")), e = document.createElement("div");
-            e.classList.add("mp-payment-method-logo-slider-content"), e.appendChild(this.createImage(t[0]));
-            const i = e.firstChild;
-            return this.createSlider(i, t), e
-        }
-
-        createImage({src: t, alt: e}) {
-            const i = document.createElement("payment-method-logo");
-            return i.setAttribute("src", t), i.setAttribute("alt", e), i
-        }
-
-        createSlider(t, e, i = 0) {
-            t.setAttribute("src", e[i].src), t.setAttribute("alt", e[i].alt), i = i < e.length - 1 ? i + 1 : 0, setTimeout((() => {
-                this.createSlider(t, e, i)
-            }), 2e3)
-        }
-    }
-
-    customElements.define("payment-method-logo-slider", t)
-})(), (() => {
-    class t extends HTMLElement {
-        static get observedAttributes() {
-            return ["src", "alt"]
-        }
-
-        connectedCallback() {
-            this.build()
-        }
-
-        attributeChangedCallback() {
-            this.firstElementChild && (this.removeChild(this.firstElementChild), this.build())
-        }
-
-        build() {
-            this.appendChild(this.createContainer())
-        }
-
-        createContainer() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-payment-method-logo-container"), t.appendChild(this.createImage()), t
-        }
-
-        createImage() {
-            const t = document.createElement("img");
-            return t.classList.add("mp-payment-method-logo-image"), t.alt = this.getAttribute("alt"), t.src = this.getAttribute("src"), t.onerror = t => t.target?.parentNode?.parentNode?.parentNode?.removeChild(t.target.parentNode.parentNode), t
-        }
-    }
-
-    customElements.define("payment-method-logo", t)
-})(), (() => {
-    class t extends HTMLElement {
-        connectedCallback() {
-            this.build()
-        }
-
-        build() {
-            this.appendChild(this.createContainer())
-        }
-
-        createContainer() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-payment-methods-v2-container"), t.appendChild(this.createContent()), t
-        }
-
-        createContent() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-payment-methods-v2-content"), t.appendChild(this.createTitle()), t.appendChild(this.createList()), t
-        }
-
-        createTitle() {
-            const t = document.createElement("p");
-            return t.classList.add("mp-payment-methods-v2-title"), t.innerHTML = this.getAttribute("title"), t
-        }
-
-        createList() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-payment-methods-v2-list"), this.handleMethodsList(t)
-        }
-
-        handleMethodsList(t) {
-            const e = JSON.parse(this.getAttribute("methods"));
-            let i = !1;
-            if (e.forEach(((n, s) => {
-                s <= 9 || 11 === e.length ? t.appendChild(this.createLogo(n)) : i = !0
-            })), i) {
-                const i = Object.entries(e).slice(10).map((t => t[1]));
-                t.appendChild(this.createSlider(JSON.stringify(i)))
+        async cargarDatos() {
+            try {
+                const url = wc_epayco_checkout_components_params.ep_json_url+"cellphone.json"
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Error al cargar el archivo JSON');
+                }
+                const data = await response.json(); // Convertir la respuesta a JSON
+                return data; // Retornar los datos
+            } catch (error) {
+                console.error("Error al cargar o procesar el archivo JSON:", error);
+                return null; // En caso de error, retorna null
             }
-            return t
         }
 
-        createLogo({src: t, alt: e}) {
-            const i = document.createElement("payment-method-logo");
-            return i.setAttribute("src", t), i.setAttribute("alt", e), i
+        async cellphoneList() {
+            return await this.cargarDatos();
         }
 
-        createSlider(t) {
-            const e = document.createElement("payment-method-logo-slider");
-            return e.setAttribute("methods", t), e
+
+        createSelect(i, ee, n, s) {
+            const t = document.createElement("select"),
+                e = this.getAttribute("select-name");
+            t.classList.add("mp-input-select-select"),
+                t.setAttribute("id", e),
+                t.setAttribute("name", e),
+                t.setAttribute("data-checkout", this.getAttribute("select-data-checkout")),
+                t.setAttribute("data-cy", "select-cellphone");
+            if (this.getAttribute("default-option")) {
+                const e = document.createElement("option");
+                e.setAttribute("selected", "selected"),
+                    e.setAttribute("hidden", "hidden"),
+                    e.innerHTML = this.getAttribute("default-option"),
+                    t.appendChild(e)
+            }
+            return n && 0 !== n.length && n.forEach((e => {
+                t.appendChild(this.createOption(e))
+            })),
+            n && (t.addEventListener("focus", (() => {
+                i.classList.add("mp-focus"),
+                    ee.firstElementChild.style.display = "none"
+            })), t.addEventListener("focusout", (() => {
+                i.classList.remove("mp-focus"),
+                    ee.firstElementChild.style.display = "none"
+            }))),
+                t
         }
+        createOption(t) {
+            const e = document.createElement("option");
+            return e.innerHTML = t, e.value = t, e
+        }
+        createDocument(t, i) {
+            const n = document.createElement("input");
+            return n.setAttribute("name", this.getAttribute("input-name")),
+                n.setAttribute("data-checkout", this.getAttribute("input-data-checkout")),
+                n.setAttribute("data-cy", "input-cellphone"),
+                n.classList.add("mp-cellphone"),
+                n.type = "text",
+                n.inputMode = "text",
+                n.placeholder = this.getAttribute("placeholder"),
+                n.addEventListener("focus", (() => {
+                    i.querySelector("select").parentElement.classList.add("mp-focus"),
+                        t.querySelector("input").parentElement.classList.add("mp-focus")
+                    i.parentElement.querySelector("input-helper > div").style.display = "none"
+                })),
+                n.addEventListener("input", (() => {
+                    n.value = n.value.replace(/\D/g, '');
+                }))
+                , n.addEventListener("focusout", (() => {
+                t.querySelector("input").parentElement.classList.add("mp-error");
+                i.querySelector("select").parentElement.classList.remove("mp-error");
+                void 0 !== (n.value !=='' ? (
+                            t.querySelector("input").parentElement.classList.remove("mp-error"),
+                                i.querySelector("select").parentElement.classList.remove("mp-error"),
+                                i.parentElement.querySelector("input-helper > div").style.display = "none",
+                                n.setAttribute("name", this.getAttribute("input-name"))) :
+                        (
+                            i.querySelector("select").parentElement.classList.add("mp-error"),
+                                t.querySelector("input").parentElement.classList.add("mp-error"),
+                                i.parentElement.querySelector("input-helper > div").style.display = "flex",
+                                n.setAttribute("name", this.getAttribute("flag-error"))
+                        )
+                )
+            })),
+                t.appendChild(n),
+                n
+        }
+
+
     }
+    customElements.define("input-cellphone", t)
+})(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
+            build() {
+                const t = this.createContainer();
+                this.appendChild(t)
+            }
+            createContainer() {
+                const t = document.createElement("div");
+                const e = this.createLabel(this.getAttribute("label-message")),
+                    i = this.createHelper(this.getAttribute("helper-message")),
+                    n = this.createHiddenField(this.getAttribute("hidden-id")),
+                    s = this.createInputDocument(i, n);
+                return t.classList.add("mp-input-select-container"),
+                    t.appendChild(e),
+                    t.appendChild(s),
+                    t.appendChild(n),
+                    t.appendChild(i),
+                    t
+            }
+            createInputDocument(i, n) {
+                const t = document.createElement("div");
+                t.classList.add("mp-input-element","flex-gap"),
+                    t.setAttribute("data-cy", "input-country-container"),
+                    t.setAttribute("id", "form-checkout__identificationCountry-container");
+                const ii = document.createElement("div");
+                ii.classList.add("mp-input"),
+                    ii.setAttribute("id",this.getAttribute("select-id"));
+                const aa = document.createElement("div");
+                aa.classList.add("mp-input"),
+                    aa.setAttribute("id",this.getAttribute("input-id"));
+                const e = this.createLabel(this.getAttribute("label-message")),
+                    s =  this.createInput(i,ii, n),
+                    c = this.createDocument(aa, t);
+                return t.appendChild(s),
+                    t.appendChild(aa),
+                    t
+            }
+            createLabel(t) {
+                const e = document.createElement("input-label");
+                return e.setAttribute("message", t), e.setAttribute("isOptional", "false"), e
+            }
+            createHelper(t) {
+                const e = document.createElement("input-helper");
+                return e.setAttribute("isVisible", !1), e.setAttribute("message", t), e.setAttribute("input-id", "mp-doc-country-helper"), e
+            }
+            createHiddenField(t) {
+                const e = document.createElement("input");
+                return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
+            }
+            createInput(t,i,e) {
+                //let countryList = await this.cellphoneList()
+                let countryList = [
+                    {
+                        "name": "Colombia",
+                        "name_es": "Colombia",
+                        "continent_en": "South America",
+                        "continent_es": "América del Sur",
+                        "capital_en": "Bogota",
+                        "capital_es": "Bogotá",
+                        "dial_code": "+57",
+                        "id": "CO",
+                        "code_3": "COL",
+                        "tld": ".co",
+                        "km2": 1141748,
+                        "emoji": "🇨🇴"
+                    },
+                    {
+                        "name": "Afghanistan",
+                        "name_es": "Afganistán",
+                        "continent_en": "Africa",
+                        "continent_es": "África",
+                        "capital_en": "Kabul",
+                        "capital_es": "Kabul",
+                        "dial_code": "+93",
+                        "id": "AF",
+                        "code_3": "AFG",
+                        "tld": ".af",
+                        "km2": 652230,
+                        "emoji": "🇦🇫"
+                    }]
+                const lang = wc_epayco_checkout_components_params.lang;
+                const n = countryList.map(item => {
+                        if(lang == 'es'){
+                            return  `${item.name_es}`
+                        }else{
+                            return  `${item.name}`
+                        }
+                    }),
+                    //const n = JSON.parse(this.getAttribute("documents")),
+                    s = this.getAttribute("validate"),
+                    r = this.createSelect(i, t, countryList, s);
+                return i.classList.add("mp-input-select-input","with-country"),
+                    i.style.width='100% !important',
+                    r.addEventListener("change", (() => {
+                        i.classList.remove("mp-focus"),
+                            i.classList.remove("mp-error");
+                    })),
+                    i.appendChild(r),
+                    i
+            }
 
-    customElements.define("payment-methods-v2", t)
-})(), (() => {
-    class t extends HTMLElement {
-        connectedCallback() {
-            this.build()
+
+            async cargarDatos() {
+                try {
+                    const url = wc_epayco_checkout_components_params.ep_json_url+"cellphone.json"
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error('Error al cargar el archivo JSON');
+                    }
+                    const data = await response.json(); // Convertir la respuesta a JSON
+                    return data; // Retornar los datos
+                } catch (error) {
+                    console.error("Error al cargar o procesar el archivo JSON:", error);
+                    return null; // En caso de error, retorna null
+                }
+            }
+
+            async cellphoneList() {
+                return await this.cargarDatos();
+            }
+
+
+            createSelect(i, ee, n, s) {
+                const t = document.createElement("select"),
+                    e = this.getAttribute("select-name");
+                t.classList.add("mp-input-select-select"),
+                    t.setAttribute("id", e),
+                    t.setAttribute("name", e),
+                    t.setAttribute("data-checkout", this.getAttribute("select-data-checkout")),
+                    t.setAttribute("data-cy", "select-countrye");
+                if (this.getAttribute("default-option")) {
+                    const e = document.createElement("option");
+                    e.setAttribute("selected", "selected"),
+                        e.setAttribute("hidden", "hidden"),
+                        e.innerHTML = this.getAttribute("default-option"),
+                        t.appendChild(e)
+                }
+                return n && 0 !== n.length && n.forEach((e => {
+                    t.appendChild(this.createOption(e))
+                })),
+                n && (t.addEventListener("focus", (() => {
+                    i.classList.add("mp-focus"),
+                        ee.firstElementChild.style.display = "none"
+                })), t.addEventListener("focusout", (() => {
+                    i.classList.remove("mp-focus"),
+                        ee.firstElementChild.style.display = "none"
+                }))),
+                    t
+            }
+            createOption(t) {
+                const e = document.createElement("option");
+                return e.innerHTML = t.name, e.value = t.id, e
+            }
+            createDocument(t, i) {
+                const n = document.createElement("input");
+                return n.setAttribute("name", this.getAttribute("input-name")),
+                    n.setAttribute("data-checkout", this.getAttribute("input-data-checkout")),
+                    n.setAttribute("data-cy", "input-country"),
+                    n.classList.add("mp-cellphone"),
+                    n.type = "text",
+                    n.inputMode = "text",
+                    n.placeholder = this.getAttribute("placeholder"),
+                    n.addEventListener("focus", (() => {
+                        i.querySelector("select").parentElement.classList.add("mp-focus"),
+                            t.querySelector("input").parentElement.classList.add("mp-focus")
+                        i.parentElement.querySelector("input-helper > div").style.display = "none"
+                    }))
+                    , n.addEventListener("focusout", (() => {
+                    t.querySelector("input").parentElement.classList.add("mp-error");
+                    i.querySelector("select").parentElement.classList.remove("mp-error");
+                    void 0 !== (n.value !=='' ? (
+                                t.querySelector("input").parentElement.classList.remove("mp-error"),
+                                    i.querySelector("select").parentElement.classList.remove("mp-error"),
+                                    i.parentElement.querySelector("input-helper > div").style.display = "none",
+                                    n.setAttribute("name", this.getAttribute("input-name"))) :
+                            (
+                                i.querySelector("select").parentElement.classList.add("mp-error"),
+                                    t.querySelector("input").parentElement.classList.add("mp-error"),
+                                    i.parentElement.querySelector("input-helper > div").style.display = "flex",
+                                    n.setAttribute("name", this.getAttribute("flag-error"))
+                            )
+                    )
+                })),
+                    t.appendChild(n),
+                    n
+            }
+
+
         }
+        customElements.define("input-country", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        build() {
-            this.appendChild(this.createContainer())
+            build() {
+                const t = this.createInputDocument();
+                this.appendChild(t)
+            }
+
+            createInputDocument() {
+                const t = document.createElement("div");
+                t.classList.add("mp-input-element"),
+                    t.setAttribute("data-cy", "input-name-container");
+                const e = this.createLabel(this.getAttribute("labelMessage")),
+                    i = this.createHelper(this.getAttribute("helperMessage")),
+                    n = this.createHiddenField(this.getAttribute("hiddenId")),
+                    s = this.createInput(i, n);
+                return t.appendChild(e),
+                    t.appendChild(s),
+                    t.appendChild(n),
+                    t.appendChild(i),
+                    t
+            }
+
+            createLabel(t) {
+                const e = document.createElement("input-label");
+                return e.setAttribute("message", t), e.setAttribute("isOptional", "false"), e
+            }
+
+            createInput(t, e) {
+                const i = document.createElement("div");
+                i.classList.add("mp-input"),
+                    i.setAttribute("id", "form-checkout__identificationName-container");
+                const s = this.getAttribute("validate"),
+                    c = this.createDocument(i, t);
+                i.appendChild(c);
+                return i
+            }
+
+
+            createHiddenField(t) {
+                const e = document.createElement("input");
+                return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
+            }
+
+            createDocument(t, i) {
+                const n = document.createElement("input");
+                return n.setAttribute("name", this.getAttribute("inputName")),
+                    n.setAttribute("data-checkout", this.getAttribute("inputDataCheckout")),
+                    n.setAttribute("data-cy", "card[name]"),
+                    n.classList.add("mp-cellphone"),
+                    n.placeholder = this.getAttribute("placeholder"),
+                    n.type = "text",
+                    n.inputMode = "text",
+                    n.addEventListener("focus", (() => {
+                        t.classList.add("mp-focus"),
+                            t.classList.remove("mp-error"),
+                            i.firstElementChild.style.display = "none"
+                    })),
+                    n.addEventListener("focusout", (() => {
+                        t.classList.remove("mp-focus");
+                        void 0 !== (n.value !=='' ? (t.classList.remove("mp-error"),
+                                    i.firstElementChild.style.display = "none",
+                                    n.setAttribute("name", this.getAttribute("inputName"))) :
+                                (
+                                    t.classList.add("mp-error"),
+                                        i.firstElementChild.style.display = "flex",
+                                        n.setAttribute("name", this.getAttribute("flagError"))
+                                )
+                        )
+                    })), n
+            }
+
+            createHelper(t) {
+                const e = document.createElement("input-helper");
+                return e.setAttribute("isVisible", !1), e.setAttribute("message", t), e.setAttribute("input-id", "mp-doc-name-helper"), e
+            }
         }
+        customElements.define("input-name", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        createContainer() {
-            const t = JSON.parse(this.getAttribute("methods")), e = document.createElement("div");
-            return e.classList.add("mp-payment-methods-container"), t.forEach((t => {
-                e.appendChild(this.createPaymentMethodType(t))
-            })), e
+            build() {
+                const t = this.createInputDocument();
+                this.appendChild(t)
+            }
+
+            createInputDocument() {
+                const t = document.createElement("div");
+                t.classList.add("mp-input-element"),
+                    t.setAttribute("data-cy", "input-name-container");
+                const e = this.createLabel(this.getAttribute("label-message")),
+                    i = this.createHelper(this.getAttribute("helper-message")),
+                    n = this.createHiddenField(this.getAttribute("hidden-id")),
+                    s = this.createInput(i, n);
+                return t.appendChild(e),
+                    t.appendChild(s),
+                    t.appendChild(n),
+                    t.appendChild(i),
+                    t
+            }
+
+            createLabel(t) {
+                const e = document.createElement("input-label");
+                return e.setAttribute("message", t), e.setAttribute("isOptional", "false"), e
+            }
+
+            createInput(t, e) {
+                const i = document.createElement("div");
+                i.classList.add("mp-input"),
+                    i.setAttribute("id", "form-checkout__identificationName-container");
+                const s = this.getAttribute("validate"),
+                    c = this.createDocument(i, t);
+                i.appendChild(c);
+                return i
+            }
+
+
+            createHiddenField(t) {
+                const e = document.createElement("input");
+                return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
+            }
+
+            createDocument(t, i) {
+                const n = document.createElement("input");
+                return n.setAttribute("name", this.getAttribute("input-name")),
+                    n.setAttribute("data-checkout", this.getAttribute("input-data-checkout")),
+                    n.setAttribute("data-epayco", "card[name]"),
+                    n.classList.add("mp-cellphone"),
+                    n.placeholder = this.getAttribute("placeholder"),
+                    n.type = "text",
+                    n.inputMode = "text",
+                    n.addEventListener("focus", (() => {
+                        t.classList.add("mp-focus"),
+                            t.classList.remove("mp-error"),
+                            i.firstElementChild.style.display = "none"
+                    })),
+                    n.addEventListener("focusout", (() => {
+                        t.classList.remove("mp-focus");
+                        void 0 !== (n.value !=='' ? (t.classList.remove("mp-error"),
+                                    i.firstElementChild.style.display = "none",
+                                    n.setAttribute("name", this.getAttribute("input-name"))) :
+                                (
+                                    t.classList.add("mp-error"),
+                                        i.firstElementChild.style.display = "flex",
+                                        n.setAttribute("name", this.getAttribute("flag-error"))
+                                )
+                        )
+                    })), n
+            }
+
+            createHelper(t) {
+                const e = document.createElement("input-helper");
+                return e.setAttribute("isVisible", !1), e.setAttribute("message", t), e.setAttribute("input-id", "mp-doc-name-helper"), e
+            }
         }
+        customElements.define("input-card-name", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        createPaymentMethodType(t) {
-            const {title: e, label: i, payment_methods: n} = t, s = document.createElement("div");
-            return s.classList.add("mp-payment-method-type-container"), n && 0 !== n.length && (s.appendChild(this.createHeader(e, i)), s.appendChild(this.createContent(n))), s
+            build() {
+                const t = this.createInputDocument();
+                this.appendChild(t)
+            }
+
+            createInputDocument() {
+                const t = document.createElement("div");
+                t.classList.add("mp-input-element"),
+                    t.setAttribute("data-cy", "input-address-container");
+                const e = this.createLabel(this.getAttribute("labelMessage")),
+                    i = this.createHelper(this.getAttribute("helperMessage")),
+                    n = this.createHiddenField(this.getAttribute("hiddenId")),
+                    s = this.createInput(i, n);
+                return t.appendChild(e),
+                    t.appendChild(s),
+                    t.appendChild(n),
+                    t.appendChild(i),
+                    t
+            }
+
+            createLabel(t) {
+                const e = document.createElement("input-label");
+                return e.setAttribute("message", t), e.setAttribute("isOptional", "false"), e
+            }
+
+            createInput(t, e) {
+                const i = document.createElement("div");
+                i.classList.add("mp-input"),
+                    i.setAttribute("id", "form-checkout__identificationAddress-container");
+                const s = this.getAttribute("validate"),
+                    c = this.createDocument(i, t);
+                i.appendChild(c);
+                return i
+            }
+
+
+            createHiddenField(t) {
+                const e = document.createElement("input");
+                return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
+            }
+
+            createDocument(t, i) {
+                const n = document.createElement("input");
+                return n.setAttribute("name", this.getAttribute("inputName")),
+                    n.setAttribute("data-checkout", this.getAttribute("inputDataCheckout")),
+                    n.setAttribute("data-cy", "input-address"),
+                    n.classList.add("mp-cellphone"),
+                    n.placeholder = this.getAttribute("placeholder"),
+                    n.type = "text",
+                    n.inputMode = "text",
+                    n.addEventListener("focus", (() => {
+                        t.classList.add("mp-focus"),
+                            t.classList.remove("mp-error"),
+                            i.firstElementChild.style.display = "none"
+                    })),
+                    n.addEventListener("focusout", (() => {
+                        t.classList.remove("mp-focus");
+                        void 0 !== (n.value !=='' ? (t.classList.remove("mp-error"),
+                                    i.firstElementChild.style.display = "none",
+                                    n.setAttribute("name", this.getAttribute("inputName"))) :
+                                (
+                                    t.classList.add("mp-error"),
+                                        i.firstElementChild.style.display = "flex",
+                                        n.setAttribute("name", this.getAttribute("flagError"))
+                                )
+                        )
+                    })), n
+            }
+
+            createHelper(t) {
+                const e = document.createElement("input-helper");
+                return e.setAttribute("isVisible", !1), e.setAttribute("message", t), e.setAttribute("input-id", "mp-doc-address-helper"), e
+            }
         }
+        customElements.define("input-address", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        createHeader(t, e) {
-            const i = document.createElement("div");
-            return i.classList.add("mp-payment-methods-header"), t && i.appendChild(this.createTitle(t)), e && i.appendChild(this.createBadge(e)), i
+            build() {
+                const t = this.createInputDocument();
+                this.appendChild(t)
+            }
+
+            createInputDocument() {
+                const t = document.createElement("div");
+                t.classList.add("mp-input-element"),
+                    t.setAttribute("data-cy", "input-email-container");
+                const e = this.createLabel(this.getAttribute("labelMessage")),
+                    i = this.createHelper(this.getAttribute("helperMessage")),
+                    n = this.createHiddenField(this.getAttribute("hiddenId")),
+                    s = this.createInput(i, n);
+                return t.appendChild(e),
+                    t.appendChild(s),
+                    t.appendChild(n),
+                    t.appendChild(i),
+                    t
+            }
+
+            createLabel(t) {
+                const e = document.createElement("input-label");
+                return e.setAttribute("message", t), e.setAttribute("isOptional", "false"), e
+            }
+
+            createInput(t, e) {
+                const i = document.createElement("div");
+                i.classList.add("mp-input"),
+                    i.setAttribute("id", "form-checkout__identificationEmail-container");
+                const s = this.getAttribute("validate"),
+                    c = this.createDocument(i, t);
+                i.appendChild(c);
+                return i
+            }
+
+
+            createHiddenField(t) {
+                const e = document.createElement("input");
+                return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
+            }
+
+            createDocument(t, i) {
+                const n = document.createElement("input");
+                return n.setAttribute("name", this.getAttribute("inputEmail")),
+                    n.setAttribute("data-checkout", this.getAttribute("inputDataCheckout")),
+                    n.setAttribute("data", "email"),
+                    n.classList.add("mp-cellphone"),
+                    n.placeholder = this.getAttribute("placeholder"),
+                    n.type = "text",
+                    n.inputMode = "text",
+                    n.addEventListener("focus", (() => {
+                        t.classList.add("mp-focus"),
+                            t.classList.remove("mp-error"),
+                            i.firstElementChild.style.display = "none"
+                    })),
+                    n.addEventListener("input", (() => {
+                        if (!this.validateEmail(n.value)) {
+                            n.classList.add("mp-error"),
+                                t.classList.add("mp-error"),
+                                i.firstElementChild.style.display = "flex",
+                                n.setAttribute("name", this.getAttribute("flagError"))
+                            //i.firstElementChild.textContent = "Por favor, introduce un email válido."; // Mensaje de error
+                        } else {
+                            t.classList.remove("mp-error");
+                            n.classList.remove("mp-error");
+                            i.firstElementChild.style.display = "none",
+                                n.setAttribute("name", this.getAttribute("inputName"))
+                        }
+                    })),
+                    n.addEventListener("focusout", (() => {
+                        t.classList.remove("mp-focus");
+                        void 0 !== (n.value !=='' && this.validateEmail(n.value) ? (t.classList.remove("mp-error"),
+                                    i.firstElementChild.style.display = "none",
+                                    n.setAttribute("name", this.getAttribute("inputName"))) :
+                                (
+                                    t.classList.add("mp-error"),
+                                        i.firstElementChild.style.display = "flex",
+                                        n.setAttribute("name", this.getAttribute("flagError"))
+                                )
+                        )
+                    })), n
+            }
+
+            validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Expresión regular básica para validar emails
+                return re.test(String(email).toLowerCase());
+            }
+
+            createHelper(t) {
+                const e = document.createElement("input-helper");
+                return e.setAttribute("isVisible", !1), e.setAttribute("message", t), e.setAttribute("input-id", "mp-doc-name-helper"), e
+            }
         }
+        customElements.define("input-email", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        createTitle(t) {
-            const e = document.createElement("p");
-            return e.classList.add("mp-payment-methods-title"), e.innerHTML = t, e
+            build() {
+                const t = this.createInputDocument();
+                this.appendChild(t)
+            }
+
+            createInputDocument() {
+                const t = document.createElement("div");
+                t.classList.add("mp-input-element"),
+                    t.setAttribute("data-cy", "input-email-container");
+                const e = this.createLabel(this.getAttribute("label-message")),
+                    i = this.createHelper(this.getAttribute("helper-message")),
+                    n = this.createHiddenField(this.getAttribute("hidden-id")),
+                    s = this.createInput(i, n);
+                return t.appendChild(e),
+                    t.appendChild(s),
+                    t.appendChild(n),
+                    t.appendChild(i),
+                    t
+            }
+
+            createLabel(t) {
+                const e = document.createElement("input-label");
+                return e.setAttribute("message", t), e.setAttribute("isOptional", "false"), e
+            }
+
+            createInput(t, e) {
+                const i = document.createElement("div");
+                i.classList.add("mp-input"),
+                    i.setAttribute("id", "form-checkout__identificationEmail-container");
+                const s = this.getAttribute("validate"),
+                    c = this.createDocument(i, t);
+                i.appendChild(c);
+                return i
+            }
+
+
+            createHiddenField(t) {
+                const e = document.createElement("input");
+                return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
+            }
+
+            createDocument(t, i) {
+                const n = document.createElement("input");
+                return n.setAttribute("name", this.getAttribute("input-email")),
+                    n.setAttribute("data-checkout", this.getAttribute("input-data-checkout")),
+                    n.setAttribute("data-epayco", "card[email]"),
+                    n.classList.add("mp-cellphone"),
+                    n.placeholder = this.getAttribute("placeholder"),
+                    n.type = "text",
+                    n.inputMode = "text",
+                    n.addEventListener("focus", (() => {
+                        t.classList.add("mp-focus"),
+                            t.classList.remove("mp-error"),
+                            i.firstElementChild.style.display = "none"
+                    })),
+                    n.addEventListener("input", (() => {
+                        if (!this.validateEmail(n.value)) {
+                            n.classList.add("mp-error"),
+                                t.classList.add("mp-error"),
+                                i.firstElementChild.style.display = "flex",
+                                n.setAttribute("name", this.getAttribute("flag-error"))
+                            //i.firstElementChild.textContent = "Por favor, introduce un email válido."; // Mensaje de error
+                        } else {
+                            n.classList.remove("mp-error");
+                            t.classList.remove("mp-error");
+                            i.firstElementChild.style.display = "none",
+                                n.setAttribute("name", this.getAttribute("input-name"))
+                        }
+                    })),
+                    n.addEventListener("focusout", (() => {
+                        t.classList.remove("mp-focus");
+                        void 0 !== (n.value !=='' && this.validateEmail(n.value) ? (t.classList.remove("mp-error"),
+                                    i.firstElementChild.style.display = "none",
+                                    n.setAttribute("name", this.getAttribute("input-name"))) :
+                                (
+                                    t.classList.add("mp-error"),
+                                        i.firstElementChild.style.display = "flex",
+                                        n.setAttribute("name", this.getAttribute("flag-error"))
+                                )
+                        )
+                    })), n
+            }
+
+            validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Expresión regular básica para validar emails
+                return re.test(String(email).toLowerCase());
+            }
+
+            createHelper(t) {
+                const e = document.createElement("input-helper");
+                return e.setAttribute("isVisible", !1), e.setAttribute("message", t), e.setAttribute("input-id", "mp-doc-name-helper"), e
+            }
         }
+        customElements.define("input-card-email", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        createBadge(t) {
-            const e = document.createElement("div"), i = document.createElement("span");
-            return i.classList.add("mp-payment-methods-badge-text"), i.innerHTML = t, e.classList.add("mp-payment-methods-badge"), e.appendChild(i), e
+            build() {
+                const t = this.createInputDocument();
+                this.appendChild(t)
+            }
+
+            createInputDocument() {
+                const t = document.createElement("div");
+                t.classList.add("mp-input-element"),
+                    t.setAttribute("data-cy", "input-card-number-container");
+                const e = this.createLabel(this.getAttribute("label-message")),
+                    i = this.createHelper(this.getAttribute("helper-message")),
+                    n = this.createHiddenField(this.getAttribute("hidden-id")),
+                    s = this.createInput(i, n);
+                return t.appendChild(e),
+                    t.appendChild(s),
+                    t.appendChild(n),
+                    t.appendChild(i),
+                    t
+            }
+
+            createLabel(t) {
+                const e = document.createElement("input-label");
+                return e.setAttribute("message", t), e.setAttribute("isOptional", "false"), e
+            }
+
+            createInput(t, e) {
+                const i = document.createElement("div");
+                i.classList.add("mp-input"),
+                    i.setAttribute("id", "form-checkout__cardNumber-container");
+                const s = this.getAttribute("validate"),
+                    c = this.createDocument(i, t);
+                i.appendChild(c);
+                return i
+            }
+
+
+            createHiddenField(t) {
+                const e = document.createElement("input");
+                return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
+            }
+
+            createDocument(t, i) {
+                const n = document.createElement("input");
+                return n.setAttribute("name", this.getAttribute("input-card-number")),
+                    n.setAttribute("data-checkout", this.getAttribute("input-data-checkout")),
+                    n.setAttribute("data-epayco", "card[number]"),
+                    n.classList.add("mp-cellphone"),
+                    n.placeholder = this.getAttribute("placeholder"),
+                    n.type = "text",
+                    n.inputMode = "numeric",
+                    n.addEventListener("focus", (() => {
+                        t.classList.add("mp-focus"),
+                            t.classList.remove("mp-error"),
+                            i.firstElementChild.style.display = "none"
+                    })),
+                    n.addEventListener("input", (() => {
+                        n.value = n.value.replace(/\D/g, '');
+                    })),
+                    n.addEventListener("focusout", (() => {
+                        t.classList.remove("mp-focus");
+                        void 0 !== (n.value !=='' ? (t.classList.remove("mp-error"),
+                                    i.firstElementChild.style.display = "none",
+                                    n.setAttribute("name", this.getAttribute("input-name"))) :
+                                (
+                                    t.classList.add("mp-error"),
+                                        i.firstElementChild.style.display = "flex",
+                                        n.setAttribute("name", this.getAttribute("flag-error"))
+                                )
+                        )
+                    })), n
+            }
+
+
+
+            createHelper(t) {
+                const e = document.createElement("input-helper");
+                return e.setAttribute("isVisible", !1), e.setAttribute("message", t), e.setAttribute("input-id", "mp-card-number-helper"), e
+            }
         }
+        customElements.define("input-card-number", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        createContent(t) {
-            const e = document.createElement("div");
-            return e.classList.add("mp-payment-methods-content"), t.forEach((t => {
-                e.appendChild(this.createImage(t))
-            })), e
+            build() {
+                const t = this.createInputDocument();
+                this.appendChild(t)
+            }
+
+            createInputDocument() {
+                const t = document.createElement("div");
+                t.classList.add("mp-input-element"),
+                    t.setAttribute("data-cy", "input-security-code-container");
+                const e = this.createLabel(this.getAttribute("label-message")),
+                    i = this.createHelper(this.getAttribute("helper-message")),
+                    n = this.createHiddenField(this.getAttribute("hidden-id")),
+                    s = this.createInput(i, n);
+                return t.appendChild(e),
+                    t.appendChild(s),
+                    t.appendChild(n),
+                    t.appendChild(i),
+                    t
+            }
+
+            createLabel(t) {
+                const e = document.createElement("input-label");
+                return e.setAttribute("message", t), e.setAttribute("isOptional", "false"), e
+            }
+
+            createInput(t, e) {
+                const i = document.createElement("div");
+                i.style.height = "40px !important",
+                    i.classList.add("mp-input"),
+                    i.setAttribute("id", "form-checkout__securityCode-container");
+                const s = this.getAttribute("validate"),
+                    c = this.createDocument(i, t);
+                i.appendChild(c);
+                return i
+            }
+
+
+            createHiddenField(t) {
+                const e = document.createElement("input");
+                return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
+            }
+
+            createDocument(t, i) {
+                const n = document.createElement("input");
+                return n.setAttribute("name", this.getAttribute("input-name")),
+                    n.setAttribute("data-checkout", this.getAttribute("input-data-checkout")),
+                    n.setAttribute("data-epayco", "card[cvc]"),
+                    n.classList.add("mp-cellphone"),
+                    n.placeholder = this.getAttribute("placeholder"),
+                    n.type = "text",
+                    n.inputMode = "numeric",
+                    n.autoComplete="off",
+                    n.maxLength="4",
+                    n.addEventListener("focus", (() => {
+                        t.classList.add("mp-focus"),
+                            t.classList.remove("mp-error"),
+                            i.firstElementChild.style.display = "none"
+                    })),
+                    n.addEventListener("input", (() => {
+                        n.value = n.value.replace(/\D/g, '');
+                        if(n.value.length > 0){
+                            if(n.value.length<3){
+                                //securycode.lastChild.innerText="csciil"
+                                t.classList.add("mp-error")
+                                i.firstElementChild.style.display = "flex"
+                                n.setAttribute("name", this.getAttribute("flag-error"))
+                            }else{
+                                i.firstElementChild.style.display = "none"
+                                n.setAttribute("name", this.getAttribute("input-name"))
+                            }
+                        }else{
+                            i.firstElementChild.style.display = "flex"
+                            n.setAttribute("name", this.getAttribute("flag-error"))
+                        }
+                    })),
+                    n.addEventListener("focusout", (() => {
+                        t.classList.remove("mp-focus");
+                        void 0 !== (n.value !=='' ? (t.classList.remove("mp-error"),
+                                    i.firstElementChild.style.display = "none",
+                                    n.setAttribute("name", this.getAttribute("input-name"))) :
+                                (
+                                    t.classList.add("mp-error"),
+                                        i.firstElementChild.style.display = "flex",
+                                        n.setAttribute("name", this.getAttribute("flag-error"))
+                                )
+                        )
+                    })), n
+            }
+
+
+
+            createHelper(t) {
+                const e = document.createElement("input-helper");
+                return e.setAttribute("isVisible", !1), e.setAttribute("message", t), e.setAttribute("input-id", "mp-security-code-helper"), e
+            }
         }
+        customElements.define("input-card-security-code", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        createImage(t) {
-            const {src: e, alt: i} = t, n = document.createElement("payment-method-logo");
-            return n.setAttribute("src", e), n.setAttribute("alt", i), n
+            build() {
+                const t = this.createInputDocument();
+                this.appendChild(t)
+            }
+
+            createInputDocument() {
+                const t = document.createElement("div");
+                t.classList.add("mp-input-element"),
+                    t.setAttribute("data-cy", "input-card-expiration-container");
+                const e = this.createLabel(this.getAttribute("label-message")),
+                    i = this.createHelper(this.getAttribute("helper-message")),
+                    n = this.createHiddenField(this.getAttribute("hidden-id")),
+                    s = this.createInput(i, n);
+                return t.appendChild(e),
+                    t.appendChild(s),
+                    t.appendChild(n),
+                    t.appendChild(i),
+                    t
+            }
+
+            createLabel(t) {
+                const e = document.createElement("input-label");
+                return e.setAttribute("message", t), e.setAttribute("isOptional", "false"), e
+            }
+
+            createInput(t, e) {
+                const i = document.createElement("div");
+                i.style.height = "40px !important",
+                    i.classList.add("mp-input"),
+                    i.setAttribute("id", "form-checkout__expirationDate-container");
+                const s = this.getAttribute("validate"),
+                    c = this.createDocument(i, t);
+                i.appendChild(c);
+                return i
+            }
+
+
+            createHiddenField(t) {
+                const e = document.createElement("input");
+                return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
+            }
+
+            createDocument(t, i) {
+                const n = document.createElement("input");
+                return n.setAttribute("name", this.getAttribute("input-name")),
+                    n.setAttribute("data-checkout", this.getAttribute("input-data-checkout")),
+                    n.setAttribute("data-epayco", "card[date_exp]"),
+                    n.classList.add("mp-cellphone"),
+                    n.placeholder = this.getAttribute("placeholder"),
+                    n.type = "text",
+                    n.inputMode = "numeric",
+                    n.autoComplete="off",
+                    n.maxLength="5",
+                    n.addEventListener("focus", (() => {
+                        t.classList.add("mp-focus"),
+                            t.classList.remove("mp-error"),
+                            i.firstElementChild.style.display = "none"
+                    })),
+                    n.addEventListener("input", (() => {
+                        this.validateDate(n)
+                    })),
+                    n.addEventListener("focusout", (() => {
+                        t.classList.remove("mp-focus");
+                        void 0 !== ((n.value !=='' && this.validateDate(n)) ? (t.classList.remove("mp-error"),
+                                    i.firstElementChild.style.display = "none",
+                                    n.setAttribute("name", this.getAttribute("input-name"))) :
+                                (
+                                    t.classList.add("mp-error"),
+                                        i.firstElementChild.style.display = "flex",
+                                        n.setAttribute("name", this.getAttribute("flag-error"))
+                                )
+                        )
+                    })), n
+            }
+
+            validateDate(n) {
+                var input = n.value
+                var regex = /^(\d{2})\/(\d{2})$/;
+                var partes = input.match(regex);
+                input = input.replace(/\D/g, '');
+                if (input.length > 2) {
+                    input = input.slice(0, 2) + '/' + input.slice(2);
+                }
+                if (input.length > 5) {
+                    input = input.slice(0, 5) + '/' + input.slice(5);
+                }
+                n.value = input.slice(0, 5);
+                if (partes) {
+                    var mes = parseInt(partes[1], 10);
+                    var ano = parseInt(partes[2], 10);
+                    var fechaActual = new Date();
+                    var anoActual = fechaActual.getFullYear();
+                    var mesActual = fechaActual.getMonth() + 1;
+                    let a = document.querySelector(".mp-checkout-custom-card-column").querySelector("input-helper > div");
+                    if (2000+ano < anoActual) {
+                        a.style.display = "flex";
+                        a.lastChild.innerText="exerr"
+                        return false
+                    }else{
+                        if( 2000+ano === anoActual ){
+                            if(mes < mesActual){
+                                a.style.display = "flex";
+                                a.lastChild.innerText="exerr"
+                                return false
+                            }else{
+                                a.style.display = "none";
+                                return true
+                            }
+                        }else{
+                            a.style.display = "none";
+                            return true
+                        }
+                    }
+                }
+            }
+
+
+
+            createHelper(t) {
+                const e = document.createElement("input-helper");
+                return e.setAttribute("isVisible", !1), e.setAttribute("message", t), e.setAttribute("input-id", "mp-card-expiration-helper"), e
+            }
         }
-    }
+        customElements.define("input-card-expiration-date", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-    customElements.define("payment-methods", t)
-})(), (() => {
-    class t extends HTMLElement {
-        connectedCallback() {
-            this.build()
+            build() {
+                this.appendChild(this.createHelper())
+            }
+
+            createHelper() {
+                const t = document.createElement("div");
+                t.classList.add("mp-helper"),
+                    t.setAttribute("id", this.getAttribute("input-id")),
+                    t.setAttribute("data-cy", "helper-container"),
+                    this.validateVisibility(t);
+                const e = this.createIcon(), i = this.getAttribute("message"), n = this.createHelperMessage(i);
+                return t.appendChild(e), t.appendChild(n), t
+            }
+
+            createIcon() {
+                const t = document.createElement("div");
+                return t.innerHTML = "x", t.classList.add("mp-helper-icon"), t
+            }
+
+            createHelperMessage(t) {
+                const e = document.createElement("div");
+                return e.innerHTML = t, e.classList.add("mp-helper-message"), e.setAttribute("data-cy", "helper-message"), e
+            }
+
+            validateVisibility(t) {
+                let e = this.getAttribute("isVisible");
+                "string" == typeof e && (e = "false" !== e),
+                    t.style.display = e ? "flex" : "none"
+            }
         }
+        customElements.define("input-helper", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        build() {
-            this.appendChild(this.createContainer())
+            build() {
+                this.appendChild(this.createLabel())
+            }
+
+            createLabel() {
+                const t = document.createElement("div");
+                t.classList.add("mp-input-label"), t.setAttribute("data-cy", "input-label");
+                const e = this.getAttribute("message");
+                t.innerHTML = e;
+                let i = this.getAttribute("isOptional");
+                if ("string" == typeof i && (i = "false" !== i), !i) {
+                    const e = document.createElement("b");
+                    e.innerHTML = "*", e.style = "color: red", t.appendChild(e)
+                }
+                return t
+            }
         }
+        customElements.define("input-label", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        createContainer() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-pix-template-container"), t.setAttribute("data-cy", "pix-template-container"), t.appendChild(this.createImage()), t.appendChild(this.createTitle()), t.appendChild(this.createSubtitle()), t
+            build() {
+                this.appendChild(this.createContainer())
+            }
+
+            createContainer() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-input-radio-container"), t.appendChild(this.createRadio()), t.appendChild(this.createLabel()), t
+            }
+
+            createRadio() {
+                const t = document.createElement("input"), e = this.getAttribute("dataRate");
+                return t.classList.add("mp-input-radio-radio"), t.type = "radio", t.id = this.getAttribute("identification"), t.name = this.getAttribute("name"), t.value = this.getAttribute("value"), t.setAttribute("data-cy", "input-radio"), e && t.setAttribute("dataRate", e), t
+            }
+
+            createLabel() {
+                const t = document.createElement("label");
+                return t.classList.add("mp-input-radio-label"), t.htmlFor = this.getAttribute("identification"), t
+            }
         }
+        customElements.define("input-radio", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        createTitle() {
-            const t = document.createElement("p");
-            return t.classList.add("mp-pix-template-title"), t.innerText = this.getAttribute("title"), t
+            build() {
+                this.appendChild(this.createContainer())
+            }
+
+            createContainer() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-input-select-container"), t.appendChild(this.createLabel()), t.appendChild(this.createInput()), t.appendChild(this.createHelper()), t
+            }
+
+            createInput() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-input-select-input"), t.appendChild(this.createSelect()), t
+            }
+
+            createSelect() {
+                const t = document.createElement("select"), e = this.getAttribute("name");
+                t.classList.add("mp-input-select-select"), t.setAttribute("id", e), t.setAttribute("name", e);
+                const i = this.getAttribute("options") && JSON.parse(this.getAttribute("options"));
+                if (this.getAttribute("default-option")) {
+                    const e = document.createElement("option");
+                    e.setAttribute("selected", "selected"), e.setAttribute("hidden", "hidden"), e.innerHTML = this.getAttribute("default-option"), t.appendChild(e)
+                }
+                return i && 0 !== i.length && i.forEach((e => {
+                    t.appendChild(this.createOption(e))
+                })), t
+            }
+
+            createOption(t) {
+                console.log("options")
+                const e = document.createElement("option");
+                return e.innerHTML = t.description, e.value = t.id, e
+            }
+
+            createLabel() {
+                const t = document.createElement("input-label"), e = this.getAttribute("optional");
+                return t.setAttribute("message", this.getAttribute("label")), "false" === e ? t.setAttribute("isOptional", e) : t.setAttribute("isOptional", "true"), t
+            }
+
+            createHelper() {
+                const t = document.createElement("input-helper");
+                return t.setAttribute("isVisible", !1),
+                    t.setAttribute("message", this.getAttribute("helper-message")),
+                    t.setAttribute("input-id", "mp-doc-number-helper"),
+                    t
+            }
+
+            createHiddenField(t) {
+                const e = document.createElement("input");
+                return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
+            }
         }
+        customElements.define("input-select", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        createSubtitle() {
-            const t = document.createElement("p");
-            return t.classList.add("mp-pix-template-subtitle"), t.innerText = this.getAttribute("subtitle"), t
+            build() {
+                this.appendChild(this.createContainer())
+            }
+
+            createContainer() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-input-select-container"),
+                    t.appendChild(this.createLabel()),
+                    t.appendChild(this.createInput()),
+                    t.appendChild(this.createHelper()),
+                    t
+            }
+
+            createInput() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-input-select-input"), t.appendChild(this.createSelect()), t
+            }
+
+            createSelect() {
+                const t = document.createElement("select"), e = this.getAttribute("name");
+                t.classList.add("mp-input-select-select"), t.setAttribute("id", e), t.setAttribute("name", e);
+                //const i = this.getAttribute("options") && JSON.parse(this.getAttribute("options"));
+                const i = [];
+                for (let il = 1; il <= 48; il++) {
+                    i.push({
+                        "id": il,
+                        "description": il.toString()
+                    });
+                }
+                if (this.getAttribute("default-option")) {
+                    const e = document.createElement("option");
+                    e.setAttribute("selected", "selected"),
+                        e.setAttribute("hidden", "hidden"),
+                        e.innerHTML = this.getAttribute("default-option"),
+                        t.appendChild(e)
+                }
+                return i && 0 !== i.length && i.forEach((e => {
+                    t.appendChild(this.createOption(e))
+                })), t
+            }
+
+            createOption(t) {
+                const e = document.createElement("option");
+                return e.innerHTML = t.description, e.value = t.id, e
+            }
+
+            createLabel() {
+                const t = document.createElement("input-label"), e = this.getAttribute("optional");
+                return t.setAttribute("message", this.getAttribute("label")), "false" === e ? t.setAttribute("isOptional", e) : t.setAttribute("isOptional", "true"), t
+            }
+
+            createHelper() {
+                const t = document.createElement("input-helper");
+                return t.setAttribute("isVisible", !1),
+                    t.setAttribute("message", this.getAttribute("helper-message")),
+                    t.setAttribute("input-id", "mp-doc-number-helper"),
+                    t
+            }
+
+            createHiddenField(t) {
+                const e = document.createElement("input");
+                return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
+            }
         }
+        customElements.define("input-installment", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            static get observedAttributes() {
+                return ["columns", "name", "button-name", "bank-interest-text"]
+            }
 
-        createImage() {
-            const t = document.createElement("img");
-            return t.classList.add("mp-pix-template-image"), t.src = this.getAttribute("src"), t.alt = this.getAttribute("alt"), t
+            constructor() {
+                super(), this.index = 0, this.limit = 5, this.offset = this.limit, this.columns = null, this.total = 0
+            }
+
+            connectedCallback() {
+                this.build()
+            }
+
+            attributeChangedCallback() {
+                this.firstElementChild && (this.removeChild(this.firstElementChild), this.build())
+            }
+
+            build() {
+                this.appendChild(this.createContainer())
+            }
+
+            setColumns() {
+                return this.columns = JSON.parse(this.getAttribute("columns")), this
+            }
+
+            setTotal() {
+                return this.total = this.columns.length, this
+            }
+
+            createContainer() {
+                const t = document.createElement("div");
+                return this.setColumns(), this.columns && (this.setTotal(), t.classList.add("mp-input-table-container"), t.setAttribute("data-cy", "input-table-container"), t.appendChild(this.createList()), t.appendChild(this.createBankInterestDisclaimer())), t
+            }
+
+            createList() {
+                const t = document.createElement("div");
+                t.classList.add("mp-input-table-list"),
+                    t.setAttribute("data-cy", "input-table-list");
+                const e = this.createLink();
+                return e.onclick = () => this.appendItems(this.columns, t, e, !0),
+                    this.appendItems(this.columns, t, e, !1),
+                    t.appendChild(e),
+                    t
+            }
+
+            createItem(t) {
+                const e = document.createElement("div");
+                return e.classList.add("mp-input-table-item"), e.appendChild(this.createLabel(t)), e
+            }
+
+            createLabel(t) {
+                const {id: e, value: i, rowText: n, rowObs: s, highlight: a, img: r, alt: c, dataRate: d} = t,
+                    l = this.getAttribute("name"), o = document.createElement("div");
+                return o.classList.add("mp-input-table-label"), o.appendChild(this.createOption(e, l, i, n, r, c, d)), s && o.appendChild(this.createRowObs(s, a)), o.onclick = () => {
+                    document.getElementById(e).checked = !0
+                }, o
+            }
+
+            createOption(t, e, i, n, s, a, r) {
+                const c = document.createElement("div");
+                return c.classList.add("mp-input-table-option"), c.appendChild(this.createRadio(t, e, i, r)), s ? c.appendChild(this.createRowTextWithImg(n, s, a)) : c.appendChild(this.createRowText(n)), c
+            }
+
+            createRadio(t, e, i, n) {
+                const s = document.createElement("input-radio");
+                return s.setAttribute("name", e), s.setAttribute("value", i), s.setAttribute("identification", t), s.setAttribute("dataRate", n), s
+            }
+
+            createRowText(t) {
+                const e = document.createElement("span");
+                return e.classList.add("mp-input-table-row-text"), e.innerHTML = t, e
+            }
+
+            createRowTextWithImg(t, e, i) {
+                const n = document.createElement("span"), s = document.createElement("payment-method-logo");
+                return s.setAttribute("src", e), s.setAttribute("alt", i), s.style.marginRight = "10px", n.classList.add("mp-input-table-row-text-image"), n.innerHTML = t, n.appendChild(s), n
+            }
+
+            createRowObs(t, e) {
+                const i = document.createElement("span");
+                return e ? i.classList.add("mp-input-table-row-obs-highlight") : i.classList.add("mp-input-table-row-obs"), i.innerHTML = t, i
+            }
+
+            createLink() {
+                const t = document.createElement("span");
+                t.classList.add("mp-input-table-container-link");
+                const e = document.createElement("a");
+                return e.setAttribute("id", "more-options"), e.classList.add("mp-input-table-link"), e.innerHTML = this.getAttribute("button-name"), t.appendChild(e), t
+            }
+
+            createBankInterestDisclaimer() {
+                const t = document.createElement("div");
+                t.classList.add("mp-input-table-bank-interest-container");
+                const e = document.createElement("p");
+                return e.classList.add("mp-input-table-bank-interest-text"), e.innerText = this.getAttribute("bank-interest-text"), t.appendChild(e), t
+            }
+
+            appendItems(t, e, i, n) {
+                this.validateLimit();
+                for (let s = this.index; s < this.limit; s += 1) n ? e.insertBefore(this.createItem(t[s]), i) : e.appendChild(this.createItem(t[s]));
+                this.limit >= this.total && i.style.setProperty("display", "none", "important"), this.index += this.offset, this.limit += this.offset, this.validateLimit()
+            }
+
+            validateLimit() {
+                this.limit > this.total && (this.limit = this.total)
+            }
         }
-    }
+        customElements.define("input-table", t)
+    })(),
 
-    customElements.define("pix-template", t)
-})(), (() => {
-    class t extends HTMLElement {
-        connectedCallback() {
-            this.build()
+
+
+
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
+
+            build() {
+                this.appendChild(this.createContainer())
+            }
+
+            createContainer() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-payment-method-logo-slider-container"), t.appendChild(this.createContent()), t
+            }
+
+            createContent() {
+                const t = JSON.parse(this.getAttribute("methods")), e = document.createElement("div");
+                e.classList.add("mp-payment-method-logo-slider-content"), e.appendChild(this.createImage(t[0]));
+                const i = e.firstChild;
+                return this.createSlider(i, t), e
+            }
+
+            createImage({src: t, alt: e}) {
+                const i = document.createElement("payment-method-logo");
+                return i.setAttribute("src", t), i.setAttribute("alt", e), i
+            }
+
+            createSlider(t, e, i = 0) {
+                t.setAttribute("src", e[i].src), t.setAttribute("alt", e[i].alt), i = i < e.length - 1 ? i + 1 : 0, setTimeout((() => {
+                    this.createSlider(t, e, i)
+                }), 2e3)
+            }
         }
+        customElements.define("payment-method-logo-slider", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            static get observedAttributes() {
+                return ["src", "alt"]
+            }
 
-        build() {
-            this.appendChild(this.createContainer())
+            connectedCallback() {
+                this.build()
+            }
+
+            attributeChangedCallback() {
+                this.firstElementChild && (this.removeChild(this.firstElementChild), this.build())
+            }
+
+            build() {
+                this.appendChild(this.createContainer())
+            }
+
+            createContainer() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-payment-method-logo-container"), t.appendChild(this.createImage()), t
+            }
+
+            createImage() {
+                const t = document.createElement("img");
+                return t.classList.add("mp-payment-method-logo-image"), t.alt = this.getAttribute("alt"), t.src = this.getAttribute("src"), t.onerror = t => t.target?.parentNode?.parentNode?.parentNode?.removeChild(t.target.parentNode.parentNode), t
+            }
         }
+        customElements.define("payment-method-logo", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        createContainer() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-terms-and-conditions-container"), t.setAttribute("data-cy", "terms-and-conditions-container"), t.appendChild(this.createText()), t.appendChild(this.createLink()), t
+            build() {
+                this.appendChild(this.createContainer())
+            }
+
+            createContainer() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-payment-methods-v2-container"), t.appendChild(this.createContent()), t
+            }
+
+            createContent() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-payment-methods-v2-content"), t.appendChild(this.createTitle()), t.appendChild(this.createList()), t
+            }
+
+            createTitle() {
+                const t = document.createElement("p");
+                return t.classList.add("mp-payment-methods-v2-title"), t.innerHTML = this.getAttribute("title"), t
+            }
+
+            createList() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-payment-methods-v2-list"), this.handleMethodsList(t)
+            }
+
+            handleMethodsList(t) {
+                const e = JSON.parse(this.getAttribute("methods"));
+                let i = !1;
+                if (e.forEach(((n, s) => {
+                    s <= 9 || 11 === e.length ? t.appendChild(this.createLogo(n)) : i = !0
+                })), i) {
+                    const i = Object.entries(e).slice(10).map((t => t[1]));
+                    t.appendChild(this.createSlider(JSON.stringify(i)))
+                }
+                return t
+            }
+
+            createLogo({src: t, alt: e}) {
+                const i = document.createElement("payment-method-logo");
+                return i.setAttribute("src", t), i.setAttribute("alt", e), i
+            }
+
+            createSlider(t) {
+                const e = document.createElement("payment-method-logo-slider");
+                return e.setAttribute("methods", t), e
+            }
         }
+        customElements.define("payment-methods-v2", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        createText() {
-            const t = document.createElement("span");
-            return t.classList.add("mp-terms-and-conditions-text"), t.innerHTML = this.getAttribute("description"), t
+            build() {
+                this.appendChild(this.createContainer())
+            }
+
+            createContainer() {
+                const t = JSON.parse(this.getAttribute("methods")), e = document.createElement("div");
+                return e.classList.add("mp-payment-methods-container"), t.forEach((t => {
+                    e.appendChild(this.createPaymentMethodType(t))
+                })), e
+            }
+
+            createPaymentMethodType(t) {
+                const {title: e, label: i, payment_methods: n} = t, s = document.createElement("div");
+                return s.classList.add("mp-payment-method-type-container"), n && 0 !== n.length && (s.appendChild(this.createHeader(e, i)), s.appendChild(this.createContent(n))), s
+            }
+
+            createHeader(t, e) {
+                const i = document.createElement("div");
+                return i.classList.add("mp-payment-methods-header"), t && i.appendChild(this.createTitle(t)), e && i.appendChild(this.createBadge(e)), i
+            }
+
+            createTitle(t) {
+                const e = document.createElement("p");
+                return e.classList.add("mp-payment-methods-title"), e.innerHTML = t, e
+            }
+
+            createBadge(t) {
+                const e = document.createElement("div"), i = document.createElement("span");
+                return i.classList.add("mp-payment-methods-badge-text"), i.innerHTML = t, e.classList.add("mp-payment-methods-badge"), e.appendChild(i), e
+            }
+
+            createContent(t) {
+                const e = document.createElement("div");
+                return e.classList.add("mp-payment-methods-content"), t.forEach((t => {
+                    e.appendChild(this.createImage(t))
+                })), e
+            }
+
+            createImage(t) {
+                const {src: e, alt: i} = t, n = document.createElement("payment-method-logo");
+                return n.setAttribute("src", e), n.setAttribute("alt", i), n
+            }
         }
+        customElements.define("payment-methods", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
 
-        createLink() {
-            const t = document.createElement("a");
-            return t.classList.add("mp-terms-and-conditions-link"), t.innerHTML = this.getAttribute("link-text"), t.href = this.getAttribute("link-src"), t.target = "blank", t
+            build() {
+                const t = this.createTestMode(), e = this.createCardHeader(), i = this.createCardContent();
+                t.appendChild(e), t.appendChild(i), this.appendChild(t)
+            }
+
+            createTestMode() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-test-mode-card"), t.setAttribute("data-cy", "test-mode-card"), t
+            }
+
+            createCardContent() {
+                const t = document.createElement("div");
+                t.classList.add("mp-test-mode-card-content");
+                const e = document.createElement("p");
+                e.innerHTML = this.getAttribute("description"), e.classList.add("mp-test-mode-description"), e.setAttribute("data-cy", "test-mode-description"), t.appendChild(e);
+                const i = this.getAttribute("link-text"), n = this.getAttribute("link-src"),
+                    s = document.createElement("a");
+                return s.classList.add("mp-test-mode-link"), s.innerHTML = i, s.href = n, s.target = "blank", e.appendChild(s), t
+            }
+
+            createCardHeader() {
+                const t = document.createElement("div");
+                t.classList.add("mp-test-mode-card-content");
+                const e = this.createBadge(), i = this.createTitle();
+                return t.appendChild(e), t.appendChild(i), t
+            }
+
+            createBadge() {
+                const t = document.createElement("div");
+                return t.innerHTML = "!", t.classList.add("mp-test-mode-badge"), t
+            }
+
+            createTitle() {
+                const t = document.createElement("p");
+                return t.innerHTML = this.getAttribute("title"), t.classList.add("mp-test-mode-title"), t.setAttribute("data-cy", "test-mode-title"), t
+            }
         }
-    }
-
-    customElements.define("terms-and-conditions", t)
-})(), (() => {
-    class t extends HTMLElement {
-        connectedCallback() {
-            this.build()
-        }
-
-        build() {
-            const t = this.createTestMode(), e = this.createCardHeader(), i = this.createCardContent();
-            t.appendChild(e), t.appendChild(i), this.appendChild(t)
-        }
-
-        createTestMode() {
-            const t = document.createElement("div");
-            return t.classList.add("mp-test-mode-card"), t.setAttribute("data-cy", "test-mode-card"), t
-        }
-
-        createCardContent() {
-            const t = document.createElement("div");
-            t.classList.add("mp-test-mode-card-content");
-            const e = document.createElement("p");
-            e.innerHTML = this.getAttribute("description"), e.classList.add("mp-test-mode-description"), e.setAttribute("data-cy", "test-mode-description"), t.appendChild(e);
-            const i = this.getAttribute("link-text"), n = this.getAttribute("link-src"),
-                s = document.createElement("a");
-            return s.classList.add("mp-test-mode-link"), s.innerHTML = i, s.href = n, s.target = "blank", e.appendChild(s), t
-        }
-
-        createCardHeader() {
-            const t = document.createElement("div");
-            t.classList.add("mp-test-mode-card-content");
-            const e = this.createBadge(), i = this.createTitle();
-            return t.appendChild(e), t.appendChild(i), t
-        }
-
-        createBadge() {
-            const t = document.createElement("div");
-            return t.innerHTML = "!", t.classList.add("mp-test-mode-badge"), t
-        }
-
-        createTitle() {
-            const t = document.createElement("p");
-            return t.innerHTML = this.getAttribute("title"), t.classList.add("mp-test-mode-title"), t.setAttribute("data-cy", "test-mode-title"), t
-        }
-    }
-
-    customElements.define("test-mode", t)
-})();
+        customElements.define("test-mode", t)
+    })();

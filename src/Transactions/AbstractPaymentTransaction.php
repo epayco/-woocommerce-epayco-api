@@ -69,34 +69,48 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $descripcion = implode(' - ', $descripcionParts);
         $currency = strtolower(get_woocommerce_currency());
         $basedCountry = WC()->countries->get_base_country();
+        //$customerData = $this->getCustomer($checkout);
+        $basedCountry = $checkout["countryType"]??$checkout["countrytype"]??$checkout[""]["countryType"];
+        $city = $checkout["country"]??$checkout[""]["country"];
         $myIp=$this->getCustomerIp();
         $confirm_url = $checkout["confirm_url"];
-        $checkout["country"] = $basedCountry;
-        $customerData = $this->getCustomer($checkout);
-        if(!$customerData['success']){
+        $response_url = $checkout["response_url"];
+        $testMode = $this->epayco->storeConfig->isTestMode()??false;
+        $customerName = $checkout["name"]??$checkout[""]["name"];
+        $explodeName = explode(" ", $customerName);
+        $name = $explodeName[0];
+        $lastName = $explodeName[1];
+        $dues= $checkout["installmet"]??$checkout[""]["installmet"];
+        //$person_type= $checkout["person_type"]??$checkout[""]["person_type"];
+        $holder_address= $checkout["address"]??$checkout[""]["address"];
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"];
+        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $email= $checkout["email"]??$checkout[""]["email"];
+        $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
+        /*if(!$customerData['success']){
             return $customerData;
-        }
+        }*/
         $data = array(
             "token_card" => $checkout["token"],
-            "customer_id" => $customerData['customer_id'],
+            "customer_id" => "customer_id",
             "bill" => (string)$order->get_id(),
-            "dues" => $checkout["dues"],
+            "dues" => $dues,
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => $iva,
             "tax_base" => $base_tax,
             "currency" => $currency,
-            "doc_type" => $checkout["documenttype"],
-            "doc_number" => $checkout["doc_number"],
-            "name" => $checkout["name"],
-            "last_name" => $checkout["name"],
-            "email" => $checkout["email"],
+            "doc_type" => $doc_type,
+            "doc_number" => $doc_number,
+            "name" => $name,
+            "last_name" => $lastName,
+            "email" => $email,
             "country" => $basedCountry,
-            "address"=> $checkout["address"],
-            "city" => "",
-            "cell_phone" => $checkout["cellphone"],
+            "address"=> $holder_address,
+            "city" => $city,
+            "cell_phone" => $cellphone,
             "ip" => $myIp,
-            "url_response" => $confirm_url,
+            "url_response" => $response_url,
             "url_confirmation" => $confirm_url,
             "metodoconfirmacion" => "POST",
             "use_default_card_customer" => true,
@@ -137,7 +151,9 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
 
         $descripcion = implode(' - ', $descripcionParts);
         $currency = strtolower(get_woocommerce_currency());
-        $basedCountry = WC()->countries->get_base_country();
+        //$basedCountry = WC()->countries->get_base_country();
+        $basedCountry = $checkout["countryType"]??$checkout["countrytype"]??$checkout[""]["countryType"];
+        $city = $checkout["country"]??$checkout[""]["country"];
         $myIp=$this->getCustomerIp();
         $confirm_url = $checkout["confirm_url"];
         $response_url = $checkout["response_url"];
@@ -149,13 +165,13 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $bank = $checkout["bank"]??$checkout[""]["bank"];
         $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
         $holder_address= $checkout["address"]??$checkout[""]["address"];
-        $doc_type= $checkout["doc_type"]??$checkout[""]["doc_type"];
-        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"];
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"];
+        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];
         $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
         $data = array(
             "bank" => $bank,
-            "invoice" => (string)$order->get_id(),
+            "invoice" => (string)$order->get_id()."_test",
             "description" => $descripcion,
             "value" =>$order->get_total(),
             "tax" => $iva,
@@ -169,6 +185,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "lastName" => $lastName,
             "email" => $email,
             "country" => $basedCountry,
+            "city" => $city,
             "cellPhone" => $cellphone,
             "ip" => $myIp,
             "urlResponse" => $response_url,
@@ -227,7 +244,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $person_type= $checkout["person_type"];
         $holder_address= $checkout["address"];
         $doc_type= $checkout["identificationtype"]??$checkout["identificationType"];
-        $doc_number= $checkout["doc_number"];
+        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"];
         $cellphone= $checkout["cellphone"];
         $data = array(
@@ -306,11 +323,12 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $lastName = $explodeName[1];
         $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
         $holder_address= $checkout["address"]??$checkout[""]["address"];
-        $doc_type= $checkout["doc_type"]??$checkout[""]["doc_type"];
-        $doc_number= $checkout["doc_number"]??$checkout[""]["number"];
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"];
+        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];
         $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
-        $cellphonetype = $checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
+        $cellphonetype = $_POST["cellphoneType"]??$checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
+        $cellphonetypeIn = explode("+", $cellphonetype)[1];
         $city = WC()->countries->get_base_city() !='' ? WC()->countries->get_base_city():$order->get_shipping_city();
         $testMode = $this->epayco->storeConfig->isTestMode()??false;
         $data = array(
@@ -328,7 +346,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "lastName" => $lastName,
             "email" => $email,
             "country" => $basedCountry,
-            "indCountry" => $cellphonetype,
+            "indCountry" => $cellphonetypeIn,
             "city" => $city,
             "phone" => $cellphone,
             "ip" => $myIp,

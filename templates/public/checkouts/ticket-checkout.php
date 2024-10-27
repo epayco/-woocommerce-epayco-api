@@ -136,7 +136,7 @@ if (!defined('ABSPATH')) {
                             input-id="dentificationTypeNumber"
                             select-name="epayco_ticket[identificationType]"
                             select-data-checkout="doc_type"
-                            flag-error="epayco_ticket[doc_number]"
+                            flag-error="identificationTypeError"
                             documents='[
                                     {"id":"Type"},
                                     {"id":"CC"},
