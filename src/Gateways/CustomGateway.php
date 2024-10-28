@@ -262,7 +262,6 @@ class CustomGateway extends AbstractGateway
 
             parent::process_payment($order_id);
 
-            $checkout['cardTokenId'] = '22';
             $checkout['token'] = $checkout['cardTokenId'] ?? $checkout['cardtokenid'];
             if (
                 !empty($checkout['token'])
@@ -271,7 +270,6 @@ class CustomGateway extends AbstractGateway
                 $redirect_url =get_site_url() . "/";
                 $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
                 $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
-                $redirect_url = 'http://696c-2800-e2-580-61c-1b36-86bb-aec2-9a0b.ngrok-free.app/wordpress2/wordpress/?wc-api=WC_Epayco_Custom_Gateway&order_id='.$order_id;
                 $confirm_url = $redirect_url.'&confirmation=1';
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();

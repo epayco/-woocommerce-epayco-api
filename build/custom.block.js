@@ -315,6 +315,7 @@
                 window.mpCheckoutForm = document.querySelector(".wc-block-components-form.wc-block-checkout__form"),
                 jQuery(window.mpCheckoutForm).prop("id", mpFormId),
                 (0, c.useEffect)((() => {
+
                     const current =  document.querySelector(".mp-checkout-custom-container");
                     const customContentName = current.querySelector('input-card-name').querySelector('input');
                     const nameHelpers =  current.querySelector('input-helper').querySelector("div");
@@ -399,28 +400,15 @@
 
 
                     const e = ce((async () => {
+                        const customContentInstallments = current.querySelector('input-installment').querySelector("#epayco_custom\\[installment\\]").value;
                         function o(e) {
                             return e && "flex" === e.style.display
                         }
-
+                        debugger
                         const doc_type = cardContentDocument.parentElement.parentElement.querySelector("#epayco_custom\\[identificationType\\]");
                         const cellphoneType = customContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                         const countryType = countryContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                         const doc_number_value =cardContentDocument.value;
-
-
-                        const values = {
-                            "epayco_custom[cardTokenId]": token,
-                            "epayco_custom[name]": customContentName.value,
-                            "epayco_custom[address]": customContentAddress.value,
-                            "epayco_custom[email]": customContentEmail.value,
-                            "epayco_custom[identificationtype]": doc_type.value,
-                            "epayco_custom[doc_number]": doc_number_value,
-                            "epayco_custom[countryType]": countryType,
-                            "epayco_custom[cellphoneType]": cellphoneType,
-                            "epayco_custom[cellphone]": customContentCellphone.value,
-                            "epayco_custom[country]": countryContentCountry.value
-                        };
 
                         "" === customContentName.value && verifyName(customContentName);
                         "" === cardNumberContentName.value && verifyCardNumber(cardNumberContentName);
@@ -434,29 +422,54 @@
                         "" === countryContentCountry.value && verifyCountry(countryContentCountry);
                         let validation = o(nameHelpers) || o(cardNumberHelpers) || o(cardExpirationHelpers) || o(cardSecurityHelpers) || o(documentHelpers) || o(addressHelpers) || o(emailHelpers) || o(cellphoneHelpers) || o(countryHelpers);
                         try {
-                            if (validation) {
+                            var createTokenEpayco = async function  ($form) {
+                                return await new Promise(function(resolve, reject) {
+                                    ePayco.token.create($form, function(data) {
+                                        if(data.status=='error'){
+                                            reject("")
+                                        }else{
+                                            document.querySelector('#cardTokenId').value = data.data.token;
+                                            //jQuery('form.checkout').submit();
+                                            resolve(data.data.token)
+                                        }
+                                    });
+                                });
+                            }
+                            if (!validation) {
                                 var publicKey = wc_epayco_custom_checkout_params.public_key_epayco;
                                 var token;
                                 ePayco.setPublicKey(publicKey);
                                 ePayco.setLanguage("es");
-                                token=publicKey
-                                /*token = await new Promise(function(resolve, reject) {
-                                    ePayco.token.create(document, function (data) {
-                                        debugger
-                                            if(data.status==='error'){
-                                                reject(false)
-                                            }else{
-                                                resolve(data.data.token)
-                                            }
-                                        })
-                                })*/
-                                //token = "await cardForm.createCardToken()";
+                                var token = await createTokenEpayco(current);
                             }else{
-                                //return {type: te.responseTypes.ERROR};
+                                 return {
+                                    type: te.responseTypes.FAIL,
+                                    messageContext: "PAYMENTS",
+                                    message: "error"
+                                }
                             }
                         } catch (e) {
                             console.warn("Token creation error: ", e)
+                            return {
+                                type: te.responseTypes.ERROR,
+                                messageContext: "PAYMENTS",
+                                message: "error"
+                            }
                         }
+                        const values = {
+                            "epayco_custom[cardTokenId]": token,
+                            "epayco_custom[name]": customContentName.value,
+                            "epayco_custom[address]": customContentAddress.value,
+                            "epayco_custom[email]": customContentEmail.value,
+                            "epayco_custom[identificationtype]": doc_type.value,
+                            "epayco_custom[doc_number]": doc_number_value,
+                            "epayco_custom[countryType]": countryType,
+                            "epayco_custom[cellphoneType]": cellphoneType,
+                            "epayco_custom[cellphone]": customContentCellphone.value,
+                            "epayco_custom[country]": countryContentCountry.value,
+                            "epayco_custom[token]": token,
+                            "epayco_custom[installmet]": customContentInstallments,
+                        };
                         return  "" !== customContentName.value &&
                                 "" !== cardNumberContentName.value &&
                                 "" !== cardExpirationContentName.value &&
@@ -466,13 +479,13 @@
                                 "" !== customContentCellphone.value &&
                                 "" !== countryContentCountry.value &&
                                 "" !== doc_number_value &&
-                                "Type" !== doc_type.value
+                                "Type" !== doc_type.value &&
+                                "" !== token
                             ,
                             Z("custom"),
                             {
                                 type:validation ? te.responseTypes.ERROR : te.responseTypes.SUCCESS,
-                                meta: {paymentMethodData: values
-                                }
+                                meta: {paymentMethodData: values}
                             }
                     }));
                     return () => e()

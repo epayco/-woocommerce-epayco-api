@@ -6,7 +6,6 @@
     var mercado_pago_submit = false;
 
     function  epaycoFormHandler() {
-      event.preventDefault();
       var publicKey = wc_epayco_custom_checkout_params.public_key_epayco;
       ePayco.setPublicKey(publicKey);
       ePayco.setLanguage("es");
@@ -38,7 +37,7 @@
         return mercado_pago_submit;
       } else {
         console.log("loading..")
-        //return await createToken(CustomContent);
+        return  createToken(CustomContent);
       }
 
 
