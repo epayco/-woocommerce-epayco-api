@@ -366,7 +366,7 @@
                     if (ticketContentCountry.value === '') {
                         P.current.querySelector('input-country').querySelector(".mp-input").classList.add("mp-error");
                         P.current.querySelector('input-country').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
-                        cellphoneHelpers.style.display = 'flex';
+                        countryHelpers.style.display = 'flex';
                     }
                 }
 

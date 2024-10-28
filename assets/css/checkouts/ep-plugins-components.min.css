@@ -455,3 +455,10 @@ option {
     font-size: 14px;
     gap: 10px
 }
+
+.svg-logo{
+    margin-top: 10px !important;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}

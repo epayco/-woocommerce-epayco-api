@@ -93,13 +93,13 @@ if (!defined('ABSPATH')) {
 
                     <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
                         <input-card-name
-                                label-message="<?= esc_html($card_holder_name_input_label); ?>"
-                                helper-message="<?= esc_html($card_holder_name_input_helper); ?>"
+                                labelMessage="<?= esc_html($card_holder_name_input_label); ?>"
+                                helperMessage="<?= esc_html($card_holder_name_input_helper); ?>"
                                 placeholder="Ex: John Doe"
-                                input-name='epayco_custom[name]'
-                                flag-error='epayco_custom[nameError]'
+                                inputName='epayco_custom[name]'
+                                flagError='epayco_custom[nameError]'
                                 validate=true
-                                hidden-id= "hidden-name-custom"
+                                hiddenId= "hidden-name-custom"
                         >
                         </input-card-name>
                     </div>
@@ -107,13 +107,13 @@ if (!defined('ABSPATH')) {
                     <div class='mp-checkout-custom-card-row'>
 
                         <input-card-number
-                                label-message="<?= esc_html($card_number_input_label); ?>"
-                                helper-message="<?= esc_html($card_number_input_helper); ?>"
+                                labelMessage="<?= esc_html($card_number_input_label); ?>"
+                                helperMessage="<?= esc_html($card_number_input_helper); ?>"
                                 placeholder="0000 0000 0000 0000"
-                                input-name='epayco_custom[card]'
-                                flag-error='epayco_custom[cardError]'
+                                inputName='epayco_custom[card]'
+                                flagError='epayco_custom[cardError]'
                                 validate=true
-                                hidden-id= "mp-card-number-helper"
+                                hiddenId= "mp-card-number-helper"
                         >
                         </input-card-number>
 
@@ -123,13 +123,13 @@ if (!defined('ABSPATH')) {
                         <div class='mp-checkout-custom-card-column'>
                             <input-card-expiration-date
                                     class="mp-checkout-custom-left-card-input"
-                                    label-message="<?= esc_html($card_expiration_input_label); ?>"
-                                    helper-message="<?= esc_html($card_expiration_input_helper); ?>"
+                                    labelMessage="<?= esc_html($card_expiration_input_label); ?>"
+                                    helperMessage="<?= esc_html($card_expiration_input_helper); ?>"
                                     placeholder="mm/yy"
-                                    input-name='epayco_custom[expirationDate]'
-                                    flag-error='epayco_custom[expirationDateError]'
+                                    inputName='epayco_custom[expirationDate]'
+                                    flagError='epayco_custom[expirationDateError]'
                                     validate=true
-                                    hidden-id= "mp-expiration-date-helper"
+                                    hiddenId= "hidden-expiration-date-helper"
                             >
                             </input-card-expiration-date>
                         </div>
@@ -137,13 +137,13 @@ if (!defined('ABSPATH')) {
                         <div class='mp-checkout-custom-card-column'>
                             <input-card-security-code
                                     class="mp-checkout-custom-left-card-input"
-                                    label-message="<?= esc_html($card_security_code_input_label); ?>"
-                                    helper-message="<?= esc_html($card_security_code_input_helper); ?>"
+                                    labelMessage="<?= esc_html($card_security_code_input_label); ?>"
+                                    helperMessage="<?= esc_html($card_security_code_input_helper); ?>"
                                     placeholder="***"
-                                    input-name='epayco_custom[securityCode]'
-                                    flag-error='epayco_custom[securityCodeError]'
+                                    inputName='epayco_custom[securityCode]'
+                                    flagError='epayco_custom[securityCodeError]'
                                     validate=true
-                                    hidden-id= "mp-security-code-helper"
+                                    hiddenId= "hidden-security-code-helper"
                             >
                             </input-card-security-code>
                         </div>
@@ -213,13 +213,13 @@ if (!defined('ABSPATH')) {
 
                     <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
                         <input-card-email
-                                label-message="<?= esc_html($card_holder_email_input_label); ?>"
-                                helper-message="<?= esc_html($card_holder_email_input_helper); ?>"
+                                labelMessage="<?= esc_html($card_holder_email_input_label); ?>"
+                                helperMessage="<?= esc_html($card_holder_email_input_helper); ?>"
                                 placeholder="john@example.com"
-                                input-name='epayco_custom[email]'
-                                flag-error='epayco_custom[emailError]'
+                                inputName='epayco_custom[email]'
+                                flagError='epayco_custom[emailError]'
                                 validate=true
-                                hidden-id= "hidden-email-custom"
+                                hiddenId= "hidden-email-custom"
                         >
                         </input-card-email>
                     </div>

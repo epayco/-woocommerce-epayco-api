@@ -315,6 +315,11 @@ class PseGateway extends AbstractGateway
                 );
             }
         }
+        $convertedBanks[] =[
+            'id' => 0,
+            'description' => "nequi"
+        ];
+
             return $convertedBanks;
     }
 
