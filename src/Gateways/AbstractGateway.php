@@ -127,8 +127,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
         $this->supports   = ['products', 'refunds'];
 
         $this->init_settings();
-        $this->loadResearchComponent();
-        //$this->loadMelidataStoreScripts();
         $this->sdk  = $this->getSdkInstance();
     }
 
@@ -504,58 +502,8 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             !$this->epayco->helpers->url->validateQueryVar('order-received');
     }
 
-    /**
-     * Load research component
-     *
-     * @return void
-     */
-    public function loadResearchComponent(): void
-    {
-        $this->epayco->hooks->gateway->registerAfterSettingsCheckout(
-            'admin/components/research-fields.php',
-            [
-                [
-                    'field_key'   => 'ep-public-key-prod',
-                    'field_value' => $this->epayco->sellerConfig->getCredentialsPublicKey(),
-                ],
-                [
-                    'field_key'   => 'reference',
-                    'field_value' => '{"ep-screen-name":"' . $this->getCheckoutName() . '"}',
-                ]
-            ]
-        );
-    }
 
-    /**
-     * Load melidata script on store
-     *
-     * @return void
-     */
-    public function loadMelidataStoreScripts(): void
-    {
-        $this->epayco->hooks->checkout->registerBeforePay(function () {
-            $this->epayco->hooks->scripts->registerMelidataStoreScript('/woocommerce_pay');
-        });
 
-        $this->epayco->hooks->checkout->registerBeforeCheckoutForm(function () {
-            $this->epayco->hooks->scripts->registerMelidataStoreScript('/checkout');
-        });
-
-        $this->epayco->hooks->checkout->registerPayOrderBeforeSubmit(function () {
-            $this->epayco->hooks->scripts->registerMelidataStoreScript('/pay_order');
-        });
-
-        $this->epayco->hooks->gateway->registerBeforeThankYou(function ($orderId) {
-            $order         = wc_get_order($orderId);
-            $paymentMethod = $order->get_payment_method();
-
-            foreach ($this->epayco->storeConfig->getAvailablePaymentGateways() as $gateway) {
-                if ($gateway::ID === $paymentMethod) {
-                    //$this->epayco->hooks->scripts->registerMelidataStoreScript('/thankyou', $paymentMethod);
-                }
-            }
-        });
-    }
 
     /**
      * Process if result is fail

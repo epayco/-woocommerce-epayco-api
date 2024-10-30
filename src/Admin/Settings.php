@@ -179,14 +179,10 @@ class Settings
         $this->registerAjaxEndpoints();
 
         $this->plugin->registerOnPluginCredentialsUpdate(function () {
-            $this->seller->updatePaymentMethods();
-            $this->seller->updatePaymentMethodsBySiteId();
             $this->funnel->updateStepCredentials();
         });
 
         $this->plugin->registerOnPluginTestModeUpdate(function () {
-            $this->seller->updatePaymentMethods();
-            $this->seller->updatePaymentMethodsBySiteId();
             $this->funnel->updateStepPluginMode();
         });
 

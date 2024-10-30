@@ -167,8 +167,7 @@ class Notices
         }
 
         if (
-            !$this->store->getDismissedSavedCardsNotice() &&
-            !empty($this->sellerConfig->getCredentialsPublicKey()) && !empty($this->sellerConfig->getCredentialsAccessToken())
+            !$this->store->getDismissedSavedCardsNotice()
         ) {
             add_action(
                 'admin_notices',

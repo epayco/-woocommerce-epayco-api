@@ -83,10 +83,7 @@ class Funnel
                 $updateSellerFunnelBase = $this->sdk->getUpdateSellerFunnelBaseInstance();
                 $updateSellerFunnelBase->id = $this->store->getInstallationId();
                 $updateSellerFunnelBase->cpp_token = $this->store->getInstallationKey();
-                $updateSellerFunnelBase->is_added_production_credential = !empty($this->seller->getCredentialsAccessTokenProd());
-                $updateSellerFunnelBase->is_added_test_credential = !empty($this->seller->getCredentialsAccessTokenTest());
                 $updateSellerFunnelBase->plugin_mode = $this->getPluginMode();
-                $updateSellerFunnelBase->cust_id = $this->seller->getCustIdFromAT();
                 $updateSellerFunnelBase->site_id = $this->country->countryToSiteId($this->country->getPluginDefaultCountry());
                 $updateSellerFunnelBase->update();
             });

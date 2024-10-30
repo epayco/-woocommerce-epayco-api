@@ -369,7 +369,7 @@ class Dependencies
      */
     private function setSeller(): Seller
     {
-        return new Seller($this->cacheHelper, $this->optionsHook, $this->requesterHelper, $this->storeConfig, $this->logs);
+        return new Seller($this->cacheHelper, $this->optionsHook, $this->requesterHelper, $this->storeConfig);
     }
 
     /**
