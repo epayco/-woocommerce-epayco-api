@@ -171,7 +171,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
         $data = array(
             "bank" => $bank,
-            "invoice" => (string)$order->get_id()."_test",
+            "invoice" => (string)$order->get_id(),
             "description" => $descripcion,
             "value" =>$order->get_total(),
             "tax" => $iva,
@@ -249,7 +249,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $cellphone= $checkout["cellphone"];
         $data = array(
             "paymentMethod" => $checkout["paymentMethod"],
-            "invoice" => (string)$order->get_id()."_test_1",
+            "invoice" => (string)$order->get_id(),
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,
@@ -332,7 +332,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $city = WC()->countries->get_base_city() !='' ? WC()->countries->get_base_city():$order->get_shipping_city();
         $testMode = $this->epayco->storeConfig->isTestMode()??false;
         $data = array(
-            "invoice" => (string)$order->get_id()."_test_1",
+            "invoice" => (string)$order->get_id(),
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,
@@ -526,7 +526,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
     }
 
     public function string_sanitize($string, $force_lowercase = true, $anal = false) {
-        $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]","}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;","â€”", "â€“", ",", "<", ".", ">", "/", "?");
+        $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]","}", "\\", "|", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;","â€”", "â€“", "<", ">", "/", "?");
         $clean = trim(str_replace($strip, "", strip_tags($string)));
         $clean = preg_replace('/\s+/', "_", $clean);
         $clean = ($anal) ? preg_replace("/[^a-zA-Z0-9]/", "", $clean) : $clean ;
