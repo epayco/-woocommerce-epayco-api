@@ -17,7 +17,6 @@ use Epayco\Woocommerce\Hooks\Endpoints;
 use Epayco\Woocommerce\Hooks\Order;
 use Epayco\Woocommerce\Hooks\Plugin;
 use Epayco\Woocommerce\Hooks\Scripts;
-use Epayco\Woocommerce\Libraries\Logs\Logs;
 use Epayco\Woocommerce\Translations\AdminTranslations;
 use Epayco\Woocommerce\Funnel\Funnel;
 
@@ -102,11 +101,6 @@ class Settings
      */
     private $session;
 
-    /**
-     * @var Logs
-     */
-    private $logs;
-
 
     /**
      * @var Funnel
@@ -134,7 +128,6 @@ class Settings
      * @param Nonce $nonce
      * @param CurrentUser $currentUser
      * @param Session $session
-     * @param Logs $logs
      * @param Downloader $downloader
      * @param Funnel $funnel
      * @param Strings $strings
@@ -153,7 +146,6 @@ class Settings
         Nonce $nonce,
         CurrentUser $currentUser,
         Session $session,
-        Logs $logs,
         Funnel $funnel,
         Strings $strings
     ) {
@@ -170,7 +162,6 @@ class Settings
         $this->nonce        = $nonce;
         $this->currentUser  = $currentUser;
         $this->session      = $session;
-        $this->logs         = $logs;
         $this->funnel       = $funnel;
         $this->strings      = $strings;
 
@@ -373,14 +364,9 @@ class Settings
 
             wp_send_json_success($payment_gateway_properties);
         } catch (\Exception $e) {
-            $this->logs->file->error(
-                "ePayco gave error in epaycoPaymentMethods: {$e->getMessage()}",
-                __CLASS__
-            );
             $response = [
                 'message' => $e->getMessage()
             ];
-
             wp_send_json_error($response);
         }
     }
@@ -475,10 +461,15 @@ class Settings
 
 
         } catch (\Exception $e) {
-            $this->logs->file->error(
-                "ePayco gave error in update option credentials: {$e->getMessage()}",
-                __CLASS__
-            );
+            $response = [
+                'type'      => 'error',
+                'message'   => $e->getMessage(),
+                'subtitle'  => $e->getMessage() . ' ',
+                'linkMsg'   => '',
+                'link'      => '',
+                'test_mode' => $this->store->getCheckboxCheckoutTestMode()
+            ];
+            wp_send_json_error($response);
         }
     }
 

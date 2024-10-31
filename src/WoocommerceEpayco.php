@@ -11,6 +11,7 @@ use Epayco\Woocommerce\Blocks\CustomBlock;
 use Epayco\Woocommerce\Blocks\DaviplataBlock;
 use Epayco\Woocommerce\Blocks\TicketBlock;
 use Epayco\Woocommerce\Blocks\PseBlock;
+use Epayco\Woocommerce\Blocks\SubscriptionBlock;
 use Epayco\Woocommerce\Configs\Metadata;
 use Epayco\Woocommerce\Funnel\Funnel;
 use Epayco\Woocommerce\Order\OrderMetadata;
@@ -204,6 +205,7 @@ class WoocommerceEpayco
                     $payment_method_registry->register(new CustomBlock());
                     $payment_method_registry->register(new DaviplataBlock());
                     $payment_method_registry->register(new PseBlock());
+                    $payment_method_registry->register(new SubscriptionBlock());
                     $payment_method_registry->register(new TicketBlock());
                 }
             );

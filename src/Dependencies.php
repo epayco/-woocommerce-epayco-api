@@ -369,7 +369,7 @@ class Dependencies
      */
     private function setSeller(): Seller
     {
-        return new Seller($this->cacheHelper, $this->optionsHook, $this->requesterHelper, $this->storeConfig);
+        return new Seller($this->cacheHelper, $this->optionsHook, $this->storeConfig);
     }
 
     /**
@@ -590,7 +590,6 @@ class Dependencies
             $this->nonceHelper,
             $this->currentUserHelper,
             $this->sessionHelper,
-            $this->logs,
             $this->funnel,
             $this->stringsHelper
         );

@@ -4,36 +4,32 @@ namespace Epayco\Woocommerce\Gateways;
 
 use Epayco\Woocommerce\Exceptions\InvalidCheckoutDataException;
 use Epayco\Woocommerce\Helpers\Form;
-use Epayco\Woocommerce\Helpers\Numbers;
-use Epayco\Woocommerce\Transactions\CustomTransaction;
-use Epayco\Woocommerce\Transactions\WalletButtonTransaction;
-use Epayco\Woocommerce\Exceptions\ResponseStatusException;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-class CustomGateway extends AbstractGateway
+class SubscriptionGateway extends AbstractGateway
 {
     /**
      * @const
      */
-    public const ID = 'woo-epayco-custom';
+    public const ID = 'woo-epayco-subscription';
 
     /**
      * @const
      */
-    public const CHECKOUT_NAME = 'checkout-custom';
+    public const CHECKOUT_NAME = 'checkout-subscription';
 
     /**
      * @const
      */
-    public const WEBHOOK_API_NAME = 'WC_Epayco_Custom_Gateway';
+    public const WEBHOOK_API_NAME = 'WC_Epayco_Subscription_Gateway';
 
     /**
      * @const
      */
-    public const LOG_SOURCE = 'Epayco_CustomGateway';
+    public const LOG_SOURCE = 'Epayco_SubscriptionGateway';
 
     /**
      * CustomGateway constructor
@@ -42,8 +38,8 @@ class CustomGateway extends AbstractGateway
     {
         parent::__construct();
 
-        $this->adminTranslations = $this->epayco->adminTranslations->customGatewaySettings;
-        $this->storeTranslations = $this->epayco->storeTranslations->customCheckout;
+        $this->adminTranslations = $this->epayco->adminTranslations->subscriptionGatewaySettings;
+        $this->storeTranslations = $this->epayco->storeTranslations->subscriptionCheckout;
 
         $this->id        = self::ID;
         $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card');
@@ -52,6 +48,17 @@ class CustomGateway extends AbstractGateway
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
+
+        $this->supports = [
+            'subscriptions',
+            'products',
+            'subscription_cancellation',
+            'subscription_suspension',
+            'subscription_reactivation',
+            'subscription_amount_changes',
+            'subscription_date_changes',
+            'subscription_payment_method_change',
+        ];
 
         $this->description        = $this->adminTranslations['gateway_description'];
         $this->method_title       = $this->adminTranslations['gateway_method_title'];
@@ -147,13 +154,13 @@ class CustomGateway extends AbstractGateway
         parent::registerCheckoutScripts();
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
-            'wc_epayco_sdk',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/custom/library', '.js')
+            'wc_epayco_subscription_sdk',
+            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/subscription/library', '.js')
         );
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
-            'wc_epayco_custom_checkout',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/custom/ep-custom-checkout', '.js'),
+            'wc_epayco_subscription_checkout',
+            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/subscription/ep-subscription-checkout', '.js'),
             [
                 'public_key_epayco'        => $this->epayco->sellerConfig->getCredentialsPublicKeyPayment()
             ]
@@ -168,7 +175,7 @@ class CustomGateway extends AbstractGateway
     public function payment_fields(): void
     {
         $this->epayco->hooks->template->getWoocommerceTemplate(
-            'public/checkouts/custom-checkout.php',
+            'public/checkouts/subscription-checkout.php',
             $this->getPaymentFieldsParams()
         );
     }
@@ -250,7 +257,7 @@ class CustomGateway extends AbstractGateway
         $order = wc_get_order($order_id);
 
         try {
-            $checkout = $this->getCheckoutEpaycoCustom($order);
+            $checkout = $this->getCheckoutEpaycoSubscription($order);
 
             parent::process_payment($order_id);
 
@@ -258,14 +265,14 @@ class CustomGateway extends AbstractGateway
             if (
                 !empty($checkout['token'])
             ) {
-                $this->transaction = new CustomTransaction($this, $order, $checkout);
+                $this->transaction = new SubscriptionTransaction($this, $order, $checkout);
                 $redirect_url =get_site_url() . "/";
                 $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
                 $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
                 $confirm_url = $redirect_url.'&confirmation=1';
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
-                $response = $this->transaction->createTcPayment($order_id, $checkout);
+                $response = $this->transaction->createSubscriptionPayment($order_id, $checkout);
                 $response = json_decode(json_encode($response), true);
                 if (is_array($response) && $response['success']) {
                     $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
@@ -273,7 +280,6 @@ class CustomGateway extends AbstractGateway
                     if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
-                        //$this->epayco->hooks->order->addOrderNote($order, $this->storeTranslations['customer_not_paid']);
                         $urlReceived = $order->get_checkout_order_received_url();
                         $return = [
                             'result'   => 'success',
@@ -339,15 +345,15 @@ class CustomGateway extends AbstractGateway
      *
      * @return array
      */
-    private function getCheckoutEpaycoCustom($order): array
+    private function getCheckoutEpaycoSubscription($order): array
     {
         $checkout = [];
 
-        if (isset($_POST['epayco_custom'])) {
-            $checkout = Form::sanitizedPostData('epayco_custom');
+        if (isset($_POST['epayco_subscription'])) {
+            $checkout = Form::sanitizedPostData('epayco_subscription');
             $this->epayco->orderMetadata->markPaymentAsBlocks($order, "no");
         } else {
-            $checkout = $this->processBlocksCheckoutData('epayco_custom', Form::sanitizedPostData());
+            $checkout = $this->processBlocksCheckoutData('epayco_subscription', Form::sanitizedPostData());
             $this->epayco->orderMetadata->markPaymentAsBlocks($order, "yes");
         }
 

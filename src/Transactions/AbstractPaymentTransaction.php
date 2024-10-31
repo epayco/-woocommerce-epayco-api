@@ -3,7 +3,6 @@
 namespace Epayco\Woocommerce\Transactions;
 
 use Epayco\Woocommerce\Gateways\AbstractGateway;
-use Epayco\Woocommerce\Helpers\Numbers;
 
 abstract class AbstractPaymentTransaction extends AbstractTransaction
 {
@@ -13,31 +12,10 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
     public function __construct(AbstractGateway $gateway, \WC_Order $order, array $checkout)
     {
         parent::__construct($gateway, $order, $checkout);
-
         $this->transaction = $this->sdk->getPaymentInstance();
-
-        /*$this->setCommonTransaction();
-        $this->setPayerTransaction();
-        $this->setAdditionalInfoTransaction();
-
-        $this->transaction->description        = implode(', ', $this->listOfItems);
-        $this->transaction->transaction_amount = Numbers::format($this->orderTotal);*/
     }
 
-    /**
-     * Create Payment
-     *
-     * @return string|array
-     * @throws \Exception
-     */
-    public function createPayment()
-    {
-        $payment = $this->getTransaction('Payment');
-        $payment->__set('session_id', $this->checkout['session_id']);
-        $data = $payment->save();
-        $this->epayco->logs->file->info('Payment created', $this->gateway::LOG_SOURCE, $data);
-        return $data;
-    }
+
 
     /**
      * Create Payment
@@ -46,6 +24,88 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
      * @throws \Exception
      */
     public function createTcPayment($order_id, array $checkout)
+    {
+        $order = new \WC_Order($order_id);
+        $descripcionParts = array();
+        $iva=0;
+        $ico=0;
+        $base_tax=$order->get_subtotal()-$order->get_total_discount();
+        foreach($order->get_items('tax') as $item_id => $item ) {
+            if( strtolower( $item->get_label() ) == 'iva' ){
+                $iva += round($item->get_tax_total(),2);
+            }
+            if( strtolower( $item->get_label() ) == 'ico'){
+                $ico += round($item->get_tax_total(),2);
+            }
+        }
+
+        foreach ($order->get_items() as $product) {
+            $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
+            $descripcionParts[] = $clearData;
+        }
+
+        $descripcion = implode(' - ', $descripcionParts);
+        $currency = strtolower(get_woocommerce_currency());
+        $basedCountry = WC()->countries->get_base_country();
+        //$customerData = $this->getCustomer($checkout);
+        $basedCountry = $checkout["countryType"]??$checkout["countrytype"]??$checkout[""]["countryType"];
+        $city = $checkout["country"]??$checkout[""]["country"];
+        $myIp=$this->getCustomerIp();
+        $confirm_url = $checkout["confirm_url"];
+        $response_url = $checkout["response_url"];
+        $testMode = $this->epayco->storeConfig->isTestMode()??false;
+        $customerName = $checkout["name"]??$checkout[""]["name"];
+        $explodeName = explode(" ", $customerName);
+        $name = $explodeName[0];
+        $lastName = $explodeName[1];
+        $dues= $checkout["installmet"]??$checkout[""]["installmet"];
+        //$person_type= $checkout["person_type"]??$checkout[""]["person_type"];
+        $holder_address= $checkout["address"]??$checkout[""]["address"];
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"];
+        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $email= $checkout["email"]??$checkout[""]["email"];
+        $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
+        /*if(!$customerData['success']){
+            return $customerData;
+        }*/
+        $data = array(
+            "token_card" => $checkout["token"],
+            "customer_id" => "customer_id",
+            "bill" => (string)$order->get_id(),
+            "dues" => $dues,
+            "description" => $descripcion,
+            "value" =>(string)$order->get_total(),
+            "tax" => $iva,
+            "tax_base" => $base_tax,
+            "currency" => $currency,
+            "doc_type" => $doc_type,
+            "doc_number" => $doc_number,
+            "name" => $name,
+            "last_name" => $lastName,
+            "email" => $email,
+            "country" => $basedCountry,
+            "address"=> $holder_address,
+            "city" => $city,
+            "cell_phone" => $cellphone,
+            "ip" => $myIp,
+            "url_response" => $response_url,
+            "url_confirmation" => $confirm_url,
+            "metodoconfirmacion" => "POST",
+            "use_default_card_customer" => true,
+            "extra1" => (string)$order->get_id(),
+            "extras_epayco"=>["extra5"=>"P19"]
+        );
+        $charge = $this->sdk->charge->create($data);
+        return $charge;
+    }
+
+    /**
+     * Create Payment
+     *
+     * @return string|array
+     * @throws \Exception
+     */
+    public function createSubscriptionPayment($order_id, array $checkout)
     {
         $order = new \WC_Order($order_id);
         $descripcionParts = array();
@@ -196,7 +256,6 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "extras_epayco"=>["extra5"=>"P19"]
         );
         $pse = $this->sdk->bank->create($data);
-        //$this->epayco->logs->file->info('Payment created', $this->gateway::LOG_SOURCE, $data);
         return $pse;
     }
 
@@ -505,25 +564,6 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         return $customer;
     }
 
-    /**
-     * Set payer transaction
-     *
-     * @return void
-     */
-    public function setPayerTransaction(): void
-    {
-        $payer = $this->transaction->payer;
-
-        $payer->email                  = $this->epayco->orderBilling->getEmail($this->order);
-        $payer->first_name             = $this->epayco->orderBilling->getFirstName($this->order);
-        $payer->last_name              = $this->epayco->orderBilling->getLastName($this->order);
-        $payer->address->city          = $this->epayco->orderBilling->getCity($this->order);
-        $payer->address->federal_unit  = $this->epayco->orderBilling->getState($this->order);
-        $payer->address->zip_code      = $this->epayco->orderBilling->getZipcode($this->order);
-        $payer->address->street_name   = $this->epayco->orderBilling->getFullAddress($this->order);
-        $payer->address->street_number = '';
-        $payer->address->neighborhood  = '';
-    }
 
     public function string_sanitize($string, $force_lowercase = true, $anal = false) {
         $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]","}", "\\", "|", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;","â€”", "â€“", "<", ">", "/", "?");

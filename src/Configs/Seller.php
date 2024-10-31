@@ -3,7 +3,6 @@
 namespace Epayco\Woocommerce\Configs;
 
 use Epayco\Woocommerce\Helpers\Cache;
-use Epayco\Woocommerce\Helpers\Requester;
 use Epayco\Woocommerce\Hooks\Options;
 
 
@@ -119,10 +118,6 @@ class Seller
      */
     private $options;
 
-    /**
-     * @var Requester
-     */
-    private $requester;
 
     /**
      * @var Store
@@ -136,14 +131,12 @@ class Seller
      *
      * @param Cache $cache
      * @param Options $options
-     * @param Requester $requester
      * @param Store $store
      */
-    public function __construct(Cache $cache, Options $options, Requester $requester, Store $store)
+    public function __construct(Cache $cache, Options $options, Store $store)
     {
         $this->cache     = $cache;
         $this->options   = $options;
-        $this->requester = $requester;
         $this->store     = $store;
     }
 

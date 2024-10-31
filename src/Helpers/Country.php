@@ -311,6 +311,7 @@ final class Country
             'Epayco\Woocommerce\Gateways\CustomGateway',
             'Epayco\Woocommerce\Gateways\DaviplataGateway',
             'Epayco\Woocommerce\Gateways\PseGateway',
+            'Epayco\Woocommerce\Gateways\SubscriptionGateway',
             'Epayco\Woocommerce\Gateways\TicketGateway',
         ];
     }

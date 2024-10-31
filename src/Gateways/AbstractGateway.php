@@ -190,7 +190,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, explode(',', $paymentIds));
             return;
         }
-        $this->epayco->logs->file->info("no payment ids to update", "Epayco_AbstractGateway");
     }
 
     /**
@@ -215,31 +214,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
         return false;
     }
 
-    /**
-     * If the seller is homologated, it returns an array of an empty $form_fields field.
-     * If not, then return a notice to inform that the seller must be homologated to be able to sell.
-     *
-     * @return array
-     */
-    protected function getHomologValidateNoticeOrHidden(): array
-    {
-        if ($this->epayco->sellerConfig->getHomologValidate()) {
-            return [
-                'type'  => 'title',
-                'value' => '',
-            ];
-        }
-        return [
-            'type'  => 'ep_card_info',
-            'value' => [
-                'button_url'  => $this->links['admin_settings_page'],
-                'icon'        => 'ep-icon-badge-warning',
-                'color_card'  => 'ep-alert-color-alert',
-                'size_card'   => 'ep-card-body-size-homolog',
-                'target'      => '_blank',
-            ]
-        ];
-    }
 
     /**
      * Added gateway scripts
@@ -446,10 +420,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
         }
         echo $message;
         die();
-        /*$notificationFactory = new NotificationFactory();
-        $notificationHandler = $notificationFactory->createNotificationHandler($this, $data);
-
-        $notificationHandler->handleReceivedNotification($data);*/
     }
 
     public function authSignature($x_ref_payco, $x_transaction_id, $x_amount, $x_currency_code){
@@ -878,10 +848,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             $accessToken = $this->epayco->sellerConfig->getCredentialsAccessToken();
 
             if (empty($publicKey) || empty($accessToken)) {
-                $this->epayco->logs->file->error(
-                    "No credentials to enable payment method",
-                    "Epayco_AbstractGateway"
-                );
 
                 echo wp_json_encode(
                     array(
@@ -945,10 +911,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             $currencyRatio = $this->epayco->helpers->currency->getRatio($this);
             $amount = $this->getAmount();
         } catch (\Exception $e) {
-            $this->epayco->logs->file->warning(
-                "ePayco gave error to call getRatio: {$e->getMessage()}",
-                self::LOG_SOURCE
-            );
+
         }
         return [
             'currencyRatio' => $currencyRatio,
