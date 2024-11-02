@@ -117,6 +117,7 @@
                  inputName: c,
                  hiddenId: n,
                  inputDataCheckout: o,
+                 inputId:dd,
                  selectId: m,
                  selectName: s,
                  selectDataCheckout: r,
@@ -130,6 +131,7 @@
                 "input-name": c,
                 "hidden-id": n,
                 "input-data-checkout": o,
+                "input-id": dd,
                 "select-id": m,
                 "select-name": s,
                 "select-data-checkout": r,
@@ -397,6 +399,19 @@
                             countryHelpers.style.display = 'flex';
                         }
                     }
+                    var agree = false;
+                    const termanAndContictionContent = current.querySelector('terms-and-conditions').querySelector('input');
+                    const termanAndContictionHelpers =  current.querySelector('terms-and-conditions').querySelector(".mp-terms-and-conditions-container");
+                    termanAndContictionContent.addEventListener('click', function() {
+                        const checkbox = termanAndContictionContent;
+                        if (checkbox.checked) {
+                            termanAndContictionHelpers.classList.remove("mp-error")
+                            agree = true;
+                        } else {
+                            termanAndContictionHelpers.classList.add("mp-error")
+                            agree = false;
+                        }
+                    });
 
 
                     const e = ce((async () => {
@@ -404,7 +419,7 @@
                         function o(e) {
                             return e && "flex" === e.style.display
                         }
-                        debugger
+
                         const doc_type = cardContentDocument.parentElement.parentElement.querySelector("#epayco_custom\\[identificationType\\]");
                         const cellphoneType = customContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                         const countryType = countryContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
@@ -420,13 +435,16 @@
                         "" === customContentEmail.value && verifyEmail(customContentEmail);
                         "" === customContentCellphone.value && verifyCellphone(customContentCellphone);
                         "" === countryContentCountry.value && verifyCountry(countryContentCountry);
-                        let validation = o(nameHelpers) || o(cardNumberHelpers) || o(cardExpirationHelpers) || o(cardSecurityHelpers) || o(documentHelpers) || o(addressHelpers) || o(emailHelpers) || o(cellphoneHelpers) || o(countryHelpers);
+                        !agree && termanAndContictionHelpers.classList.add("mp-error");
+
+                        let validation = o(nameHelpers) || o(cardNumberHelpers) || o(cardExpirationHelpers) || o(cardSecurityHelpers) || o(documentHelpers) || o(addressHelpers) || o(emailHelpers) || o(cellphoneHelpers) || o(countryHelpers) || !agree;
                         try {
                             var createTokenEpayco = async function  ($form) {
                                 return await new Promise(function(resolve, reject) {
                                     ePayco.token.create($form, function(data) {
-                                        if(data.status=='error'){
-                                            reject("")
+                                        debugger
+                                        if(data.status == 'error' || data.error){
+                                            reject(false)
                                         }else{
                                             document.querySelector('#cardTokenId').value = data.data.token;
                                             //jQuery('form.checkout').submit();
@@ -441,6 +459,11 @@
                                 ePayco.setPublicKey(publicKey);
                                 ePayco.setLanguage("es");
                                 var token = await createTokenEpayco(current);
+                                debugger
+                                if(!token){
+                                    validation = true;
+                                }
+
                             }else{
                                  return {
                                     type: te.responseTypes.FAIL,
@@ -470,6 +493,7 @@
                             "epayco_custom[token]": token,
                             "epayco_custom[installmet]": customContentInstallments,
                         };
+                        debugger
                         return  "" !== customContentName.value &&
                                 "" !== cardNumberContentName.value &&
                                 "" !== cardExpirationContentName.value &&
@@ -492,6 +516,7 @@
                 }), [ce, te.responseTypes.ERROR, te.responseTypes.SUCCESS]),
                 (0, c.useEffect)((() => {
                     const e = ne((async e => {
+                        debugger
                         const t = e.processingResponse,
                             a = e.processingResponse.paymentDetails;
                         return  {type: te.responseTypes.SUCCESS}
@@ -500,6 +525,7 @@
                 }), [ne]),
                 (0, c.useEffect)((() => {
                     const e = oe((e => {
+                        debugger
                         const t = e.processingResponse;
                         return {
                             type: te.responseTypes.FAIL,
@@ -600,9 +626,10 @@
                                         labelMessage: $,
                                         helperMessage: q,
                                         inputName: 'epayco_custom[doc_number]',
-                                        hiddenId: "dentificationType",
+                                        hiddenId: "identificationType",
                                         inputDataCheckout: "doc_number",
-                                        selectId: "dentificationType",
+                                        inputId:"identificationTypeNumber",
+                                        selectId: "identificationType",
                                         selectName:"epayco_custom[identificationType]",
                                         selectDataCheckout: "doc_type",
                                         flagError: "identificationTypeError",

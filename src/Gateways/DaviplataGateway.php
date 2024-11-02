@@ -251,7 +251,7 @@ class DaviplataGateway extends AbstractGateway
                     return $return;
                 }
             }else{
-                $messageError = $response['message']?? $response['titleResponse'];
+                $messageError = $response['message']??$response['titleResponse']??'error';
                 $errorMessage = "";
                 if (isset($response['data']['errors'])) {
                     $errors = $response['data']['errors'];

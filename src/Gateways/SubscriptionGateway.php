@@ -153,10 +153,10 @@ class SubscriptionGateway extends AbstractGateway
     {
         parent::registerCheckoutScripts();
 
-        $this->epayco->hooks->scripts->registerCheckoutScript(
+        /*$this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_subscription_sdk',
             $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/subscription/library', '.js')
-        );
+        );*/
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_subscription_checkout',
@@ -255,7 +255,8 @@ class SubscriptionGateway extends AbstractGateway
     public function process_payment($order_id): array
     {
         $order = wc_get_order($order_id);
-
+        var_dump("checkout");
+        die();
         try {
             $checkout = $this->getCheckoutEpaycoSubscription($order);
 

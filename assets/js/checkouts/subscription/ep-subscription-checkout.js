@@ -11,7 +11,7 @@
       ePayco.setLanguage("es");
       let formOrderReview = document.querySelector('form[id=order_review]');
       if (formOrderReview) {
-        let choCustomContent = document.querySelector('.mp-checkout-custom-container');
+        let choCustomContent = document.querySelector('.mp-checkout-subscription-container');
         let choCustomHelpers = choCustomContent.querySelectorAll('input-helper');
 
         choCustomHelpers.forEach((item) => {
@@ -21,7 +21,7 @@
           }
         });
       }
-      var CustomContent = document.querySelector("form.checkout").getElementsByClassName("mp-checkout-custom-container")[0];
+      var CustomContent = document.querySelector("form.checkout").getElementsByClassName("mp-checkout-subscription-container")[0];
       let ticketHelpers = CustomContent.querySelectorAll('input-helper');
       numberName(CustomContent)
       expirationDate(CustomContent)
@@ -153,7 +153,7 @@
     async function  createToken($form) {
       return await new Promise(function(resolve, reject) {
         ePayco.token.create($form, function(data) {
-          var customContent = document.querySelector("form.checkout").getElementsByClassName("mp-checkout-custom-container")[0];
+          var customContent = document.querySelector("form.checkout").getElementsByClassName("mp-checkout-subscription-container")[0];
           customContent.querySelector('#form-checkout__cardNumber-container').querySelector('input').value='';
           customContent.querySelector('#form-checkout__expirationDate-container').querySelector('input').value='';
           customContent.querySelector('#form-checkout__securityCode-container').querySelector('input').value='';

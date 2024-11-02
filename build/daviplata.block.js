@@ -290,11 +290,11 @@
             let B = {
                 labelMessage: h,
                 helperMessage: y,
-                inputId:"dentificationTypeNumber",
+                inputId:"identificationTypeNumber",
                 inputName: "epayco_daviplata[docNumber]",
-                hiddenId: "dentificationType",
+                hiddenId: "identificationType",
                 inputDataCheckout: "doc_number",
-                selectId: "dentificationType",
+                selectId: "identificationType",
                 selectName: "identificationType",
                 selectDataCheckout: "doc_type",
                 flagError: "docNumberError",
@@ -361,7 +361,19 @@
                     }
                 }
 
-
+                var agree = false;
+                const termanAndContictionContent = M.current.parentElement.parentElement.querySelector('terms-and-conditions').querySelector('input');
+                const termanAndContictionHelpers =  M.current.parentElement.parentElement.querySelector('terms-and-conditions').querySelector(".mp-terms-and-conditions-container");
+                termanAndContictionContent.addEventListener('click', function() {
+                    const checkbox = termanAndContictionContent;
+                    if (checkbox.checked) {
+                        termanAndContictionHelpers.classList.remove("mp-error")
+                        agree = true;
+                    } else {
+                        termanAndContictionHelpers.classList.add("mp-error")
+                        agree = false;
+                    }
+                });
 
                 const e = O((async () => {
 
@@ -371,7 +383,7 @@
                     const countryType = ticketContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
 
                     const person_type_value = M.current.querySelector("#daviplata\\[person_type\\]").value;
-                    const doc_number_value = M.current.querySelector("#dentificationTypeNumber").querySelector("input").value;
+                    const doc_number_value = M.current.querySelector("#identificationTypeNumber").querySelector("input").value;
                     const n = {
                         "epayco_daviplata[site_id]": C,
                         "epayco_daviplata[amount]": b.toString(),
@@ -390,9 +402,10 @@
                     "" === ticketContentEmail.value && verifyEmail(ticketContentEmail);
                     "" === ticketContentAddress.value && verifyAddress(ticketContentAddress);
                     "" === ticketContentCellphone.value && verifyCellphone(ticketContentCellphone);
-                    "Type" === doc_type.value && verifyDocument(ticketContentDocument);
+                    "Type" === doc_type && verifyDocument(ticketContentDocument);
                     "" === ticketContentDocument.value && verifyDocument(ticketContentDocument);
                     "" === ticketContentCountry.value && verifyCountry(ticketContentCountry);
+                    !agree && termanAndContictionHelpers.classList.add("mp-error");
 
                     function c(e, t) {
                         e && e.style && (e.style.display = t)
@@ -410,7 +423,7 @@
                     "" !== ticketContentCountry.value &&
                     "Type" !== doc_type,
                         {
-                            type: o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers)  || o(countryHelpers) ? P.responseTypes.ERROR : P.responseTypes.SUCCESS,
+                            type: o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers)  || o(countryHelpers) || !agree ? P.responseTypes.ERROR : P.responseTypes.SUCCESS,
                             meta: {paymentMethodData: n}
                         }
                 }));

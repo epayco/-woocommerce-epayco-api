@@ -398,13 +398,27 @@
                         }
                     }
 
+                    var agree = false;
+                    const termanAndContictionContent = current.querySelector('terms-and-conditions').querySelector('input');
+                    const termanAndContictionHelpers =  current.querySelector('terms-and-conditions').querySelector(".mp-terms-and-conditions-container");
+                    termanAndContictionContent.addEventListener('click', function() {
+                        const checkbox = termanAndContictionContent;
+                        if (checkbox.checked) {
+                            termanAndContictionHelpers.classList.remove("mp-error")
+                            agree = true;
+                        } else {
+                            termanAndContictionHelpers.classList.add("mp-error")
+                            agree = false;
+                        }
+                    });
+
 
                     const e = ce((async () => {
-                        const customContentInstallments = current.querySelector('input-installment').querySelector("#epayco_subscription\\[installment\\]").value;
+                        //const customContentInstallments = current.querySelector('input-installment').querySelector("#epayco_subscription\\[installment\\]").value;
                         function o(e) {
                             return e && "flex" === e.style.display
                         }
-                        debugger
+
                         const doc_type = cardContentDocument.parentElement.parentElement.querySelector("#epayco_subscription\\[identificationType\\]");
                         const cellphoneType = customContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                         const countryType = countryContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
@@ -420,7 +434,8 @@
                         "" === customContentEmail.value && verifyEmail(customContentEmail);
                         "" === customContentCellphone.value && verifyCellphone(customContentCellphone);
                         "" === countryContentCountry.value && verifyCountry(countryContentCountry);
-                        let validation = o(nameHelpers) || o(cardNumberHelpers) || o(cardExpirationHelpers) || o(cardSecurityHelpers) || o(documentHelpers) || o(addressHelpers) || o(emailHelpers) || o(cellphoneHelpers) || o(countryHelpers);
+                        !agree && termanAndContictionHelpers.classList.add("mp-error");
+                        let validation = o(nameHelpers) || o(cardNumberHelpers) || o(cardExpirationHelpers) || o(cardSecurityHelpers) || o(documentHelpers) || o(addressHelpers) || o(emailHelpers) || o(cellphoneHelpers) || o(countryHelpers) || !agree;
                         try {
                             var createTokenEpayco = async function  ($form) {
                                 return await new Promise(function(resolve, reject) {
@@ -436,11 +451,12 @@
                                 });
                             }
                             if (!validation) {
-                                var publicKey = wc_epayco_custom_checkout_params.public_key_epayco;
+                                var publicKey = wc_epayco_subscription_checkout_params.public_key_epayco;
                                 var token;
                                 ePayco.setPublicKey(publicKey);
                                 ePayco.setLanguage("es");
-                                var token = await createTokenEpayco(current);
+                                //var token = await createTokenEpayco(current);
+                                var token = "72524ce8465c32bf80104fb";
                             }else{
                                 return {
                                     type: te.responseTypes.FAIL,
@@ -468,8 +484,9 @@
                             "epayco_subscription[cellphone]": customContentCellphone.value,
                             "epayco_subscription[country]": countryContentCountry.value,
                             "epayco_subscription[token]": token,
-                            "epayco_subscription[installmet]": customContentInstallments,
+                            //"epayco_subscription[installmet]": customContentInstallments,
                         };
+                        debugger
                         return  "" !== customContentName.value &&
                         "" !== cardNumberContentName.value &&
                         "" !== cardExpirationContentName.value &&
@@ -480,9 +497,8 @@
                         "" !== countryContentCountry.value &&
                         "" !== doc_number_value &&
                         "Type" !== doc_type.value &&
-                        "" !== token
-                            ,
-                            Z("subscription"),
+                        "" !== token,
+                            //Z("subscription"),
                             {
                                 type:validation ? te.responseTypes.ERROR : te.responseTypes.SUCCESS,
                                 meta: {paymentMethodData: values}
@@ -511,7 +527,7 @@
                 }), [oe]),
                 (0, e.createElement)("div", null,
                     (0, e.createElement)("div", {className: "mp-checkout-container"},
-                        (0, e.createElement)("div", {className: "mp-checkout-custom-container"}, a ?
+                        (0, e.createElement)("div", {className: "mp-checkout-subscription-container"}, a ?
                                 (0, e.createElement)("div", {className: "mp-checkout-pro-test-mode"},
                                     (0, e.createElement)(test, {
                                         title: n,
@@ -535,8 +551,8 @@
                                             labelMessage:P,
                                             helperMessage:U,
                                             placeholder:"jonh doe",
-                                            inputName:'epayco_custom[name]',
-                                            flagError:'epayco_custom[nameError]',
+                                            inputName:'epayco_subscription[name]',
+                                            flagError:'epayco_subscription[nameError]',
                                             validate:"true",
                                             hiddenId:"hidden-name-custom"
                                         }),
@@ -546,8 +562,8 @@
                                             labelMessage:F,
                                             helperMessage:O,
                                             placeholder:"0000 0000 0000 0000",
-                                            inputName:'epayco_custom[card]',
-                                            flagError:'epayco_custom[cardError]',
+                                            inputName:'epayco_subscriptionepayco_subscription[card]',
+                                            flagError:'epayco_subscription[cardError]',
                                             validate:"true",
                                             hiddenId:"hidden-card-number-custom"
                                         }),
@@ -558,8 +574,8 @@
                                                 labelMessage:D,
                                                 helperMessage:L,
                                                 placeholder:"mm/yy",
-                                                inputName:'epayco_custom[expirationDate]',
-                                                flagError:'epayco_custom[expirationDateError]',
+                                                inputName:'epayco_subscription[expirationDate]',
+                                                flagError:'epayco_subscription[expirationDateError]',
                                                 validate:"true",
                                                 hiddenId:"hidden-expiration-date-helper"
                                             })
@@ -569,20 +585,20 @@
                                                 labelMessage:V,
                                                 helperMessage:B,
                                                 placeholder:"***",
-                                                inputName:'epayco_custom[securityCode]',
-                                                flagError:'epayco_custom[securityCodeError]',
+                                                inputName:'epayco_subscription[securityCode]',
+                                                flagError:'epayco_subscription[securityCodeError]',
                                                 validate:"true",
                                                 hiddenId:"hidden-security-code-helper"
                                             })
                                         ),
-                                        (0, e.createElement)("div", {className: "mp-checkout-custom-card-column"},
+                                        /*(0, e.createElement)("div", {className: "mp-checkout-custom-card-column"},
                                             (0, e.createElement)(installments, {
-                                                name:"epayco_custom[installment]",
+                                                name:"epayco_subscription[installment]",
                                                 label:"fees",
                                                 optional:"false",
                                                 options:'[{"id":"", "description": "fees"},{"id":"1", "description": "1"}]'
                                             })
-                                        ),
+                                        ),*/
                                     ),
                                 )
                             ),
@@ -599,11 +615,11 @@
                                     (0, e.createElement)(documents, {
                                         labelMessage: $,
                                         helperMessage: q,
-                                        inputName: 'epayco_custom[doc_number]',
-                                        hiddenId: "dentificationType",
+                                        inputName: 'epayco_subscription[doc_number]',
+                                        hiddenId: "identificationType",
                                         inputDataCheckout: "doc_number",
-                                        selectId: "dentificationType",
-                                        selectName:"epayco_custom[identificationType]",
+                                        selectId: "identificationType",
+                                        selectName:"epayco_subscription[identificationType]",
                                         selectDataCheckout: "doc_type",
                                         flagError: "identificationTypeError",
                                         "documents":'[{"id":"Type"},{"id":"CC"},{"id":"CE"},{"id":"NIT"},{"id":"TI"},{"id":"PPN"},{"id":"SSN"},{"id":"LIC"},{"id":"DNI"}]',
@@ -616,8 +632,8 @@
                                         labelMessage:PP,
                                         helperMessage:UU,
                                         placeholder:"Street 123",
-                                        inputName:'epayco_custom[address]',
-                                        flagError:'epayco_custom[addressError]',
+                                        inputName:'epayco_subscription[address]',
+                                        flagError:'epayco_subscription[addressError]',
                                         validate:"true",
                                         hiddenId:"hidden-address-custom"
                                     }),
@@ -627,8 +643,8 @@
                                         labelMessage:EE,
                                         helperMessage:HH,
                                         placeholder:"john@example.com",
-                                        inputName:'epayco_custom[email]',
-                                        flagError:'epayco_custom[emailError]',
+                                        inputName:'epayco_subscription[email]',
+                                        flagError:'epayco_subscription[emailError]',
                                         validate:"true",
                                         hiddenId:"hidden-email-custom"
                                     }),

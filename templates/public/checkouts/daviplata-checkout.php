@@ -136,10 +136,10 @@ if (!defined('ABSPATH')) {
                             label-message="<?= esc_html($input_document_label); ?>"
                             helper-message="<?= esc_html($input_document_helper); ?>"
                             input-name='epayco_daviplata[doc_number]'
-                            hidden-id="dentificationType"
+                            hidden-id="identificationType"
                             input-data-checkout="doc_number"
-                            select-id="dentificationType"
-                            input-id="dentificationTypeNumber"
+                            select-id="identificationType"
+                            input-id="identificationTypeNumber"
                             select-name="epayco_daviplata[identificationType]"
                             select-data-checkout="doc_type"
                             flag-error="identificationTypeError"
@@ -187,7 +187,6 @@ if (!defined('ABSPATH')) {
                 <div id="epayco-utilities" style="display:none;">
                     <input type="hidden" id="site_id" value="<?= esc_textarea($site_id); ?>" name="epayco_daviplata[site_id]" />
                     <input type="hidden" id="ticket_amount" value="<?= esc_textarea($amount); ?>" name="epayco_daviplata[amount]" />
-                    <input type="hidden" id="ticket_currency_ratio" value="<?= esc_textarea($currency_ratio); ?>" name="epayco_daviplata[currency_ratio]" />
                     <input type="hidden" id="ticket_campaign_id" name="epayco_daviplata[campaign_id]" />
                     <input type="hidden" id="ticket_campaign" name="epayco_daviplata[campaign]" />
                     <input type="hidden" id="ticket_discount" name="epayco_daviplata[discount]" />
@@ -207,12 +206,6 @@ if (!defined('ABSPATH')) {
 
 </div>
 
-<div id="epayco-utilities" style="display:none;">
-    <input type="hidden" id="mp-amount" value='<?= esc_textarea($amount); ?>' name="epayco_custom[amount]"/>
-    <input type="hidden" id="paymentMethodId" name="epayco_custom[payment_method_id]"/>
-    <input type="hidden" id="mp_checkout_type" name="epayco_custom[checkout_type]" value="custom"/>
-    <input type="hidden" id="cardholderName" data-checkout="cardholderName" value="form-checkout__cardholderName" name="epayco_custom[cardholderName]"/>
-</div>
 
 
 

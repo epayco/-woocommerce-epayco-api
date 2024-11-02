@@ -146,10 +146,10 @@ class CustomGateway extends AbstractGateway
     {
         parent::registerCheckoutScripts();
 
-        $this->epayco->hooks->scripts->registerCheckoutScript(
+        /*$this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_sdk',
             $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/custom/library', '.js')
-        );
+        );*/
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_custom_checkout',
@@ -248,7 +248,13 @@ class CustomGateway extends AbstractGateway
     public function process_payment($order_id): array
     {
         $order = wc_get_order($order_id);
-
+        $return = [
+            'result'   => 'fail',
+            'redirect' => '',
+            'message'  =>  " error richi" ,
+        ];
+        return $return;
+die();
         try {
             $checkout = $this->getCheckoutEpaycoCustom($order);
 

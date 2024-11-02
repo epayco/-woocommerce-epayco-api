@@ -299,11 +299,11 @@
             let U = {
                 labelMessage: k,
                 helperMessage: h,
-                inputId:"dentificationTypeNumber",
+                inputId:"identificationTypeNumber",
                 inputName: "epayco_pse[docNumber]",
-                hiddenId: "dentificationType",
+                hiddenId: "identificationType",
                 inputDataCheckout: "doc_number",
-                selectId: "dentificationType",
+                selectId: "identificationType",
                 selectName: "identificationType",
                 selectDataCheckout: "doc_type",
                 flagError: "docNumberError",
@@ -370,6 +370,20 @@
                     }
                 }
 
+                var agree = false;
+                const termanAndContictionContent = P.current.parentElement.parentElement.querySelector('terms-and-conditions').querySelector('input');
+                const termanAndContictionHelpers =  P.current.parentElement.parentElement.querySelector('terms-and-conditions').querySelector(".mp-terms-and-conditions-container");
+                termanAndContictionContent.addEventListener('click', function() {
+                    const checkbox = termanAndContictionContent;
+                    if (checkbox.checked) {
+                        termanAndContictionHelpers.classList.remove("mp-error")
+                        agree = true;
+                    } else {
+                        termanAndContictionHelpers.classList.add("mp-error")
+                        agree = false;
+                    }
+                });
+
 
                 const e = I((async () => {
 
@@ -377,7 +391,7 @@
                     const cellphoneType = ticketContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                     const countryType = ticketContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                     const person_type_value = P.current.querySelector("#epayco_pse\\[person_type\\]").value;
-                    const doc_number_value = P.current.querySelector("#dentificationTypeNumber").querySelector("input").value;
+                    const doc_number_value = P.current.querySelector("#identificationTypeNumber").querySelector("input").value;
                     const bank = P.current.querySelector("#epayco_pse\\[bank\\]").value;
 
                     const t = {
@@ -399,9 +413,10 @@
                     "" === ticketContentEmail.value && verifyEmail(ticketContentEmail);
                     "" === ticketContentAddress.value && verifyAddress(ticketContentAddress);
                     "" === ticketContentCellphone.value && verifyCellphone(ticketContentCellphone);
-                    "Type" === doc_type.value && verifyDocument(ticketContentDocument);
+                    "Type" === doc_type && verifyDocument(ticketContentDocument);
                     "" === ticketContentDocument.value && verifyDocument(ticketContentDocument);
                     "" === ticketContentCountry.value && verifyCountry(ticketContentCountry);
+                    !agree && termanAndContictionHelpers.classList.add("mp-error");
 
                     const n = P.current.querySelector("#epayco_pse\\[bank\\]");
                     const bankHelper =  P.current.querySelector('.mp-checkout-pse-bank').querySelector("input-helper").querySelector("div");
@@ -430,7 +445,7 @@
                     "" !== ticketContentCountry.value &&
                     "Type" !== doc_type,
                         {
-                            type: o(bankHelper) || o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers)  || o(countryHelpers) ? O.responseTypes.ERROR : O.responseTypes.SUCCESS,
+                            type: o(bankHelper) || o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers)  || o(countryHelpers) || !agree ? O.responseTypes.ERROR : O.responseTypes.SUCCESS,
                             meta: {paymentMethodData: t}
                         }
 
@@ -531,7 +546,7 @@
                                         options: N,
                                         "hidden-id": "hidden-financial-pse",
                                         "helper-message": R,
-                                        "default-option": T
+                                        "default-option": ""
                                     }),
                                 ),
 

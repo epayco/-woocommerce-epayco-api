@@ -19,8 +19,9 @@
             verifyCellphone(DaviplataContent)
             verifyDocument(DaviplataContent);
             verifyCountry(DaviplataContent)
-
-            if (checkForErrors(ticketHelpers)) {
+            verifyTermAndCondictions(DaviplataContent)
+            let checked =  DaviplataContent.parentElement.querySelector('terms-and-conditions').querySelector('input').checked
+            if (checkForErrors(ticketHelpers)|| !checked) {
                 removeBlockOverlay();
             } else {
                 mercado_pago_submit_ticket = true;
@@ -102,6 +103,13 @@
                 let pseHelpers = psedaviplataContent.querySelector('#form-checkout__identificationCountry-container').parentElement.querySelector('input-helper');
                 let child = pseHelpers.querySelector('div');
                 child.style.display = 'flex';
+            }
+        }
+
+        function verifyTermAndCondictions(psedaviplataContent) {
+            let addressElement = psedaviplataContent.parentElement.querySelector('terms-and-conditions').querySelector('input');
+            if (!addressElement.checked) {
+                psedaviplataContent.parentElement.querySelector('terms-and-conditions > div').classList.add('mp-error')
             }
         }
 

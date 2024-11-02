@@ -314,11 +314,11 @@ class PseGateway extends AbstractGateway
                     'description' => $bank->bankName
                 );
             }
+        }else{
+            $convertedBanks[] =['id' => 0, 'description' => "Selecciona el banco"];
+            $convertedBanks[] =['id' => 1, 'description' => "nequi"];
         }
-        $convertedBanks[] =[
-            'id' => 0,
-            'description' => "nequi"
-        ];
+
 
             return $convertedBanks;
     }

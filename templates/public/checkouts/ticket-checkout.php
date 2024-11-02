@@ -130,10 +130,10 @@ if (!defined('ABSPATH')) {
                             label-message="<?= esc_html($input_document_label); ?>"
                             helper-message="<?= esc_html($input_document_helper); ?>"
                             input-name='epayco_ticket[doc_number]'
-                            hidden-id="dentificationType"
+                            hidden-id="identificationType"
                             input-data-checkout="doc_number"
-                            select-id="dentificationType"
-                            input-id="dentificationTypeNumber"
+                            select-id="identificationType"
+                            input-id="identificationTypeNumber"
                             select-name="epayco_ticket[identificationType]"
                             select-data-checkout="doc_type"
                             flag-error="identificationTypeError"

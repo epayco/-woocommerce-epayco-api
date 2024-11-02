@@ -259,6 +259,12 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     public function registerCheckoutScripts(): void
     {
 
+
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_token_sdk',
+            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/custom/library', '.js')
+        );
+
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_checkout_components',
             $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/ep-plugins-components', '.js'),

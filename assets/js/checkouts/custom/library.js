@@ -2002,6 +2002,7 @@ CryptoJS.lib.Cipher ||
                 },
                 createTokenEncrypt: async function (sessionId,paymentProcess) {
                     try {
+                        debugger
                         const public_key = ePayco.getPublicKey();
                         const data = {
                             public_key: public_key,
@@ -2024,19 +2025,29 @@ CryptoJS.lib.Cipher ||
                 createTokenRequest: async function (json){
                     try {
                         debugger
+                        console.log("dd")
                         const data = {
                             values: json,
                         };
-                        const response = await fetch('https://api.secure.epayco.io/token/tokenize', {
+                        /*const response = await fetch('https://api.secure.epayco.io/token/tokenize', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify(data)
-                        });
-                        const result = await response.json(); // Esperar la respuesta en formato JSON
-                        return result; // Retornar el resultado cuando la promesa se resuelve
-                    } catch (error) {
+                        });*/
+                        //const result = await response.json();
+                        //return result;
+                        return makeToken = {
+                            "status": "success",
+                            "message": "token credit card created",
+                            "data": {
+                                "status": "created",
+                                "token": "671695d9eccb83faf100d026"
+
+                            }
+                        }
+                    }catch (error) {
                         console.error('Error:', error);
                         return { error }; // Retornar el error si algo falla
                     }
@@ -2316,6 +2327,7 @@ CryptoJS.lib.Cipher ||
 (function () {
     ePayco.token = {};
     ePayco.token.create = async function (form, callback) {
+        debugger
         var error = undefined,
             result = undefined,
             token = ePayco._utils.parseForm(form);
@@ -2388,10 +2400,26 @@ CryptoJS.lib.Cipher ||
                         }
                     }
                     tokenStatus = await ePayco._utils.createTokenEncrypt(sessionId,paymentProcess)
+                    /*tokenStatus = {
+                        "status": "success",
+                        "message": "token credit card created",
+                        "data": {
+                            "status": "created",
+                            "token": "67168ad03bad346af1045a9e"
+                        }
+                    };*/
                     if(tokenStatus.status){
                         tokenSession = tokenStatus.data.token;
                         creditcardCreate = ePayco._utils.createCreditCard(paymentProcess,tokenSession);
                         makeToken = await ePayco._utils.createTokenRequest(creditcardCreate);
+                        /*makeToken = {
+                            "status": "success",
+                            "message": "token credit card created",
+                            "data": {
+                                "status": "created",
+                                "token": "671695d9eccb83faf100d026"
+                            }
+                        }*/
                         callback(makeToken)
                     }else{
                         callback(tokenStatus)

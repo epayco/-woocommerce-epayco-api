@@ -128,10 +128,10 @@ if (! defined('ABSPATH')) {
                             label-message="<?= esc_html($input_document_label); ?>"
                             helper-message="<?= esc_html($input_document_helper); ?>"
                             input-name='epayco_pse[doc_number]'
-                            hidden-id="dentificationType"
+                            hidden-id="identificationType"
                             input-data-checkout="doc_number"
-                            select-id="dentificationType"
-                            input-id="dentificationTypeNumber"
+                            select-id="identificationType"
+                            input-id="identificationTypeNumber"
                             select-name="epayco_pse[identificationType]"
                             select-data-checkout="doc_type"
                             flag-error="identificationTypeError"
@@ -175,7 +175,7 @@ if (! defined('ABSPATH')) {
                         options='<?php print_r($financial_institutions); ?>'
                         hidden-id= "hidden-financial-pse"
                         helper-message="<?= esc_html($financial_institutions_helper); ?>"
-                        default-option="<?= esc_html($financial_placeholder); ?>">
+                        default-option="">
                     </input-select>
                 </div>
 
@@ -189,7 +189,6 @@ if (! defined('ABSPATH')) {
                 <div id="epayco-utilities" style="display:none;">
                     <input type="hidden" id="amountPse" value="<?= esc_textarea($amount); ?>" name="epayco_pse[amount]" />
                     <input type="hidden" id="site_id" value="<?= esc_textarea($site_id); ?>" name="epayco_pse[site_id]" />
-                    <input type="hidden" id="currency_ratioPse" value="<?= esc_textarea($currency_ratio); ?>" name="epayco_pse[currency_ratio]" />
                     <input type="hidden" id="campaign_idPse" name="epayco_pse[campaign_id]" />
                     <input type="hidden" id="campaignPse" name="epayco_pse[campaign]" />
                     <input type="hidden" id="discountPse" name="epayco_pse[discount]" />
