@@ -95,6 +95,8 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "extra1" => (string)$order->get_id(),
             "extras_epayco"=>["extra5"=>"P19"]
         );
+        var_dump($data);
+        die();
         $charge = $this->sdk->charge->create($data);
         return $charge;
     }
@@ -177,6 +179,8 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "extra1" => (string)$order->get_id(),
             "extras_epayco"=>["extra5"=>"P19"]
         );
+        var_dump($data);
+        die();
          $charge = $this->sdk->charge->create($data);
         return $charge;
     }
@@ -255,6 +259,8 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "testMode" => $testMode,
             "extras_epayco"=>["extra5"=>"P19"]
         );
+        var_dump($data);
+        die();
         $pse = $this->sdk->bank->create($data);
         return $pse;
     }
@@ -336,7 +342,8 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         );
         //$cash = '{"refPayco":101638264,"invoice":"45_test","description":"camiseta","value":25000,"tax":0,"ico":0,"taxBase":25000,"total":25000,"currency":"COP","bank":"EFECTY","status":"Pendiente","response":"Esperando pago del cliente en punto de servicio Efecty","autorization":"000000","receipt":"48771830820612","date":"2024-10-17 11:25:48","franchise":"EF","codResponse":3,"codError":"P004","ip":"192.168.32.1","testMode":1,"docType":"CC","document":"12145661231","name":"Ricardo","lastName":"Saldarriaga","email":"ric.salda.94+223@gmail.com","city":"","address":"NA","indCountry":null,"pin":"Prueba-000000","codeProject":110571,"paymentDate":"2024-10-17 11:25:48","expirationDate":"2024-10-20 23:59:59","conversionFactor":4266.2,"pesos":25000,"extras":{"extra1":"45","extra2":"","extra3":"","extra4":"","extra5":"","extra6":"","extra7":"","extra8":"","extra9":"","extra10":""},"extras_epayco":{"extra5":"P37"},"showConversion":1,"token":"eyJwaW4iOiJQcnVlYmEtMDAwMDAwIiwibmFtZXMiOiJSaWNhcmRvIFNhbGRhcnJpYWdhIiwiZGF0ZUV4cGlyYXRpb24iOiIyMDI0LTEwLTIwIDIzOjU5OjU5IiwidHlwZSI6IkVGIiwiY29kUHJvamVjdCI6MTEwNTcxLCJkYXRlIjoiMjAyNC0xMC0xNyAxMToyNTo0OCIsInRybSI6NDI2Ni4yLCJjdXJyZW5jeSI6IkNPUCIsInN1YlRvdGFsIjoyNTAwMCwidGF4IjowLCJpY28iOjAsImFtb3VudCI6MjUwMDAsImNvbXBhbnlOYW1lIjoiWXZvbm5lIEVzY2Fsb25hIiwid2ViIjoiaHR0cHM6XC9cL2VwYXljby5jb20iLCJzaG93Q29udmVyc2lvbiI6MX0="}';
         //$cash = json_decode($cash, true);
-
+        var_dump($data);
+        die();
         $cash = $this->sdk->cash->create($data);
 
         $cash = json_decode(json_encode($cash), true);
@@ -419,7 +426,8 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         );
         //$daviplata = '{"refPayco":101638264,"invoice":"45_test","description":"camiseta","value":25000,"tax":0,"ico":0,"taxBase":25000,"total":25000,"currency":"COP","bank":"EFECTY","status":"Pendiente","response":"Esperando pago del cliente en punto de servicio Efecty","autorization":"000000","receipt":"48771830820612","date":"2024-10-17 11:25:48","franchise":"EF","codResponse":3,"codError":"P004","ip":"192.168.32.1","testMode":1,"docType":"CC","document":"12145661231","name":"Ricardo","lastName":"Saldarriaga","email":"ric.salda.94+223@gmail.com","city":"","address":"NA","indCountry":null,"pin":"Prueba-000000","codeProject":110571,"paymentDate":"2024-10-17 11:25:48","expirationDate":"2024-10-20 23:59:59","conversionFactor":4266.2,"pesos":25000,"extras":{"extra1":"45","extra2":"","extra3":"","extra4":"","extra5":"","extra6":"","extra7":"","extra8":"","extra9":"","extra10":""},"extras_epayco":{"extra5":"P37"},"showConversion":1,"token":"eyJwaW4iOiJQcnVlYmEtMDAwMDAwIiwibmFtZXMiOiJSaWNhcmRvIFNhbGRhcnJpYWdhIiwiZGF0ZUV4cGlyYXRpb24iOiIyMDI0LTEwLTIwIDIzOjU5OjU5IiwidHlwZSI6IkVGIiwiY29kUHJvamVjdCI6MTEwNTcxLCJkYXRlIjoiMjAyNC0xMC0xNyAxMToyNTo0OCIsInRybSI6NDI2Ni4yLCJjdXJyZW5jeSI6IkNPUCIsInN1YlRvdGFsIjoyNTAwMCwidGF4IjowLCJpY28iOjAsImFtb3VudCI6MjUwMDAsImNvbXBhbnlOYW1lIjoiWXZvbm5lIEVzY2Fsb25hIiwid2ViIjoiaHR0cHM6XC9cL2VwYXljby5jb20iLCJzaG93Q29udmVyc2lvbiI6MX0="}';
         //$daviplata = json_decode($cash, true);
-
+        var_dump($data);
+        die();
         $daviplata = $this->sdk->daviplata->create($data);
 
         $daviplata= json_decode(json_encode($daviplata), true);

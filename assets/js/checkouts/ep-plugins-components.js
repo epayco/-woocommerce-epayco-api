@@ -91,6 +91,13 @@
                 const n = document.createElement("input");
                 return n.type = "checkbox",
                     t.appendChild(n),
+                    n.addEventListener("click", (() => {
+                        if (n.checked) {
+                            n.parentElement.parentElement.classList.remove("mp-error")
+                        } else {
+                            n.parentElement.parentElement.classList.add("mp-error")
+                        }
+                    })),
                     n
             }
         }
@@ -8881,6 +8888,76 @@
 
             createContainer() {
                 const t = document.createElement("div");
+                return t.classList.add("mp-input-select-container"), t.appendChild(this.createLabel()), t.appendChild(this.createInput()), t.appendChild(this.createHelper()), t
+            }
+
+            createInput() {
+                const t = document.createElement("div");
+                return t.classList.add("mp-input-select-input"), t.appendChild(this.createSelect()), t
+            }
+
+            createSelect() {
+                const t = document.createElement("select"), e = this.getAttribute("name");
+                t.classList.add("mp-input-select-bank"), t.setAttribute("id", e), t.setAttribute("name", e);
+                const i = this.getAttribute("options") && JSON.parse(this.getAttribute("options"));
+                if (this.getAttribute("default-option")) {
+                    const e = document.createElement("option");
+                    e.setAttribute("selected", "selected"), e.setAttribute("hidden", "hidden"), e.innerHTML = this.getAttribute("default-option"), t.appendChild(e)
+                }
+                return i && 0 !== i.length && i.forEach((e => {
+                    t.appendChild(this.createOption(e))
+                })),
+                    t.addEventListener("change", (() => {
+                        console.log("change", t.value)
+                        if(t.value == 0){
+                            t.parentElement.classList.add("mp-error"),
+                                t.parentElement.parentElement.querySelector("input-helper > div").style.display = "flex";
+                        }else{
+                            t.parentElement.classList.remove("mp-error"),
+                                t.parentElement.parentElement.querySelector("input-helper > div").style.display = "none";
+                        }
+                    })),
+
+                    t
+            }
+
+            createOption(t) {
+                const e = document.createElement("option");
+                return e.innerHTML = t.description, e.value = t.id, e
+            }
+
+            createLabel() {
+                const t = document.createElement("input-label"), e = this.getAttribute("optional");
+                return t.setAttribute("message", this.getAttribute("label")), "false" === e ? t.setAttribute("isOptional", e) : t.setAttribute("isOptional", "true"), t
+            }
+
+            createHelper() {
+                const t = document.createElement("input-helper");
+                return t.setAttribute("isVisible", !1),
+                    t.setAttribute("message", this.getAttribute("helper-message")),
+                    t.setAttribute("input-id", "mp-doc-number-helper"),
+                    t
+            }
+
+            createHiddenField(t) {
+                const e = document.createElement("input");
+                return e.setAttribute("type", "hidden"), e.setAttribute("id", t), e
+            }
+        }
+        customElements.define("input-banks", t)
+    })(),
+    (() => {
+        class t extends HTMLElement {
+            connectedCallback() {
+                this.build()
+            }
+
+            build() {
+                this.appendChild(this.createContainer())
+            }
+
+            createContainer() {
+                const t = document.createElement("div");
                 return t.classList.add("mp-input-select-container"),
                     t.appendChild(this.createLabel()),
                     t.appendChild(this.createInput()),
@@ -9321,6 +9398,3 @@
         }
         customElements.define("svg-logo", t)
     })();
-
-
-;

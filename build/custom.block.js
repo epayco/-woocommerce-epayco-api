@@ -458,7 +458,8 @@
                                 var token;
                                 ePayco.setPublicKey(publicKey);
                                 ePayco.setLanguage("es");
-                                var token = await createTokenEpayco(current);
+                                //var token = await createTokenEpayco(current);
+                                var token = '123';
                                 debugger
                                 if(!token){
                                     validation = true;

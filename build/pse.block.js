@@ -190,7 +190,7 @@
                 hiddenId: s,
                 defaultOption: r
             }) =>
-            (0, e.createElement)("input-select", {
+            (0, e.createElement)("input-banks", {
                 name: t,
                 label: n,
                 options: o,
@@ -419,11 +419,13 @@
                     !agree && termanAndContictionHelpers.classList.add("mp-error");
 
                     const n = P.current.querySelector("#epayco_pse\\[bank\\]");
-                    const bankHelper =  P.current.querySelector('.mp-checkout-pse-bank').querySelector("input-helper").querySelector("div");
+                    const bankHelper =  P.current.querySelector('.mp-input-select-bank').parentElement.parentElement.querySelector("input-helper").querySelector("div");
                     if("0" === bank){
+                        P.current.querySelector('.mp-input-select-bank').parentElement.classList.add("mp-error")
                         c(bankHelper, "flex")
                         bankHelper.lastChild.innerText='invalid bank'
                     }else{
+                        P.current.querySelector('.mp-input-select-bank').parentElement.classList.remove("mp-error")
                         c(bankHelper, "none")
                         bankHelper.lastChild.innerText=''
                     }

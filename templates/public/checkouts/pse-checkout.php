@@ -168,7 +168,7 @@ if (! defined('ABSPATH')) {
                     >
                 </div>
                 <div class="mp-checkout-pse-bank">
-                    <input-select
+                    <input-banks
                         name="epayco_pse[bank]"
                         label="<?= esc_html($financial_institutions_label); ?>"
                         optional="false"
@@ -176,7 +176,7 @@ if (! defined('ABSPATH')) {
                         hidden-id= "hidden-financial-pse"
                         helper-message="<?= esc_html($financial_institutions_helper); ?>"
                         default-option="">
-                    </input-select>
+                    </input-banks>
                 </div>
 
 
