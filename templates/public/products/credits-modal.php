@@ -12,7 +12,7 @@
  * @var string $modal_footer_help_link
  * @var string $modal_footer_link
  *
- * @see \Epayco\Woocommerce\Gateways\CreditsGateway
+ * @see \Epayco\Woocommerce\Gateways\CreditCardGateway
  */
 
 if (!defined('ABSPATH')) {

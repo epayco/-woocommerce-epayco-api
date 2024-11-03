@@ -54,12 +54,7 @@ class AdminTranslations
     /**
      * @var array
      */
-    public $creditsGatewaySettings = [];
-
-    /**
-     * @var array
-     */
-    public $customGatewaySettings = [];
+    public $creditcardGatewaySettings = [];
 
 
     /**
@@ -144,8 +139,7 @@ class AdminTranslations
         $this->setOrderSettingsTranslations();
         $this->setGatewaysSettingsTranslations();
         $this->setBasicGatewaySettingsTranslations();
-        $this->setCreditsGatewaySettingsTranslations();
-        $this->setCustomGatewaySettingsTranslations();
+        $this->setcreditCardGatewaySettingsTranslations ();
         $this->setSubscriptonGatewaySettingsTranslations();
         $this->setTicketGatewaySettingsTranslations();
         $this->setPseGatewaySettingsTranslations();
@@ -505,130 +499,7 @@ class AdminTranslations
      *
      * @return void
      */
-    private function setCreditsGatewaySettingsTranslations(): void
-    {
-        $descriptionEnabled = sprintf(
-            '%s <b>%s</b>.',
-            __('“Up to 12 installments without cards through ePayco Credito” is', 'woocommerce-epayco'),
-            __('enabled', 'woocommerce-epayco')
-        );
-
-        $descriptionDisabled = sprintf(
-            '%s <b>%s</b>.',
-            __('“Up to 12 installments without cards through ePayco Credito” is', 'woocommerce-epayco'),
-            __('disabled', 'woocommerce-epayco')
-        );
-
-        $currencyConversionDescriptionsEnabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Currency conversion is', 'woocommerce-epayco'),
-            __('enabled', 'woocommerce-epayco')
-        );
-
-        $currencyConversionDescriptionsDisabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Currency conversion is', 'woocommerce-epayco'),
-            __('disabled', 'woocommerce-epayco')
-        );
-
-        $this->creditsGatewaySettings = [
-            'gateway_title'                             => __('Installments without cards through ePayco Credito', 'woocommerce-epayco'),
-            'gateway_description'                       => __('Your customers finish their payments on ePayco Pago.', 'woocommerce-epayco'),
-            'gateway_method_title'                      => __('Sdk - Checkout Pro', 'woocommerce-epayco'),
-            'gateway_method_description'                => __('Your customers finish their payments on Sdk.', 'woocommerce-epayco'),
-            'header_title'                              => __('Up to 12 installments without cards through ePayco Credito', 'woocommerce-epayco'),
-            'header_description'                        => __('With this alternative, you\'ll be able to sell in installments without cards and receive the money immediately with the same fees as with credit cards. Your sales are protected and guaranteed by ePayco.', 'woocommerce-epayco'),
-            'card_settings_title'                       => __('Sdk plugin general settings', 'woocommerce-epayco'),
-            'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woocommerce-epayco'),
-            'card_settings_button_text'                 => __('Go to Settings', 'woocommerce-epayco'),
-            'enabled_title'                             => __('Activate the installments without cards in the checkout', 'woocommerce-epayco'),
-            'enabled_subtitle'                          => __('Activate this feature to reach more buyers. It will be available in your store\'s checkout.', 'woocommerce-epayco'),
-            'enabled_descriptions_enabled'              => $descriptionEnabled,
-            'enabled_descriptions_disabled'             => $descriptionDisabled,
-            'enabled_toggle_title'                      => __('Checkout visualization', 'woocommerce-epayco'),
-            'enabled_toggle_subtitle'                   => __('Check below how this feature will be displayed to your customers:', 'woocommerce-epayco'),
-            'enabled_toggle_footer'                     => __('Checkout Preview', 'woocommerce-epayco'),
-            'enabled_toggle_pill_text'                  => __('PREVIEW', 'woocommerce-epayco'),
-            'title_title'                               => __('Title in the checkout', 'woocommerce-epayco'),
-            'title_description'                         => __('We recommend using the default title. Maximum characters: 85.', 'woocommerce-epayco'),
-            'title_default'                             => __('Checkout without card', 'woocommerce-epayco'),
-            'title_desc_tip'                            => __('The text inserted here will not be translated to other languages', 'woocommerce-epayco'),
-            'currency_conversion_title'                 => __('Convert Currency', 'woocommerce-epayco'),
-            'currency_conversion_subtitle'              => __('Activate this option so that the value of the currency set in WooCommerce is compatible with the value of the currency you use in Sdk.', 'woocommerce-epayco'),
-            'currency_conversion_descriptions_enabled'  => $currencyConversionDescriptionsEnabled,
-            'currency_conversion_descriptions_disabled' => $currencyConversionDescriptionsDisabled,
-            'credits_banner_title'                      => __('Promote the payment of your products with ePayco Credito', 'woocommerce-epayco'),
-            'credits_banner_subtitle'                   => __('Activate this promotional banner to offer the option of paying in installments without cards through Mercado Credito within product pages.', 'woocommerce-epayco'),
-            'credits_banner_descriptions_enabled'       => $descriptionEnabled,
-            'credits_banner_descriptions_disabled'      => $descriptionDisabled,
-            'credits_banner_desktop'                    => __('Banner on the product page | Computer version', 'woocommerce-epayco'),
-            'credits_banner_cellphone'                  => __('Banner on the product page | Cellphone version', 'woocommerce-epayco'),
-            'credits_banner_toggle_computer'            => __('Computer', 'woocommerce-epayco'),
-            'credits_banner_toggle_mobile'              => __('Mobile', 'woocommerce-epayco'),
-            'credits_banner_toggle_title'               => __('Display in your product pages', 'woocommerce-epayco'),
-            'credits_banner_toggle_subtitle'            => __('Below you can preview how the banner will be displayed to your customers:', 'woocommerce-epayco'),
-            'advanced_configuration_title'              => __('Advanced settings', 'woocommerce-epayco'),
-            'advanced_configuration_description'        => __('Edit these advanced fields only when you want to modify the preset values.', 'woocommerce-epayco'),
-            'discount_title'                            => __('Discount in Sdk Checkouts', 'woocommerce-epayco'),
-            'discount_description'                      => __('Choose a percentage value that you want to discount your customers for paying with Sdk.', 'woocommerce-epayco'),
-            'discount_checkbox_label'                   => __('Activate and show this information on Sdk Checkout', 'woocommerce-epayco'),
-            'commission_title'                          => __('Commission in Sdk Checkouts', 'woocommerce-epayco'),
-            'commission_description'                    => __('Choose an additional percentage value that you want to charge as commission to your customers for paying with Sdk.', 'woocommerce-epayco'),
-            'commission_checkbox_label'                 => __('Activate and show this information on Sdk Checkout', 'woocommerce-epayco'),
-            'tooltip_component_title'                   => __('Choose how to promote Mercado Credito on your store', 'woocommerce-epayco'),
-            'tooltip_component_desc'                    => __('You can only select one alternative and you may edit it whenever you want.', 'woocommerce-epayco'),
-            'tooltip_component_example'                 => __('Example:', 'woocommerce-epayco')
-        ];
-        $this->creditsGatewaySettings  = array_merge($this->creditsGatewaySettings, $this->setSupportLinkTranslations());
-        $this->creditsGatewaySettings = array_merge($this->creditsGatewaySettings, $this->setCreditsTooltipSelectionTranslations());
-    }
-
-    /**
-     * Set credits tooltip-selection translations
-     *
-     * @return array
-     */
-    private function setCreditsTooltipSelectionTranslations(): array
-    {
-        $tooltipComponentOption1 = sprintf(
-            '<b>%s</b> %s.',
-            __('Up to 12 installments without cards', 'woocommerce-epayco'),
-            __('through Mercado Credito. Learn more', 'woocommerce-epayco')
-        );
-
-        $tooltipComponentOption2 = sprintf(
-            '<b>%s</b> %s.',
-            __('Buy now, pay later', 'woocommerce-epayco'),
-            __('through Mercado Credito. Learn more', 'woocommerce-epayco')
-        );
-
-        $tooltipComponentOption3 = sprintf(
-            '%s <b>%s</b>. %s',
-            __('With ePayco Credito,', 'woocommerce-epayco'),
-            __('get it now and pay month by month', 'woocommerce-epayco'),
-            __(' Learn more', 'woocommerce-epayco')
-        );
-
-        $tooltipComponentOption4 = sprintf(
-            '<b>%s</b> %s.',
-            __('Pay in up to 12 installments', 'woocommerce-epayco'),
-            __('without credit card. Learn more', 'woocommerce-epayco')
-        );
-
-        return [
-            'tooltip_component_option1'                 => $tooltipComponentOption1,
-            'tooltip_component_option2'                 => $tooltipComponentOption2,
-            'tooltip_component_option3'                 => $tooltipComponentOption3,
-            'tooltip_component_option4'                 => $tooltipComponentOption4,
-        ];
-    }
-
-    /**
-     * Set custom settings translations
-     *
-     * @return void
-     */
-    private function setCustomGatewaySettingsTranslations(): void
+    private function setcreditCardGatewaySettingsTranslations (): void
     {
         $enabledDescriptionsEnabled = sprintf(
             '%s <b>%s</b>.',
@@ -642,52 +513,13 @@ class AdminTranslations
             __('disabled', 'woocommerce-epayco')
         );
 
-        $currencyConversionDescriptionsEnabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Currency conversion is', 'woocommerce-epayco'),
-            __('enabled', 'woocommerce-epayco')
-        );
-
-        $currencyConversionDescriptionsDisabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Currency conversion is', 'woocommerce-epayco'),
-            __('disabled', 'woocommerce-epayco')
-        );
-
-        $walletButtonDescriptionsEnabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Payments via ePayco accounts are', 'woocommerce-epayco'),
-            __('enabled', 'woocommerce-epayco')
-        );
-
-        $walletButtonDescriptionsDisabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Payments via ePayco accounts are', 'woocommerce-epayco'),
-            __('disabled', 'woocommerce-epayco')
-        );
-
-        $binaryModeDescriptionsEnabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Pending payments', 'woocommerce-epayco'),
-            __('will be automatically declined', 'woocommerce-epayco')
-        );
-
-        $binaryModeDescriptionsDisabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Pending payments', 'woocommerce-epayco'),
-            __('will not be automatically declined', 'woocommerce-epayco')
-        );
-
-        $this->customGatewaySettings = [
+        $this->creditcardGatewaySettings = [
             'gateway_title'                             => __('Credit and debit cards', 'woocommerce-epayco'),
             'gateway_description'                       => __('Payments without leaving your store with our customizable checkout', 'woocommerce-epayco'),
             'gateway_method_title'                      => __('ePayco - Checkout API', 'woocommerce-epayco'),
             'gateway_method_description'                => __('Payments without leaving your store with our customizable checkout', 'woocommerce-epayco'),
             'header_title'                              => __('Credit card', 'woocommerce-epayco'),
             'header_description'                        => __('With the Credit card payment, you can sell inside your store environment, without redirection and with the security from ePayco.', 'woocommerce-epayco'),
-            'card_settings_title'                       => __('Sdk Plugin general settings', 'woocommerce-epayco'),
-            'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woocommerce-epayco'),
-            'card_settings_button_text'                 => __('Go to Settings', 'woocommerce-epayco'),
             'enabled_title'                             => __('Enable', 'woocommerce-epayco'),
             'enabled_subtitle'                          => __('By disabling it, you will disable all credit cards payments from ePayco.', 'woocommerce-epayco'),
             'enabled_descriptions_enabled'              => $enabledDescriptionsEnabled,
@@ -695,37 +527,15 @@ class AdminTranslations
             'title_title'                               => __('Title in the store Checkout', 'woocommerce-epayco'),
             'title_description'                         => __('Change the display text in Checkout, maximum characters: 85', 'woocommerce-epayco'),
             'title_default'                             => __('Credit and debit cards', 'woocommerce-epayco'),
-            'title_desc_tip'                            => __('The text inserted here will not be translated to other languages', 'woocommerce-epayco'),
-            'card_info_fees_title'                      => __('Installments Fees', 'woocommerce-epayco'),
-            'card_info_fees_subtitle'                   => __('Set installment fees and whether they will be charged from the store or from the buyer.', 'woocommerce-epayco'),
-            'card_info_fees_button_url'                 => __('Set fees', 'woocommerce-epayco'),
-            'currency_conversion_title'                 => __('Convert Currency', 'woocommerce-epayco'),
-            'currency_conversion_subtitle'              => __('Activate this option so that the value of the currency set in WooCommerce is compatible with the value of the currency you use in ePayco.', 'woocommerce-epayco'),
-            'currency_conversion_descriptions_enabled'  => $currencyConversionDescriptionsEnabled,
-            'currency_conversion_descriptions_disabled' => $currencyConversionDescriptionsDisabled,
-            'wallet_button_title'                       => __('Payments via ePayco account', 'woocommerce-epayco'),
-            'wallet_button_subtitle'                    => __('Your customers pay faster with saved cards, money balance or other available methods in their ePayco accounts.', 'woocommerce-epayco'),
-            'wallet_button_descriptions_enabled'        => $walletButtonDescriptionsEnabled,
-            'wallet_button_descriptions_disabled'       => $walletButtonDescriptionsDisabled,
-            'wallet_button_preview_description'         => __('Check an example of how it will appear in your store:', 'woocommerce-epayco'),
-            'advanced_configuration_title'              => __('Advanced configuration of the personalized payment experience', 'woocommerce-epayco'),
-            'advanced_configuration_subtitle'           => __('Edit these advanced fields only when you want to modify the preset values.', 'woocommerce-epayco'),
-            'binary_mode_title'                         => __('Automatic decline of payments without instant approval', 'woocommerce-epayco'),
-            'binary_mode_subtitle'                      => __('Enable it if you want to automatically decline payments that are not instantly approved by banks or other institutions.', 'woocommerce-epayco'),
-            'binary_mode_descriptions_enabled'          => $binaryModeDescriptionsEnabled,
-            'binary_mode_descriptions_disabled'         => $binaryModeDescriptionsDisabled,
-            'discount_title'                            => __('Discount in ePayco Checkouts', 'woocommerce-epayco'),
-            'discount_description'                      => __('Choose a percentage value that you want to discount your customers for paying with Sdk.', 'woocommerce-epayco'),
-            'discount_checkbox_label'                   => __('Activate and show this information on ePayco Checkout', 'woocommerce-epayco'),
-            'commission_title'                          => __('Commission in ePayco Checkouts', 'woocommerce-epayco'),
-            'commission_description'                    => __('Choose an additional percentage value that you want to charge as commission to your customers for paying with ePayco.', 'woocommerce-epayco'),
-            'commission_checkbox_label'                 => __('Activate and show this information on ePayco Checkout', 'woocommerce-epayco'),
+            'title_desc_tip'                            => __('The text inserted here will not be translated to other languages', 'woocommerce-epayco')
         ];
-        $this->customGatewaySettings  = array_merge($this->customGatewaySettings, $this->setSupportLinkTranslations());
+        $this->creditcardGatewaySettings  = array_merge($this->creditcardGatewaySettings, $this->setSupportLinkTranslations());
     }
 
+
+
     /**
-     * Set custom settings translations
+     * Set credits settings translations
      *
      * @return void
      */

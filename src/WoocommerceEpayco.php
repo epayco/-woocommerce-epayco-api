@@ -4,10 +4,8 @@ namespace Epayco\Woocommerce;
 
 use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Epayco\Woocommerce\Admin\Settings;
-use Epayco\Woocommerce\Blocks\BasicBlock;
 use Epayco\Woocommerce\Blocks\CheckoutBlock;
-use Epayco\Woocommerce\Blocks\CreditsBlock;
-use Epayco\Woocommerce\Blocks\CustomBlock;
+use Epayco\Woocommerce\Blocks\CreditCardBlock;
 use Epayco\Woocommerce\Blocks\DaviplataBlock;
 use Epayco\Woocommerce\Blocks\TicketBlock;
 use Epayco\Woocommerce\Blocks\PseBlock;
@@ -199,13 +197,11 @@ class WoocommerceEpayco
             add_action(
                 'woocommerce_blocks_payment_method_type_registration',
                 function (PaymentMethodRegistry $payment_method_registry) {
-                    //$payment_method_registry->register(new BasicBlock());
                     $payment_method_registry->register(new CheckoutBlock());
-                    //$payment_method_registry->register(new CreditsBlock());
-                    $payment_method_registry->register(new CustomBlock());
+                    $payment_method_registry->register(new CreditCardBlock());
                     $payment_method_registry->register(new DaviplataBlock());
                     $payment_method_registry->register(new PseBlock());
-                    $payment_method_registry->register(new SubscriptionBlock());
+                    //$payment_method_registry->register(new SubscriptionBlock());
                     $payment_method_registry->register(new TicketBlock());
                 }
             );
@@ -222,7 +218,7 @@ class WoocommerceEpayco
         $this->helpers->actions->registerActionWhenGatewayIsNotCalled(
             $this->hooks->product,
             'registerBeforeAddToCartForm',
-            'Epayco\Woocommerce\Gateways\CreditsGateway',
+            'Epayco\Woocommerce\Gateways\CreditCardGateway',
             'renderCreditsBanner'
         );
     }

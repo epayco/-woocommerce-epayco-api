@@ -8412,7 +8412,7 @@
                     c = this.createDocument(i, t);
                 i.appendChild(c);
                 const l = document.createElement("img");
-                l.src = 'https://secure.epayco.io/img/credit-cards/disable.png',
+                l.src = 'https://secure.epayco.co/img/credit-cards/disable.png',
                     l.id = 'card-logo',
                     l.classList.add('card-logo'),
                     l.style.width = '8%';
@@ -8459,7 +8459,7 @@
                         }
 
                         if (cardNumber === '') {
-                            cardLogo.src = 'https://secure.epayco.io/img/credit-cards/disable.png';
+                            cardLogo.src = 'https://secure.epayco.co/img/credit-cards/disable.png';
                         }
 
                     })),
@@ -8689,7 +8689,7 @@
                     var fechaActual = new Date();
                     var anoActual = fechaActual.getFullYear();
                     var mesActual = fechaActual.getMonth() + 1;
-                    let a = document.querySelector(".mp-checkout-custom-card-column").querySelector("input-helper > div");
+                    let a = document.querySelector(".mp-checkout-credits-card-column").querySelector("input-helper > div");
                     var expiration;
                     const lang = wc_epayco_checkout_components_params.lang;
                     if(lang === 'es'){
@@ -8908,10 +8908,17 @@
                     t.appendChild(this.createOption(e))
                 })),
                     t.addEventListener("change", (() => {
-                        console.log("change", t.value)
+                        const lang = wc_epayco_checkout_components_params.lang;
+                        var text;
+                        if(lang === 'es'){
+                            text = 'Selecciona un banco';
+                        }else{
+                            text = 'Select a bank';
+                        }
                         if(t.value == 0){
                             t.parentElement.classList.add("mp-error"),
                                 t.parentElement.parentElement.querySelector("input-helper > div").style.display = "flex";
+                            t.parentElement.parentElement.querySelector("input-helper > div").lastChild.innerHTML=text
                         }else{
                             t.parentElement.classList.remove("mp-error"),
                                 t.parentElement.parentElement.querySelector("input-helper > div").style.display = "none";

@@ -462,8 +462,8 @@ msgid "Select"
 msgstr "Selecionar"
 
 #: ../../src/Translations/AdminTranslations.php:337
-msgid "Ex: https://examples.com/my-custom-ipn-url"
-msgstr "Ex.: https://examples.com/my-custom-ipn-url"
+msgid "Ex: https://examples.com/my-credits-ipn-url"
+msgstr "Ex.: https://examples.com/my-credits-ipn-url"
 
 #: ../../src/Translations/AdminTranslations.php:338
 msgid "Add plugin default params"

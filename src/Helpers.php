@@ -6,7 +6,7 @@ use Epayco\Woocommerce\Helpers\Actions;
 use Epayco\Woocommerce\Helpers\Cache;
 use Epayco\Woocommerce\Helpers\Cart;
 use Epayco\Woocommerce\Helpers\Country;
-use Epayco\Woocommerce\Helpers\CreditsEnabled;
+use Epayco\Woocommerce\Helpers\CreditCardEnabled;
 use Epayco\Woocommerce\Helpers\Currency;
 use Epayco\Woocommerce\Helpers\CurrentUser;
 use Epayco\Woocommerce\Helpers\Gateways;
@@ -47,7 +47,7 @@ class Helpers
     public $country;
 
     /**
-     * @var CreditsEnabled
+     * @var CreditCardEnabled
      */
     public $creditsEnabled;
 
@@ -112,21 +112,21 @@ class Helpers
     public $url;
 
     public function __construct(
-        Actions $actions,
-        Cache $cache,
-        Cart $cart,
-        Country $country,
-        CreditsEnabled $creditsEnabled,
-        Currency $currency,
-        CurrentUser $currentUser,
-        Gateways $gateways,
-        Images $images,
-        Links $links,
-        Nonce $nonce,
-        Notices $notices,
-        PaymentMethods $paymentMethods,
-        Requester $requester,
-        Session $session,
+        Actions           $actions,
+        Cache             $cache,
+        Cart              $cart,
+        Country           $country,
+        CreditCardEnabled $creditsEnabled,
+        Currency          $currency,
+        CurrentUser       $currentUser,
+        Gateways          $gateways,
+        Images            $images,
+        Links             $links,
+        Nonce             $nonce,
+        Notices           $notices,
+        PaymentMethods    $paymentMethods,
+        Requester         $requester,
+        Session           $session,
         Strings $strings,
         Url $url
     ) {

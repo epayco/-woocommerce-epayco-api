@@ -408,7 +408,7 @@ class Requests {
 	 *    (string|\WpOrg\Requests\Transport, default: {@see \WpOrg\Requests\Requests::getTransport()})
 	 * - `hooks`: Hooks handler.
 	 *    (\WpOrg\Requests\HookManager, default: new WpOrg\Requests\Hooks())
-	 * - `verify`: Should we verify SSL certificates? Allows passing in a custom
+	 * - `verify`: Should we verify SSL certificates? Allows passing in a credits
 	 *    certificate file as a string. (Using true uses the system-wide root
 	 *    certificate store instead, but this may have different behaviour
 	 *    across transports.)

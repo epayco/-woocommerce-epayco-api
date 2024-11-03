@@ -11,7 +11,7 @@
       ePayco.setLanguage("es");
       let formOrderReview = document.querySelector('form[id=order_review]');
       if (formOrderReview) {
-        let choCustomContent = document.querySelector('.mp-checkout-custom-container');
+        let choCustomContent = document.querySelector('.mp-checkout-creditcard-container');
         let choCustomHelpers = choCustomContent.querySelectorAll('input-helper');
 
         choCustomHelpers.forEach((item) => {
@@ -21,7 +21,7 @@
           }
         });
       }
-      var CustomContent = document.querySelector("form.checkout").getElementsByClassName("mp-checkout-custom-container")[0];
+      var CustomContent = document.querySelector("form.checkout").getElementsByClassName("mp-checkout-creditcard-container")[0];
       let ticketHelpers = CustomContent.querySelectorAll('input-helper');
       numberName(CustomContent)
       expirationDate(CustomContent)
@@ -32,12 +32,24 @@
       verifyCellphone(CustomContent)
       verifyDocument(CustomContent)
       verifyCountry(CustomContent)
-      if (checkForErrors(ticketHelpers)) {
+      verifyTermAndCondictions(CustomContent)
+      debugger
+      let checked =  CustomContent.querySelector('terms-and-conditions').querySelector('input').checked
+      if (checkForErrors(ticketHelpers) || !checked) {
         removeBlockOverlay();
         return mercado_pago_submit;
       } else {
         console.log("loading..")
-        return  createToken(CustomContent);
+        debugger
+        const request =  createToken(CustomContent);
+        request().then((resultado) => {
+          debugger
+          console.log(resultado); // Esto se ejecutará después de 2 segundos
+        }).catch((error) => {
+          debugger
+          console.error(error); // Esto se ejecutará si hay un error
+        });
+
       }
 
 
@@ -45,7 +57,6 @@
 
     function checkForErrors(ticketHelpers) {
       let hasError = false;
-
       ticketHelpers.forEach((item) => {
         let inputHelper = item.querySelector('div');
         if (inputHelper.style.display !== 'none') {
@@ -149,6 +160,12 @@
       }
     }
 
+    function verifyTermAndCondictions(customContent) {
+      let addressElement = customContent.querySelector('terms-and-conditions').querySelector('input');
+      if (!addressElement.checked) {
+        customContent.querySelector('terms-and-conditions > div').classList.add('mp-error')
+      }
+    }
 
     async function  createToken($form) {
       return await new Promise(function(resolve, reject) {
@@ -186,7 +203,7 @@
     }
 
     // Process when submit the checkout form
-    $('form.checkout').on('checkout_place_order_woo-epayco-custom', function () {
+    $('form.checkout').on('checkout_place_order_woo-epayco-credits', function () {
       return epaycoFormHandler();
     });
 

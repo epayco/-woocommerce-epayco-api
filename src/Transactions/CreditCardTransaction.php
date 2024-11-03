@@ -5,24 +5,24 @@ namespace Epayco\Woocommerce\Transactions;
 use Epayco\Woocommerce\Gateways\AbstractGateway;
 use Epayco\Woocommerce\Entities\Metadata\PaymentMetadata;
 
-class CreditsTransaction extends AbstractPreferenceTransaction
+class CreditCardTransaction extends AbstractPaymentTransaction
 {
     /**
      * @const
      */
-    public const ID = 'credits';
+    public const ID = 'credit_card';
 
     /**
-     * Credits Transaction constructor
+     * Custom Transaction constructor
      *
      * @param AbstractGateway $gateway
      * @param \WC_Order $order
+     * @param array $checkout
      */
-    public function __construct(AbstractGateway $gateway, \WC_Order $order)
+    public function __construct(AbstractGateway $gateway, \WC_Order $order, array $checkout)
     {
-        parent::__construct($gateway, $order);
+        parent::__construct($gateway, $order, $checkout);
 
-        $this->transaction->purpose = 'onboarding_credits';
     }
 
     /**
@@ -34,7 +34,7 @@ class CreditsTransaction extends AbstractPreferenceTransaction
     {
         $internalMetadata = parent::getInternalMetadata();
 
-        $internalMetadata->checkout      = 'pro';
+        $internalMetadata->checkout      = 'creditcard';
         $internalMetadata->checkout_type = self::ID;
 
         return $internalMetadata;

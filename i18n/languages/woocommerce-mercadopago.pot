@@ -381,7 +381,7 @@ msgid "Select"
 msgstr ""
 
 #: ../../src/Translations/AdminTranslations.php:337
-msgid "Ex: https://examples.com/my-custom-ipn-url"
+msgid "Ex: https://examples.com/my-credits-ipn-url"
 msgstr ""
 
 #: ../../src/Translations/AdminTranslations.php:338

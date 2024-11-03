@@ -262,7 +262,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_token_sdk',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/custom/library', '.js')
+            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/creditcard/library', '.js')
         );
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
@@ -657,7 +657,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generate custom toggle switch component
+     * Generate credits toggle switch component
      *
      * @param string $key
      * @param array $settings
@@ -677,7 +677,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generate custom toggle switch component
+     * Generate credits toggle switch component
      *
      * @param string $key
      * @param array  $settings
@@ -695,7 +695,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generate custom header component
+     * Generate credits header component
      *
      * @param string $key
      * @param array $settings
@@ -715,7 +715,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generating custom actionable input component
+     * Generating credits actionable input component
      *
      * @param string $key
      * @param array $settings
@@ -739,7 +739,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generating custom card info component
+     * Generating credits card info component
      *
      * @param string $key
      * @param array $settings
@@ -759,7 +759,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generating custom preview component
+     * Generating credits preview component
      *
      * @param string $key
      * @param array $settings

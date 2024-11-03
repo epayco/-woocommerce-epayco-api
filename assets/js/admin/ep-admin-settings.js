@@ -346,7 +346,7 @@ function mpValidateCredentials() {
       .getElementById('mp-p_cust_id')
       .addEventListener('change', function () {
         const self = this;
-        if (self.value.length<=5) {
+        if (self.value.length<5) {
           self.classList.remove('mp-credential-feedback-positive');
           self.classList.add('mp-credential-feedback-negative');
         } else {

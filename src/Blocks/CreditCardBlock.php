@@ -6,17 +6,17 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class CustomBlock extends AbstractBlock
+class CreditCardBlock extends AbstractBlock
 {
     /**
      * @var string
      */
-    protected $scriptName = 'custom';
+    protected $scriptName = 'creditcard';
 
     /**
      * @var string
      */
-    protected $name = 'woo-epayco-custom';
+    protected $name = 'woo-epayco-creditcard';
 
     /**
      * CustomBlock constructor
@@ -24,7 +24,7 @@ class CustomBlock extends AbstractBlock
     public function __construct()
     {
         parent::__construct();
-        $this->storeTranslations = $this->epayco->storeTranslations->customCheckout;
+        $this->storeTranslations = $this->epayco->storeTranslations->creditcardCheckout;
     }
 
     /**

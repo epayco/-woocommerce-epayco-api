@@ -1,58 +1,40 @@
 <?php
 
 /**
+ * @var string $amount
+ * @var string $message_error_amount
  * @var bool $test_mode
  * @var string $test_mode
  * @var string $test_mode_title
  * @var string $test_mode_description
  * @var string $test_mode_link_text
  * @var string $test_mode_link_src
- * @var string $wallet_button
- * @var string $wallet_button_image
- * @var string $wallet_button_title
- * @var string $wallet_button_description
- * @var string $wallet_button_button_text
- * @var string $available_payments_title_icon
- * @var string $available_payments_title
- * @var string $available_payments_image
- * @var string $available_payments_chevron_up
- * @var string $available_payments_chevron_down
- * @var string $payment_methods_items
- * @var string $payment_methods_promotion_link
- * @var string $payment_methods_promotion_text
- * @var string $site_id
  * @var string $card_form_title
- * @var string $card_customer_title
- * @var string $card_number_input_label
- * @var string $card_number_input_helper
  * @var string $card_holder_name_input_label
  * @var string $card_holder_name_input_helper
- * @var string $card_holder_email_input_label
- * @var string $card_holder_email_input_helper
- * @var string $card_holder_address_input_label
- * @var string $card_holder_address_input_helper
+ * @var string $card_number_input_label
+ * @var string $card_number_input_helper
  * @var string $card_expiration_input_label
  * @var string $card_expiration_input_helper
  * @var string $card_security_code_input_label
  * @var string $card_security_code_input_helper
+ * @var string $card_fees_input_label
+ * @var string $card_customer_title
+ * @var string $card_document_input_label
+ * @var string $card_document_input_helper
+ * @var string $card_holder_address_input_label
+ * @var string $card_holder_address_input_helper
+ * @var string $card_holder_email_input_label
+ * @var string $card_holder_email_input_helper
  * @var string $input_ind_phone_label
  * @var string $input_ind_phone_helper
  * @var string $input_country_label
  * @var string $input_country_helper
- * @var string $card_document_input_label
- * @var string $card_document_input_helper
- * @var string $card_installments_title
- * @var string $card_issuer_input_label
- * @var string $card_installments_input_helper
  * @var string $terms_and_conditions_label
  * @var string $terms_and_conditions_description
  * @var string $terms_and_conditions_link_text
  * @var string $terms_and_conditions_link_src
- * @var string $amount
- * @var string $currency_ratio
- * @var string $message_error_amount
- *
- * @see \Epayco\Woocommerce\Gateways\CustomGateway
+ * @see \Epayco\Woocommerce\Gateways\CreditcardGateway
  */
 
 if (!defined('ABSPATH')) {
@@ -68,15 +50,15 @@ if (!defined('ABSPATH')) {
         <p style="color: red; font-weight: bold;">
             <?= esc_html($message_error_amount) ?>
         </p>
-    <?php else : ?> 
-        <div class='mp-checkout-custom-container'>
+    <?php else : ?>
+        <div class='mp-checkout-creditcard-container'>
             <?php if ($test_mode) : ?>
                 <div class="mp-checkout-pro-test-mode">
                     <test-mode
-                        title="<?= esc_html($test_mode_title) ?>"
-                        description="<?= esc_html($test_mode_description) ?>"
-                        link-text="<?= esc_html($test_mode_link_text) ?>"
-                        link-src="<?= esc_html($test_mode_link_src) ?>"
+                            title="<?= esc_html($test_mode_title) ?>"
+                            description="<?= esc_html($test_mode_description) ?>"
+                            link-text="<?= esc_html($test_mode_link_text) ?>"
+                            link-src="<?= esc_html($test_mode_link_src) ?>"
                     >
                     </test-mode>
                 </div>
@@ -96,8 +78,8 @@ if (!defined('ABSPATH')) {
                                 labelMessage="<?= esc_html($card_holder_name_input_label); ?>"
                                 helperMessage="<?= esc_html($card_holder_name_input_helper); ?>"
                                 placeholder="Ex: John Doe"
-                                inputName='epayco_custom[name]'
-                                flagError='epayco_custom[nameError]'
+                                inputName='epayco_creditcard[name]'
+                                flagError='epayco_creditcard[nameError]'
                                 validate=true
                                 hiddenId= "hidden-name-custom"
                         >
@@ -110,8 +92,8 @@ if (!defined('ABSPATH')) {
                                 labelMessage="<?= esc_html($card_number_input_label); ?>"
                                 helperMessage="<?= esc_html($card_number_input_helper); ?>"
                                 placeholder="0000 0000 0000 0000"
-                                inputName='epayco_custom[card]'
-                                flagError='epayco_custom[cardError]'
+                                inputName='epayco_creditcard[card]'
+                                flagError='epayco_creditcard[cardError]'
                                 validate=true
                                 hiddenId= "mp-card-number-helper"
                         >
@@ -126,8 +108,8 @@ if (!defined('ABSPATH')) {
                                     labelMessage="<?= esc_html($card_expiration_input_label); ?>"
                                     helperMessage="<?= esc_html($card_expiration_input_helper); ?>"
                                     placeholder="mm/yy"
-                                    inputName='epayco_custom[expirationDate]'
-                                    flagError='epayco_custom[expirationDateError]'
+                                    inputName='epayco_creditcard[expirationDate]'
+                                    flagError='epayco_creditcard[expirationDateError]'
                                     validate=true
                                     hiddenId= "hidden-expiration-date-helper"
                             >
@@ -140,8 +122,8 @@ if (!defined('ABSPATH')) {
                                     labelMessage="<?= esc_html($card_security_code_input_label); ?>"
                                     helperMessage="<?= esc_html($card_security_code_input_helper); ?>"
                                     placeholder="***"
-                                    inputName='epayco_custom[securityCode]'
-                                    flagError='epayco_custom[securityCodeError]'
+                                    inputName='epayco_creditcard[securityCode]'
+                                    flagError='epayco_creditcard[securityCodeError]'
                                     validate=true
                                     hiddenId= "hidden-security-code-helper"
                             >
@@ -149,8 +131,8 @@ if (!defined('ABSPATH')) {
                         </div>
                         <div class='mp-checkout-custom-card-column'>
                             <input-installment
-                                    name="epayco_custom[installmet]"
-                                    label="fees"
+                                    name="epayco_creditcard[installmet]"
+                                    label="<?=esc_html($card_fees_input_label); ?>"
                                     optional="false"
                                     options='[{"id":"", "description": "fees"},{"id":"1", "description": "1"}]'
                             >
@@ -173,12 +155,12 @@ if (!defined('ABSPATH')) {
                         <input-document
                                 label-message="<?= esc_html($card_document_input_label); ?>"
                                 helper-message="<?= esc_html($card_document_input_helper); ?>"
-                                input-name='epayco_custom[doc_number]'
+                                input-name='epayco_creditcard[doc_number]'
                                 hidden-id="identificationType"
                                 input-data-checkout="doc_number"
                                 select-id="identificationType"
                                 input-id="identificationTypeNumber"
-                                select-name="epayco_custom[identificationType]"
+                                select-name="epayco_creditcard[identificationType]"
                                 select-data-checkout="doc_type"
                                 flag-error="identificationTypeError"
                                 documents='[
@@ -203,8 +185,8 @@ if (!defined('ABSPATH')) {
                                 labelMessage="<?= esc_html($card_holder_address_input_label); ?>"
                                 helperMessage="<?= esc_html($card_holder_address_input_helper); ?>"
                                 placeholder="Street 123"
-                                inputName='epayco_custom[address]'
-                                flagError='epayco_custom[addressError]'
+                                inputName='epayco_creditcard[address]'
+                                flagError='epayco_creditcard[addressError]'
                                 validate=true
                                 hiddenId= "hidden-adress-custom"
                         >
@@ -216,8 +198,8 @@ if (!defined('ABSPATH')) {
                                 labelMessage="<?= esc_html($card_holder_email_input_label); ?>"
                                 helperMessage="<?= esc_html($card_holder_email_input_helper); ?>"
                                 placeholder="john@example.com"
-                                inputName='epayco_custom[email]'
-                                flagError='epayco_custom[emailError]'
+                                inputName='epayco_creditcard[email]'
+                                flagError='epayco_creditcard[emailError]'
                                 validate=true
                                 hiddenId= "hidden-email-custom"
                         >
@@ -228,7 +210,7 @@ if (!defined('ABSPATH')) {
                         <input-cellphone
                                 label-message="<?= esc_html($input_ind_phone_label); ?>"
                                 helper-message="<?= esc_html($input_ind_phone_helper); ?>"
-                                input-name='epayco_custom[cellphone]'
+                                input-name='epayco_creditcard[cellphone]'
                                 hidden-id="cellphoneType"
                                 input-data-checkout="doc_number"
                                 select-id="cellphoneType"
@@ -236,7 +218,7 @@ if (!defined('ABSPATH')) {
                                 select-name="cellphoneType"
                                 select-data-checkout="doc_type"
                                 flag-error="cellphoneTypeError"
-                                flag-error='epayco_custom[cellphoneTypeError]'
+                                flag-error='epayco_creditcard[cellphoneTypeError]'
                                 validate=true
                                 placeholder="0000000000"
                         >
@@ -247,12 +229,12 @@ if (!defined('ABSPATH')) {
                         <input-country
                                 label-message="<?= esc_html($input_country_label); ?>"
                                 helper-message="<?= esc_html($input_country_helper); ?>"
-                                input-name='epayco_custom[country]'
+                                input-name='epayco_creditcard[country]'
                                 hidden-id="countryType"
                                 input-data-checkout="country_number"
                                 select-id="countryType"
                                 input-id="countryTypeNumber"
-                                select-name="epayco_custom[countryType]"
+                                select-name="epayco_creditcard[countryType]"
                                 select-data-checkout="doc_type"
                                 flag-error="countryTypeError"
                                 validate=true
@@ -274,20 +256,15 @@ if (!defined('ABSPATH')) {
                 </div>
 
             </div>
-        
-        
+
+
         </div>
     <?php endif; ?>
-    
+
 </div>
 
 <div id="epayco-utilities" style="display:none;">
-    <input type="hidden" id="mp-amount" value='<?= esc_textarea($amount); ?>' name="epayco_custom[amount]"/>
-    <input type="hidden" id="paymentMethodId" name="epayco_custom[payment_method_id]"/>
-    <input type="hidden" id="mp_checkout_type" name="epayco_custom[checkout_type]" value="custom"/>
-    <input type="hidden" id="cardTokenId" name="epayco_custom[cardTokenId]" />
-    <input type="hidden" id="cardInstallments" name="epayco_custom[installments]"/>
-    <input type="hidden" id="mpCardSessionId" name="epayco_custom[session_id]" />
+    <input type="hidden" id="cardTokenId" name="epayco_creditcard[cardTokenId]" />
 </div>
 
 

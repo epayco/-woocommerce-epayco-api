@@ -94,7 +94,7 @@ class UpdateSellerFunnelBase extends AbstractEntity
     }
 
     /**
-     * Get and set custom headers for entity.
+     * Get and set credits headers for entity.
      *
      * @return array
      */

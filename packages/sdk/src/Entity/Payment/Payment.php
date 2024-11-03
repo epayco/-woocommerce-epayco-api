@@ -280,7 +280,7 @@ class Payment extends AbstractEntity implements RequesterEntityInterface
     }
 
     /**
-     * Get and set custom headers for entity.
+     * Get and set credits headers for entity.
      *
      * @return array
      */
@@ -294,7 +294,7 @@ class Payment extends AbstractEntity implements RequesterEntityInterface
         ];
     }
     /**
-     * Set custom headers for entity.
+     * Set credits headers for entity.
      *
      * @return array
      */

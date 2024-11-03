@@ -15,7 +15,7 @@ use Epayco\Woocommerce\Hooks\Blocks;
 use Epayco\Woocommerce\Order\OrderMetadata;
 use Epayco\Woocommerce\Configs\Seller;
 use Epayco\Woocommerce\Configs\Store;
-use Epayco\Woocommerce\Endpoints\CheckoutCustom;
+use Epayco\Woocommerce\Endpoints\CheckoutCreditCard;
 use Epayco\Woocommerce\Helpers\Cache;
 use Epayco\Woocommerce\Helpers\Country;
 use Epayco\Woocommerce\Helpers\Cron;
@@ -29,7 +29,7 @@ use Epayco\Woocommerce\Helpers\Requester;
 use Epayco\Woocommerce\Helpers\Strings;
 use Epayco\Woocommerce\Helpers\Url;
 use Epayco\Woocommerce\Helpers\PaymentMethods;
-use Epayco\Woocommerce\Helpers\CreditsEnabled;
+use Epayco\Woocommerce\Helpers\CreditCardEnabled;
 use Epayco\Woocommerce\Hooks\Admin;
 use Epayco\Woocommerce\Hooks\Checkout;
 use Epayco\Woocommerce\Hooks\Endpoints;
@@ -97,7 +97,7 @@ class Dependencies
     public $storeConfig;
 
     /**
-     * @var CheckoutCustom
+     * @var CheckoutCreditCard
      */
     public $checkoutCustomEndpoints;
 
@@ -187,7 +187,7 @@ class Dependencies
     public $countryHelper;
 
     /**
-     * @var CreditsEnabled
+     * @var CreditCardEnabled
      */
     public $creditsEnabledHelper;
 
@@ -596,11 +596,11 @@ class Dependencies
     }
 
     /**
-     * @return CreditsEnabled
+     * @return CreditCardEnabled
      */
-    private function setCreditsEnabled(): CreditsEnabled
+    private function setCreditsEnabled(): CreditCardEnabled
     {
-        return new CreditsEnabled(
+        return new CreditCardEnabled(
             $this->adminHook,
             $this->logs,
             $this->optionsHook
@@ -621,11 +621,11 @@ class Dependencies
     }
 
     /**
-     * @return CheckoutCustom
+     * @return CheckoutCreditCard
      */
-    private function setCustomCheckoutEndpoints(): CheckoutCustom
+    private function setCustomCheckoutEndpoints(): CheckoutCreditCard
     {
-        return new CheckoutCustom(
+        return new CheckoutCreditCard(
             $this->endpointsHook,
             $this->logs,
             $this->requesterHelper,

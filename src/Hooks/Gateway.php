@@ -221,7 +221,7 @@ class Gateway
     }
 
     /**
-     * Handles custom components for better integration with native hooks
+     * Handles credits components for better integration with native hooks
      *
      * @param $gateway
      *

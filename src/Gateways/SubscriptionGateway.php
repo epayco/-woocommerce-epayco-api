@@ -201,9 +201,9 @@ class SubscriptionGateway extends AbstractGateway
             'wallet_button_button_text'        => $this->storeTranslations['wallet_button_button_text'],
             'available_payments_title_icon'    => $this->epayco->helpers->url->getPluginFileUrl("assets/images/icons/icon-purple-card", '.png', true),
             'available_payments_title'         => $this->storeTranslations['available_payments_title'],
-            'available_payments_image'         => $this->epayco->helpers->url->getPluginFileUrl("assets/images/checkouts/custom/chevron-down", '.png', true),
-            'available_payments_chevron_up'    => $this->epayco->helpers->url->getPluginFileUrl("assets/images/checkouts/custom/chevron-up", '.png', true),
-            'available_payments_chevron_down'  => $this->epayco->helpers->url->getPluginFileUrl("assets/images/checkouts/custom/chevron-down", '.png', true),
+            'available_payments_image'         => $this->epayco->helpers->url->getPluginFileUrl("assets/images/checkouts/credits/chevron-down", '.png', true),
+            'available_payments_chevron_up'    => $this->epayco->helpers->url->getPluginFileUrl("assets/images/checkouts/credits/chevron-up", '.png', true),
+            'available_payments_chevron_down'  => $this->epayco->helpers->url->getPluginFileUrl("assets/images/checkouts/credits/chevron-down", '.png', true),
             'payment_methods_promotion_link'   => $this->links['epayco_debts'],
             'payment_methods_promotion_text'   => $this->storeTranslations['payment_methods_promotion_text'],
             'site_id'                          => $this->epayco->sellerConfig->getSiteId() ?: $this->epayco->helpers->country::SITE_ID_MLA,
@@ -340,7 +340,7 @@ class SubscriptionGateway extends AbstractGateway
     }
 
     /**
-     * Get checkout epayco custom
+     * Get checkout epayco credits
      *
      * @param $order
      *

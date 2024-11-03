@@ -186,7 +186,7 @@
     }
 
     // Process when submit the checkout form
-    $('form.checkout').on('checkout_place_order_woo-epayco-custom', function () {
+    $('form.checkout').on('checkout_place_order_woo-epayco-credits', function () {
       return epaycoFormHandler();
     });
 

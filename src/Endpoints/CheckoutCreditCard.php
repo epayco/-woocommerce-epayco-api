@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class CheckoutCustom
+class CheckoutCreditCard
 {
     /**
      * @var Endpoints

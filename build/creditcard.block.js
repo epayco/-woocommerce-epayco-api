@@ -254,9 +254,9 @@
     ;
     var u;
     const _ = "mp_checkout_blocks",
-        h = "woo-epayco-custom",
-        k = (0, a.getSetting)("woo-epayco-custom_data", {}),
-        E = (0, n.decodeEntities)(k.title) || "Checkout Custom", y = t => {
+        h = "woo-epayco-creditcard",
+        k = (0, a.getSetting)("woo-epayco-creditcard_data", {}),
+        E = (0, n.decodeEntities)(k.title) || "Checkout custom", y = t => {
             (e => {
                 const {extensionCartUpdate: t} = wc.blocksCheckout,
                     {eventRegistration: a, emitResponse: n} = e,
@@ -318,7 +318,7 @@
                 jQuery(window.mpCheckoutForm).prop("id", mpFormId),
                 (0, c.useEffect)((() => {
 
-                    const current =  document.querySelector(".mp-checkout-custom-container");
+                    const current =  document.querySelector(".mp-checkout-creditcard-container");
                     const customContentName = current.querySelector('input-card-name').querySelector('input');
                     const nameHelpers =  current.querySelector('input-helper').querySelector("div");
                     const verifyName = (nameElement) => {
@@ -415,12 +415,12 @@
 
 
                     const e = ce((async () => {
-                        const customContentInstallments = current.querySelector('input-installment').querySelector("#epayco_custom\\[installment\\]").value;
+                        const customContentInstallments = current.querySelector('input-installment').querySelector("#epayco_creditcard\\[installment\\]").value;
                         function o(e) {
                             return e && "flex" === e.style.display
                         }
 
-                        const doc_type = cardContentDocument.parentElement.parentElement.querySelector("#epayco_custom\\[identificationType\\]");
+                        const doc_type = cardContentDocument.parentElement.parentElement.querySelector("#epayco_creditcard\\[identificationType\\]");
                         const cellphoneType = customContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                         const countryType = countryContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                         const doc_number_value =cardContentDocument.value;
@@ -454,7 +454,7 @@
                                 });
                             }
                             if (!validation) {
-                                var publicKey = wc_epayco_custom_checkout_params.public_key_epayco;
+                                var publicKey = wc_epayco_creditcard_checkout_params.public_key_epayco;
                                 var token;
                                 ePayco.setPublicKey(publicKey);
                                 ePayco.setLanguage("es");
@@ -481,18 +481,18 @@
                             }
                         }
                         const values = {
-                            "epayco_custom[cardTokenId]": token,
-                            "epayco_custom[name]": customContentName.value,
-                            "epayco_custom[address]": customContentAddress.value,
-                            "epayco_custom[email]": customContentEmail.value,
-                            "epayco_custom[identificationtype]": doc_type.value,
-                            "epayco_custom[doc_number]": doc_number_value,
-                            "epayco_custom[countryType]": countryType,
-                            "epayco_custom[cellphoneType]": cellphoneType,
-                            "epayco_custom[cellphone]": customContentCellphone.value,
-                            "epayco_custom[country]": countryContentCountry.value,
-                            "epayco_custom[token]": token,
-                            "epayco_custom[installmet]": customContentInstallments,
+                            "epayco_creditcard[cardTokenId]": token,
+                            "epayco_creditcard[name]": customContentName.value,
+                            "epayco_creditcard[address]": customContentAddress.value,
+                            "epayco_creditcard[email]": customContentEmail.value,
+                            "epayco_creditcard[identificationtype]": doc_type.value,
+                            "epayco_creditcard[doc_number]": doc_number_value,
+                            "epayco_creditcard[countryType]": countryType,
+                            "epayco_creditcard[cellphoneType]": cellphoneType,
+                            "epayco_creditcard[cellphone]": customContentCellphone.value,
+                            "epayco_creditcard[country]": countryContentCountry.value,
+                            "epayco_creditcard[token]": token,
+                            "epayco_creditcard[installmet]": customContentInstallments,
                         };
                         debugger
                         return  "" !== customContentName.value &&
@@ -507,7 +507,7 @@
                                 "Type" !== doc_type.value &&
                                 "" !== token
                             ,
-                            Z("custom"),
+                            Z("creditcard"),
                             {
                                 type:validation ? te.responseTypes.ERROR : te.responseTypes.SUCCESS,
                                 meta: {paymentMethodData: values}
@@ -538,7 +538,7 @@
                 }), [oe]),
                 (0, e.createElement)("div", null,
                     (0, e.createElement)("div", {className: "mp-checkout-container"},
-                        (0, e.createElement)("div", {className: "mp-checkout-custom-container"}, a ?
+                        (0, e.createElement)("div", {className: "mp-checkout-creditcard-container"}, a ?
                                 (0, e.createElement)("div", {className: "mp-checkout-pro-test-mode"},
                                     (0, e.createElement)(test, {
                                         title: n,
@@ -562,8 +562,8 @@
                                             labelMessage:P,
                                             helperMessage:U,
                                             placeholder:"jonh doe",
-                                            inputName:'epayco_custom[name]',
-                                            flagError:'epayco_custom[nameError]',
+                                            inputName:'epayco_creditcard[name]',
+                                            flagError:'epayco_creditcard[nameError]',
                                             validate:"true",
                                             hiddenId:"hidden-name-custom"
                                         }),
@@ -573,8 +573,8 @@
                                             labelMessage:F,
                                             helperMessage:O,
                                             placeholder:"0000 0000 0000 0000",
-                                            inputName:'epayco_custom[card]',
-                                            flagError:'epayco_custom[cardError]',
+                                            inputName:'epayco_creditcard[card]',
+                                            flagError:'epayco_creditcard[cardError]',
                                             validate:"true",
                                             hiddenId:"hidden-card-number-custom"
                                         }),
@@ -585,8 +585,8 @@
                                                 labelMessage:D,
                                                 helperMessage:L,
                                                 placeholder:"mm/yy",
-                                                inputName:'epayco_custom[expirationDate]',
-                                                flagError:'epayco_custom[expirationDateError]',
+                                                inputName:'epayco_creditcard[expirationDate]',
+                                                flagError:'epayco_creditcard[expirationDateError]',
                                                 validate:"true",
                                                 hiddenId:"hidden-expiration-date-helper"
                                             })
@@ -596,15 +596,15 @@
                                                 labelMessage:V,
                                                 helperMessage:B,
                                                 placeholder:"***",
-                                                inputName:'epayco_custom[securityCode]',
-                                                flagError:'epayco_custom[securityCodeError]',
+                                                inputName:'epayco_creditcard[securityCode]',
+                                                flagError:'epayco_creditcard[securityCodeError]',
                                                 validate:"true",
                                                 hiddenId:"hidden-security-code-helper"
                                             })
                                         ),
                                         (0, e.createElement)("div", {className: "mp-checkout-custom-card-column"},
                                             (0, e.createElement)(installments, {
-                                                name:"epayco_custom[installment]",
+                                                name:"epayco_creditcard[installment]",
                                                 label:"fees",
                                                 optional:"false",
                                                 options:'[{"id":"", "description": "fees"},{"id":"1", "description": "1"}]'
@@ -626,12 +626,12 @@
                                     (0, e.createElement)(documents, {
                                         labelMessage: $,
                                         helperMessage: q,
-                                        inputName: 'epayco_custom[doc_number]',
+                                        inputName: 'epayco_creditcard[doc_number]',
                                         hiddenId: "identificationType",
                                         inputDataCheckout: "doc_number",
                                         inputId:"identificationTypeNumber",
                                         selectId: "identificationType",
-                                        selectName:"epayco_custom[identificationType]",
+                                        selectName:"epayco_creditcard[identificationType]",
                                         selectDataCheckout: "doc_type",
                                         flagError: "identificationTypeError",
                                         "documents":'[{"id":"Type"},{"id":"CC"},{"id":"CE"},{"id":"NIT"},{"id":"TI"},{"id":"PPN"},{"id":"SSN"},{"id":"LIC"},{"id":"DNI"}]',
@@ -644,8 +644,8 @@
                                         labelMessage:PP,
                                         helperMessage:UU,
                                         placeholder:"Street 123",
-                                        inputName:'epayco_custom[address]',
-                                        flagError:'epayco_custom[addressError]',
+                                        inputName:'epayco_creditcard[address]',
+                                        flagError:'epayco_creditcard[addressError]',
                                         validate:"true",
                                         hiddenId:"hidden-address-custom"
                                     }),
@@ -655,8 +655,8 @@
                                         labelMessage:EE,
                                         helperMessage:HH,
                                         placeholder:"john@example.com",
-                                        inputName:'epayco_custom[email]',
-                                        flagError:'epayco_custom[emailError]',
+                                        inputName:'epayco_creditcard[email]',
+                                        flagError:'epayco_creditcard[emailError]',
                                         validate:"true",
                                         hiddenId:"hidden-email-custom"
                                     }),
@@ -710,7 +710,7 @@
                         }, (0, e.createElement)("input", {
                             type: "hidden",
                             id: "cardTokenId",
-                            name: "epayco_custom[token]"
+                            name: "epayco_creditcard[token]"
                         })
                     )
                 )

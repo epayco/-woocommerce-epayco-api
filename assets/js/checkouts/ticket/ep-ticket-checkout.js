@@ -22,8 +22,9 @@
       verifyDocument(ticketContent);
       verifyCountry(ticketContent)
       verifyPaymentMethods(ticketContent);
-
-      if (checkForErrors(ticketHelpers)) {
+      verifyTermAndCondictions(ticketContent)
+      let checked =  ticketContent.parentElement.querySelector('terms-and-conditions').querySelector('input').checked
+      if (checkForErrors(ticketHelpers) || !checked) {
         removeBlockOverlay();
       } else {
         mercado_pago_submit_ticket = true;
@@ -137,6 +138,13 @@
           child.style.display = 'none';
         });
       });
+    }
+
+    function verifyTermAndCondictions(ticketContent) {
+      let addressElement = ticketContent.parentElement.querySelector('terms-and-conditions').querySelector('input');
+      if (!addressElement.checked) {
+        ticketContent.parentElement.querySelector('terms-and-conditions > div').classList.add('mp-error')
+      }
     }
 
     // Process when submit the checkout form

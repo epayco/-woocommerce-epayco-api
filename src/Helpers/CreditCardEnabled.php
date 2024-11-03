@@ -5,14 +5,14 @@ namespace Epayco\Woocommerce\Helpers;
 use Epayco\Woocommerce\Hooks\Admin;
 use Epayco\Woocommerce\Libraries\Logs\Logs;
 use Epayco\Woocommerce\Hooks\Options;
-use Epayco\Woocommerce\Gateways\CreditsGateway;
+use Epayco\Woocommerce\Gateways\CreditCardGateway;
 use Epayco\Woocommerce\Gateways\BasicGateway;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-class CreditsEnabled
+class CreditCardEnabled
 {
     /**
      * @const
@@ -40,7 +40,7 @@ class CreditsEnabled
     private $options;
 
     /**
-     * CreditsEnabled constructor
+     * CreditCardEnabled constructor
      *
      * @param Admin $admin
      * @param Logs $logs
@@ -57,7 +57,7 @@ class CreditsEnabled
     }
 
     /**
-     * Set default CreditsEnabled options when needed
+     * Set default CreditCardEnabled options when needed
      */
     public function setCreditsDefaultOptions(): void
     {
@@ -79,7 +79,7 @@ class CreditsEnabled
                 $this->options->set(self::CREDITS_ACTIVATION_NEEDED, 'no');
 
                 $basicGateway   = new BasicGateway();
-                $creditsGateway = new CreditsGateway();
+                $creditsGateway = new CreditCardGateway();
 
                 if ($this->options->get(self::ALREADY_ENABLE_BY_DEFAULT) === 'no') {
                     if (
