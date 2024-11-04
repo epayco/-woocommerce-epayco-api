@@ -6,7 +6,6 @@ use Epayco\Woocommerce\Helpers\Actions;
 use Epayco\Woocommerce\Helpers\Cache;
 use Epayco\Woocommerce\Helpers\Cart;
 use Epayco\Woocommerce\Helpers\Country;
-use Epayco\Woocommerce\Helpers\CreditCardEnabled;
 use Epayco\Woocommerce\Helpers\Currency;
 use Epayco\Woocommerce\Helpers\CurrentUser;
 use Epayco\Woocommerce\Helpers\Gateways;
@@ -46,10 +45,6 @@ class Helpers
      */
     public $country;
 
-    /**
-     * @var CreditCardEnabled
-     */
-    public $creditsEnabled;
 
     /**
      * @var Currency
@@ -116,7 +111,6 @@ class Helpers
         Cache             $cache,
         Cart              $cart,
         Country           $country,
-        CreditCardEnabled $creditsEnabled,
         Currency          $currency,
         CurrentUser       $currentUser,
         Gateways          $gateways,
@@ -134,7 +128,6 @@ class Helpers
         $this->cache          = $cache;
         $this->cart           = $cart;
         $this->country        = $country;
-        $this->creditsEnabled = $creditsEnabled;
         $this->currency       = $currency;
         $this->currentUser    = $currentUser;
         $this->gateways       = $gateways;

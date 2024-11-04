@@ -135,7 +135,6 @@ class AdminTranslations
         $this->setPluginSettingsTranslations();
         $this->setHeaderSettingsTranslations();
         $this->setCredentialsSettingsTranslations();
-        $this->setStoreSettingsTranslations();
         $this->setOrderSettingsTranslations();
         $this->setGatewaysSettingsTranslations();
         $this->setBasicGatewaySettingsTranslations();
@@ -292,61 +291,7 @@ class AdminTranslations
         ];
     }
 
-    /**
-     * Set store settings translations
-     *
-     * @return void
-     */
-    private function setStoreSettingsTranslations(): void
-    {
-        $helperUrl = sprintf(
-            '%s %s <a class="ep-settings-blue-text" target="_blank" href="%s">%s</a>.',
-            __('Add the URL to receive payments notifications.', 'woocommerce-epayco'),
-            __('Find out more information in the', 'woocommerce-epayco'),
-            $this->links['docs_ipn_notification'],
-            __('guides', 'woocommerce-epayco')
-        );
 
-        $helperIntegrator = sprintf(
-            '%s %s <a class="ep-settings-blue-text" target="_blank" href="%s">%s</a>.',
-            __('If you are a ePayco Certified Partner, make sure to add your integrator_id.', 'woocommerce-epayco'),
-            __('If you do not have the code, please', 'woocommerce-epayco'),
-            $this->links['docs_developers_program'],
-            __('request it now', 'woocommerce-epayco')
-        );
-
-        $this->storeSettings = [
-            'title_store'                   => __('2. Customize your business’ information', 'woocommerce-epayco'),
-            'title_info_store'              => __('Your store information', 'woocommerce-epayco'),
-            'title_advanced_store'          => __('Advanced integration options (optional)', 'woocommerce-epayco'),
-            'title_debug'                   => __('Debug and Log Mode', 'woocommerce-epayco'),
-            'subtitle_store'                => __('Fill out the following details to have a better experience and offer your customers more information.', 'woocommerce-epayco'),
-            'subtitle_name_store'           => __('Name of your store in your client\'s invoice', 'woocommerce-epayco'),
-            'subtitle_activities_store'     => __('Identification in Activities of Sdk', 'woocommerce-epayco'),
-            'subtitle_advanced_store'       => __('For further integration of your store with Sdk (IPN, Certified Partners, Debug Mode)', 'woocommerce-epayco'),
-            'subtitle_category_store'       => __('Store category', 'woocommerce-epayco'),
-            'subtitle_url'                  => __('URL for IPN', 'woocommerce-epayco'),
-            'subtitle_integrator'           => __('Integrator ID', 'woocommerce-epayco'),
-            'subtitle_debug'                => __('We record your store\'s actions in order to provide a better assistance.', 'woocommerce-epayco'),
-            'placeholder_name_store'        => __('Ex: Mary\'s Store', 'woocommerce-epayco'),
-            'placeholder_activities_store'  => __('Ex: Mary Store', 'woocommerce-epayco'),
-            'placeholder_category_store'    => __('Select', 'woocommerce-epayco'),
-            'placeholder_url'               => __('Ex: https://examples.com/my-custom-ipn-url', 'woocommerce-epayco'),
-            'options_url'                   => __('Add plugin default params', 'woocommerce-epayco'),
-            'placeholder_integrator'        => __('Ex: 14987126498', 'woocommerce-epayco'),
-            'accordion_advanced_store_show' => __('Show advanced options', 'woocommerce-epayco'),
-            'accordion_advanced_store_hide' => __('Hide advanced options', 'woocommerce-epayco'),
-            'button_store'                  => __('Save and continue', 'woocommerce-epayco'),
-            'helper_name_store'             => __('If this field is empty, the purchase will be identified as Sdk.', 'woocommerce-epayco'),
-            'helper_activities_store'       => __('In Activities, you will view this term before the order number', 'woocommerce-epayco'),
-            'helper_category_store'         => __('Select "Other categories" if you do not find the appropriate category.', 'woocommerce-epayco'),
-            'helper_integrator_link'        => __('request it now.', 'woocommerce-epayco'),
-            'helper_url'                    => $helperUrl,
-            'helper_integrator'             => $helperIntegrator,
-            'title_cron_config'             => __('Order tracking', 'woocommerce-epayco'),
-            'subtitle_cron_config'          => __('We will keep your Sdk orders updated every hour. We recommend activating this option only in the event of automatic order update failures.', 'woocommerce-epayco'),
-        ];
-    }
 
     /**
      * Set gateway settings translations

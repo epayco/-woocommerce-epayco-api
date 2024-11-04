@@ -4,7 +4,6 @@ namespace Epayco\Woocommerce\Admin;
 
 use Epayco\Woocommerce\Configs\Seller;
 use Epayco\Woocommerce\Configs\Store;
-use Epayco\Woocommerce\Helpers\Categories;
 use Epayco\Woocommerce\Helpers\CurrentUser;
 use Epayco\Woocommerce\Helpers\Form;
 use Epayco\Woocommerce\Helpers\Links;
@@ -128,7 +127,6 @@ class Settings
      * @param Nonce $nonce
      * @param CurrentUser $currentUser
      * @param Session $session
-     * @param Downloader $downloader
      * @param Funnel $funnel
      * @param Strings $strings
      */
@@ -214,9 +212,7 @@ class Settings
                 'epayco_settings_admin_js',
                 $this->url->getPluginFileUrl('assets/js/admin/ep-admin-settings', '.js'),
                 [
-                    'nonce'              => $this->nonce->generateNonce(self::NONCE_ID),
-                    'show_advanced_text' => $this->translations->storeSettings['accordion_advanced_store_show'],
-                    'hide_advanced_text' => $this->translations->storeSettings['accordion_advanced_store_hide'],
+                    'nonce'              => $this->nonce->generateNonce(self::NONCE_ID)
                 ]
             );
 
@@ -296,35 +292,19 @@ class Settings
     {
         $headerTranslations      = $this->translations->headerSettings;
         $credentialsTranslations = $this->translations->credentialsSettings;
-        $storeTranslations       = $this->translations->storeSettings;
         $gatewaysTranslations    = $this->translations->gatewaysSettings;
         $testModeTranslations    = $this->translations->testModeSettings;
-        $allowedHtmlTags         = $this->strings->getAllowedHtmlTags();
-
         $pcustid   = $this->seller->getCredentialsPCustId();
-        $pKey   = $this->seller->getCredentialsPkey();
         $publicKey   = $this->seller->getCredentialsPublicKeyPayment();
         $privateKey   = $this->seller->getCredentialsPrivateKeyPayment();
-
-        $storeId             = $this->store->getStoreId();
-        $storeName           = $this->store->getStoreName();
-        $storeCategory       = $this->store->getStoreCategory('others');
-        $customDomain        = $this->store->getCustomDomain();
-        $customDomainOptions = $this->store->getCustomDomainOptions();
-        $integratorId        = $this->store->getIntegratorId();
+        $pKey   = $this->seller->getCredentialsPkey();
 
         $checkboxCheckoutTestMode       = $this->store->getCheckboxCheckoutTestMode();
         $checkboxCheckoutProductionMode = $this->store->getCheckboxCheckoutProductionMode();
 
         $links      = $this->links->getLinks();
         $testMode   = ($checkboxCheckoutTestMode === 'yes');
-        $categories = Categories::getCategories();
-
-        $phpVersion = phpversion() ? phpversion() : "";
-        $wpVersion = $GLOBALS['wp_version'] ? $GLOBALS['wp_version'] : "";
-        $wcVersion = $GLOBALS['woocommerce']->version ? $GLOBALS['woocommerce']->version : "";
-        $pluginVersion = EP_VERSION ? EP_VERSION : "";
-
+        $allowedHtmlTags         = $this->strings->getAllowedHtmlTags();
 
         include dirname(__FILE__) . '/../../templates/admin/settings/settings.php';
     }

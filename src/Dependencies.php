@@ -15,7 +15,6 @@ use Epayco\Woocommerce\Hooks\Blocks;
 use Epayco\Woocommerce\Order\OrderMetadata;
 use Epayco\Woocommerce\Configs\Seller;
 use Epayco\Woocommerce\Configs\Store;
-use Epayco\Woocommerce\Endpoints\CheckoutCreditCard;
 use Epayco\Woocommerce\Helpers\Cache;
 use Epayco\Woocommerce\Helpers\Country;
 use Epayco\Woocommerce\Helpers\Cron;
@@ -29,7 +28,6 @@ use Epayco\Woocommerce\Helpers\Requester;
 use Epayco\Woocommerce\Helpers\Strings;
 use Epayco\Woocommerce\Helpers\Url;
 use Epayco\Woocommerce\Helpers\PaymentMethods;
-use Epayco\Woocommerce\Helpers\CreditCardEnabled;
 use Epayco\Woocommerce\Hooks\Admin;
 use Epayco\Woocommerce\Hooks\Checkout;
 use Epayco\Woocommerce\Hooks\Endpoints;
@@ -96,10 +94,6 @@ class Dependencies
      */
     public $storeConfig;
 
-    /**
-     * @var CheckoutCreditCard
-     */
-    public $checkoutCustomEndpoints;
 
     /**
      * @var Admin
@@ -185,11 +179,6 @@ class Dependencies
      * @var Country
      */
     public $countryHelper;
-
-    /**
-     * @var CreditCardEnabled
-     */
-    public $creditsEnabledHelper;
 
     /**
      * @var Cron
@@ -336,8 +325,6 @@ class Dependencies
         $this->metadataConfig          = $this->setMetadataConfig();
         $this->currencyHelper          = $this->setCurrency();
         $this->settings                = $this->setSettings();
-        $this->creditsEnabledHelper    = $this->setCreditsEnabled();
-        $this->checkoutCustomEndpoints = $this->setCustomCheckoutEndpoints();
         $this->cartHelper              = $this->setCart();
         $this->funnel                  = $this->setFunnel();
 
@@ -595,17 +582,6 @@ class Dependencies
         );
     }
 
-    /**
-     * @return CreditCardEnabled
-     */
-    private function setCreditsEnabled(): CreditCardEnabled
-    {
-        return new CreditCardEnabled(
-            $this->adminHook,
-            $this->logs,
-            $this->optionsHook
-        );
-    }
 
     /**
      * @return Funnel
@@ -620,20 +596,6 @@ class Dependencies
         );
     }
 
-    /**
-     * @return CheckoutCreditCard
-     */
-    private function setCustomCheckoutEndpoints(): CheckoutCreditCard
-    {
-        return new CheckoutCreditCard(
-            $this->endpointsHook,
-            $this->logs,
-            $this->requesterHelper,
-            $this->sessionHelper,
-            $this->sellerConfig,
-            $this->storeTranslations
-        );
-    }
 
     /**
      * @return Cart
@@ -672,7 +634,6 @@ class Dependencies
             $this->cacheHelper,
             $this->cartHelper,
             $this->countryHelper,
-            $this->creditsEnabledHelper,
             $this->currencyHelper,
             $this->currentUserHelper,
             $this->gatewaysHelper,
