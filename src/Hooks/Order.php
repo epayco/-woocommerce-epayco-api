@@ -11,13 +11,11 @@ use Epayco\Woocommerce\Helpers\CurrentUser;
 use Epayco\Woocommerce\Helpers\Form;
 use Epayco\Woocommerce\Helpers\Nonce;
 use Epayco\Woocommerce\Helpers\PaymentStatus;
-use Epayco\Woocommerce\Helpers\Requester;
 use Epayco\Woocommerce\Helpers\Url;
 use Epayco\Woocommerce\Order\OrderStatus;
 use Epayco\Woocommerce\Translations\AdminTranslations;
 use Epayco\Woocommerce\Translations\StoreTranslations;
 use Epayco\Woocommerce\Libraries\Logs\Logs;
-use Epayco\Woocommerce\Libraries\Metrics\Datadog;
 use Epayco\Woocommerce\Sdk\EpaycoSdk;
 
 if (!defined('ABSPATH')) {
@@ -92,20 +90,12 @@ class Order
      */
     private $currentUser;
 
-    /**
-     * @var Requester
-     */
-    private $requester;
 
     /**
      * @var Logs
      */
     private $logs;
 
-    /**
-     * @var Datadog
-     */
-    private $datadog;
 
     /**
      * @const
@@ -127,7 +117,6 @@ class Order
      * @param Endpoints $endpoints
      * @param Cron $cron
      * @param CurrentUser $currentUser
-     * @param Requester $requester
      * @param Logs $logs
      */
     public function __construct(
@@ -144,7 +133,6 @@ class Order
         Endpoints $endpoints,
         Cron $cron,
         CurrentUser $currentUser,
-        Requester $requester,
         Logs $logs
     ) {
         $this->template          = $template;
@@ -160,9 +148,7 @@ class Order
         $this->endpoints         = $endpoints;
         $this->cron              = $cron;
         $this->currentUser       = $currentUser;
-        $this->requester         = $requester;
         $this->logs              = $logs;
-        $this->datadog           = Datadog::getInstance();
 
         $this->sdk  = $this->getSdkInstance();
 
@@ -445,7 +431,7 @@ class Order
                     $this->syncOrderStatus($order);
                 }
 
-                $this->sendEventOnAction('success');
+
             } catch (\Exception $ex) {
                 $error_message = "Unable to update batch of orders on action got error: {$ex->getMessage()}";
 
@@ -453,7 +439,7 @@ class Order
                     $error_message,
                     __CLASS__
                 );
-                $this->sendEventOnAction('error', $error_message);
+
             }
         });
     }
@@ -473,7 +459,6 @@ class Order
             $this->cron->unregisterScheduledEvent($action);
         }
 
-        $this->sendEventOnToggle($enabled);
     }
 
     /**
@@ -587,20 +572,4 @@ class Order
         $order->save();
     }
 
-
-    /**
-     * Send an datadog event inside the sync order status action on fail and success
-     */
-    private function sendEventOnAction($value, $message = null)
-    {
-        $this->datadog->sendEvent('order_sync_status_action', $value, $message);
-    }
-
-    /**
-     * Send an datadog event when an seller toggles (activating or deactivating) the cron button
-     */
-    private function sendEventOnToggle($value)
-    {
-        $this->datadog->sendEvent('order_toggle_cron', $value);
-    }
 }

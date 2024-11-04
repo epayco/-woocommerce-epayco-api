@@ -14,7 +14,6 @@ use Epayco\Woocommerce\Helpers\Links;
 use Epayco\Woocommerce\Helpers\Nonce;
 use Epayco\Woocommerce\Helpers\Notices;
 use Epayco\Woocommerce\Helpers\PaymentMethods;
-use Epayco\Woocommerce\Helpers\Requester;
 use Epayco\Woocommerce\Helpers\Session;
 use Epayco\Woocommerce\Helpers\Strings;
 use Epayco\Woocommerce\Helpers\Url;
@@ -87,11 +86,6 @@ class Helpers
     public $paymentMethods;
 
     /**
-     * @var Requester
-     */
-    public $requester;
-
-    /**
      * @var Session
      */
     public $session;
@@ -119,7 +113,6 @@ class Helpers
         Nonce             $nonce,
         Notices           $notices,
         PaymentMethods    $paymentMethods,
-        Requester         $requester,
         Session           $session,
         Strings $strings,
         Url $url
@@ -136,7 +129,6 @@ class Helpers
         $this->nonce          = $nonce;
         $this->notices        = $notices;
         $this->paymentMethods = $paymentMethods;
-        $this->requester      = $requester;
         $this->session        = $session;
         $this->strings        = $strings;
         $this->url            = $url;

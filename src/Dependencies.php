@@ -2,8 +2,6 @@
 
 namespace Epayco\Woocommerce;
 
-use MercadoPago\PP\Sdk\HttpClient\HttpClient;
-use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 use Epayco\Woocommerce\Admin\Settings;
 use Epayco\Woocommerce\Configs\Metadata;
 use Epayco\Woocommerce\Funnel\Funnel;
@@ -24,7 +22,6 @@ use Epayco\Woocommerce\Helpers\Gateways;
 use Epayco\Woocommerce\Helpers\Links;
 use Epayco\Woocommerce\Helpers\Nonce;
 use Epayco\Woocommerce\Helpers\Notices;
-use Epayco\Woocommerce\Helpers\Requester;
 use Epayco\Woocommerce\Helpers\Strings;
 use Epayco\Woocommerce\Helpers\Url;
 use Epayco\Woocommerce\Helpers\PaymentMethods;
@@ -225,10 +222,6 @@ class Dependencies
      */
     public $paymentMethodsHelper;
 
-    /**
-     * @var Requester
-     */
-    public $requesterHelper;
 
     /**
      * @var Session
@@ -302,7 +295,6 @@ class Dependencies
         $this->sessionHelper           = new Session();
         $this->stringsHelper           = new Strings();
         $this->orderMetadata           = $this->setOrderMetadata();
-        $this->requesterHelper         = $this->setRequester();
         $this->storeConfig             = $this->setStore();
         $this->logs                    = $this->setLogs();
         $this->sellerConfig            = $this->setSeller();
@@ -340,16 +332,6 @@ class Dependencies
         return new OrderMetadata($this->orderMetaHook);
     }
 
-    /**
-     * @return Requester
-     */
-    private function setRequester(): Requester
-    {
-        $curlRequester = new CurlRequester();
-        $httpClient    = new HttpClient(Requester::BASEURL_MP, $curlRequester);
-
-        return new Requester($httpClient);
-    }
 
     /**
      * @return Seller
@@ -429,7 +411,7 @@ class Dependencies
     private function setLogs(): Logs
     {
         $file   = new File($this->storeConfig);
-        $remote = new Remote($this->storeConfig, $this->requesterHelper);
+        $remote = new Remote($this->storeConfig);
 
         return new Logs($file, $remote);
     }
@@ -509,7 +491,6 @@ class Dependencies
             $this->endpointsHook,
             $this->cronHelper,
             $this->currentUserHelper,
-            $this->requesterHelper,
             $this->logs
         );
     }
@@ -551,7 +532,6 @@ class Dependencies
             $this->countryHelper,
             $this->logs,
             $this->noticesHelper,
-            $this->requesterHelper,
             $this->sellerConfig,
             $this->optionsHook,
             $this->urlHelper
@@ -642,7 +622,6 @@ class Dependencies
             $this->nonceHelper,
             $this->noticesHelper,
             $this->paymentMethodsHelper,
-            $this->requesterHelper,
             $this->sessionHelper,
             $this->stringsHelper,
             $this->urlHelper
