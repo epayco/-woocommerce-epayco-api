@@ -281,7 +281,6 @@
                 input_country_label: cl,
                 input_country_helper: ch,
                 person_type_label: E,
-                amount: S,
                 site_id: f,
                 terms_and_conditions_label: ll,
                 terms_and_conditions_description: v,
@@ -292,9 +291,7 @@
                 financial_institutions_label: x,
                 financial_institutions_helper: R,
                 financial_placeholder: T,
-                message_error_amount: M
             } = _.params;
-            if (null == S) return (0, e.createElement)(e.Fragment, null, (0, e.createElement)("p", {className: "alert-message"}, M));
             const P = (0, a.useRef)(null), {eventRegistration: q, emitResponse: O} = t, {onPaymentSetup: I} = q;
             let U = {
                 labelMessage: k,
@@ -396,7 +393,6 @@
 
                     const t = {
                             "epayco_pse[site_id]": f,
-                            "epayco_pse[amount]": S.toString(),
                             "epayco_pse[name]": ticketContentName.value,
                             "epayco_pse[address]": ticketContentAddress.value,
                             "epayco_pse[email]": ticketContentEmail.value,

@@ -175,7 +175,7 @@ class PseGateway extends AbstractGateway
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
             'test_mode_link_text'              => $this->storeTranslations['test_mode_link_text'],
-            'test_mode_link_src'               => $this->links['docs_integration_test'],
+            //'test_mode_link_src'               => $this->links['docs_integration_test'],
             'input_name_label'                 => $this->storeTranslations['input_name_label'],
             'input_name_helper'                => $this->storeTranslations['input_name_helper'],
             'input_email_label'                => $this->storeTranslations['input_email_label'],
@@ -228,8 +228,6 @@ class PseGateway extends AbstractGateway
             $response = $this->transaction->createPsePayment($order_id, $checkout);
             $response = json_decode(json_encode($response), true);
             if (is_array($response) && $response['success']) {
-                //$this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$response['id']]);
-                //$this->handleWithRejectPayment($response);
                 if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
                     $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
                     $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
@@ -239,13 +237,13 @@ class PseGateway extends AbstractGateway
                             wc_reduce_stock_levels($order_id);
                             wc_increase_stock_levels($order_id);
                     }*/
-                    //$this->epayco->hooks->order->addOrderNote($order, $this->storeTranslations['customer_not_paid']);
                     return [
                         'result'   => 'success',
                         'redirect' => $response['data']['urlbanco'],
                     ];
                 }
             }else{
+                //$this->handleWithRejectPayment($response);
                 $messageError = $response['message']?? $response['titleResponse'];
                 $errorMessage = "";
                 if (isset($response['data']['errors'])) {

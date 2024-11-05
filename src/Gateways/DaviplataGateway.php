@@ -55,7 +55,7 @@ class DaviplataGateway extends AbstractGateway
 
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
-        $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
+        //$this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
     }
 
@@ -240,7 +240,8 @@ class DaviplataGateway extends AbstractGateway
                 if (in_array(strtolower($response['data']['estatus']),["pendiente","pending"])) {
                     $order->update_status("on-hold");
                     $this->epayco->woocommerce->cart->empty_cart();
-                    $urlReceived = $order->get_checkout_order_received_url();
+                    //$urlReceived = $order->get_checkout_order_received_url();
+                    $urlReceived = $response['urlPayment'];
                     $return = [
                         'result'   => 'success',
                         'redirect' => $urlReceived,

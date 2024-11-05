@@ -182,7 +182,7 @@ class CreditCardGateway extends AbstractGateway
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
             'test_mode_link_text'              => $this->storeTranslations['test_mode_link_text'],
-            'test_mode_link_src'               => $this->links['docs_integration_test'],
+            //'test_mode_link_src'               => $this->links['docs_integration_test'],
             'card_form_title'                  => $this->storeTranslations['card_form_title'],
             'card_holder_name_input_label'     => $this->storeTranslations['card_holder_name_input_label'],
             'card_holder_name_input_helper'    => $this->storeTranslations['card_holder_name_input_helper'],

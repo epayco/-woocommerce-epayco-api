@@ -4112,6 +4112,7 @@
         }
         createDocument(t, i) {
             const n = document.createElement("input");
+            var cellphoneValidated = false;
             return n.setAttribute("name", this.getAttribute("input-name")),
                 n.setAttribute("data-checkout", this.getAttribute("input-data-checkout")),
                 n.setAttribute("data-cy", "input-cellphone"),
@@ -4127,21 +4128,39 @@
                     i.parentElement.querySelector("input-helper > div").style.display = "none"
                 })),
                 n.addEventListener("input", (() => {
+                    const codigoPais = i.querySelector("select").value.split("+")[1];
                     n.value = n.value.replace(/\D/g, '');
-                    if (n.value.length < 7) {
-                        i.querySelector("select").parentElement.classList.add("mp-error"),
-                            t.querySelector("input").parentElement.classList.add("mp-error"),
-                            i.parentElement.querySelector("input-helper > div").style.display = "flex";
-                    } else {
-                        t.querySelector("input").parentElement.classList.remove("mp-error"),
-                            i.querySelector("select").parentElement.classList.remove("mp-error"),
-                            i.parentElement.querySelector("input-helper > div").style.display = "none";
+                    const regexColombia = /^3\d{9}$/;
+                    if(codigoPais == 57){
+                        if (regexColombia.test(n.value)) {
+                            t.querySelector("input").parentElement.classList.remove("mp-error"),
+                                i.querySelector("select").parentElement.classList.remove("mp-error"),
+                                i.parentElement.querySelector("input-helper > div").style.display = "none";
+                            cellphoneValidated = true;
+                        } else {
+                            i.querySelector("select").parentElement.classList.add("mp-error"),
+                                t.querySelector("input").parentElement.classList.add("mp-error"),
+                                i.parentElement.querySelector("input-helper > div").style.display = "flex";
+                            cellphoneValidated = false;
+                        }
+                    }else{
+                        if (n.value.length < 7) {
+                            i.querySelector("select").parentElement.classList.add("mp-error"),
+                                t.querySelector("input").parentElement.classList.add("mp-error"),
+                                i.parentElement.querySelector("input-helper > div").style.display = "flex";
+                            cellphoneValidated = false;
+                        } else {
+                            t.querySelector("input").parentElement.classList.remove("mp-error"),
+                                i.querySelector("select").parentElement.classList.remove("mp-error"),
+                                i.parentElement.querySelector("input-helper > div").style.display = "none";
+                            cellphoneValidated = true;
+                        }
                     }
                 })),
                 n.addEventListener("focusout", (() => {
                     t.querySelector("input").parentElement.classList.add("mp-error");
                     i.querySelector("select").parentElement.classList.remove("mp-error");
-                    void 0 !== ((n.value !=='' && n.value.length > 6) ? (
+                    void 0 !== ((n.value !=='' && cellphoneValidated) ? (
                                 t.querySelector("input").parentElement.classList.remove("mp-error"),
                                     i.querySelector("select").parentElement.classList.remove("mp-error"),
                                     i.parentElement.querySelector("input-helper > div").style.display = "none",

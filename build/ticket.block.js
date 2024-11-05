@@ -273,16 +273,14 @@
                 input_table_button: S,
                 input_helper_label: f,
                 payment_methods: w,
-                amount: b,
                 site_id: C,
                 terms_and_conditions_label: ll,
                 terms_and_conditions_description: v,
                 terms_and_conditions_link_text: N,
                 terms_and_conditions_link_src: T,
                 test_mode: R,
-                message_error_amount: x
             } = k.params;
-            if (null == b) return (0, e.createElement)(e.Fragment, null, (0, e.createElement)("p", {className: "alert-message"}, x));
+            //if (null == b) return (0, e.createElement)(e.Fragment, null, (0, e.createElement)("p", {className: "alert-message"}, x));
             const M = (0, a.useRef)(null),
                 {eventRegistration: I, emitResponse: P} = t,
                 {onPaymentSetup: O} = I;
@@ -429,7 +427,6 @@
                     const doc_number_value = M.current.querySelector("#identificationTypeNumber").querySelector("input").value;
                     const n = {
                             "epayco_ticket[site_id]": C,
-                            "epayco_ticket[amount]": b.toString(),
                             "epayco_ticket[name]": ticketContentName.value,
                             "epayco_ticket[address]": ticketContentAddress.value,
                             "epayco_ticket[email]": ticketContentEmail.value,

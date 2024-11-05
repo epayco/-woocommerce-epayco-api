@@ -302,11 +302,8 @@
                 terms_and_conditions_label: ll,
                 terms_and_conditions_description: v,
                 terms_and_conditions_link_text: N,
-                terms_and_conditions_link_src: T,
-                amount: J,
-                message_error_amount: G
+                terms_and_conditions_link_src: T
             } = k.params;
-            if (null == J) return (0, e.createElement)(e.Fragment, null, (0, e.createElement)("p", {className: "alert-message"}, G));
             const W = (0, c.useRef)(null), [X, Z] = (0, c.useState)("custom"), {
                 eventRegistration: ee,
                 emitResponse: te,
