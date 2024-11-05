@@ -4,8 +4,6 @@ namespace Epayco\Woocommerce\Gateways;
 
 use Epayco\Woocommerce\Helpers\Device;
 use Epayco\Woocommerce\Sdk\EpaycoSdk;
-use MercadoPago\PP\Sdk\Entity\Payment\Payment;
-use MercadoPago\PP\Sdk\Entity\Preference\Preference;
 use Epayco\Woocommerce\Helpers\Form;
 use Epayco\Woocommerce\Helpers\Numbers;
 use Epayco\Woocommerce\WoocommerceEpayco;
@@ -45,12 +43,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
      */
     protected $epayco;
 
-    /**
-     * Transaction
-     *
-     * @var Payment|Preference
-     */
-    protected $transaction;
 
     /**
      * Commission
@@ -120,7 +112,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
 
         $this->checkoutCountry = $this->epayco->storeConfig->getCheckoutCountry();
         $this->countryConfigs  = $this->epayco->helpers->country->getCountryConfigs();
-        $this->ratio           = $this->epayco->helpers->currency->getRatio($this);
         $this->links           = $this->epayco->helpers->links->getLinks();
 
         $this->has_fields = true;
@@ -909,19 +900,4 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
         return $this->links['admin_settings_page'];
     }
 
-    protected function getAmountAndCurrency(): array
-    {
-        $currencyRatio = 0;
-        $amount = null;
-        try {
-            $currencyRatio = $this->epayco->helpers->currency->getRatio($this);
-            $amount = $this->getAmount();
-        } catch (\Exception $e) {
-
-        }
-        return [
-            'currencyRatio' => $currencyRatio,
-            'amount' => $amount,
-        ];
-    }
 }

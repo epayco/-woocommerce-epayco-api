@@ -162,12 +162,10 @@ class CheckoutGateway extends AbstractGateway
      */
     public function getPaymentFieldsParams(): array
     {
-        $amountAndCurrencyRatio = $this->getAmountAndCurrency();
         return [
             'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
-            'amount'                           => $amountAndCurrencyRatio['amount'],
             'message_error_amount'             => $this->storeTranslations['message_error_amount'],
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],

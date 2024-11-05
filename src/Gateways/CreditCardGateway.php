@@ -177,10 +177,7 @@ class CreditCardGateway extends AbstractGateway
      */
     public function getPaymentFieldsParams(): array
     {
-        $amountAndCurrencyRatio = $this->getAmountAndCurrency();
         return [
-            'amount'                           => $amountAndCurrencyRatio['amount'],
-            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
             'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],

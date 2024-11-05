@@ -56,14 +56,11 @@ class PseGateway extends AbstractGateway
         $this->description        = $this->adminTranslations['gateway_description'];
         $this->method_title       = $this->adminTranslations['method_title'];
         $this->method_description = $this->description;
-        $this->discount           = $this->getActionableValue('gateway_discount', 0);
-        $this->commission         = $this->getActionableValue('commission', 0);
 
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
 
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
-        $this->epayco->hooks->cart->registerCartCalculateFees([$this, 'registerDiscountAndCommissionFeesOnCart']);
 
         $this->epayco->helpers->currency->handleCurrencyNotices($this);
     }
@@ -173,12 +170,7 @@ class PseGateway extends AbstractGateway
      */
     public function getPaymentFieldsParams(): array
     {
-        $currentUser     = $this->epayco->helpers->currentUser->getCurrentUser();
-        $loggedUserEmail = ($currentUser->ID != 0) ? $currentUser->user_email : null;
-        $amountAndCurrencyRatio = $this->getAmountAndCurrency();
         return [
-            'amount'                           => $amountAndCurrencyRatio['amount'],
-            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
             'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],

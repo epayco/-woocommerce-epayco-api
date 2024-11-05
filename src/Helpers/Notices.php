@@ -151,7 +151,7 @@ class Notices
             return;
         }
 
-        if (!$this->store->getDismissedReviewNotice()) {
+        /*if (!$this->store->getDismissedReviewNotice()) {
             if ($this->store->getAnyOrderCompleted()) {
                 add_action(
                     'admin_notices',
@@ -181,7 +181,7 @@ class Notices
                     include dirname(__FILE__) . '/../../templates/admin/notices/saved-cards-notice.php';
                 }
             );
-        }
+        }*/
     }
 
     /**

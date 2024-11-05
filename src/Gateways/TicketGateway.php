@@ -78,8 +78,6 @@ class TicketGateway extends AbstractGateway
         $this->description        = $this->adminTranslations['gateway_description'];
         $this->method_title       = $this->adminTranslations['method_title'];
         $this->method_description = $this->description;
-        $this->discount           = $this->getActionableValue('gateway_discount', 0);
-        $this->commission         = $this->getActionableValue('commission', 0);
 
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
@@ -202,17 +200,7 @@ class TicketGateway extends AbstractGateway
      */
     public function getPaymentFieldsParams(): array
     {
-        $currentUser     = $this->epayco->helpers->currentUser->getCurrentUser();
-        $loggedUserEmail = ($currentUser->ID != 0) ? $currentUser->user_email : null;
-        $address         = $this->epayco->helpers->currentUser->getCurrentUserMeta('billing_address_1', true);
-        $address2        = $this->epayco->helpers->currentUser->getCurrentUserMeta('billing_address_2', true);
-        $address        .= (!empty($address2) ? ' - ' . $address2 : '');
-        $country         = $this->epayco->helpers->currentUser->getCurrentUserMeta('billing_country', true);
-        $address        .= (!empty($country) ? ' - ' . $country : '');
-        $amountAndCurrencyRatio = $this->getAmountAndCurrency();
         return [
-            'amount'                           => $amountAndCurrencyRatio['amount'],
-            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
             'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
@@ -402,7 +390,7 @@ class TicketGateway extends AbstractGateway
                 'name'              => 'Sured',
                 'thumbnail'         => 'https://secure.epayco.co/img/sured.jpg'
             ],
-            [
+            /*[
                 'id' => 'pagatodo',
                 'name'              => 'Pagatodo',
                 'thumbnail'         => 'https://secure.epayco.co/img/pagatodo.jpg'
@@ -431,8 +419,7 @@ class TicketGateway extends AbstractGateway
                 'id' => 'laperla',
                 'name'              => 'Laperla',
                 'thumbnail'         => 'https://secure.epayco.co/img/laperla.jpg'
-            ]
-
+            ]*/
         ];
         $payment_list = [
             'type'                 => 'ep_checkbox_list',
@@ -513,6 +500,7 @@ class TicketGateway extends AbstractGateway
                 'status'            => 'active',
                 'thumbnail'         => 'https://secure.epayco.co/img/sured.jpg'
             ],
+            /*
             [
                 'id' => 'pagatodo',
                 'name'              => 'Pagatodo',
@@ -549,7 +537,7 @@ class TicketGateway extends AbstractGateway
                 'status'            => 'active',
                 'thumbnail'         => 'https://secure.epayco.co/img/laperla.jpg'
             ]
-
+            */
         ];
 
         if (!empty($ticketPaymentMethods)) {
