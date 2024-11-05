@@ -1712,7 +1712,8 @@ CryptoJS.lib.Cipher ||
         debug,
         alerts;
     languages = new Array();
-    base_url = "https://api.secure.epayco.io/";
+    base_url_pre = "https://api.secure.epayco.io/";
+    base_url = "https://api.secure.payco.co/";
     session_id = "";
     //_language = "es";
 
@@ -2002,13 +2003,14 @@ CryptoJS.lib.Cipher ||
                 },
                 createTokenEncrypt: async function (sessionId,paymentProcess) {
                     try {
-                        debugger
                         const public_key = ePayco.getPublicKey();
                         const data = {
                             public_key: public_key,
                             session: sessionId
                         };
-                        const response = await fetch('https://api.secure.epayco.io/token/encrypt', {
+                        //let url = 'https://api.secure.epayco.io/token/encrypt';
+                        let url = 'https://api.secure.payco.co/token/encrypt';
+                        const response = await fetch(url, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -2024,21 +2026,21 @@ CryptoJS.lib.Cipher ||
                 },
                 createTokenRequest: async function (json){
                     try {
-                        debugger
-                        console.log("dd")
                         const data = {
                             values: json,
                         };
-                        /*const response = await fetch('https://api.secure.epayco.io/token/tokenize', {
+                        //let url = 'https://api.secure.epayco.io/token/tokenize';
+                        let url = 'https://api.secure.payco.co/token/tokenize';
+                        const response = await fetch(url, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify(data)
-                        });*/
-                        //const result = await response.json();
-                        //return result;
-                        return makeToken = {
+                        });
+                        const result = await response.json();
+                        return result;
+                        /*return makeToken = {
                             "status": "success",
                             "message": "token credit card created",
                             "data": {
@@ -2046,7 +2048,7 @@ CryptoJS.lib.Cipher ||
                                 "token": "671695d9eccb83faf100d026"
 
                             }
-                        }
+                        }*/
                     }catch (error) {
                         console.error('Error:', error);
                         return { error }; // Retornar el error si algo falla
@@ -2327,7 +2329,6 @@ CryptoJS.lib.Cipher ||
 (function () {
     ePayco.token = {};
     ePayco.token.create = async function (form, callback) {
-        debugger
         var error = undefined,
             result = undefined,
             token = ePayco._utils.parseForm(form);
@@ -2411,15 +2412,15 @@ CryptoJS.lib.Cipher ||
                     if(tokenStatus.status){
                         tokenSession = tokenStatus.data.token;
                         creditcardCreate = ePayco._utils.createCreditCard(paymentProcess,tokenSession);
-                        makeToken = await ePayco._utils.createTokenRequest(creditcardCreate);
-                        /*makeToken = {
+                        //makeToken = await ePayco._utils.createTokenRequest(creditcardCreate);
+                        makeToken = {
                             "status": "success",
                             "message": "token credit card created",
                             "data": {
                                 "status": "created",
-                                "token": "671695d9eccb83faf100d026"
+                                "token": "729786ed030bd266b045ca3"
                             }
-                        }*/
+                        }
                         callback(makeToken)
                     }else{
                         callback(tokenStatus)

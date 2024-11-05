@@ -1,13 +1,14 @@
 <?php
 
 /**
+ * @var string $amount
+ * @var string $message_error_amount
  * @var bool $test_mode
  * @var string $test_mode
  * @var string $test_mode_title
  * @var string $test_mode_description
  * @var string $test_mode_link_text
  * @var string $test_mode_link_src
- * @var string $site_id
  * @var string $input_name_label
  * @var string $input_name_helper
  * @var string $input_email_label
@@ -16,25 +17,18 @@
  * @var string $input_address_helper
  * @var string $input_ind_phone_label
  * @var string $input_ind_phone_helper
- * @var string $input_country_label
- * @var string $input_country_helper
  * @var string $person_type_label
  * @var string $input_document_label
  * @var string $input_document_helper
- * @var string $ticket_text_label
- * @var string $input_table_button
- * @var string $payment_methods
- * @var string $input_helper_label
- * @var string $amount
- * @var string $currency_ratio
+ * @var string $input_country_label
+ * @var string $input_country_helper
+ * @var string $site_id
  * @var string $terms_and_conditions_label
  * @var string $terms_and_conditions_description
  * @var string $terms_and_conditions_link_text
  * @var string $terms_and_conditions_link_src
- * @var string $amount
- * @var string $message_error_amount
  *
- * @see \Epayco\Woocommerce\Gateways\CustomGateway
+ * @see \Epayco\Woocommerce\Gateways\DaviplataGateway
  */
 
 if (!defined('ABSPATH')) {

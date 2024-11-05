@@ -211,6 +211,8 @@ class TicketGateway extends AbstractGateway
         $address        .= (!empty($country) ? ' - ' . $country : '');
         $amountAndCurrencyRatio = $this->getAmountAndCurrency();
         return [
+            'amount'                           => $amountAndCurrencyRatio['amount'],
+            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
             'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
@@ -218,32 +220,26 @@ class TicketGateway extends AbstractGateway
             'test_mode_link_src'               => $this->links['docs_integration_test'],
             'input_name_label'                 => $this->storeTranslations['input_name_label'],
             'input_name_helper'                => $this->storeTranslations['input_name_helper'],
-            'input_address_label'              => $this->storeTranslations['input_address_label'],
-            'input_address_helper'             => $this->storeTranslations['input_address_helper'],
             'input_email_label'                => $this->storeTranslations['input_email_label'],
             'input_email_helper'               => $this->storeTranslations['input_email_helper'],
+            'input_address_label'              => $this->storeTranslations['input_address_label'],
+            'input_address_helper'             => $this->storeTranslations['input_address_helper'],
             'input_ind_phone_label'            => $this->storeTranslations['input_ind_phone_label'],
             'input_ind_phone_helper'           => $this->storeTranslations['input_ind_phone_helper'],
-            'input_country_label'              => $this->storeTranslations['input_country_label'],
-            'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'person_type_label'                => $this->storeTranslations['person_type_label'],
             'input_document_label'             => $this->storeTranslations['input_document_label'],
             'input_document_helper'            => $this->storeTranslations['input_document_helper'],
+            'input_country_label'              => $this->storeTranslations['input_country_label'],
+            'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'ticket_text_label'                => $this->storeTranslations['ticket_text_label'],
             'input_table_button'               => $this->storeTranslations['input_table_button'],
+            'payment_methods'                  => $this->getPaymentMethods(),
             'input_helper_label'               => $this->storeTranslations['input_helper_label'],
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
-            'payment_methods'                  => $this->getPaymentMethods(),
             'site_id'                          => $this->epayco->sellerConfig->getSiteId(),
-            'payer_email'                      => esc_js($loggedUserEmail),
-            'woocommerce_currency'             => get_woocommerce_currency(),
-            'account_currency'                 => $this->epayco->helpers->country->getCountryConfigs(),
-            'amount'                           => $amountAndCurrencyRatio['amount'],
-            'currency_ratio'                   => $amountAndCurrencyRatio['currencyRatio'],
-            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
         ];
     }
 
@@ -592,7 +588,7 @@ class TicketGateway extends AbstractGateway
         $this->epayco->hooks->template->getWoocommerceTemplate(
             'public/order/ticket-order-received.php',
             [
-                'print_ticket_label'  => $this->storeTranslations['print_ticket_label'],
+                'print_ticket_label'  => '',
                 'transaction_details' => $transactionDetails,
             ]
         );

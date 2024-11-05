@@ -295,8 +295,8 @@
                 card_document_input_label: $,
                 card_document_input_helper: q,
                 card_issuer_input_label: Y,
-                card_holder_cellphone_input_label:chcil,
-                card_holder_cellphone_input_helper:chcih,
+                input_ind_phone_label:chcil,
+                input_ind_phone_helper:chcih,
                 input_country_label: cl,
                 input_country_helper: ch,
                 terms_and_conditions_label: ll,
@@ -442,7 +442,6 @@
                             var createTokenEpayco = async function  ($form) {
                                 return await new Promise(function(resolve, reject) {
                                     ePayco.token.create($form, function(data) {
-                                        debugger
                                         if(data.status == 'error' || data.error){
                                             reject(false)
                                         }else{
@@ -458,13 +457,11 @@
                                 var token;
                                 ePayco.setPublicKey(publicKey);
                                 ePayco.setLanguage("es");
-                                //var token = await createTokenEpayco(current);
-                                var token = '123';
-                                debugger
+                                var token = await createTokenEpayco(current);
+                                //var token = '123';
                                 if(!token){
                                     validation = true;
                                 }
-
                             }else{
                                  return {
                                     type: te.responseTypes.FAIL,
@@ -494,7 +491,6 @@
                             "epayco_creditcard[token]": token,
                             "epayco_creditcard[installmet]": customContentInstallments,
                         };
-                        debugger
                         return  "" !== customContentName.value &&
                                 "" !== cardNumberContentName.value &&
                                 "" !== cardExpirationContentName.value &&
@@ -517,7 +513,6 @@
                 }), [ce, te.responseTypes.ERROR, te.responseTypes.SUCCESS]),
                 (0, c.useEffect)((() => {
                     const e = ne((async e => {
-                        debugger
                         const t = e.processingResponse,
                             a = e.processingResponse.paymentDetails;
                         return  {type: te.responseTypes.SUCCESS}
@@ -526,7 +521,6 @@
                 }), [ne]),
                 (0, c.useEffect)((() => {
                     const e = oe((e => {
-                        debugger
                         const t = e.processingResponse;
                         return {
                             type: te.responseTypes.FAIL,

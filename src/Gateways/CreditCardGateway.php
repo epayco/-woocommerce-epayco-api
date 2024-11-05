@@ -326,11 +326,11 @@ class CreditCardGateway extends AbstractGateway
     {
         $checkout = [];
 
-        if (isset($_POST['epayco_credits'])) {
-            $checkout = Form::sanitizedPostData('epayco_credits');
+        if (isset($_POST['epayco_creditcard'])) {
+            $checkout = Form::sanitizedPostData('epayco_creditcard');
             $this->epayco->orderMetadata->markPaymentAsBlocks($order, "no");
         } else {
-            $checkout = $this->processBlocksCheckoutData('epayco_credits', Form::sanitizedPostData());
+            $checkout = $this->processBlocksCheckoutData('epayco_creditcard', Form::sanitizedPostData());
             $this->epayco->orderMetadata->markPaymentAsBlocks($order, "yes");
         }
 

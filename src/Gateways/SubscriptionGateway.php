@@ -153,18 +153,14 @@ class SubscriptionGateway extends AbstractGateway
     {
         parent::registerCheckoutScripts();
 
-        /*$this->epayco->hooks->scripts->registerCheckoutScript(
-            'wc_epayco_subscription_sdk',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/subscription/library', '.js')
-        );*/
-
+/*
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_subscription_checkout',
             $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/subscription/ep-subscription-checkout', '.js'),
             [
                 'public_key_epayco'        => $this->epayco->sellerConfig->getCredentialsPublicKeyPayment()
             ]
-        );
+        );*/
     }
 
     /**
@@ -189,59 +185,41 @@ class SubscriptionGateway extends AbstractGateway
     {
         $amountAndCurrencyRatio = $this->getAmountAndCurrency();
         return [
+            'amount'                           => $amountAndCurrencyRatio['amount'],
+            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
             'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
             'test_mode_link_text'              => $this->storeTranslations['test_mode_link_text'],
             'test_mode_link_src'               => $this->links['docs_integration_test'],
-            'wallet_button'                    => $this->epayco->hooks->options->getGatewayOption($this, 'wallet_button', 'yes'),
-            'wallet_button_image'              => $this->epayco->helpers->url->getPluginFileUrl("assets/images/icons/icon-logos", '.png', true),
-            'wallet_button_title'              => $this->storeTranslations['wallet_button_title'],
-            'wallet_button_description'        => $this->storeTranslations['wallet_button_description'],
-            'wallet_button_button_text'        => $this->storeTranslations['wallet_button_button_text'],
-            'available_payments_title_icon'    => $this->epayco->helpers->url->getPluginFileUrl("assets/images/icons/icon-purple-card", '.png', true),
-            'available_payments_title'         => $this->storeTranslations['available_payments_title'],
-            'available_payments_image'         => $this->epayco->helpers->url->getPluginFileUrl("assets/images/checkouts/credits/chevron-down", '.png', true),
-            'available_payments_chevron_up'    => $this->epayco->helpers->url->getPluginFileUrl("assets/images/checkouts/credits/chevron-up", '.png', true),
-            'available_payments_chevron_down'  => $this->epayco->helpers->url->getPluginFileUrl("assets/images/checkouts/credits/chevron-down", '.png', true),
-            'payment_methods_promotion_link'   => $this->links['epayco_debts'],
-            'payment_methods_promotion_text'   => $this->storeTranslations['payment_methods_promotion_text'],
-            'site_id'                          => $this->epayco->sellerConfig->getSiteId() ?: $this->epayco->helpers->country::SITE_ID_MLA,
             'card_form_title'                  => $this->storeTranslations['card_form_title'],
-            'card_customer_title'              => $this->storeTranslations['card_customer_title'],
-            'card_number_input_label'          => $this->storeTranslations['card_number_input_label'],
-            'card_number_input_helper'         => $this->storeTranslations['card_number_input_helper'],
             'card_holder_name_input_label'     => $this->storeTranslations['card_holder_name_input_label'],
             'card_holder_name_input_helper'    => $this->storeTranslations['card_holder_name_input_helper'],
-            'card_holder_email_input_label'    => $this->storeTranslations['card_holder_email_input_label'],
-            'card_holder_email_input_helper'   => $this->storeTranslations['card_holder_email_input_helper'],
-            'card_holder_email_input_invalid'   => $this->storeTranslations['input_helper_message_card_holder_email_316'],
-            'card_holder_address_input_label'   => $this->storeTranslations['card_holder_address_input_label'],
-            'card_holder_address_input_helper'  => $this->storeTranslations['card_holder_address_input_helper'],
+            'card_number_input_label'          => $this->storeTranslations['card_number_input_label'],
+            'card_number_input_helper'         => $this->storeTranslations['card_number_input_helper'],
             'card_expiration_input_label'      => $this->storeTranslations['card_expiration_input_label'],
             'card_expiration_input_helper'     => $this->storeTranslations['card_expiration_input_helper'],
             'card_expiration_input_invalid_length' => $this->storeTranslations['input_helper_message_expiration_date_invalid_value'],
             'card_security_code_input_label'   => $this->storeTranslations['card_security_code_input_label'],
             'card_security_code_input_helper'  => $this->storeTranslations['card_security_code_input_helper'],
             'card_security_code_input_invalid_length' => $this->storeTranslations['input_helper_message_security_code_invalid_length'],
-            'input_ind_phone_label'            => $this->storeTranslations['card_cellphone_input_label'],
-            'input_ind_phone_helper'           => $this->storeTranslations['card_cellphone_input_helper'],
+            'card_customer_title'              => $this->storeTranslations['card_customer_title'],
             'card_document_input_label'        => $this->storeTranslations['card_document_input_label'],
             'card_document_input_helper'       => $this->storeTranslations['card_document_input_helper'],
+            'card_holder_address_input_label'   => $this->storeTranslations['card_holder_address_input_label'],
+            'card_holder_address_input_helper'  => $this->storeTranslations['card_holder_address_input_helper'],
+            'card_holder_email_input_label'    => $this->storeTranslations['card_holder_email_input_label'],
+            'card_holder_email_input_helper'   => $this->storeTranslations['card_holder_email_input_helper'],
+            'card_holder_email_input_invalid'   => $this->storeTranslations['input_helper_message_card_holder_email'],
+            'input_ind_phone_label'            => $this->storeTranslations['input_ind_phone_label'],
+            'input_ind_phone_helper'           => $this->storeTranslations['input_ind_phone_helper'],
             'input_country_label'              => $this->storeTranslations['input_country_label'],
             'input_country_helper'             => $this->storeTranslations['input_country_helper'],
-            'card_installments_title'          => $this->storeTranslations['card_installments_title'],
-            'card_issuer_input_label'          => $this->storeTranslations['card_issuer_input_label'],
-            'card_installments_input_helper'   => $this->storeTranslations['card_installments_input_helper'],
-            'card_holder_cellphone_input_label'   => $this->storeTranslations['card_cellphone_input_label'],
-            'card_holder_cellphone_input_helper'  => $this->storeTranslations['card_cellphone_input_helper'],
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
-            'amount'                           => $amountAndCurrencyRatio['amount'],
-            'currency_ratio'                   => $amountAndCurrencyRatio['currencyRatio'],
-            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
+            'site_id'                          => $this->epayco->sellerConfig->getSiteId() ?: $this->epayco->helpers->country::SITE_ID_MLA,
         ];
     }
 

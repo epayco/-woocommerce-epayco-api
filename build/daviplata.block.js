@@ -341,10 +341,10 @@
                     }
                 }
 
-                const ticketContentDocument = M.current.querySelector('input-document').querySelector('input');
+                const daviplataContentDocument = M.current.querySelector('input-document').querySelector('input');
                 const documentHelpers =  M.current.querySelector('input-document').querySelector("input-helper").querySelector("div");
-                const verifyDocument = (ticketContentDocument) => {
-                    if (ticketContentDocument.value === '') {
+                const verifyDocument = (daviplataContentDocument) => {
+                    if (daviplataContentDocument.value === '') {
                         M.current.querySelector('input-document').querySelector(".mp-input").classList.add("mp-error");
                         M.current.querySelector('input-document').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
                         documentHelpers.style.display = 'flex';
@@ -377,8 +377,7 @@
 
                 const e = O((async () => {
 
-
-                    const doc_type = ticketContentDocument.parentElement.parentElement.querySelector("#identificationType").value;
+                    const doc_type = pseContentDocument.parentElement.parentElement.querySelector("#identificationType").querySelector("select").value;
                     const cellphoneType = ticketContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                     const countryType = ticketContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
 
@@ -402,8 +401,8 @@
                     "" === ticketContentEmail.value && verifyEmail(ticketContentEmail);
                     "" === ticketContentAddress.value && verifyAddress(ticketContentAddress);
                     "" === ticketContentCellphone.value && verifyCellphone(ticketContentCellphone);
-                    "Type" === doc_type && verifyDocument(ticketContentDocument);
-                    "" === ticketContentDocument.value && verifyDocument(ticketContentDocument);
+                    "Type" === doc_type && verifyDocument(daviplataContentDocument);
+                    "" === daviplataContentDocument.value && verifyDocument(daviplataContentDocument);
                     "" === ticketContentCountry.value && verifyCountry(ticketContentCountry);
                     !agree && termanAndContictionHelpers.classList.add("mp-error");
 
@@ -419,7 +418,7 @@
                     "" !== ticketContentAddress.value &&
                     "" !==  ticketContentEmail.value &&
                     "" !== ticketContentCellphone.value &&
-                    "" !== ticketContentDocument.value &&
+                    "" !== daviplataContentDocument.value &&
                     "" !== ticketContentCountry.value &&
                     "Type" !== doc_type,
                         {

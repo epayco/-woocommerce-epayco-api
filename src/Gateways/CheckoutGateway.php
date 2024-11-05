@@ -55,9 +55,7 @@ class CheckoutGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
         $this->epayco->hooks->gateway->registerGatewayReceiptPage($this->id, [$this, 'receiptPage']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
-        //$this->epayco->hooks->cart->registerCartCalculateFees([$this, 'registerDiscountAndCommissionFeesOnCart']);
 
-        //$this->epayco->helpers->currency->handleCurrencyNotices($this);
     }
 
     /**

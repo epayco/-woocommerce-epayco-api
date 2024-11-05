@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * @var string $amount
+ * @var string $message_error_amount
  * @var bool $test_mode
  * @var string $test_mode_title
  * @var string $test_mode_description
@@ -18,12 +20,8 @@
  * @var string $input_ind_phone_helper
  * @var string $input_country_label
  * @var string $input_country_helper
- * @var string $input_table_button
- * @var string $payment_methods
- * @var string $amount
- * @var string $currency_ratio
- * @var array  $financial_institutions
  * @var string $person_type_label
+ * @var array  $financial_institutions
  * @var string $financial_institutions_label
  * @var string $financial_institutions_helper
  * @var string $financial_placeholder
@@ -32,8 +30,6 @@
  * @var string $terms_and_conditions_description
  * @var string $terms_and_conditions_link_text
  * @var string $terms_and_conditions_link_src
- * @var string $amount
- * @var string $message_error_amount
  * @see \Epayco\Woocommerce\Gateways\PseGateway
  */
 

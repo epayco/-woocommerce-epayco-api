@@ -8689,7 +8689,7 @@
                     var fechaActual = new Date();
                     var anoActual = fechaActual.getFullYear();
                     var mesActual = fechaActual.getMonth() + 1;
-                    let a = document.querySelector(".mp-checkout-credits-card-column").querySelector("input-helper > div");
+                    let a = document.querySelector(".mp-checkout-custom-card-column").querySelector("input-helper > div");
                     var expiration;
                     const lang = wc_epayco_checkout_components_params.lang;
                     if(lang === 'es'){

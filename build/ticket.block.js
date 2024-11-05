@@ -422,7 +422,7 @@
                         verifyPaymentMethods(M.current)
                     }
 
-                    const doc_type = ticketContentDocument.parentElement.parentElement.querySelector("#identificationType").value;
+                    const doc_type = ticketContentDocument.parentElement.parentElement.querySelector("#identificationType").querySelector("select").value;
                     const cellphoneType = ticketContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                     const countryType = ticketContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                     const person_type_value = M.current.querySelector("#epayco_ticket\\[person_type\\]").value;

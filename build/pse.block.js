@@ -350,10 +350,10 @@
                     }
                 }
 
-                const ticketContentDocument = P.current.querySelector('input-document').querySelector('input');
+                const pseContentDocument = P.current.querySelector('input-document').querySelector('input');
                 const documentHelpers =  P.current.querySelector('input-document').querySelector("input-helper").querySelector("div");
-                const verifyDocument = (ticketContentDocument) => {
-                    if (ticketContentDocument.value === '') {
+                const verifyDocument = (pseContentDocument) => {
+                    if (pseContentDocument.value === '') {
                         P.current.querySelector('input-document').querySelector(".mp-input").classList.add("mp-error");
                         P.current.querySelector('input-document').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
                         documentHelpers.style.display = 'flex';
@@ -387,7 +387,7 @@
 
                 const e = I((async () => {
 
-                    const doc_type = ticketContentDocument.parentElement.parentElement.querySelector("#identificationType").value;
+                    const doc_type = pseContentDocument.parentElement.parentElement.querySelector("#identificationType").querySelector("select").value;
                     const cellphoneType = ticketContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                     const countryType = ticketContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                     const person_type_value = P.current.querySelector("#epayco_pse\\[person_type\\]").value;
@@ -413,8 +413,8 @@
                     "" === ticketContentEmail.value && verifyEmail(ticketContentEmail);
                     "" === ticketContentAddress.value && verifyAddress(ticketContentAddress);
                     "" === ticketContentCellphone.value && verifyCellphone(ticketContentCellphone);
-                    "Type" === doc_type && verifyDocument(ticketContentDocument);
-                    "" === ticketContentDocument.value && verifyDocument(ticketContentDocument);
+                    "Type" === doc_type && verifyDocument(pseContentDocument);
+                    "" === pseContentDocument.value && verifyDocument(pseContentDocument);
                     "" === ticketContentCountry.value && verifyCountry(ticketContentCountry);
                     !agree && termanAndContictionHelpers.classList.add("mp-error");
 
@@ -443,7 +443,7 @@
                     "" !== ticketContentAddress.value &&
                     "" !==  ticketContentEmail.value &&
                     "" !== ticketContentCellphone.value &&
-                    "" !== ticketContentDocument.value &&
+                    "" !== pseContentDocument.value &&
                     "" !== ticketContentCountry.value &&
                     "Type" !== doc_type,
                         {

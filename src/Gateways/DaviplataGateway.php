@@ -163,6 +163,8 @@ class DaviplataGateway extends AbstractGateway
     {
         $amountAndCurrencyRatio = $this->getAmountAndCurrency();
         return [
+            'amount'                           => $amountAndCurrencyRatio['amount'],
+            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
             'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
@@ -174,14 +176,12 @@ class DaviplataGateway extends AbstractGateway
             'input_address_helper'             => $this->storeTranslations['input_address_helper'],
             'input_ind_phone_label'            => $this->storeTranslations['input_ind_phone_label'],
             'input_ind_phone_helper'           => $this->storeTranslations['input_ind_phone_helper'],
-            'input_country_label'              => $this->storeTranslations['input_country_label'],
-            'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'person_type_label'                => $this->storeTranslations['person_type_label'],
             'input_document_label'             => $this->storeTranslations['input_document_label'],
             'input_document_helper'            => $this->storeTranslations['input_document_helper'],
+            'input_country_label'              => $this->storeTranslations['input_country_label'],
+            'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'site_id'                          => $this->epayco->sellerConfig->getSiteId(),
-            'amount'                           => $amountAndCurrencyRatio['amount'],
-            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],

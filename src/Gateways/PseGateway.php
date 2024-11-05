@@ -176,7 +176,10 @@ class PseGateway extends AbstractGateway
         $currentUser     = $this->epayco->helpers->currentUser->getCurrentUser();
         $loggedUserEmail = ($currentUser->ID != 0) ? $currentUser->user_email : null;
         $amountAndCurrencyRatio = $this->getAmountAndCurrency();
-        return ['test_mode'                        => $this->epayco->storeConfig->isTestMode(),
+        return [
+            'amount'                           => $amountAndCurrencyRatio['amount'],
+            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
+            'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
             'test_mode_link_text'              => $this->storeTranslations['test_mode_link_text'],
@@ -193,23 +196,16 @@ class PseGateway extends AbstractGateway
             'input_ind_phone_helper'           => $this->storeTranslations['input_ind_phone_helper'],
             'input_country_label'              => $this->storeTranslations['input_country_label'],
             'input_country_helper'             => $this->storeTranslations['input_country_helper'],
-            'input_table_button'               => $this->storeTranslations['input_table_button'],
+            'person_type_label'                => $this->storeTranslations['person_type_label'],
+            'financial_institutions'           => json_encode($this->getFinancialInstitutions()),
+            'financial_institutions_label'     => $this->storeTranslations['financial_institutions_label'],
+            'financial_institutions_helper'    => $this->storeTranslations['financial_institutions_helper'],
+            'financial_placeholder'            => $this->storeTranslations['financial_placeholder'],
+            'site_id'                          => $this->epayco->sellerConfig->getSiteId(),
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
-            'site_id'                          => $this->epayco->sellerConfig->getSiteId(),
-            'payer_email'                      => esc_js($loggedUserEmail),
-            'woocommerce_currency'             => get_woocommerce_currency(),
-            'account_currency'                 => $this->epayco->helpers->country->getCountryConfigs(),
-            'financial_institutions'           => json_encode($this->getFinancialInstitutions()),
-            'person_type_label'                => $this->storeTranslations['person_type_label'],
-            'financial_institutions_label'     => $this->storeTranslations['financial_institutions_label'],
-            'financial_institutions_helper'    => $this->storeTranslations['financial_institutions_helper'],
-            'financial_placeholder'            => $this->storeTranslations['financial_placeholder'],
-            'amount'                           => $amountAndCurrencyRatio['amount'],
-            'currency_ratio'                   => $amountAndCurrencyRatio['currencyRatio'],
-            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
         ];
     }
 

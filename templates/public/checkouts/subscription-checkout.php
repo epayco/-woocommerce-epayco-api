@@ -1,57 +1,38 @@
 <?php
 
 /**
+ * @var string $amount
+ * @var string $message_error_amount
  * @var bool $test_mode
  * @var string $test_mode
  * @var string $test_mode_title
  * @var string $test_mode_description
  * @var string $test_mode_link_text
  * @var string $test_mode_link_src
- * @var string $wallet_button
- * @var string $wallet_button_image
- * @var string $wallet_button_title
- * @var string $wallet_button_description
- * @var string $wallet_button_button_text
- * @var string $available_payments_title_icon
- * @var string $available_payments_title
- * @var string $available_payments_image
- * @var string $available_payments_chevron_up
- * @var string $available_payments_chevron_down
- * @var string $payment_methods_items
- * @var string $payment_methods_promotion_link
- * @var string $payment_methods_promotion_text
- * @var string $site_id
  * @var string $card_form_title
- * @var string $card_customer_title
- * @var string $card_number_input_label
- * @var string $card_number_input_helper
  * @var string $card_holder_name_input_label
  * @var string $card_holder_name_input_helper
- * @var string $card_holder_email_input_label
- * @var string $card_holder_email_input_helper
- * @var string $card_holder_address_input_label
- * @var string $card_holder_address_input_helper
+ * @var string $card_number_input_label
+ * @var string $card_number_input_helper
  * @var string $card_expiration_input_label
  * @var string $card_expiration_input_helper
  * @var string $card_security_code_input_label
  * @var string $card_security_code_input_helper
+ * @var string $card_customer_title
+ * @var string $card_document_input_label
+ * @var string $card_document_input_helper
+ * @var string $card_holder_address_input_label
+ * @var string $card_holder_address_input_helper
+ * @var string $card_holder_email_input_label
+ * @var string $card_holder_email_input_helper
  * @var string $input_ind_phone_label
  * @var string $input_ind_phone_helper
  * @var string $input_country_label
  * @var string $input_country_helper
- * @var string $card_document_input_label
- * @var string $card_document_input_helper
- * @var string $card_installments_title
- * @var string $card_issuer_input_label
- * @var string $card_installments_input_helper
  * @var string $terms_and_conditions_label
  * @var string $terms_and_conditions_description
  * @var string $terms_and_conditions_link_text
  * @var string $terms_and_conditions_link_src
- * @var string $amount
- * @var string $currency_ratio
- * @var string $message_error_amount
- *
  * @see \Epayco\Woocommerce\Gateways\SubscriptionGateway
  */
 
@@ -73,10 +54,10 @@ if (!defined('ABSPATH')) {
             <?php if ($test_mode) : ?>
                 <div class="mp-checkout-pro-test-mode">
                     <test-mode
-                        title="<?= esc_html($test_mode_title) ?>"
-                        description="<?= esc_html($test_mode_description) ?>"
-                        link-text="<?= esc_html($test_mode_link_text) ?>"
-                        link-src="<?= esc_html($test_mode_link_src) ?>"
+                            title="<?= esc_html($test_mode_title) ?>"
+                            description="<?= esc_html($test_mode_description) ?>"
+                            link-text="<?= esc_html($test_mode_link_text) ?>"
+                            link-src="<?= esc_html($test_mode_link_src) ?>"
                     >
                     </test-mode>
                 </div>
@@ -93,13 +74,13 @@ if (!defined('ABSPATH')) {
 
                     <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
                         <input-card-name
-                            labelMessage="<?= esc_html($card_holder_name_input_label); ?>"
-                            helperMessage="<?= esc_html($card_holder_name_input_helper); ?>"
-                            placeholder="Ex: John Doe"
-                            inputName='epayco_subscription[name]'
-                            flagError='epayco_subscription[nameError]'
-                            validate=true
-                            hiddenId= "hidden-name-custom"
+                                labelMessage="<?= esc_html($card_holder_name_input_label); ?>"
+                                helperMessage="<?= esc_html($card_holder_name_input_helper); ?>"
+                                placeholder="Ex: John Doe"
+                                inputName='epayco_subscription[name]'
+                                flagError='epayco_subscription[nameError]'
+                                validate=true
+                                hiddenId= "hidden-name-subscription"
                         >
                         </input-card-name>
                     </div>
@@ -107,13 +88,13 @@ if (!defined('ABSPATH')) {
                     <div class='mp-checkout-custom-card-row'>
 
                         <input-card-number
-                            labelMessage="<?= esc_html($card_number_input_label); ?>"
-                            helperMessage="<?= esc_html($card_number_input_helper); ?>"
-                            placeholder="0000 0000 0000 0000"
-                            inputName='epayco_subscription[card]'
-                            flagError='epayco_subscription[cardError]'
-                            validate=true
-                            hiddenId= "mp-card-number-helper"
+                                labelMessage="<?= esc_html($card_number_input_label); ?>"
+                                helperMessage="<?= esc_html($card_number_input_helper); ?>"
+                                placeholder="0000 0000 0000 0000"
+                                inputName='epayco_subscription[card]'
+                                flagError='epayco_subscription[cardError]'
+                                validate=true
+                                hiddenId= "mp-card-number-helper"
                         >
                         </input-card-number>
 
@@ -122,40 +103,31 @@ if (!defined('ABSPATH')) {
                     <div class='mp-checkout-custom-card-row mp-checkout-custom-dual-column-row'>
                         <div class='mp-checkout-custom-card-column'>
                             <input-card-expiration-date
-                                class="mp-checkout-custom-left-card-input"
-                                labelMessage="<?= esc_html($card_expiration_input_label); ?>"
-                                helperMessage="<?= esc_html($card_expiration_input_helper); ?>"
-                                placeholder="mm/yy"
-                                inputName='epayco_subscription[expirationDate]'
-                                flagError='epayco_subscription[expirationDateError]'
-                                validate=true
-                                hiddenId= "hidden-expiration-date-helper"
+                                    class="mp-checkout-custom-left-card-input"
+                                    labelMessage="<?= esc_html($card_expiration_input_label); ?>"
+                                    helperMessage="<?= esc_html($card_expiration_input_helper); ?>"
+                                    placeholder="mm/yy"
+                                    inputName='epayco_subscription[expirationDate]'
+                                    flagError='epayco_subscription[expirationDateError]'
+                                    validate=true
+                                    hiddenId= "hidden-expiration-date-helper"
                             >
                             </input-card-expiration-date>
                         </div>
 
                         <div class='mp-checkout-custom-card-column'>
                             <input-card-security-code
-                                class="mp-checkout-custom-left-card-input"
-                                labelMessage="<?= esc_html($card_security_code_input_label); ?>"
-                                helperMessage="<?= esc_html($card_security_code_input_helper); ?>"
-                                placeholder="***"
-                                inputName='epayco_subscription[securityCode]'
-                                flagError='epayco_subscription[securityCodeError]'
-                                validate=true
-                                hiddenId= "hidden-security-code-helper"
+                                    class="mp-checkout-custom-left-card-input"
+                                    labelMessage="<?= esc_html($card_security_code_input_label); ?>"
+                                    helperMessage="<?= esc_html($card_security_code_input_helper); ?>"
+                                    placeholder="***"
+                                    inputName='epayco_subscription[securityCode]'
+                                    flagError='epayco_subscription[securityCodeError]'
+                                    validate=true
+                                    hiddenId= "hidden-security-code-helper"
                             >
                             </input-card-security-code>
                         </div>
-                        <!--<div class='mp-checkout-custom-card-column'>
-                            <input-installment
-                                name="epayco_subscription[installmet]"
-                                label="fees"
-                                optional="false"
-                                options='[{"id":"", "description": "fees"},{"id":"1", "description": "1"}]'
-                            >
-                            </input-installment>
-                        </div>-->
                     </div>
                 </div>
                 <hr>
@@ -171,17 +143,17 @@ if (!defined('ABSPATH')) {
 
                     <div id="mp-doc-div" class="mp-checkout-custom-input-document">
                         <input-document
-                            label-message="<?= esc_html($card_document_input_label); ?>"
-                            helper-message="<?= esc_html($card_document_input_helper); ?>"
-                            input-name='epayco_subscription[doc_number]'
-                            hidden-id="identificationType"
-                            input-data-checkout="doc_number"
-                            select-id="identificationType"
-                            input-id="identificationTypeNumber"
-                            select-name="epayco_subscription[identificationType]"
-                            select-data-checkout="doc_type"
-                            flag-error="identificationTypeError"
-                            documents='[
+                                label-message="<?= esc_html($card_document_input_label); ?>"
+                                helper-message="<?= esc_html($card_document_input_helper); ?>"
+                                input-name='epayco_subscription[doc_number]'
+                                hidden-id="identificationType"
+                                input-data-checkout="doc_number"
+                                select-id="identificationType"
+                                input-id="identificationTypeNumber"
+                                select-name="epayco_subscription[identificationType]"
+                                select-data-checkout="doc_type"
+                                flag-error="identificationTypeError"
+                                documents='[
                                     {"id":"Type"},
                                     {"id":"CC"},
                                     {"id":"CE"},
@@ -192,71 +164,71 @@ if (!defined('ABSPATH')) {
                                     {"id":"LIC"},
                                     {"id":"DNI"}
                                     ]'
-                            validate=true
-                            placeholder="0000000000"
+                                validate=true
+                                placeholder="0000000000"
                         >
                         </input-document>
                     </div>
 
                     <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
                         <input-address
-                            labelMessage="<?= esc_html($card_holder_address_input_label); ?>"
-                            helperMessage="<?= esc_html($card_holder_address_input_helper); ?>"
-                            placeholder="Street 123"
-                            inputName='epayco_subscription[address]'
-                            flagError='epayco_subscription[addressError]'
-                            validate=true
-                            hiddenId= "hidden-adress-custom"
+                                labelMessage="<?= esc_html($card_holder_address_input_label); ?>"
+                                helperMessage="<?= esc_html($card_holder_address_input_helper); ?>"
+                                placeholder="Street 123"
+                                inputName='epayco_subscription[address]'
+                                flagError='epayco_subscription[addressError]'
+                                validate=true
+                                hiddenId= "hidden-adress-subscription"
                         >
                         </input-address>
                     </div>
 
                     <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
                         <input-card-email
-                            labelMessage="<?= esc_html($card_holder_email_input_label); ?>"
-                            helperMessage="<?= esc_html($card_holder_email_input_helper); ?>"
-                            placeholder="john@example.com"
-                            inputName='epayco_subscription[email]'
-                            flagError='epayco_subscription[emailError]'
-                            validate=true
-                            hiddenId= "hidden-email-custom"
+                                labelMessage="<?= esc_html($card_holder_email_input_label); ?>"
+                                helperMessage="<?= esc_html($card_holder_email_input_helper); ?>"
+                                placeholder="john@example.com"
+                                inputName='epayco_subscription[email]'
+                                flagError='epayco_subscription[emailError]'
+                                validate=true
+                                hiddenId= "hidden-email-subscription"
                         >
                         </input-card-email>
                     </div>
 
                     <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
                         <input-cellphone
-                            label-message="<?= esc_html($input_ind_phone_label); ?>"
-                            helper-message="<?= esc_html($input_ind_phone_helper); ?>"
-                            input-name='epayco_subscription[cellphone]'
-                            hidden-id="cellphoneType"
-                            input-data-checkout="doc_number"
-                            select-id="cellphoneType"
-                            input-id="cellphoneTypeNumber"
-                            select-name="cellphoneType"
-                            select-data-checkout="doc_type"
-                            flag-error="cellphoneTypeError"
-                            flag-error='epayco_subscription[cellphoneTypeError]'
-                            validate=true
-                            placeholder="0000000000"
+                                label-message="<?= esc_html($input_ind_phone_label); ?>"
+                                helper-message="<?= esc_html($input_ind_phone_helper); ?>"
+                                input-name='epayco_subscription[cellphone]'
+                                hidden-id="cellphoneType"
+                                input-data-checkout="doc_number"
+                                select-id="cellphoneType"
+                                input-id="cellphoneTypeNumber"
+                                select-name="cellphoneType"
+                                select-data-checkout="doc_type"
+                                flag-error="cellphoneTypeError"
+                                flag-error='epayco_subscription[cellphoneTypeError]'
+                                validate=true
+                                placeholder="0000000000"
                         >
                         </input-cellphone>
                     </div>
 
                     <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
                         <input-country
-                            label-message="<?= esc_html($input_country_label); ?>"
-                            helper-message="<?= esc_html($input_country_helper); ?>"
-                            input-name='epayco_subscription[country]'
-                            hidden-id="countryType"
-                            input-data-checkout="country_number"
-                            select-id="countryType"
-                            input-id="countryTypeNumber"
-                            select-name="epayco_subscription[countryType]"
-                            select-data-checkout="doc_type"
-                            flag-error="countryTypeError"
-                            validate=true
-                            placeholder="City"
+                                label-message="<?= esc_html($input_country_label); ?>"
+                                helper-message="<?= esc_html($input_country_helper); ?>"
+                                input-name='epayco_subscription[country]'
+                                hidden-id="countryType"
+                                input-data-checkout="country_number"
+                                select-id="countryType"
+                                input-id="countryTypeNumber"
+                                select-name="epayco_subscription[countryType]"
+                                select-data-checkout="doc_type"
+                                flag-error="countryTypeError"
+                                validate=true
+                                placeholder="City"
                         >
                         </input-country>
                     </div>
@@ -266,10 +238,10 @@ if (!defined('ABSPATH')) {
 
                 <div class="mp-checkout-ticket-terms-and-conditions">
                     <terms-and-conditions
-                        label="<?= esc_html($terms_and_conditions_label); ?>"
-                        description="<?= esc_html($terms_and_conditions_description); ?>"
-                        link-text="<?= esc_html($terms_and_conditions_link_text); ?>"
-                        link-src="<?= esc_html($terms_and_conditions_link_src); ?>">
+                            label="<?= esc_html($terms_and_conditions_label); ?>"
+                            description="<?= esc_html($terms_and_conditions_description); ?>"
+                            link-text="<?= esc_html($terms_and_conditions_link_text); ?>"
+                            link-src="<?= esc_html($terms_and_conditions_link_src); ?>">
                     </terms-and-conditions>
                 </div>
 
@@ -282,12 +254,7 @@ if (!defined('ABSPATH')) {
 </div>
 
 <div id="epayco-utilities" style="display:none;">
-    <input type="hidden" id="mp-amount" value='<?= esc_textarea($amount); ?>' name="epayco_subscription[amount]"/>
-    <input type="hidden" id="paymentMethodId" name="epayco_subscription[payment_method_id]"/>
-    <input type="hidden" id="mp_checkout_type" name="epayco_subscription[checkout_type]" value="custom"/>
     <input type="hidden" id="cardTokenId" name="epayco_subscription[cardTokenId]" />
-    <input type="hidden" id="cardInstallments" name="epayco_subscription[installments]"/>
-    <input type="hidden" id="mpCardSessionId" name="epayco_subscription[session_id]" />
 </div>
 
 

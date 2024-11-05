@@ -35,14 +35,14 @@ if (!defined('ABSPATH')) {
                 <!-- NOT DELETE LOADING-->
                 <div id="mp-box-loading"></div>
             </div>
-            <div class="mp-checkout-ticket-terms-and-conditions">
+            <!--<div class="mp-checkout-ticket-terms-and-conditions">
                 <terms-and-conditions
                         label="<?= esc_html($terms_and_conditions_label); ?>"
                         description="<?= esc_html($terms_and_conditions_description); ?>"
                         link-text="<?= esc_html($terms_and_conditions_link_text); ?>"
                         link-src="<?= esc_html($terms_and_conditions_link_src); ?>">
                 </terms-and-conditions>
-            </div>
+            </div>-->
         </div>
     <?php endif; ?>
 </div>

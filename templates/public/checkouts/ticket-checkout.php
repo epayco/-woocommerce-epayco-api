@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * @var string $amount
+ * @var string $message_error_amount
  * @var bool $test_mode
  * @var string $test_mode_title
  * @var string $test_mode_description
@@ -30,8 +32,6 @@
  * @var string $terms_and_conditions_description
  * @var string $terms_and_conditions_link_text
  * @var string $terms_and_conditions_link_src
- * @var string $amount
- * @var string $message_error_amount
  * @see \Epayco\Woocommerce\Gateways\TicketGateway
  */
 
@@ -103,11 +103,11 @@ if (!defined('ABSPATH')) {
                             helper-message="<?= esc_html($input_ind_phone_helper); ?>"
                             input-name='epayco_ticket[cellphone]'
                             hidden-id="cellphoneType"
-                            input-data-checkout="doc_number"
+                            input-data-checkout="cellphone_number"
                             select-id="cellphoneType"
                             input-id="cellphoneTypeNumber"
                             select-name="epayco_ticket[cellphoneType]"
-                            select-data-checkout="doc_type"
+                            select-data-checkout="cellphone_type"
                             flag-error="cellphoneTypeError"
                             validate=true
                             placeholder="0000000000"
@@ -129,14 +129,14 @@ if (!defined('ABSPATH')) {
                     <input-document
                             label-message="<?= esc_html($input_document_label); ?>"
                             helper-message="<?= esc_html($input_document_helper); ?>"
-                            input-name='epayco_ticket[doc_number]'
-                            hidden-id="identificationType"
-                            input-data-checkout="doc_number"
-                            select-id="identificationType"
-                            input-id="identificationTypeNumber"
-                            select-name="epayco_ticket[identificationType]"
-                            select-data-checkout="doc_type"
-                            flag-error="identificationTypeError"
+                            input-name='epayco_ticket[document]'
+                            hidden-id="documentType"
+                            input-data-checkout="document_number"
+                            select-id="documentType"
+                            input-id="documentTypeNumber"
+                            select-name="epayco_ticket[documentType]"
+                            select-data-checkout=document_type"
+                            flag-error="documentTypeError"
                             documents='[
                                     {"id":"Type"},
                                     {"id":"CC"},
