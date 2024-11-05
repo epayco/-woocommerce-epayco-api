@@ -13,7 +13,6 @@ class ComposerStaticInit13fcaf83d5496a4fa4e35c9150f0d908
         'M' => 
         array (
             'Sdk\\Woocommerce\\' => 24,
-            'MercadoPago\\PP\\Sdk\\' => 20,
             'EpaycoSdk\\Sdk\\' => 19,
         ),
         'W' =>
@@ -26,10 +25,6 @@ class ComposerStaticInit13fcaf83d5496a4fa4e35c9150f0d908
         'Sdk\\Woocommerce\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src',
-        ),
-        'MercadoPago\\PP\\Sdk\\' =>
-        array (
-            0 => __DIR__ . '/../..' . '/packages/sdk/src',
         ),
         'WpOrg\\Requests\\' =>
             array (
@@ -79,6 +74,7 @@ class ComposerStaticInit13fcaf83d5496a4fa4e35c9150f0d908
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Payer' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Payer.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Payment' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Payment.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Phone' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Phone.php',
+        'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Plan' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Plan.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\PointOfInteraction' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/PointOfInteraction.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Resource' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Resource.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Client' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Client.php',
@@ -89,6 +85,7 @@ class ComposerStaticInit13fcaf83d5496a4fa4e35c9150f0d908
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Cash' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Cash.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Seller' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Seller.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Shipments' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Shipments.php',
+        'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Subscriptions' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Subscriptions.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\Tracking' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/Tracking.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\TransactionData' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/TransactionData.php',
         'Epayco\\Woocommerce\\Sdk\\Entity\\Payment\\TransactionDetails' =>  __DIR__ . '/../..'  . '/src/Sdk/Entity/Payment/TransactionDetails.php',
@@ -179,8 +176,8 @@ class ComposerStaticInit13fcaf83d5496a4fa4e35c9150f0d908
         'Epayco\\Woocommerce\\Transactions\\CreditCardTransaction' => __DIR__ . '/../..' . '/src/Transactions/CreditCardTransaction.php',
         'Epayco\\Woocommerce\\Transactions\\DaviplataTransaction' => __DIR__ . '/../..' . '/src/Transactions/DaviplataTransaction.php',
         'Epayco\\Woocommerce\\Transactions\\PseTransaction' => __DIR__ . '/../..' . '/src/Transactions/PseTransaction.php',
+        'Epayco\\Woocommerce\\Transactions\\SubscriptionTransaction' => __DIR__ . '/../..' . '/src/Transactions/SubscriptionTransaction.php',
         'Epayco\\Woocommerce\\Transactions\\TicketTransaction' => __DIR__ . '/../..' . '/src/Transactions/TicketTransaction.php',
-        'Epayco\\Woocommerce\\Transactions\\WalletButtonTransaction' => __DIR__ . '/../..' . '/src/Transactions/WalletButtonTransaction.php',
         'Epayco\\Woocommerce\\Translations\\AdminTranslations' => __DIR__ . '/../..' . '/src/Translations/AdminTranslations.php',
         'Epayco\\Woocommerce\\Translations\\StoreTranslations' => __DIR__ . '/../..' . '/src/Translations/StoreTranslations.php',
         'Epayco\\Woocommerce\\WoocommerceEpayco' => __DIR__ . '/../..' . '/src/WoocommerceEpayco.php',

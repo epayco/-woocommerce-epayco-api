@@ -107,7 +107,38 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
      */
     public function createSubscriptionPayment($order_id, array $checkout)
     {
+        global $wpdb;
         $order = new \WC_Order($order_id);
+        $subscriptions = wcs_get_subscriptions_for_order($order_id);
+        $customerData = $this->getCustomer($checkout);
+        if(!$customerData['success']){
+            return $customerData;
+        }
+        $checkout['customer_id'] = $customerData['customer_id'];
+        $customer = $this->paramsBilling($subscriptions, $order, $checkout);
+        $plans = $this->getPlansBySubscription($subscriptions);
+        $getPlans = $this->getPlans($plans);
+        if (!$getPlans) {
+            $validatePlan = $this->validatePlan(true, $order_id, $plans, $subscriptions, $customer, $order, false, false, null,$checkout);
+        } else {
+            $validatePlan = $this->validatePlan(false, $order_id, $plans, $subscriptions, $customer, $order, true, false, $getPlans,$checkout);
+        }
+        $errorMessage = array();
+        if(!$validatePlan['success']){
+            foreach ($validatePlan['message'] as $message) {
+                $errorMessage[] = $message;
+            }
+            return [
+                'success' => false,
+                'message' => implode(' - ', $errorMessage)
+            ];
+        }
+
+
+
+
+
+
         $descripcionParts = array();
         $iva=0;
         $ico=0;
@@ -427,7 +458,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $customerGetData = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT * FROM $table_name_customer WHERE email = %s",
-                $customerData['email']
+                trim($customerData['email'])
             )
         );
         if (count($customerGetData) == 0) {
@@ -437,8 +468,8 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                     $table_name_customer,
                     [
                         'customer_id' => $customer['data']['customerId'],
-                        'token_id' => $customerData['token'],
-                        'email' => $customerData['email']
+                        //'token_id' => trim($customerData['token']),
+                        'email' => trim($customerData['email'])
                     ]
                 );
                 if (!$inserCustomer) {
@@ -464,7 +495,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         }else{
             $count_customers = 0;
             for ($i = 0; $i < count($customerGetData); $i++) {
-                if ($customerGetData[$i]->email == $customerData['email']) {
+                if ($customerGetData[$i]->email == trim($customerData['email'])) {
                     $count_customers += 1;
                 }
             }
@@ -481,8 +512,8 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                     $table_name_customer,
                     [
                         'customer_id' => $customer['data']['customerId'],
-                        'token_id' => $customerData['token'],
-                        'email' => $customerData['email']
+                        //'token_id' => trim($customerData['token']),
+                        'email' => trim($customerData['email'])
                     ]
                 );
                 if (!$inserCustomer) {
@@ -499,9 +530,19 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                 return $response_status;
             } else {
                 for ($i = 0; $i < count($customerGetData); $i++) {
-                    if ($customerGetData[$i]->email == $customerData['email'] && $customerGetData[$i]->token_id != $customerData['token']) {
-                        $this->customerAddToken($customerGetData[$i]->customer_id, $customerData['token']);
+                    $customers = $this->sdk->customer->get($customerGetData[$i]->customer_id);
+                    $customers = json_decode(json_encode($customers), true);
+                    if($customers['success']){
+                        $cards = $customers['data']['cards'];
+                        for ($j = 0; $j < count($cards); $j++) {
+                            if ($cards[$j]['token'] != trim($customerData['token'])) {
+                                $this->customerAddToken($customerGetData[$i]->customer_id, trim($customerData['token']));
+                            }
+                        }
                     }
+                    /*if ($customerGetData[$i]->email == trim($customerData['email']) && $customerGetData[$i]->token_id != trim($customerData['token'])) {
+                        $this->customerAddToken($customerGetData[$i]->customer_id, trim($customerData['token']));
+                    }*/
                     $customerData['customer_id'] = $customerGetData[$i]->customer_id;
                 }
                 $response_status = [
@@ -524,18 +565,19 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                     "email" => $data['email'],
                     "phone" => $data['cellphone'],
                     "cell_phone" => $data['cellphone'],
-                    "country" => $data['country'],
+                    "country" => $data['countrytype'],
                     "address" => $data['address'],
                     "default" => true
                 ]
             );
             $customer = json_decode(json_encode($customer), true);
-        } catch (Exception $exception) {
-            echo 'create client: ' . $exception->getMessage();
-            die();
+            return $customer;
+        } catch (\Exception $exception) {
+            return [
+                'status' => false,
+                'message' => 'create client: : ' . $exception->getMessage()
+            ];
         }
-
-        return $customer;
     }
 
     public function customerAddToken($customer_id, $token_card)
@@ -548,13 +590,373 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                     "customer_id" => $customer_id
                 ]
             );
-        } catch (Exception $exception) {
-            echo 'add token: ' . $exception->getMessage();
+            return $customer;
+        } catch (\Exception $exception) {
+            return [
+                'status' => false,
+                'message' => 'add token: ' . $exception->getMessage()
+            ];
+        }
+    }
+
+    public function getPlansBySubscription(array $subscriptions)
+    {
+        $plans = [];
+        foreach ($subscriptions as $key => $subscription) {
+            $total_discount = $subscription->get_total_discount();
+            $order_currency = $subscription->get_currency();
+            $products = $subscription->get_items();
+            $product_plan = $this->getPlan($products);
+            $quantity = $product_plan['quantity'];
+            $product_name = $product_plan['name'];
+            $product_id = $product_plan['id'];
+            $trial_days = $this->getTrialDays($subscription);
+            $plan_code = "$product_name-$product_id";
+            $plan_code = $trial_days > 0 ? "$product_name-$product_id-$trial_days" : $plan_code;
+            //$plan_code = $this->currency !== $order_currency ? "$plan_code-$order_currency" : $plan_code;
+            $plan_code = $quantity > 1 ? "$plan_code-$quantity" : $plan_code;
+            $plan_code = $total_discount > 0 ? "$plan_code-$total_discount" : $plan_code;
+            $plan_code = rtrim($plan_code, "-");
+            $plan_id = str_replace(array("-", "--"), array("_", ""), $plan_code);
+            $plan_name = trim(str_replace("-", " ", $product_name));
+            $plans[] = array_merge(
+                [
+                    "id_plan" => strtolower(str_replace("__", "_", $plan_id)),
+                    "name" => "Plan $plan_name",
+                    "description" => "Plan $plan_name",
+                    "currency" => $order_currency,
+                ],
+                [
+                    "trial_days" => $trial_days
+                ],
+                $this->intervalAmount($subscription)
+            );
+        }
+        return $plans;
+    }
+
+    public function getPlan($products)
+    {
+        $product_plan = [];
+
+        $product_plan['name'] = '';
+        $product_plan['id'] = 0;
+        $product_plan['quantity'] = 0;
+
+        foreach ($products as $product) {
+            $product_plan['name'] .= "{$product['name']}-";
+            $product_plan['id'] .= "{$product['product_id']}-";
+            $product_plan['quantity'] .= $product['quantity'];
+        }
+
+        $product_plan['name'] = $this->cleanCharacters($product_plan['name']);
+
+        return $product_plan;
+    }
+
+    public function validatePlan($create, $order_id, array $plans, $subscriptions, $customer, $order, $confirm = null, $update = null, $getPlans = null, $checkout)
+    {
+        if ($create) {
+            $newPLan = $this->plansCreate($plans);
+            if ($newPLan->status) {
+                $getPlans_ = $this->getPlans($plans);
+                if ($getPlans_) {
+                    $eXistPLan = $this->validatePlanData($plans, $getPlans_, $order_id, $subscriptions, $customer, $order, $checkout);
+                } else {
+                    $this->validatePlan(true, $order_id, $plans, $subscriptions, $customer, $order, false, false, null,$checkout);
+                }
+            } else {
+                $response_status = [
+                    'status' => false,
+                    'message' => $newPLan->message
+                ];
+                return $response_status;
+            }
+        } else {
+            if ($confirm) {
+                $eXistPLan = $this->validatePlanData($plans, $getPlans, $order_id, $subscriptions, $customer, $order, $checkout);
+            }
+        }
+        return $eXistPLan;
+    }
+
+    public function plansCreate(array $plans)
+    {
+        foreach ($plans as $plan) {
+            try {
+                $plan_ = $this->sdk->plan->create(
+                    [
+                        "id_plan" => (string)str_replace("-", "_",strtolower($plan['id_plan'])),
+                        "name" => (string)$plan['name'],
+                        "description" => (string)$plan['description'],
+                        "amount" => $plan['amount'],
+                        "currency" => $plan['currency'],
+                        "interval" => $plan['interval'],
+                        "interval_count" => $plan['interval_count'],
+                        "trial_days" => $plan['trial_days']
+                    ]
+                );
+                return $plan_;
+            } catch (\Exception $exception) {
+                return  [
+                    'status' => false,
+                    'message' => "create Plan: ".$exception->getMessage()
+                ];
+            }
+        }
+    }
+
+    public function validatePlanData($plans, $getPlans, $order_id, $subscriptions, $customer, $order,$checkout)
+    {
+        foreach ($plans as $plan) {
+            $plan_amount_cart = $plan['amount'];
+            $plan_id_cart = (string)str_replace("-", "_",strtolower($plan['id_plan']));
+        }
+        $plan_amount_epayco = $getPlans->plan->amount;
+        $plan_id_epayco = (string)str_replace("-", "_",strtolower($getPlans->plan->id_plan));
+        if ($plan_id_cart == $plan_id_epayco) {
+            try {
+                if (intval($plan_amount_cart) == $plan_amount_epayco) {
+                    return $this->process_payment_epayco($plans, $customer, $subscriptions, $order, $checkout);
+                } else {
+                    return $this->validateNewPlanData($plans, $order_id, $subscriptions,$customer, $order, $checkout);
+                }
+            } catch (\Exception $exception) {
+                return [
+                    'status' => false,
+                    'message' => $exception->getMessage()
+                ];
+            }
+        } else {
+            return [
+                'status' => false,
+                'message' => 'el id del plan creado no concuerda!'
+            ];
+        }
+    }
+
+    public function validateNewPlanData($plans, $order_id, $subscriptions,$customer, $order, $checkout)
+    {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'epayco_plans';
+        $wc_order_product_lookup = $wpdb->prefix . "wc_order_product_lookup";
+        /*valida la actualizacion del precio del plan*/
+        foreach ($subscriptions as $key => $subscription) {
+            $products = $subscription->get_items();
+            $product_plan = $this->getPlan($products);
+            $product_id_ = $product_plan['id'];
+            $porciones = explode("-", $product_id_);
+            $product_id = $porciones[0];
+        }
+        $currency = strtolower(get_woocommerce_currency());
+        $plan_currency = strtolower($plans[0]['currency']);
+        if($currency == $plan_currency){
+            $newPlans[] = [
+                'id_plan' => $product_plan['name'].$product_plan['id'].$plans[0]['amount'],
+                'name' => $plans[0]['name'],
+                'description' => $plans[0]['description'],
+                'currency' => $plans[0]['currency'],
+                'trial_days' => $plans[0]['trial_days'],
+                'interval' => $plans[0]['interval'],
+                'amount' => $plans[0]['amount'],
+                'interval_count' => $plans[0]['interval_count']
+            ];
+            $getPlans = $this->getPlans($newPlans);
+            if(!$getPlans){
+                 return $this->validatePlan(true, $order_id, $newPlans, $subscriptions, $customer, $order, false, false, null,$checkout);
+            }else{
+                return $this->validatePlan(false, $order_id, $newPlans, $subscriptions, $customer, $order, true, false, $getPlans,$checkout);
+            }
+        }
+
+    }
+
+    public function getTrialDays(\WC_Subscription $subscription)
+    {
+        $trial_days = "0";
+        $trial_start = $subscription->get_date('start');
+        $trial_end = $subscription->get_date('trial_end');
+
+        if ($trial_end > 0)
+            $trial_days = (string)(strtotime($trial_end) - strtotime($trial_start)) / (60 * 60 * 24);
+
+        return $trial_days;
+    }
+
+    public function intervalAmount(\WC_Subscription $subscription)
+    {
+        return [
+            "interval" => $subscription->get_billing_period(),
+            "amount" => $subscription->get_total(),
+            "interval_count" => $subscription->get_billing_interval()
+        ];
+    }
+
+    public function getPlans(array $plans)
+    {
+        foreach ($plans as $key => $plan) {
+            try {
+                $planId = str_replace("-", "_",strtolower($plans[$key]['id_plan']));
+                $plan = $this->sdk->plan->get($planId);
+                if ($plan->status) {
+                    unset($plans[$key]);
+                    return $plan;
+                } else {
+                    return false;
+                }
+
+            } catch (Exception $exception) {
+                return false;
+            }
+        }
+    }
+
+    public function cleanCharacters($string)
+    {
+        $string = str_replace(' ', '-', $string);
+        $patern = '/[^A-Za-z0-9\-]/';
+        return preg_replace($patern, '', $string);
+    }
+
+    public function paramsBilling($subscriptions, $order, $checkout)
+    {
+        $data = [];
+        $subscription = end($subscriptions);
+        if ($subscription) {
+            $data['token_card'] = $checkout['token'];
+            $data['customer_id'] = $checkout['customer_id'];
+            $data['name'] = $checkout['name'];
+            $data['email'] = $checkout['email'];
+            $data['phone'] = $checkout['cellphone'];
+            $data['country'] = $checkout['countrytype'];
+            $data['city'] = $checkout['country'];
+            $data['address'] = $checkout['address'];
+            $data['doc_number'] = $checkout['doc_number'];
+            $data['type_document'] = $checkout['identificationtype'];
+            return $data;
+        } else {
+            $redirect = array(
+                'result' => 'fail',
+                'redirect' => add_query_arg('order-pay', $order->id, add_query_arg('key', $order->order_key, get_permalink(woocommerce_get_page_id('pay'))))
+            );
+            wc_add_notice('EL producto que intenta pagar no es permitido', 'error');
+            wp_redirect($redirect["redirect"]);
             die();
         }
 
-        return $customer;
     }
+
+    public function process_payment_epayco(array $plans, array $customerData, $subscriptions, $order, $checkout)
+    {
+        $subsCreated = $this->subscriptionCreate($plans, $customerData, $checkout);
+        //$subsCreated = json_decode(json_encode('{"status":true,"message":"Suscripci\u00f3n creada","created":"05-11-2024","id":"72a8d8c2cd131499b0985a6","success":true,"current_period_start":"11\/05\/2024","current_period_end":"05-11-2024","customer":{"_id":"72a6e60670f068ec00241b8","name":"ricardo saldarriaga","email":"ricardo.saldarriaga@payco.co","doc_number":"1232323111","merchantId":"627236","indicative":"","country":"CO","city":"","address":"calle 109 # 67-112","break_card":false,"doc_type":"CC","updated_at":"2024-11-05T21:26:36.930000Z"},"status_subscription":"inactive","type":"Create Subscription","data":{"idClient":"coffe_020","name":"Plan coffe","description":"Plan coffe","amount":28000,"currency":"COP","interval":"month","interval_count":"1","trialDays":0,"createdAt":"2024-11-05T20:44:10.306000Z"},"object":"subscription"}'), true);
+        //$subsCreated = json_decode($subsCreated);
+        if ($subsCreated->status) {
+            $subs = $this->subscriptionCharge($plans, $customerData, $checkout);
+            //$subs = json_decode(json_encode('[{"success":true,"title_response":"Transacci\u00f3n realizada","text_response":"Transaccion realizada con tarjeta de pruebas","last_action":"Validar tarjeta de pruebas","data":{"ref_payco":101645805,"factura":"72a8d8c2cd131499b0985a6-1730842044","descripcion":"Plan coffe","valor":28000,"iva":0,"ico":0,"baseiva":28000,"valorneto":28000,"moneda":"COP","banco":"BANCO DE PRUEBAS","estado":"Rechazada","respuesta":"Tarjeta restringida por el centro de autorizaciones","autorizacion":"000000","recibo":"101645805","fecha":"2024-11-05 16:27:25","franquicia":"VS","cod_respuesta":2,"cod_error":"04","ip":"192.168.32.1","enpruebas":1,"tipo_doc":"CC","documento":"1232323111","nombres":"ricardo","apellidos":"saldarriaga","email":"ricardo.saldarriaga@payco.co","ciudad":"SIN CIUDAD","direccion":"calle 109 # 67112","ind_pais":"PE","country_card":"PE","extras":{"extra1":"72a8d8c2cd131499b0985a6","extra2":"72a6e60670f068ec00241b8","extra3":"72a839a6af64966850cc488","extra9":"627236","extra4":"","extra5":"","extra6":"","extra7":"","extra8":"","extra10":""},"cc_network_response":{"code":"04","message":"Tarjeta restringida por el centro de autorizaciones"},"extras_epayco":{"extra5":"P10"}},"subscription":{"idPlan":"coffe_020","data":{"idClient":"coffe_020","name":"Plan coffe","description":"Plan coffe","amount":28000,"currency":"COP","interval":"month","interval_count":"1","trialDays":0},"periodStart":"2024-11-05T16:26:36.000000Z","periodEnd":"05-11-2024","nextVerificationDate":"05-11-2024","status":"inactive","first":false,"idCustomer":"72a6e60670f068ec00241b8","tokenCard":"72a454eedd810ca690b26bd","ip":"192.168.32.3","paymentAttempts":[],"url_confirmation":"http:\/\/localhost:86\/wordpress\/?wc-api=WC_Epayco_Subscription_Gateway&order_id=53&confirmation=1","method_confirmation":"POST"}}]'), true);
+            //&$subs = json_decode($subs);
+            foreach ($subs as $sub) {
+                $validation = !is_null($sub->status) ? $sub->status : $sub->success;
+                if ($validation) {
+                    $messageStatus = $this->handleStatusSubscriptions($subs, $subscriptions);
+                    return $messageStatus;
+                } else {
+                    $errorMessage = $sub->data->errors;
+                    $response_status = [
+                        'success' => false,
+                        'message' => $errorMessage
+                    ];
+                }
+            }
+        } else {
+            $errorMessage = $subsCreated->data->description;
+            $response_status = [
+                'success' => false,
+                'message' => $errorMessage,
+            ];
+        }
+        return $response_status;
+    }
+
+    public function subscriptionCreate(array $plans, array $customer, $checkout)
+    {
+        $confirm_url = $checkout["confirm_url"];
+        foreach ($plans as $plan) {
+            try {
+                $suscriptioncreted = $this->sdk->subscriptions->create(
+                    [
+                        "id_plan" => $plan['id_plan'],
+                        "customer" => $customer['customer_id'],
+                        "token_card" => $customer['token_card'],
+                        "doc_type" => $customer['type_document'],
+                        "doc_number" => $customer['doc_number'],
+                        "url_confirmation" => $confirm_url,
+                        "method_confirmation" => "POST"
+                    ]
+                );
+
+                return $suscriptioncreted;
+
+            } catch (\Exception $exception) {
+                return [
+                    'status' => false,
+                    'message' => "subscriptionCreate ".$exception->getMessage()
+                ];
+            }
+        }
+    }
+
+    public function subscriptionCharge(array $plans, array $customer, $checkout)
+    {
+        $subs = [];
+        $confirm_url = $checkout["confirm_url"];
+        foreach ($plans as $plan) {
+            try {
+                $subs[] = $this->sdk->subscriptions->charge(
+                    [
+                        "id_plan" => $plan['id_plan'],
+                        "customer" => $customer['customer_id'],
+                        "token_card" => $customer['token_card'],
+                        "doc_type" => $customer['type_document'],
+                        "doc_number" => $customer['doc_number'],
+                        "ip" => $this->getCustomerIp(),
+                        "url_confirmation" => $confirm_url,
+                        "method_confirmation" => "POST"
+                    ]
+                );
+
+            } catch (\Exception $exception) {
+                return [
+                    'status' => false,
+                    'message' => "subscriptionCharge ".$exception->getMessage()
+                ];
+            }
+        }
+
+        return $subs;
+    }
+
+    public function handleStatusSubscriptions(array $subscriptionsStatus, array $subscriptions)
+    {
+        $count = 0;
+        $messageStatus = [];
+        $messageStatus['status'] = true;
+        $messageStatus['message'] = [];
+        $messageStatus['ref_payco'] = [];
+        $quantitySubscriptions = count($subscriptionsStatus);
+        foreach ($subscriptions as $subscription) {
+            $sub = $subscriptionsStatus[$count];
+            $messageStatus['ref_payco'] = array_merge($messageStatus['ref_payco'], [$sub->data->ref_payco]);
+            $messageStatus['message'] = array_merge($messageStatus['message'], ["estado: {$sub->data->respuesta}"]);
+            $count++;
+
+            if ($count === $quantitySubscriptions && count($messageStatus['message']) >= $count)
+                $messageStatus['success'] = false;
+        }
+        return $messageStatus;
+
+    }
+
 
 
     public function string_sanitize($string, $force_lowercase = true, $anal = false) {

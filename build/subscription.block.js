@@ -117,6 +117,7 @@
                          inputName: c,
                          hiddenId: n,
                          inputDataCheckout: o,
+                         inputId:dd,
                          selectId: m,
                          selectName: s,
                          selectDataCheckout: r,
@@ -130,6 +131,7 @@
             "input-name": c,
             "hidden-id": n,
             "input-data-checkout": o,
+            "input-id": dd,
             "select-id": m,
             "select-name": s,
             "select-data-checkout": r,
@@ -254,7 +256,8 @@
     const _ = "mp_checkout_blocks",
         h = "woo-epayco-subscription",
         k = (0, a.getSetting)("woo-epayco-subscription_data", {}),
-        E = (0, n.decodeEntities)(k.title) || "Checkout Subscription", y = t => {
+        E = (0, n.decodeEntities)(k.title) || "Checkout Subscription",
+        y = t => {
             (e => {
                 const {extensionCartUpdate: t} = wc.blocksCheckout,
                     {eventRegistration: a, emitResponse: n} = e,
@@ -293,8 +296,8 @@
                 card_document_input_label: $,
                 card_document_input_helper: q,
                 card_issuer_input_label: Y,
-                card_holder_cellphone_input_label:chcil,
-                card_holder_cellphone_input_helper:chcih,
+                input_ind_phone_label:chcil,
+                input_ind_phone_helper:chcih,
                 input_country_label: cl,
                 input_country_helper: ch,
                 terms_and_conditions_label: ll,
@@ -304,7 +307,7 @@
                 amount: J,
                 message_error_amount: G
             } = k.params;
-            if (null == J) return (0, e.createElement)(e.Fragment, null, (0, e.createElement)("p", {className: "alert-message"}, G));
+            //if (null == J) return (0, e.createElement)(e.Fragment, null, (0, e.createElement)("p", {className: "alert-message"}, G));
             const W = (0, c.useRef)(null), [X, Z] = (0, c.useState)("subscription"), {
                 eventRegistration: ee,
                 emitResponse: te,
@@ -440,8 +443,8 @@
                             var createTokenEpayco = async function  ($form) {
                                 return await new Promise(function(resolve, reject) {
                                     ePayco.token.create($form, function(data) {
-                                        if(data.status=='error'){
-                                            reject("")
+                                        if(data.status == 'error' || data.error){
+                                            reject(false)
                                         }else{
                                             document.querySelector('#cardTokenId').value = data.data.token;
                                             //jQuery('form.checkout').submit();
@@ -456,7 +459,10 @@
                                 ePayco.setPublicKey(publicKey);
                                 ePayco.setLanguage("es");
                                 //var token = await createTokenEpayco(current);
-                                var token = "72524ce8465c32bf80104fb";
+                                var token = "72aaed2c0b7503dfe0645fd";
+                                if(!token){
+                                    validation = true;
+                                }
                             }else{
                                 return {
                                     type: te.responseTypes.FAIL,
@@ -542,10 +548,10 @@
                                 d: "M18 1.616V12.385C18 12.845 17.846 13.2293 17.538 13.538C17.23 13.8467 16.8457 14.0007 16.385 14H1.615C1.155 14 0.771 13.846 0.463 13.538C0.155 13.23 0.000666667 12.8453 0 12.384V1.616C0 1.15533 0.154333 0.771 0.463 0.463C0.771667 0.155 1.15567 0.000666667 1.615 0H16.385C16.845 0 17.229 0.154333 17.537 0.463C17.845 0.771667 17.9993 1.156 18 1.616ZM1 3.808H17V1.616C17 1.462 16.936 1.32067 16.808 1.192C16.68 1.06333 16.539 0.999333 16.385 1H1.615C1.46167 1 1.32067 1.064 1.192 1.192C1.06333 1.32 0.999333 1.46133 1 1.616V3.808ZM1 6.192V12.385C1 12.5383 1.064 12.6793 1.192 12.808C1.32 12.9367 1.461 13.0007 1.615 13H16.385C16.5383 13 16.6793 12.936 16.808 12.808C16.9367 12.68 17.0007 12.539 17 12.385V6.192H1Z",
                                 m:"Card details"
                             }),
-                            (0, e.createElement)("div", {id: "mp-credits-checkout-form-container"},
-                                (0, e.createElement)("div", {className: "mp-checkout-credits-card-form"},
+                            (0, e.createElement)("div", {id: "mp-custom-checkout-form-container"},
+                                (0, e.createElement)("div", {className: "mp-checkout-custom-card-form"},
 
-                                    (0, e.createElement)("div", {className: "mp-checkout-credits-card-row", id: "mp-card-holder-div"},
+                                    (0, e.createElement)("div", {className: "mp-checkout-custom-card-row", id: "mp-card-holder-div"},
                                         (0, e.createElement)(name, {
                                             labelMessage:P,
                                             helperMessage:U,
@@ -553,10 +559,10 @@
                                             inputName:'epayco_subscription[name]',
                                             flagError:'epayco_subscription[nameError]',
                                             validate:"true",
-                                            hiddenId:"hidden-name-credits"
+                                            hiddenId:"hidden-name-custom"
                                         }),
                                     ),
-                                    (0, e.createElement)("div", {className: "mp-checkout-credits-card-row"},
+                                    (0, e.createElement)("div", {className: "mp-checkout-custom-card-row"},
                                         (0, e.createElement)(cardNumber, {
                                             labelMessage:F,
                                             helperMessage:O,
@@ -564,11 +570,11 @@
                                             inputName:'epayco_subscriptionepayco_subscription[card]',
                                             flagError:'epayco_subscription[cardError]',
                                             validate:"true",
-                                            hiddenId:"hidden-card-number-credits"
+                                            hiddenId:"hidden-card-number-custom"
                                         }),
                                     ),
-                                    (0, e.createElement)("div", {className: "mp-checkout-credits-card-row mp-checkout-credits-dual-column-row"},
-                                        (0, e.createElement)("div", {className: "mp-checkout-credits-card-column"},
+                                    (0, e.createElement)("div", {className: "mp-checkout-custom-card-row mp-checkout-custom-dual-column-row"},
+                                        (0, e.createElement)("div", {className: "mp-checkout-custom-card-column"},
                                             (0, e.createElement)(expirationDate, {
                                                 labelMessage:D,
                                                 helperMessage:L,
@@ -579,7 +585,7 @@
                                                 hiddenId:"hidden-expiration-date-helper"
                                             })
                                         ),
-                                        (0, e.createElement)("div", {className: "mp-checkout-credits-card-column"},
+                                        (0, e.createElement)("div", {className: "mp-checkout-custom-card-column"},
                                             (0, e.createElement)(securityCode, {
                                                 labelMessage:V,
                                                 helperMessage:B,
@@ -590,7 +596,7 @@
                                                 hiddenId:"hidden-security-code-helper"
                                             })
                                         ),
-                                        /*(0, e.createElement)("div", {className: "mp-checkout-credits-card-column"},
+                                        /*(0, e.createElement)("div", {className: "mp-checkout-custom-card-column"},
                                             (0, e.createElement)(installments, {
                                                 name:"epayco_subscription[installment]",
                                                 label:"fees",
@@ -609,14 +615,15 @@
                                 d: "M13.013 8.528H17.7695V7.38514H13.013V8.528ZM13.013 5.36229H17.7695V4.21943H13.013V5.36229ZM3.2305 11.7806H10.9492V11.5909C10.9492 10.9242 10.6069 10.408 9.9225 10.0423C9.23806 9.67657 8.29383 9.49371 7.08983 9.49371C5.88583 9.49371 4.94122 9.67657 4.256 10.0423C3.57078 10.408 3.22894 10.9242 3.2305 11.5909V11.7806ZM7.08983 7.648C7.58217 7.648 7.99672 7.48305 8.3335 7.15314C8.67105 6.82247 8.83983 6.416 8.83983 5.93371C8.83983 5.45143 8.67105 5.04533 8.3335 4.71543C7.99594 4.38552 7.58139 4.22019 7.08983 4.21943C6.59828 4.21867 6.18372 4.384 5.84617 4.71543C5.50861 5.04686 5.33983 5.45295 5.33983 5.93371C5.33983 6.41448 5.50861 6.82095 5.84617 7.15314C6.18372 7.48533 6.59828 7.65028 7.08983 7.648ZM1.88533 16C1.34789 16 0.8995 15.824 0.540167 15.472C0.180833 15.12 0.000777778 14.6804 0 14.1531V1.84686C0 1.32038 0.180056 0.881142 0.540167 0.529143C0.900278 0.177143 1.34828 0.000761905 1.88417 0H19.1158C19.6525 0 20.1005 0.176381 20.4598 0.529143C20.8192 0.881904 20.9992 1.32114 21 1.84686V14.1543C21 14.68 20.8199 15.1192 20.4598 15.472C20.0997 15.8248 19.6517 16.0008 19.1158 16H1.88533ZM1.88533 14.8571H19.1158C19.2947 14.8571 19.4592 14.784 19.6093 14.6377C19.7594 14.4914 19.8341 14.3299 19.8333 14.1531V1.84686C19.8333 1.67086 19.7587 1.50933 19.6093 1.36229C19.46 1.21524 19.2955 1.1421 19.1158 1.14286H1.88417C1.70528 1.14286 1.54078 1.216 1.39067 1.36229C1.24056 1.50857 1.16589 1.6701 1.16667 1.84686V14.1543C1.16667 14.3295 1.24133 14.4907 1.39067 14.6377C1.54 14.7848 1.7045 14.8579 1.88417 14.8571",
                                 m:"Customer data"
                             }),
-                            (0, e.createElement)("div", {id: "mp-credits-checkout-form-container"},
-                                (0, e.createElement)("div", {className: "mp-checkout-credits-input-document", id: "mp-doc-div"},
+                            (0, e.createElement)("div", {id: "mp-custom-checkout-form-container"},
+                                (0, e.createElement)("div", {className: "mp-checkout-custom-input-document", id: "mp-doc-div"},
                                     (0, e.createElement)(documents, {
                                         labelMessage: $,
                                         helperMessage: q,
                                         inputName: 'epayco_subscription[doc_number]',
                                         hiddenId: "identificationType",
                                         inputDataCheckout: "doc_number",
+                                        inputId:"identificationTypeNumber",
                                         selectId: "identificationType",
                                         selectName:"epayco_subscription[identificationType]",
                                         selectDataCheckout: "doc_type",
@@ -626,7 +633,7 @@
                                         "placeholder":"0000000000"
                                     }),
                                 ),
-                                (0, e.createElement)("div", {className: "mp-checkout-credits-card-row", id: "mp-card-holder-div"},
+                                (0, e.createElement)("div", {className: "mp-checkout-custom-card-row", id: "mp-card-holder-div"},
                                     (0, e.createElement)(address, {
                                         labelMessage:PP,
                                         helperMessage:UU,
@@ -634,10 +641,10 @@
                                         inputName:'epayco_subscription[address]',
                                         flagError:'epayco_subscription[addressError]',
                                         validate:"true",
-                                        hiddenId:"hidden-address-credits"
+                                        hiddenId:"hidden-address-custom"
                                     }),
                                 ),
-                                (0, e.createElement)("div", {className: "mp-checkout-credits-card-row", id: "mp-card-holder-div"},
+                                (0, e.createElement)("div", {className: "mp-checkout-custom-card-row", id: "mp-card-holder-div"},
                                     (0, e.createElement)(email, {
                                         labelMessage:EE,
                                         helperMessage:HH,
@@ -645,10 +652,10 @@
                                         inputName:'epayco_subscription[email]',
                                         flagError:'epayco_subscription[emailError]',
                                         validate:"true",
-                                        hiddenId:"hidden-email-credits"
+                                        hiddenId:"hidden-email-custom"
                                     }),
                                 ),
-                                (0, e.createElement)("div", {className: "mp-checkout-credits-card-row", id: "mp-card-holder-div"},
+                                (0, e.createElement)("div", {className: "mp-checkout-custom-card-row", id: "mp-card-holder-div"},
                                     (0, e.createElement)(cellphone, {
                                         labelMessage: chcil,
                                         helperMessage: chcih,
@@ -664,7 +671,7 @@
                                         placeholder: "0000000000"
                                     })
                                 ),
-                                (0, e.createElement)("div", {className: "mp-checkout-credits-card-row", id: "mp-card-holder-div"},
+                                (0, e.createElement)("div", {className: "mp-checkout-custom-card-row", id: "mp-card-holder-div"},
                                     (0, e.createElement)(country, {
                                         labelMessage: cl,
                                         helperMessage: ch,
@@ -719,12 +726,10 @@
                 features: [
                     'subscriptions',
                     'products',
-                    'subscription_cancellation',
                     'subscription_suspension',
                     'subscription_reactivation',
-                    'subscription_amount_changes',
-                    'subscription_date_changes',
-                    'subscription_payment_method_change',
+                    'subscription_cancellation',
+                    'multiple_subscriptions'
                 ],
             },
         };

@@ -1,6 +1,6 @@
 <?php
 
-namespace Epayco\Woocommerce\Subscription;
+namespace Epayco\Woocommerce\Transactions;
 
 use Epayco\Woocommerce\Gateways\AbstractGateway;
 use Epayco\Woocommerce\Entities\Metadata\PaymentMetadata;

@@ -2,6 +2,7 @@
 
 namespace Epayco\Woocommerce\Gateways;
 
+use Epayco\Woocommerce\Transactions\SubscriptionTransaction;
 use Epayco\Woocommerce\Exceptions\InvalidCheckoutDataException;
 use Epayco\Woocommerce\Helpers\Form;
 
@@ -51,13 +52,10 @@ class SubscriptionGateway extends AbstractGateway
 
         $this->supports = [
             'subscriptions',
-            'products',
-            'subscription_cancellation',
             'subscription_suspension',
             'subscription_reactivation',
-            'subscription_amount_changes',
-            'subscription_date_changes',
-            'subscription_payment_method_change',
+            'subscription_cancellation',
+            'multiple_subscriptions'
         ];
 
         $this->description        = $this->adminTranslations['gateway_description'];
@@ -68,6 +66,7 @@ class SubscriptionGateway extends AbstractGateway
 
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
+        $this->epayco->hooks->gateway->registerAvailablePaymentGateway();
 
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
 
@@ -153,14 +152,13 @@ class SubscriptionGateway extends AbstractGateway
     {
         parent::registerCheckoutScripts();
 
-/*
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_subscription_checkout',
             $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/subscription/ep-subscription-checkout', '.js'),
             [
                 'public_key_epayco'        => $this->epayco->sellerConfig->getCredentialsPublicKeyPayment()
             ]
-        );*/
+        );
     }
 
     /**
@@ -188,7 +186,7 @@ class SubscriptionGateway extends AbstractGateway
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
             'test_mode_link_text'              => $this->storeTranslations['test_mode_link_text'],
-            'test_mode_link_src'               => $this->links['docs_integration_test'],
+            //'test_mode_link_src'               => $this->links['docs_integration_test'],
             'card_form_title'                  => $this->storeTranslations['card_form_title'],
             'card_holder_name_input_label'     => $this->storeTranslations['card_holder_name_input_label'],
             'card_holder_name_input_helper'    => $this->storeTranslations['card_holder_name_input_helper'],
@@ -230,8 +228,6 @@ class SubscriptionGateway extends AbstractGateway
     public function process_payment($order_id): array
     {
         $order = wc_get_order($order_id);
-        var_dump("checkout");
-        die();
         try {
             $checkout = $this->getCheckoutEpaycoSubscription($order);
 

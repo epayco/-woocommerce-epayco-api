@@ -201,27 +201,13 @@ class WoocommerceEpayco
                     $payment_method_registry->register(new CreditCardBlock());
                     $payment_method_registry->register(new DaviplataBlock());
                     $payment_method_registry->register(new PseBlock());
-                    //$payment_method_registry->register(new SubscriptionBlock());
+                    $payment_method_registry->register(new SubscriptionBlock());
                     $payment_method_registry->register(new TicketBlock());
                 }
             );
         }
     }
 
-    /**
-     * Register actions when gateway is not called on page
-     *
-     * @return void
-     */
-    public function registerActionsWhenGatewayIsNotCalled(): void
-    {
-        $this->helpers->actions->registerActionWhenGatewayIsNotCalled(
-            $this->hooks->product,
-            'registerBeforeAddToCartForm',
-            'Epayco\Woocommerce\Gateways\CreditCardGateway',
-            'renderCreditsBanner'
-        );
-    }
 
     /**
      * Init plugin
@@ -249,10 +235,7 @@ class WoocommerceEpayco
 
         $this->registerBlocks();
         $this->registerGateways();
-        //$this->registerActionsWhenGatewayIsNotCalled();
 
-        //$this->hooks->plugin->registerEnableCreditsAction([$this->helpers->creditsEnabled, 'enableCreditsAction']);
-        //$this->hooks->plugin->executeCreditsAction();
         $this->hooks->plugin->executePluginLoadedAction();
         $this->hooks->plugin->registerActivatePlugin([$this, 'activatePlugin']);
         $this->hooks->gateway->registerSaveCheckoutSettings();

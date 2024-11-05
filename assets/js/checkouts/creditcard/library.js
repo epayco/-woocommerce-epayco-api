@@ -2001,7 +2001,7 @@ CryptoJS.lib.Cipher ||
                     if (typeof new XMLHttpRequest().withCredentials !== "undefined") {
                     }
                 },
-                createTokenEncrypt: async function (sessionId,paymentProcess) {
+                createTokenEncrypt: async function (sessionId) {
                     try {
                         const public_key = ePayco.getPublicKey();
                         const data = {
@@ -2379,7 +2379,7 @@ CryptoJS.lib.Cipher ||
                             },
                         ],
                     };
-
+                    
                     var sessionId;
                     if (localStorage.getItem("keyUserIndex") == undefined) {
                         sessionId = localStorage.setItem(
@@ -2400,7 +2400,7 @@ CryptoJS.lib.Cipher ||
                             }
                         }
                     }
-                    tokenStatus = await ePayco._utils.createTokenEncrypt(sessionId,paymentProcess)
+                    tokenStatus = await ePayco._utils.createTokenEncrypt(sessionId)
                     /*tokenStatus = {
                         "status": "success",
                         "message": "token credit card created",

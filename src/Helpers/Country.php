@@ -310,7 +310,7 @@ final class Country
             'Epayco\Woocommerce\Gateways\CreditCardGateway',
             'Epayco\Woocommerce\Gateways\DaviplataGateway',
             'Epayco\Woocommerce\Gateways\PseGateway',
-            //'Epayco\Woocommerce\Gateways\SubscriptionGateway',
+            'Epayco\Woocommerce\Gateways\SubscriptionGateway',
             'Epayco\Woocommerce\Gateways\TicketGateway',
         ];
     }
