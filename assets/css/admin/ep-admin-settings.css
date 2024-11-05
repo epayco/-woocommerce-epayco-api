@@ -2,24 +2,24 @@
   margin: 0 20px 0 10px;
   font-size: 16px;
   /*min-width: 550px;*/
-  font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, "Roboto", Arial, sans-serif;
+  font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   max-width: 1440px;
 }
 
 .mp-settings-header {
   height: 340px;
   margin: 30px 0 15px 0;
-  position: relative;
+  position: relative
 }
 
 .mp-settings-header-img {
   width: 100%;
   height: 100%;
-  background: url("../../images/settings/header.jpg") no-repeat center;
   /*background: url("https://epayco.com/wp-content/uploads/2021/07/nosotros.png") no-repeat center;*/
+  background: url("../../images/settings/header.jpg") no-repeat center;
   background-size: cover;
   border-radius: 140px 170px 170px 0;
-  position: absolute;
+  position: absolute
 }
 
 .mp-settings-header-logo {
@@ -32,7 +32,7 @@
   line-height: 36px;
   flex: none;
   flex-grow: 0;
-  margin: 16px 0 0 50px;
+  margin: 16px 0 0 50px
 }
 
 .mp-settings-header-hr {
@@ -42,7 +42,7 @@
   border: 1px solid #ffffff;
   flex: none;
   flex-grow: 0;
-  margin: 16px 0 0 45px;
+  margin: 16px 0 0 45px
 }
 
 .mp-settings-header p {
@@ -51,10 +51,10 @@
   font-family: sans-serif;
   font-size: 2rem;
   line-height: 36px;
-  color: #ffffff;
+  color: #fff;
   flex: none;
   flex-grow: 0;
-  margin: 16px 10px 0 50px;
+  margin: 16px 10px 0 50px
 }
 
 .mp-container {
@@ -67,71 +67,71 @@
 }
 
 .mp-settings-title-container {
-  display: flex;
+  display: flex
 }
 
 .mp-block {
   padding: 24px;
-  background-color: #ffffff;
+  background-color: #fff;
   box-shadow: 0 6px 16px rgb(0 0 0 / 10%);
-  border-radius: 6px;
+  border-radius: 6px
 }
 
 .mp-block-requirements {
   background-color: unset;
   flex: 1;
   flex-direction: column;
-  box-shadow: unset;
+  box-shadow: unset
 }
 
 .mp-align-items-center {
   display: flex;
-  align-items: center;
+  align-items: center
 }
 
 .mp-block-flex {
-  flex: 2;
+  flex: 2
 }
 
 .mp-block-manual {
-  background: #f5f5f5;
+  background: #f5f5f5
 }
 
 .mp-display-block {
-  display: block !important;
+  display: block !important
 }
 
 .mp-settings-font-color {
-  font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, "Roboto", Arial, sans-serif;
-  color: rgba(0, 0, 0, 0.9);
+  font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  color: rgba(0, 0, 0, .9)
 }
 
 .mp-settings-title-font-size {
   font-size: 18px;
   line-height: 22px;
-  font-weight: 500;
+  font-weight: 500
 }
 
 .mp-settings-subtitle-font-size {
   font-size: 16px;
-  line-height: 20px;
+  line-height: 20px
 }
 
 .mp-settings-title-color {
-  color: rgba(0, 0, 0, 0.55);
+  color: rgba(0, 0, 0, .55)
 }
 
 .mp-inner-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: row
 }
 
-.mp-inner-container div:nth-child(1) {
+.mp-inner-container div:first-child {
   flex: 1;
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: row;
+  flex-direction: row
 }
 
 .mp-inner-container div:nth-child(2) {
@@ -139,119 +139,122 @@
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row-reverse
 }
 
 .mp-inner-container div p {
   margin: 0 8px 0 0;
-  padding: 0;
+  padding: 0
 }
 
 .mp-inner-container div h4 {
   margin: 0;
-  padding-right: 5px;
+  padding-right: 5px
 }
 
 .mp-inner-container-settings {
   display: block;
-  flex-direction: column;
+  flex-direction: column
 }
 
 .mp-button {
   font-size: 14px;
-  color: #ffffff;
+  color: #fff;
   border: none;
   padding: 9px 12px 7px;
-  background: #000;
+  background: #006ba1;
   border-radius: 5px;
   margin: 15px 0 15px 0;
   cursor: pointer;
-  transition: box-shadow 0.25s ease-out, background-color 0.2s ease-out;
+  transition: box-shadow .25s ease-out, background-color .2s ease-out;
   box-shadow: 0 0 0 0 #fff;
-  font-weight: 400;
+  font-weight: 400
 }
 
+
 .mp-button-small {
-  line-height: 16px;
+  line-height: 16px
 }
 
 .mp-button-large {
   line-height: 48px;
   font-size: 16px;
-  padding-top: 0px;
-  padding-bottom: 0px;
+  padding-top: 0;
+  padding-bottom: 0
 }
 
 .mp-button:hover {
   border-color: transparent;
-  background-color: #646970;
+  /*background-color: #646970;*/
+  background-color: #005a87;
   color: #fff;
-  -webkit-transition: background-color 0.2s ease-in;
-  transition: background-color 0.2s ease-in;
+  -webkit-transition: background-color .2s ease-in;
+  transition: background-color .2s ease-in
 }
+
 
 .mp-button:focus {
   outline: 0;
-  box-shadow: 0 0 0 0.1875em rgb(27 135 201 / 30%);
-  -webkit-transition: box-shadow 0.25s ease-in;
-  transition: box-shadow 0.25s ease-in;
+  box-shadow: 0 0 0 .1875em rgb(27 135 201 / 30%);
+  -webkit-transition: box-shadow .25s ease-in;
+  transition: box-shadow .25s ease-in
 }
 
 .mp-button:active {
   border-color: transparent;
   background-color: #005e88;
-  color: #fff;
+  color: #fff
 }
 
 .mp-button-light-blue {
   border-color: transparent;
-  background: rgba(71, 154, 209, 0.15);
-  color: #479AD1 ;
+  background: rgba(71, 154, 209, .15);
+  color: #479ad1
 }
 
 .mp-button-light-blue:hover {
   border-color: transparent;
-  background-color: rgba(65, 137, 230, 0.2);
+  background-color: rgba(65, 137, 230, .2);
   color: #009ee3;
-  -webkit-transition: background-color 0.2s ease-in;
-  transition: background-color 0.2s;
+  -webkit-transition: background-color .2s ease-in;
+  transition: background-color .2s
 }
 
 .mp-button-light-blue:focus {
   outline: 0;
-  box-shadow: 0 0 0 0.1875em rgb(27 135 201 / 30%);
-  -webkit-transition: box-shadow 0.25s ease-in;
-  transition: box-shadow 0.25s ease-in;
+  box-shadow: 0 0 0 .1875em rgb(27 135 201 / 30%);
+  -webkit-transition: box-shadow .25s ease-in;
+  transition: box-shadow .25s ease-in
 }
 
 .mp-button-light-blue:active {
   border-color: transparent;
-  background-color: rgba(65, 137, 230, 0.3);
-  color: #009ee3;
+  background-color: rgba(65, 137, 230, .3);
+  color: #009ee3
 }
 
 .mp-settings-icon-success {
   background: url("../../images/icons/icon-success.png") 100% 50% no-repeat transparent;
   background-size: 16px;
-  padding-right: 16px !important;
+  padding-right: 16px !important
 }
 
 .mp-settings-icon-warning {
   background: url("../../images/icons/icon-warning.png") 100% 50% no-repeat transparent;
   background-size: 16px;
-  padding-right: 16px !important;
+  padding-right: 16px !important
 }
 
 .mp-settings-icon-open {
   background: url("../../images/icons/icon-open.png") 100% 50% no-repeat transparent;
   background-size: 16px;
   padding-right: 16px !important;
-  transition: 300ms;
+  transition: .3s
 }
 
 .mp-settings-icon-open.mp-arrow-up {
   transform: rotate(180deg);
-  transition: 300ms;
+  transition: .3s
 }
 
 .mp-settings-icon {
@@ -259,17 +262,17 @@
   height: 70px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center
 }
 
 .mp-settings-icon-info {
   background: url("../../images/icons/icon-info.png") 98% 50% no-repeat transparent;
-  padding-right: 16px !important;
+  padding-right: 16px !important
 }
 
 .mp-settings-icon-config {
   background: url("../../images/icons/icon-config.png") center center no-repeat transparent;
-  padding-right: 16px !important;
+  padding-right: 16px !important
 }
 
 .mp-settings-hr {
@@ -279,13 +282,13 @@
   order: 0;
   align-self: stretch;
   flex-grow: 0;
-  margin: 32px 0 32px;
+  margin: 32px 0 32px
 }
 
 .mp-settings-title-blocks {
   font-weight: 500;
   font-size: 20px;
-  line-height: 25px;
+  line-height: 25px
 }
 
 .mp-settings-input {
@@ -293,28 +296,28 @@
   height: 48px;
   left: calc(50% - 544px / 2);
   top: 22px;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, .25);
   border-radius: 6px;
   flex: none;
   order: 1;
   align-self: stretch;
   flex-grow: 0;
-  margin: 4px 0;
+  margin: 4px 0
 }
 
 .mp-settings-margin-right {
-  margin: 8px;
+  margin: 8px
 }
 
 .mp-settings-margin-left {
-  margin-left: 8px;
+  margin-left: 8px
 }
 
 .mp-settings-label {
   font-family: sans-serif;
   font-size: 14px;
-  line-height: 18px;
+  line-height: 18px
 }
 
 .mp-settings-helper {
@@ -326,21 +329,21 @@
   top: 0;
   font-size: 13px;
   line-height: 18px;
-  color: rgba(0, 0, 0, 0.55);
+  color: rgba(0, 0, 0, .55)
 }
 
 .mp-settings-standard-margin {
-  margin: 0 0 24px;
+  margin: 0 0 24px
 }
 
 .mp-settings-blue-text {
   cursor: pointer;
   color: #000 !important;
-  text-decoration: none;
+  text-decoration: none
 }
 
 .mp-settings-blue-text:hover {
-  text-decoration: underline;
+  text-decoration: underline
 }
 
 .mp-settings-switch {
@@ -348,13 +351,13 @@
   display: inline-block;
   width: 40px;
   height: 24px;
-  margin: 0 12px 5px 0;
+  margin: 0 12px 5px 0
 }
 
 .mp-settings-switch input {
   opacity: 0;
   width: 0;
-  height: 0;
+  height: 0
 }
 
 .mp-settings-slider {
@@ -365,8 +368,8 @@
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+  -webkit-transition: .4s;
+  transition: .4s
 }
 
 .mp-settings-slider:before {
@@ -376,42 +379,42 @@
   width: 20px;
   left: 2px;
   bottom: 2px;
-  background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+  background-color: #fff;
+  -webkit-transition: .4s;
+  transition: .4s
 }
 
-input:checked+.mp-settings-slider {
-  background-color: #2196f3;
+input:checked + .mp-settings-slider {
+  background-color: #2196f3
 }
 
-input:focus+.mp-settings-slider {
-  box-shadow: 0 0 1px #2196f3;
+input:focus + .mp-settings-slider {
+  box-shadow: 0 0 1px #2196f3
 }
 
-input:checked+.mp-settings-slider:before {
+input:checked + .mp-settings-slider:before {
   -webkit-transform: translateX(16px);
   -ms-transform: translateX(16px);
-  transform: translateX(16px);
+  transform: translateX(16px)
 }
 
 .mp-settings-slider.mp-settings-round {
-  border-radius: 34px;
+  border-radius: 34px
 }
 
 .mp-settings-slider.mp-settings-round:before {
-  border-radius: 50%;
+  border-radius: 50%
 }
 
 .mp-settings-debug {
-  margin: 0;
+  margin: 0
 }
 
 .mp-settings-payment-block {
   border-radius: unset;
   border-bottom: 1px solid #c6c6c6;
   display: flex;
-  align-items: center;
+  align-items: center
 }
 
 .mp-settings-badge-active {
@@ -422,12 +425,12 @@ input:checked+.mp-settings-slider:before {
   width: 45px;
   height: 15px;
   left: calc(50% - 57px / 2);
-  background: rgba(0, 166, 80, 0.1);
+  background: rgba(0, 166, 80, .1);
   border-radius: 12px;
   font-size: 12px;
   line-height: 12px;
   text-align: center;
-  color: #00a650;
+  color: #00a650
 }
 
 .mp-settings-badge-inactive {
@@ -438,13 +441,13 @@ input:checked+.mp-settings-slider:before {
   width: 45px;
   height: 15px;
   left: calc(50% - 52px / 2);
-  background: rgba(0, 0, 0, 0.07);
+  background: rgba(0, 0, 0, .07);
   border-radius: 12px;
   margin: 0 0;
   font-size: 12px;
   line-height: 12px;
   text-align: center;
-  color: rgba(0, 0, 0, 0.55);
+  color: rgba(0, 0, 0, .55)
 }
 
 .mp-settings-test-mode-alert {
@@ -458,13 +461,13 @@ input:checked+.mp-settings-slider:before {
   left: calc(50% - 124px / 2);
   top: 0;
   bottom: 0;
-  background: rgba(255, 119, 51, 0.1);
+  background: rgba(255, 119, 51, .1);
   border-radius: 12px;
   font-family: sans-serif;
   font-size: 12px;
   line-height: 12px;
   text-align: center;
-  color: #ff7733;
+  color: #f73
 }
 
 .mp-settings-prod-mode-alert {
@@ -484,18 +487,18 @@ input:checked+.mp-settings-slider:before {
   line-height: 12px;
   text-align: center;
   color: #00a650;
-  background: rgba(0, 166, 80, 0.1);
-  border-radius: 12px;
+  background: rgba(0, 166, 80, .1);
+  border-radius: 12px
 }
 
 .mp-settings-fieldset {
-  margin: 0 0 24px 0;
+  margin: 0 0 24px 0
 }
 
 .mp-settings-align-div {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between
 }
 
 .mp-settings-text-payment {
@@ -503,66 +506,66 @@ input:checked+.mp-settings-slider:before {
   font-size: 14px;
   line-height: 16px;
   color: #009ee3;
-  margin: 0 10px;
+  margin: 0 10px
 }
 
 .mp-settings-margin-title-payment {
-  margin: 0 16px 0 16px;
+  margin: 0 16px 0 16px
 }
 
 .mp-settings-border-bottom-payment {
-  border-bottom: unset;
+  border-bottom: unset
 }
 
 .mp-settings-helper-payment-methods {
   padding: 0 16px 0 14px;
-  margin: unset;
+  margin: unset
 }
 
 .mp-settings-radio-button {
   max-width: 16px;
-  max-height: 16px;
+  max-height: 16px
 }
 
 .mp-settings-alert-payment-methods {
   display: flex;
   align-items: stretch;
   position: relative;
-  margin-top: 12px;
+  margin-top: 12px
 }
 
 .mp-settings-alert-payment-methods-orange {
   width: 6px;
-  background-color: #ff7733;
-  border-radius: 6px 0 0 6px;
+  background-color: #f73;
+  border-radius: 6px 0 0 6px
 }
 
 .mp-settings-alert-red {
   width: 6px;
-  background-color: #ff0000;
-  border-radius: 6px 0 0 6px;
+  background-color: red;
+  border-radius: 6px 0 0 6px
 }
 
 .mp-settings-alert-payment-methods-green {
   width: 6px;
   background-color: #00a650;
-  border-radius: 6px 0 0 6px;
+  border-radius: 6px 0 0 6px
 }
 
 .mp-settings-alert-payment-methods-gray {
   border-radius: 0 6px 6px 0;
   width: 550px;
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(0, 0, 0, .04);
   display: flex;
   padding: 16px 20px 16px 14px;
-  align-items: flex-start;
+  align-items: flex-start
 }
 
 .mp-settings-alert-mode-body {
   font-family: sans-serif;
   font-size: 14px;
   line-height: 22px;
-  margin-top: 4px;
+  margin-top: 4px
 }
 
 .mp-settings-alert-mode-title {
@@ -570,58 +573,58 @@ input:checked+.mp-settings-slider:before {
   font-size: 16px;
   line-height: 20px;
   margin-top: 0;
-  color: rgba(0, 0, 0, 0.9);
+  color: rgba(0, 0, 0, .9)
 }
 
 .mp-settings-mode-container {
   display: flex;
   align-items: center;
-  margin: 20px 8px 0 0;
+  margin: 20px 8px 0 0
 }
 
 .mp-settings-mode-spacing {
-  margin-right: 12px;
+  margin-right: 12px
 }
 
 .mp-settings-title-align {
   display: flex;
   justify-content: space-between;
-  cursor: pointer;
+  cursor: pointer
 }
 
 .mp-icon-align {
   display: flex;
-  align-items: center;
+  align-items: center
 }
 
 .mp-settings-block-align-top {
-  padding-top: 8px;
+  padding-top: 8px
 }
 
 .mp-credential-feedback-positive {
   background: url("../../images/settings/feedback-positive.png") 98% 50% no-repeat transparent;
   background-size: 1rem;
-  padding-right: 30px !important;
+  padding-right: 30px !important
 }
 
 .mp-credential-feedback-negative {
   background: url("../../images/settings/feedback-negative.png") 98% 50% no-repeat transparent;
   background-size: 1rem;
-  padding-right: 30px !important;
+  padding-right: 30px !important
 }
 
 .mp-settings-tooltip {
   position: relative;
-  display: flex;
+  display: flex
 }
 
 .mp-settings-tooltip .mp-settings-tooltip-text {
   visibility: hidden;
   width: 200px;
-  background: #ffffff;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1), 0 6px 16px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  box-shadow: 0 0 6px rgba(0, 0, 0, .1), 0 6px 16px rgba(0, 0, 0, .1);
   border-radius: 6px;
-  color: black;
+  color: #000;
   text-align: left;
   padding: 16px;
   position: absolute;
@@ -632,11 +635,11 @@ input:checked+.mp-settings-slider:before {
   font-size: 16px;
   line-height: 20px;
   word-wrap: break-word;
-  cursor: auto;
+  cursor: auto
 }
 
 .mp-settings-tooltip .mp-settings-tooltip-text p {
-  padding-bottom: 10px;
+  padding-bottom: 10px
 }
 
 .mp-settings-tooltip .mp-settings-tooltip-text::after {
@@ -647,16 +650,16 @@ input:checked+.mp-settings-slider:before {
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: transparent transparent black transparent;
+  border-color: transparent transparent #000 transparent
 }
 
 .mp-settings-tooltip:hover .mp-settings-tooltip-text {
-  visibility: visible;
+  visibility: visible
 }
 
 .mp-settings-tooltip {
   position: relative;
-  display: inline-block;
+  display: inline-block
 }
 
 .mp-settings-tooltip .mp-settings-tooltiptext {
@@ -671,7 +674,7 @@ input:checked+.mp-settings-slider:before {
   top: 150%;
   left: 50%;
   margin-left: 0;
-  padding: 16px;
+  padding: 16px
 }
 
 .mp-settings-tooltip .mp-settings-tooltip-text::after {
@@ -682,11 +685,11 @@ input:checked+.mp-settings-slider:before {
   margin-left: -13px;
   border-width: 5px;
   border-style: solid;
-  border-color: transparent transparent #fff transparent;
+  border-color: transparent transparent #fff transparent
 }
 
 .mp-settings-tooltip:hover .mp-settings-tooltip-text {
-  visibility: visible;
+  visibility: visible
 }
 
 .mp-settings-choose-mode {
@@ -697,13 +700,13 @@ input:checked+.mp-settings-slider:before {
 
 .mp-settings-mode-style {
   width: 16px;
-  height: 16px;
+  height: 16px
 }
 
 .mp-settings-mode-warning {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-start
 }
 
 .mp-settings-select {
@@ -722,34 +725,34 @@ input:checked+.mp-settings-slider:before {
   top: 22px !important;
   background: url("../../images/icons/icon-shape.png") no-repeat center right #fff !important;
   background-origin: content-box !important;
-  border: 1px solid rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(0, 0, 0, .25) !important;
   border-radius: 6px !important;
   text-align: center !important;
   text-align-last: center !important;
   margin: 4px 0 !important;
-  width: 100% !important;
+  width: 100% !important
 }
 
 .mp-settings-flex-start {
-  align-items: flex-start;
+  align-items: flex-start
 }
 
 .mp-settings-link {
   width: 75%;
   display: flex;
-  text-decoration: none;
+  text-decoration: none
 }
 
 .mp-alert-danger {
   color: #842029;
   background-color: #f8d7da;
-  border-color: #f5c2c7;
+  border-color: #f5c2c7
 }
 
 .mp-alert-success {
   color: #0f5132;
   background-color: #d1e7dd;
-  border-color: #badbcc;
+  border-color: #badbcc
 }
 
 .mp-alert {
@@ -757,86 +760,83 @@ input:checked+.mp-settings-slider:before {
   padding: 1rem 1rem;
   margin-bottom: 1rem;
   border: 1px solid transparent;
-  border-radius: 0.25rem;
+  border-radius: .25rem
 }
 
 .mp-text-center {
-  text-align: center !important;
+  text-align: center !important
 }
 
 .mp-settings-checkbox-options {
   line-height: 1.4;
-  margin: 0.25em 0 0.5em !important;
+  margin: .25em 0 .5em !important;
   display: inline-block;
   vertical-align: middle;
   cursor: pointer;
   font-size: 14px;
-  user-select: none;
+  user-select: none
 }
-
-/* support container */
 
 .mp-settings-support-container {
   margin-top: 50px;
-  background: #ffffff;
+  background: #fff;
   padding: 24px;
   box-shadow: 0 6px 16px rgb(0 0 0 / 10%);
-  border-radius: 6px;
+  border-radius: 6px
 }
 
 .mp-settings-hr-support {
   position: static;
-  margin: 16px 0 16px;
+  margin: 16px 0 16px
 }
 
 .mp-settings-support-title {
-  color:  rgba(0, 0, 0, 0.90);
-  font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, "Roboto", Arial, sans-serif;
+  color: rgba(0, 0, 0, .9);
+  font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 20px
 }
 
 .mp-settings-support-content p {
-  color: rgba(0, 0, 0, 0.90);
-  font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, "Roboto", Arial, sans-serif;
+  color: rgba(0, 0, 0, .9);
+  font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 10px;
+  line-height: 10px
 }
 
 #mp-settings-support-how-to {
-  line-height: 32px !important;
+  line-height: 32px !important
 }
 
 .mp-settings-support-content-table {
   border-collapse: collapse;
   margin-top: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 16px
 }
 
-.mp-settings-support-content-table th,
-.mp-settings-support-content-table td {
+.mp-settings-support-content-table td, .mp-settings-support-content-table th {
   font-size: 12px;
   padding: 8px;
   padding-left: 5px;
   text-align: left;
   min-width: 300px;
-  line-height: 10px;
+  line-height: 10px
 }
 
 .mp-settings-support-content-table th {
-  color: rgba(0, 0, 0, 0.45);
+  color: rgba(0, 0, 0, .45)
 }
 
 .mp-settings-support-content-table th:first-child {
-  padding-left: 5px;
+  padding-left: 5px
 }
 
 .mp-settings-support-content-table th:last-child {
-  padding-right: 32px;
+  padding-right: 32px
 }
 
 .mp-settings-support-modal {
@@ -849,8 +849,8 @@ input:checked+.mp-settings-slider:before {
   height: 100%;
   overflow-y: auto;
   max-height: calc(100% - 100px);
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  background-color: #000;
+  background-color: rgba(0, 0, 0, .4)
 }
 
 .mp-settings-support-modal-content {
@@ -860,123 +860,120 @@ input:checked+.mp-settings-slider:before {
   padding: 48px;
   border: 1px solid #888;
   width: 55%;
-  border-radius: 10px;
+  border-radius: 10px
 }
 
 .mp-settings-close {
   color: #000;
   float: right;
   font-size: 28px;
-  margin-top: 20px;
+  margin-top: 20px
 }
 
-.mp-settings-close:hover,
-.mp-settings-close:focus {
+.mp-settings-close:focus, .mp-settings-close:hover {
   color: #000;
   text-decoration: none;
-  cursor: pointer;
+  cursor: pointer
 }
 
 .mp-settings-modal-table {
   border-collapse: collapse;
-  width: 100%;
+  width: 100%
 }
 
 .mp-settings-modal-table-header {
   background-color: #ccc;
-  font-weight: bold;
-  border: 1px solid lightgrey;
-  padding: 10px;
+  font-weight: 700;
+  border: 1px solid #d3d3d3;
+  padding: 10px
 }
 
 .mp-settings-modal-table-cell {
-  border: 1px solid lightgray;
+  border: 1px solid #d3d3d3;
   padding: 10px;
-  text-align: center;
+  text-align: center
 }
 
-.small-cell{
+.small-cell {
   width: 5px;
-  text-align: center !important;
+  text-align: center !important
 }
 
-.mp-settings-modal-title{
+.mp-settings-modal-title {
   color: rgba(0, 0, 0, .9);
   font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-size: 22px;
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
-  margin-bottom: 16px;
+  margin-bottom: 16px
 }
 
 .mp-settings-modal-desc {
   color: rgba(0, 0, 0, .9);
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 24px;
-    margin-bottom: 24px;
-    margin-top: 24px;
+  font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  margin-bottom: 24px;
+  margin-top: 24px
 }
 
 .mp-settings-modal-table-row {
-  border: 1px solid #000;
+  border: 1px solid #000
 }
 
-.mp-settings-modal-table-cell,
-.mp-settings-modal-table-header {
+.mp-settings-modal-table-cell, .mp-settings-modal-table-header {
   height: 50px;
   min-width: 60px;
-  text-align: left;
+  text-align: left
 }
-.mp-settings-pagination{
-  margin-bottom: 20px;
+
+.mp-settings-pagination {
+  margin-bottom: 20px
 }
+
 #downloadSelected {
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   right: 45px;
-  padding: 16px;
+  padding: 16px
 }
 
 .mp-settings-button-group {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 20px
 }
-
 
 .mp-page-span {
   margin-right: 10px;
-  cursor: pointer;
+  cursor: pointer
 }
 
 .mp-page-span.active {
-  color: #000;
+  color: #000
 }
 
 .mp-page-span:not(.active) {
-  color: lightgray;
+  color: #d3d3d3
 }
-
-/* end support container */
 
 @media screen and (max-width: 780px) {
 
   .mp-settings-header-img {
     width: 100%;
-    height: 100%;
+    height: 100%
   }
 
   .mp-block-requirements {
     flex-direction: column;
-    margin: 10px 0 10px 0;
+    margin: 10px 0 10px 0
   }
 
   .mp-container {
     flex-direction: column;
-    margin: 10px 0 10px 0;
+    margin: 10px 0 10px 0
   }
 
   .mp-block {
@@ -984,20 +981,20 @@ input:checked+.mp-settings-slider:before {
   }
 
   .mp-settings-payment-block {
-    margin: unset;
+    margin: unset
   }
 
   .mp-settings-header {
-    height: 250px;
+    height: 250px
   }
 
   .mp-settings-header p {
     top: 55px;
-    font-size: 1.25rem;
+    font-size: 1.25rem
   }
 
   .mp-settings-title-blocks {
-    font-size: 1.25rem;
+    font-size: 1.25rem
   }
 
   .mp-settings-icon {
@@ -1006,7 +1003,7 @@ input:checked+.mp-settings-slider:before {
     min-width: 60px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center
   }
 }
 
@@ -1043,3 +1040,4 @@ input:checked+.mp-settings-slider:before {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+

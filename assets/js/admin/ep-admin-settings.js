@@ -442,7 +442,6 @@ function mpUpdateOptionCredentials() {
                 }
             )
             .done(function (response) {
-              debugger
               mpGetPaymentMethods();
               if (response.success) {
                 mpVerifyAlertTestMode();

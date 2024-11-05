@@ -3,7 +3,7 @@
 (function ($) {
   'use strict';
   $(function () {
-    var mercado_pago_submit = false;
+    var epayco_submit = false;
 
     function  epaycoFormHandler() {
       var publicKey = wc_epayco_custom_checkout_params.public_key_epayco;
@@ -34,9 +34,8 @@
       verifyCountry(CustomContent)
       if (checkForErrors(ticketHelpers)) {
         removeBlockOverlay();
-        return mercado_pago_submit;
+        return epayco_submit;
       } else {
-        console.log("loading..")
         return  createToken(CustomContent);
       }
 

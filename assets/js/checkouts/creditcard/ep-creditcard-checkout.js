@@ -3,7 +3,7 @@
 (function ($) {
   'use strict';
   $(function () {
-    var mercado_pago_submit = false;
+    var epayco_submit = false;
 
     function  epaycoFormHandler() {
       var publicKey = wc_epayco_custom_checkout_params.public_key_epayco;
@@ -33,20 +33,15 @@
       verifyDocument(CustomContent)
       verifyCountry(CustomContent)
       verifyTermAndCondictions(CustomContent)
-      debugger
       let checked =  CustomContent.querySelector('terms-and-conditions').querySelector('input').checked
       if (checkForErrors(ticketHelpers) || !checked) {
         removeBlockOverlay();
-        return mercado_pago_submit;
+        return epayco_submit;
       } else {
-        console.log("loading..")
-        debugger
         const request =  createToken(CustomContent);
         request().then((resultado) => {
-          debugger
           console.log(resultado); // Esto se ejecutará después de 2 segundos
         }).catch((error) => {
-          debugger
           console.error(error); // Esto se ejecutará si hay un error
         });
 

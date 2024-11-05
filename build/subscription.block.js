@@ -486,7 +486,6 @@
                             "epayco_subscription[token]": token,
                             //"epayco_subscription[installmet]": customContentInstallments,
                         };
-                        debugger
                         return  "" !== customContentName.value &&
                         "" !== cardNumberContentName.value &&
                         "" !== cardExpirationContentName.value &&
