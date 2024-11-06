@@ -187,6 +187,7 @@ class SubscriptionGateway extends AbstractGateway
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
             'test_mode_link_text'              => $this->storeTranslations['test_mode_link_text'],
             //'test_mode_link_src'               => $this->links['docs_integration_test'],
+            'card_detail'                      => $this->storeTranslations['card_detail'],
             'card_form_title'                  => $this->storeTranslations['card_form_title'],
             'card_holder_name_input_label'     => $this->storeTranslations['card_holder_name_input_label'],
             'card_holder_name_input_helper'    => $this->storeTranslations['card_holder_name_input_helper'],
@@ -195,6 +196,7 @@ class SubscriptionGateway extends AbstractGateway
             'card_expiration_input_label'      => $this->storeTranslations['card_expiration_input_label'],
             'card_expiration_input_helper'     => $this->storeTranslations['card_expiration_input_helper'],
             'card_expiration_input_invalid_length' => $this->storeTranslations['input_helper_message_expiration_date_invalid_value'],
+            'customer_data'                       => $this->storeTranslations['customer_data'],
             'card_security_code_input_label'   => $this->storeTranslations['card_security_code_input_label'],
             'card_security_code_input_helper'  => $this->storeTranslations['card_security_code_input_helper'],
             'card_security_code_input_invalid_length' => $this->storeTranslations['input_helper_message_security_code_invalid_length'],
@@ -247,9 +249,9 @@ class SubscriptionGateway extends AbstractGateway
                 $response = $this->transaction->createSubscriptionPayment($order_id, $checkout);
                 $response = json_decode(json_encode($response), true);
                 if (is_array($response) && $response['success']) {
-                    $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
+                    $ref_payco = $response['ref_payco'][0];
                     $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
-                    if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
+                    if (in_array(strtolower($response['estado'][0]),["pendiente","pending"])) {
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
@@ -258,7 +260,7 @@ class SubscriptionGateway extends AbstractGateway
                             'redirect' => $urlReceived,
                         ];
                     }
-                    if (in_array(strtolower($response['data']['estado']),["aceptada","acepted"])) {
+                    if (in_array(strtolower($response['estado'][0]),["aceptada","acepted","aprobada"])) {
                         $order->update_status("processing");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
@@ -266,11 +268,11 @@ class SubscriptionGateway extends AbstractGateway
                             'result'   => 'success',
                             'redirect' => $urlReceived,
                         ];
-                    }if (in_array(strtolower($response['data']['estado']),["rechazada","fallida","cancelada","abandonada"])) {
+                    }if (in_array(strtolower($response['estado'][0]),["rechazada","fallida","cancelada","abandonada"])) {
                         $urlReceived = wc_get_checkout_url();
                         $return = [
                             'result'   => 'fail',
-                            'message' => $response['data']['respuesta'],
+                            'message' => $response['message'][0],
                             'redirect' => $urlReceived,
                         ];
                     }
