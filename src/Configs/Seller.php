@@ -453,7 +453,7 @@ class Seller
     {
         $auto_update_plugins = $this->options->get(self::AUTO_UPDATE_PLUGINS, '');
 
-        if (is_array($auto_update_plugins) && in_array('-woocommerce-epayco-api/woocommerce-epayco.php', $auto_update_plugins)) {
+        if (is_array($auto_update_plugins) && in_array('-woocommerce-epayco-api-develop/woocommerce-epayco.php', $auto_update_plugins)) {
             return true;
         }
         return false;

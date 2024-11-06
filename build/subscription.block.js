@@ -458,8 +458,8 @@
                                 var token;
                                 ePayco.setPublicKey(publicKey);
                                 ePayco.setLanguage("es");
-                                //var token = await createTokenEpayco(current);
-                                var token = "72aaed2c0b7503dfe0645fd";
+                                var token = await createTokenEpayco(current);
+                                //var token = "72aaed2c0b7503dfe0645fd";
                                 if(!token){
                                     validation = true;
                                 }

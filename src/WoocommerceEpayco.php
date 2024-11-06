@@ -65,7 +65,7 @@ class WoocommerceEpayco
     /**
      * @const
      */
-    private const PLUGIN_NAME = '-woocommerce-epayco-api/woocommerce-epayco.php';
+    private const PLUGIN_NAME = '-woocommerce-epayco-api-develop/woocommerce-epayco.php';
 
     /**
      * @var \WooCommerce
