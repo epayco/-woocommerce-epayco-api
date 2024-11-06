@@ -56,14 +56,11 @@ class PseGateway extends AbstractGateway
         $this->description        = $this->adminTranslations['gateway_description'];
         $this->method_title       = $this->adminTranslations['method_title'];
         $this->method_description = $this->description;
-        $this->discount           = $this->getActionableValue('gateway_discount', 0);
-        $this->commission         = $this->getActionableValue('commission', 0);
 
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
 
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
-        $this->epayco->hooks->cart->registerCartCalculateFees([$this, 'registerDiscountAndCommissionFeesOnCart']);
 
         $this->epayco->helpers->currency->handleCurrencyNotices($this);
     }
@@ -173,14 +170,12 @@ class PseGateway extends AbstractGateway
      */
     public function getPaymentFieldsParams(): array
     {
-        $currentUser     = $this->epayco->helpers->currentUser->getCurrentUser();
-        $loggedUserEmail = ($currentUser->ID != 0) ? $currentUser->user_email : null;
-        $amountAndCurrencyRatio = $this->getAmountAndCurrency();
-        return ['test_mode'                        => $this->epayco->storeConfig->isTestMode(),
+        return [
+            'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
             'test_mode_link_text'              => $this->storeTranslations['test_mode_link_text'],
-            'test_mode_link_src'               => $this->links['docs_integration_test'],
+            //'test_mode_link_src'               => $this->links['docs_integration_test'],
             'input_name_label'                 => $this->storeTranslations['input_name_label'],
             'input_name_helper'                => $this->storeTranslations['input_name_helper'],
             'input_email_label'                => $this->storeTranslations['input_email_label'],
@@ -193,23 +188,16 @@ class PseGateway extends AbstractGateway
             'input_ind_phone_helper'           => $this->storeTranslations['input_ind_phone_helper'],
             'input_country_label'              => $this->storeTranslations['input_country_label'],
             'input_country_helper'             => $this->storeTranslations['input_country_helper'],
-            'input_table_button'               => $this->storeTranslations['input_table_button'],
+            'person_type_label'                => $this->storeTranslations['person_type_label'],
+            'financial_institutions'           => json_encode($this->getFinancialInstitutions()),
+            'financial_institutions_label'     => $this->storeTranslations['financial_institutions_label'],
+            'financial_institutions_helper'    => $this->storeTranslations['financial_institutions_helper'],
+            'financial_placeholder'            => $this->storeTranslations['financial_placeholder'],
+            'site_id'                          => $this->epayco->sellerConfig->getSiteId(),
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
-            'site_id'                          => $this->epayco->sellerConfig->getSiteId(),
-            'payer_email'                      => esc_js($loggedUserEmail),
-            'woocommerce_currency'             => get_woocommerce_currency(),
-            'account_currency'                 => $this->epayco->helpers->country->getCountryConfigs(),
-            'financial_institutions'           => json_encode($this->getFinancialInstitutions()),
-            'person_type_label'                => $this->storeTranslations['person_type_label'],
-            'financial_institutions_label'     => $this->storeTranslations['financial_institutions_label'],
-            'financial_institutions_helper'    => $this->storeTranslations['financial_institutions_helper'],
-            'financial_placeholder'            => $this->storeTranslations['financial_placeholder'],
-            'amount'                           => $amountAndCurrencyRatio['amount'],
-            'currency_ratio'                   => $amountAndCurrencyRatio['currencyRatio'],
-            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
         ];
     }
 
@@ -240,8 +228,6 @@ class PseGateway extends AbstractGateway
             $response = $this->transaction->createPsePayment($order_id, $checkout);
             $response = json_decode(json_encode($response), true);
             if (is_array($response) && $response['success']) {
-                //$this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$response['id']]);
-                //$this->handleWithRejectPayment($response);
                 if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
                     $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
                     $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
@@ -251,13 +237,13 @@ class PseGateway extends AbstractGateway
                             wc_reduce_stock_levels($order_id);
                             wc_increase_stock_levels($order_id);
                     }*/
-                    //$this->epayco->hooks->order->addOrderNote($order, $this->storeTranslations['customer_not_paid']);
                     return [
                         'result'   => 'success',
                         'redirect' => $response['data']['urlbanco'],
                     ];
                 }
             }else{
+                //$this->handleWithRejectPayment($response);
                 $messageError = $response['message']?? $response['titleResponse'];
                 $errorMessage = "";
                 if (isset($response['data']['errors'])) {
@@ -314,11 +300,11 @@ class PseGateway extends AbstractGateway
                     'description' => $bank->bankName
                 );
             }
+        }else{
+            $convertedBanks[] =['id' => 0, 'description' => "Selecciona el banco"];
+            $convertedBanks[] =['id' => 1, 'description' => "nequi"];
         }
-        $convertedBanks[] =[
-            'id' => 0,
-            'description' => "nequi"
-        ];
+
 
             return $convertedBanks;
     }

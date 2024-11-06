@@ -273,16 +273,13 @@
                 input_table_button: S,
                 input_helper_label: f,
                 payment_methods: w,
-                amount: b,
                 site_id: C,
                 terms_and_conditions_label: ll,
                 terms_and_conditions_description: v,
                 terms_and_conditions_link_text: N,
                 terms_and_conditions_link_src: T,
                 test_mode: R,
-                message_error_amount: x
             } = k.params;
-            if (null == b) return (0, e.createElement)(e.Fragment, null, (0, e.createElement)("p", {className: "alert-message"}, x));
             const M = (0, a.useRef)(null),
                 {eventRegistration: I, emitResponse: P} = t,
                 {onPaymentSetup: O} = I;
@@ -290,11 +287,11 @@
             let B = {
                 labelMessage: h,
                 helperMessage: y,
-                inputId:"dentificationTypeNumber",
+                inputId:"identificationTypeNumber",
                 inputName: "epayco_daviplata[docNumber]",
-                hiddenId: "dentificationType",
+                hiddenId: "identificationType",
                 inputDataCheckout: "doc_number",
-                selectId: "dentificationType",
+                selectId: "identificationType",
                 selectName: "identificationType",
                 selectDataCheckout: "doc_type",
                 flagError: "docNumberError",
@@ -303,7 +300,7 @@
                 placeholder: "0000000000"
             };
             return (0, a.useEffect)((() => {
-                const ticketContentName = M.current.querySelector('input-name').querySelector('input');
+                const daviplataContentName = M.current.querySelector('input-name').querySelector('input');
                 const nameHelpers =  M.current.querySelector('input-helper').querySelector("div");
                 const verifyName = (nameElement) => {
                     if (nameElement.value === '') {
@@ -312,7 +309,7 @@
                     }
                 }
 
-                const ticketContentEmail = M.current.querySelector('input-email').querySelector('input');
+                const daviplataContentEmail = M.current.querySelector('input-email').querySelector('input');
                 const emailHelpers =  M.current.querySelector('input-email').querySelector("input-helper").querySelector("div");
                 const verifyEmail = (emailElement) => {
                     if (emailElement.value === '') {
@@ -321,7 +318,7 @@
                     }
                 }
 
-                const ticketContentAddress = M.current.querySelector('input-address').querySelector('input');
+                const daviplataContentAddress = M.current.querySelector('input-address').querySelector('input');
                 const addressHelpers =  M.current.querySelector('input-address').querySelector("input-helper").querySelector("div");
                 const verifyAddress = (addressElement) => {
                     if (addressElement.value === '') {
@@ -331,68 +328,79 @@
                 }
 
 
-                const ticketContentCellphone = M.current.querySelector('input-cellphone').querySelector('#cellphoneTypeNumber').querySelector('input');
+                const daviplataContentCellphone = M.current.querySelector('input-cellphone').querySelector('#cellphoneTypeNumber').querySelector('input');
                 const cellphoneHelpers =  M.current.querySelector('input-cellphone').querySelector("input-helper").querySelector("div");
-                const verifyCellphone = (ticketContentCellphone) => {
-                    if (ticketContentCellphone.value === '') {
+                const verifyCellphone = (daviplataContentCellphone) => {
+                    if (daviplataContentCellphone.value === '') {
                         M.current.querySelector('input-cellphone').querySelector(".mp-input").classList.add("mp-error");
                         M.current.querySelector('input-cellphone').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
                         cellphoneHelpers.style.display = 'flex';
                     }
                 }
 
-                const ticketContentDocument = M.current.querySelector('input-document').querySelector('input');
+                const daviplataContentDocument = M.current.querySelector('input-document').querySelector('input');
                 const documentHelpers =  M.current.querySelector('input-document').querySelector("input-helper").querySelector("div");
-                const verifyDocument = (ticketContentDocument) => {
-                    if (ticketContentDocument.value === '') {
+                const verifyDocument = (daviplataContentDocument) => {
+                    if (daviplataContentDocument.value === '') {
                         M.current.querySelector('input-document').querySelector(".mp-input").classList.add("mp-error");
                         M.current.querySelector('input-document').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
                         documentHelpers.style.display = 'flex';
                     }
                 }
 
-                const ticketContentCountry = M.current.querySelector('#form-checkout__identificationCountry-container').lastChild.querySelector('input');
+                const daviplataContentCountry = M.current.querySelector('#form-checkout__identificationCountry-container').lastChild.querySelector('input');
                 const countryHelpers =  M.current.querySelector('input-country').querySelector("input-helper").querySelector("div");
-                const verifyCountry = (ticketContentCountry) => {
-                    if (ticketContentCountry.value === '') {
+                const verifyCountry = (daviplataContentCountry) => {
+                    if (daviplataContentCountry.value === '') {
                         M.current.querySelector('input-country').querySelector(".mp-input").classList.add("mp-error");
                         M.current.querySelector('input-country').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
                         countryHelpers.style.display = 'flex';
                     }
                 }
 
-
+                var agree = false;
+                const termanAndContictionContent = M.current.parentElement.parentElement.querySelector('terms-and-conditions').querySelector('input');
+                const termanAndContictionHelpers =  M.current.parentElement.parentElement.querySelector('terms-and-conditions').querySelector(".mp-terms-and-conditions-container");
+                termanAndContictionContent.addEventListener('click', function() {
+                    const checkbox = termanAndContictionContent;
+                    if (checkbox.checked) {
+                        termanAndContictionHelpers.classList.remove("mp-error")
+                        agree = true;
+                    } else {
+                        termanAndContictionHelpers.classList.add("mp-error")
+                        agree = false;
+                    }
+                });
 
                 const e = O((async () => {
 
-
-                    const doc_type = ticketContentDocument.parentElement.parentElement.querySelector("#identificationType").value;
-                    const cellphoneType = ticketContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
-                    const countryType = ticketContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
+                    const doc_type = daviplataContentDocument.parentElement.parentElement.querySelector("#identificationType").querySelector("select").value;
+                    const cellphoneType = daviplataContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
+                    const countryType = daviplataContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
 
                     const person_type_value = M.current.querySelector("#daviplata\\[person_type\\]").value;
-                    const doc_number_value = M.current.querySelector("#dentificationTypeNumber").querySelector("input").value;
+                    const doc_number_value = M.current.querySelector("#identificationTypeNumber").querySelector("input").value;
                     const n = {
                         "epayco_daviplata[site_id]": C,
-                        "epayco_daviplata[amount]": b.toString(),
-                        "epayco_daviplata[name]": ticketContentName.value,
-                        "epayco_daviplata[address]": ticketContentAddress.value,
-                        "epayco_daviplata[email]": ticketContentEmail.value,
+                        "epayco_daviplata[name]": daviplataContentName.value,
+                        "epayco_daviplata[address]": daviplataContentAddress.value,
+                        "epayco_daviplata[email]": daviplataContentEmail.value,
                         "epayco_daviplata[cellphoneType]": cellphoneType,
-                        "epayco_daviplata[cellphone]": ticketContentCellphone.value,
+                        "epayco_daviplata[cellphone]": daviplataContentCellphone.value,
                         "epayco_daviplata[person_type]": person_type_value,
                         "epayco_daviplata[identificationtype]": doc_type,
                         "epayco_daviplata[doc_number]": doc_number_value,
                         "epayco_daviplata[countryType]": countryType,
-                        "epayco_daviplata[country]": ticketContentCountry.value
+                        "epayco_daviplata[country]": daviplataContentCountry.value
                     };
-                    "" === ticketContentName.value && verifyName(ticketContentName);
-                    "" === ticketContentEmail.value && verifyEmail(ticketContentEmail);
-                    "" === ticketContentAddress.value && verifyAddress(ticketContentAddress);
-                    "" === ticketContentCellphone.value && verifyCellphone(ticketContentCellphone);
-                    "Type" === doc_type.value && verifyDocument(ticketContentDocument);
-                    "" === ticketContentDocument.value && verifyDocument(ticketContentDocument);
-                    "" === ticketContentCountry.value && verifyCountry(ticketContentCountry);
+                    "" === daviplataContentName.value && verifyName(daviplataContentName);
+                    "" === daviplataContentEmail.value && verifyEmail(daviplataContentEmail);
+                    "" === daviplataContentAddress.value && verifyAddress(daviplataContentAddress);
+                    "" === daviplataContentCellphone.value && verifyCellphone(daviplataContentCellphone);
+                    "Type" === doc_type && verifyDocument(daviplataContentDocument);
+                    "" === daviplataContentDocument.value && verifyDocument(daviplataContentDocument);
+                    "" === daviplataContentCountry.value && verifyCountry(daviplataContentCountry);
+                    !agree && termanAndContictionHelpers.classList.add("mp-error");
 
                     function c(e, t) {
                         e && e.style && (e.style.display = t)
@@ -402,15 +410,15 @@
                         return e && "flex" === e.style.display
                     }
 
-                    return "" !== ticketContentName.value &&
-                    "" !== ticketContentAddress.value &&
-                    "" !==  ticketContentEmail.value &&
-                    "" !== ticketContentCellphone.value &&
-                    "" !== ticketContentDocument.value &&
-                    "" !== ticketContentCountry.value &&
+                    return "" !== daviplataContentName.value &&
+                    "" !== daviplataContentAddress.value &&
+                    "" !==  daviplataContentEmail.value &&
+                    "" !== daviplataContentCellphone.value &&
+                    "" !== daviplataContentDocument.value &&
+                    "" !== daviplataContentCountry.value &&
                     "Type" !== doc_type,
                         {
-                            type: o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers)  || o(countryHelpers) ? P.responseTypes.ERROR : P.responseTypes.SUCCESS,
+                            type: o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers)  || o(countryHelpers) || !agree ? P.responseTypes.ERROR : P.responseTypes.SUCCESS,
                             meta: {paymentMethodData: n}
                         }
                 }));

@@ -3,7 +3,6 @@
 namespace Epayco\Woocommerce\Configs;
 
 use Epayco\Woocommerce\Helpers\Cache;
-use Epayco\Woocommerce\Helpers\Requester;
 use Epayco\Woocommerce\Hooks\Options;
 
 
@@ -107,7 +106,8 @@ class Seller
     /**
      * @const
      */
-    private const EP_APIFY = 'https://apify.epayco.io';
+    //private const EP_APIFY = 'https://apify.epayco.co';
+    private const EP_APIFY  = "https://apify.epayco.io";
 
     /**
      * @var Cache
@@ -119,10 +119,6 @@ class Seller
      */
     private $options;
 
-    /**
-     * @var Requester
-     */
-    private $requester;
 
     /**
      * @var Store
@@ -136,14 +132,12 @@ class Seller
      *
      * @param Cache $cache
      * @param Options $options
-     * @param Requester $requester
      * @param Store $store
      */
-    public function __construct(Cache $cache, Options $options, Requester $requester, Store $store)
+    public function __construct(Cache $cache, Options $options, Store $store)
     {
         $this->cache     = $cache;
         $this->options   = $options;
-        $this->requester = $requester;
         $this->store     = $store;
     }
 
@@ -459,7 +453,7 @@ class Seller
     {
         $auto_update_plugins = $this->options->get(self::AUTO_UPDATE_PLUGINS, '');
 
-        if (is_array($auto_update_plugins) && in_array('-woocommerce-epayco-api/woocommerce-epayco.php', $auto_update_plugins)) {
+        if (is_array($auto_update_plugins) && in_array('-woocommerce-epayco-api-develop/woocommerce-epayco.php', $auto_update_plugins)) {
             return true;
         }
         return false;

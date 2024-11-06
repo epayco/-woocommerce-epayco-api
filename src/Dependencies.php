@@ -2,8 +2,6 @@
 
 namespace Epayco\Woocommerce;
 
-use MercadoPago\PP\Sdk\HttpClient\HttpClient;
-use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 use Epayco\Woocommerce\Admin\Settings;
 use Epayco\Woocommerce\Configs\Metadata;
 use Epayco\Woocommerce\Funnel\Funnel;
@@ -15,7 +13,6 @@ use Epayco\Woocommerce\Hooks\Blocks;
 use Epayco\Woocommerce\Order\OrderMetadata;
 use Epayco\Woocommerce\Configs\Seller;
 use Epayco\Woocommerce\Configs\Store;
-use Epayco\Woocommerce\Endpoints\CheckoutCustom;
 use Epayco\Woocommerce\Helpers\Cache;
 use Epayco\Woocommerce\Helpers\Country;
 use Epayco\Woocommerce\Helpers\Cron;
@@ -25,11 +22,9 @@ use Epayco\Woocommerce\Helpers\Gateways;
 use Epayco\Woocommerce\Helpers\Links;
 use Epayco\Woocommerce\Helpers\Nonce;
 use Epayco\Woocommerce\Helpers\Notices;
-use Epayco\Woocommerce\Helpers\Requester;
 use Epayco\Woocommerce\Helpers\Strings;
 use Epayco\Woocommerce\Helpers\Url;
 use Epayco\Woocommerce\Helpers\PaymentMethods;
-use Epayco\Woocommerce\Helpers\CreditsEnabled;
 use Epayco\Woocommerce\Hooks\Admin;
 use Epayco\Woocommerce\Hooks\Checkout;
 use Epayco\Woocommerce\Hooks\Endpoints;
@@ -96,10 +91,6 @@ class Dependencies
      */
     public $storeConfig;
 
-    /**
-     * @var CheckoutCustom
-     */
-    public $checkoutCustomEndpoints;
 
     /**
      * @var Admin
@@ -187,11 +178,6 @@ class Dependencies
     public $countryHelper;
 
     /**
-     * @var CreditsEnabled
-     */
-    public $creditsEnabledHelper;
-
-    /**
      * @var Cron
      */
     public $cronHelper;
@@ -236,10 +222,6 @@ class Dependencies
      */
     public $paymentMethodsHelper;
 
-    /**
-     * @var Requester
-     */
-    public $requesterHelper;
 
     /**
      * @var Session
@@ -313,7 +295,6 @@ class Dependencies
         $this->sessionHelper           = new Session();
         $this->stringsHelper           = new Strings();
         $this->orderMetadata           = $this->setOrderMetadata();
-        $this->requesterHelper         = $this->setRequester();
         $this->storeConfig             = $this->setStore();
         $this->logs                    = $this->setLogs();
         $this->sellerConfig            = $this->setSeller();
@@ -336,8 +317,6 @@ class Dependencies
         $this->metadataConfig          = $this->setMetadataConfig();
         $this->currencyHelper          = $this->setCurrency();
         $this->settings                = $this->setSettings();
-        $this->creditsEnabledHelper    = $this->setCreditsEnabled();
-        $this->checkoutCustomEndpoints = $this->setCustomCheckoutEndpoints();
         $this->cartHelper              = $this->setCart();
         $this->funnel                  = $this->setFunnel();
 
@@ -353,23 +332,13 @@ class Dependencies
         return new OrderMetadata($this->orderMetaHook);
     }
 
-    /**
-     * @return Requester
-     */
-    private function setRequester(): Requester
-    {
-        $curlRequester = new CurlRequester();
-        $httpClient    = new HttpClient(Requester::BASEURL_MP, $curlRequester);
-
-        return new Requester($httpClient);
-    }
 
     /**
      * @return Seller
      */
     private function setSeller(): Seller
     {
-        return new Seller($this->cacheHelper, $this->optionsHook, $this->requesterHelper, $this->storeConfig);
+        return new Seller($this->cacheHelper, $this->optionsHook, $this->storeConfig);
     }
 
     /**
@@ -442,7 +411,7 @@ class Dependencies
     private function setLogs(): Logs
     {
         $file   = new File($this->storeConfig);
-        $remote = new Remote($this->storeConfig, $this->requesterHelper);
+        $remote = new Remote($this->storeConfig);
 
         return new Logs($file, $remote);
     }
@@ -522,7 +491,6 @@ class Dependencies
             $this->endpointsHook,
             $this->cronHelper,
             $this->currentUserHelper,
-            $this->requesterHelper,
             $this->logs
         );
     }
@@ -564,7 +532,6 @@ class Dependencies
             $this->countryHelper,
             $this->logs,
             $this->noticesHelper,
-            $this->requesterHelper,
             $this->sellerConfig,
             $this->optionsHook,
             $this->urlHelper
@@ -590,23 +557,11 @@ class Dependencies
             $this->nonceHelper,
             $this->currentUserHelper,
             $this->sessionHelper,
-            $this->logs,
             $this->funnel,
             $this->stringsHelper
         );
     }
 
-    /**
-     * @return CreditsEnabled
-     */
-    private function setCreditsEnabled(): CreditsEnabled
-    {
-        return new CreditsEnabled(
-            $this->adminHook,
-            $this->logs,
-            $this->optionsHook
-        );
-    }
 
     /**
      * @return Funnel
@@ -621,20 +576,6 @@ class Dependencies
         );
     }
 
-    /**
-     * @return CheckoutCustom
-     */
-    private function setCustomCheckoutEndpoints(): CheckoutCustom
-    {
-        return new CheckoutCustom(
-            $this->endpointsHook,
-            $this->logs,
-            $this->requesterHelper,
-            $this->sessionHelper,
-            $this->sellerConfig,
-            $this->storeTranslations
-        );
-    }
 
     /**
      * @return Cart
@@ -673,7 +614,6 @@ class Dependencies
             $this->cacheHelper,
             $this->cartHelper,
             $this->countryHelper,
-            $this->creditsEnabledHelper,
             $this->currencyHelper,
             $this->currentUserHelper,
             $this->gatewaysHelper,
@@ -682,7 +622,6 @@ class Dependencies
             $this->nonceHelper,
             $this->noticesHelper,
             $this->paymentMethodsHelper,
-            $this->requesterHelper,
             $this->sessionHelper,
             $this->stringsHelper,
             $this->urlHelper

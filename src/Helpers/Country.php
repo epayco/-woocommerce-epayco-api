@@ -307,10 +307,10 @@ final class Country
         return [
             //'Epayco\Woocommerce\Gateways\BasicGateway',
             'Epayco\Woocommerce\Gateways\CheckoutGateway',
-            //'Epayco\Woocommerce\Gateways\CreditsGateway',
-            'Epayco\Woocommerce\Gateways\CustomGateway',
+            'Epayco\Woocommerce\Gateways\CreditCardGateway',
             'Epayco\Woocommerce\Gateways\DaviplataGateway',
             'Epayco\Woocommerce\Gateways\PseGateway',
+            'Epayco\Woocommerce\Gateways\SubscriptionGateway',
             'Epayco\Woocommerce\Gateways\TicketGateway',
         ];
     }

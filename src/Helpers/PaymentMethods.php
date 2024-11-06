@@ -2,7 +2,7 @@
 
 namespace Epayco\Woocommerce\Helpers;
 
-use Epayco\Woocommerce\Gateways\CreditsGateway;
+use Epayco\Woocommerce\Gateways\CreditCardGateway;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -130,7 +130,7 @@ final class PaymentMethods
      */
     public function treatBasicPaymentMethods(array $paymentMethods): array
     {
-        if (CreditsGateway::isAvailable()) {
+        if (CreditCardGateway::isAvailable()) {
             $paymentMethods[] = [
                 'src' => $this->url->getPluginFileUrl('assets/images/icons/icon-credits', '.png', true),
                 'alt' => 'Credits image'

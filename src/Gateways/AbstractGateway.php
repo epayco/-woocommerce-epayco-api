@@ -4,8 +4,6 @@ namespace Epayco\Woocommerce\Gateways;
 
 use Epayco\Woocommerce\Helpers\Device;
 use Epayco\Woocommerce\Sdk\EpaycoSdk;
-use MercadoPago\PP\Sdk\Entity\Payment\Payment;
-use MercadoPago\PP\Sdk\Entity\Preference\Preference;
 use Epayco\Woocommerce\Helpers\Form;
 use Epayco\Woocommerce\Helpers\Numbers;
 use Epayco\Woocommerce\WoocommerceEpayco;
@@ -45,12 +43,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
      */
     protected $epayco;
 
-    /**
-     * Transaction
-     *
-     * @var Payment|Preference
-     */
-    protected $transaction;
 
     /**
      * Commission
@@ -120,7 +112,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
 
         $this->checkoutCountry = $this->epayco->storeConfig->getCheckoutCountry();
         $this->countryConfigs  = $this->epayco->helpers->country->getCountryConfigs();
-        $this->ratio           = $this->epayco->helpers->currency->getRatio($this);
         $this->links           = $this->epayco->helpers->links->getLinks();
 
         $this->has_fields = true;
@@ -190,7 +181,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, explode(',', $paymentIds));
             return;
         }
-        $this->epayco->logs->file->info("no payment ids to update", "Epayco_AbstractGateway");
     }
 
     /**
@@ -215,31 +205,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
         return false;
     }
 
-    /**
-     * If the seller is homologated, it returns an array of an empty $form_fields field.
-     * If not, then return a notice to inform that the seller must be homologated to be able to sell.
-     *
-     * @return array
-     */
-    protected function getHomologValidateNoticeOrHidden(): array
-    {
-        if ($this->epayco->sellerConfig->getHomologValidate()) {
-            return [
-                'type'  => 'title',
-                'value' => '',
-            ];
-        }
-        return [
-            'type'  => 'ep_card_info',
-            'value' => [
-                'button_url'  => $this->links['admin_settings_page'],
-                'icon'        => 'ep-icon-badge-warning',
-                'color_card'  => 'ep-alert-color-alert',
-                'size_card'   => 'ep-card-body-size-homolog',
-                'target'      => '_blank',
-            ]
-        ];
-    }
 
     /**
      * Added gateway scripts
@@ -284,6 +249,12 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
      */
     public function registerCheckoutScripts(): void
     {
+
+
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_token_sdk',
+            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/creditcard/library', '.js')
+        );
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_checkout_components',
@@ -446,10 +417,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
         }
         echo $message;
         die();
-        /*$notificationFactory = new NotificationFactory();
-        $notificationHandler = $notificationFactory->createNotificationHandler($this, $data);
-
-        $notificationHandler->handleReceivedNotification($data);*/
     }
 
     public function authSignature($x_ref_payco, $x_transaction_id, $x_amount, $x_currency_code){
@@ -681,7 +648,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generate custom toggle switch component
+     * Generate credits toggle switch component
      *
      * @param string $key
      * @param array $settings
@@ -701,7 +668,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generate custom toggle switch component
+     * Generate credits toggle switch component
      *
      * @param string $key
      * @param array  $settings
@@ -719,7 +686,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generate custom header component
+     * Generate credits header component
      *
      * @param string $key
      * @param array $settings
@@ -739,7 +706,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generating custom actionable input component
+     * Generating credits actionable input component
      *
      * @param string $key
      * @param array $settings
@@ -763,7 +730,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generating custom card info component
+     * Generating credits card info component
      *
      * @param string $key
      * @param array $settings
@@ -783,7 +750,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generating custom preview component
+     * Generating credits preview component
      *
      * @param string $key
      * @param array $settings
@@ -878,10 +845,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             $accessToken = $this->epayco->sellerConfig->getCredentialsAccessToken();
 
             if (empty($publicKey) || empty($accessToken)) {
-                $this->epayco->logs->file->error(
-                    "No credentials to enable payment method",
-                    "Epayco_AbstractGateway"
-                );
 
                 echo wp_json_encode(
                     array(
@@ -937,22 +900,4 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
         return $this->links['admin_settings_page'];
     }
 
-    protected function getAmountAndCurrency(): array
-    {
-        $currencyRatio = 0;
-        $amount = null;
-        try {
-            $currencyRatio = $this->epayco->helpers->currency->getRatio($this);
-            $amount = $this->getAmount();
-        } catch (\Exception $e) {
-            $this->epayco->logs->file->warning(
-                "ePayco gave error to call getRatio: {$e->getMessage()}",
-                self::LOG_SOURCE
-            );
-        }
-        return [
-            'currencyRatio' => $currencyRatio,
-            'amount' => $amount,
-        ];
-    }
 }

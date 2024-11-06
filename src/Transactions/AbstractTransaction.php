@@ -140,7 +140,6 @@ abstract class AbstractTransaction
         $transactionClone = clone $this->transaction;
 
         unset($transactionClone->token);
-        $this->epayco->logs->file->info("$transactionType payload", $this->gateway::LOG_SOURCE, $transactionClone);
 
         return $this->transaction;
     }
