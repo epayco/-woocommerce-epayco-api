@@ -62,7 +62,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         //$person_type= $checkout["person_type"]??$checkout[""]["person_type"];
         $holder_address= $checkout["address"]??$checkout[""]["address"];
         $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"];
-        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];
         $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
         /*if(!$customerData['success']){
@@ -182,7 +182,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
         $holder_address= $checkout["address"]??$checkout[""]["address"];
         $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"];
-        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];
         $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
         $data = array(
@@ -258,8 +258,8 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $lastName = $explodeName[1];
         $person_type= $checkout["person_type"];
         $holder_address= $checkout["address"];
-        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"];
-        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout["documentType"];
+        $doc_number= $checkout["doc_number"]??$checkout["document"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"];
         $cellphone= $checkout["cellphone"];
         $data = array(
@@ -336,7 +336,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
         $holder_address= $checkout["address"]??$checkout[""]["address"];
         $doc_type= $checkout["identificationtype"]??$checkout["identificationType"];
-        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];
         $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
         $cellphonetype = $_POST["cellphoneType"]??$checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
