@@ -289,18 +289,12 @@ class CreditCardGateway extends AbstractGateway
                             $errorMessage = $error['errorMessage'] . "\n";
                         }
                     }
-                    return [
-                        'result'   => 'fail',
-                        'redirect' => '',
-                        'message'  => $messageError. " " . $errorMessage,
-                    ];
+                    $processReturnFailMessage = $messageError. " " . $errorMessage;
+                    return $this->returnFail($processReturnFailMessage, $order);
                 }
             }else{
-                return [
-                    'result'   => 'fail',
-                    'redirect' => '',
-                    'message'  => "Token incorrect " ,
-                ];
+                $processReturnFailMessage = "Token incorrect ";
+                return $this->returnFail($processReturnFailMessage, $order);
             }
 
         } catch (\Exception $e) {

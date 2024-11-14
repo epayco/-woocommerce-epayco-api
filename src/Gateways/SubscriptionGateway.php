@@ -291,11 +291,8 @@ class SubscriptionGateway extends AbstractGateway
                             $errorMessage = $error['errorMessage'] . "\n";
                         }
                     }
-                    return [
-                        'result'   => 'fail',
-                        'redirect' => '',
-                        'message'  => $messageError. " " . $errorMessage,
-                    ];
+                    $processReturnFailMessage = $messageError. " " . $errorMessage;
+                    return $this->returnFail($processReturnFailMessage, $order);
                 }
             }
 

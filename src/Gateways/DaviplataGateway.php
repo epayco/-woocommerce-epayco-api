@@ -272,17 +272,9 @@ class DaviplataGateway extends AbstractGateway
                         $errorMessage = $error['errorMessage'] . "\n";
                     }
                 }
-                return [
-                    'result'   => 'fail',
-                    'redirect' => '',
-                    'message'  => $messageError. " " . $errorMessage,
-                ];
+                $processReturnFailMessage = $messageError. " " . $errorMessage;
+                return $this->returnFail($processReturnFailMessage, $order);
             }
-            return [
-                'result'   => 'fail',
-                'redirect' => '',
-                'message'  => "error en daviplata",
-            ];
 
         }catch (\Exception $e) {
             return $this->processReturnFail(

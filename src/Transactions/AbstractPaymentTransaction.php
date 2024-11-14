@@ -71,7 +71,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $data = array(
             "token_card" => $checkout["token"],
             "customer_id" => "customer_id",
-            "bill" => (string)$order->get_id(),
+            "bill" => (string)$order->get_id()."_wc_api",
             "dues" => $dues,
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
@@ -187,7 +187,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
         $data = array(
             "bank" => $bank,
-            "invoice" => (string)$order->get_id(),
+            "invoice" => (string)$order->get_id()."_wc_api",
             "description" => $descripcion,
             "value" =>$order->get_total(),
             "tax" => $iva,
@@ -264,7 +264,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $cellphone= $checkout["cellphone"];
         $data = array(
             "paymentMethod" => $checkout["paymentMethod"],
-            "invoice" => (string)$order->get_id(),
+            "invoice" => (string)$order->get_id()."_wc_api",
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,
@@ -344,7 +344,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $city = WC()->countries->get_base_city() !='' ? WC()->countries->get_base_city():$order->get_shipping_city();
         $testMode = $this->epayco->storeConfig->isTestMode()??false;
         $data = array(
-            "invoice" => (string)$order->get_id(),
+            "invoice" => (string)$order->get_id()."_wc_api",
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,

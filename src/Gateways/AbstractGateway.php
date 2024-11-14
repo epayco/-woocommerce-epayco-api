@@ -469,6 +469,33 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             !$this->epayco->helpers->url->validateQueryVar('order-received');
     }
 
+    /**
+     * Process if result is fail
+     *
+     * @param string $message
+     * @param mixed $context
+     *
+     * @return array
+     */
+    public function returnFail(string $message, $context): array
+    {
+        wc_add_notice($message, 'error');
+        if (version_compare(WOOCOMMERCE_VERSION, '2.1', '>=')) {
+            $redirect = array(
+                'result'   => 'fail',
+                'message'  => $message,
+                'redirect' => add_query_arg('order-pay', $context->get_id(), add_query_arg('key', $context->order_key, get_permalink(woocommerce_get_page_id('pay'))))
+            );
+        } else {
+            $redirect = array(
+                'result'   => 'fail',
+                'message'  => $message,
+                'redirect' => add_query_arg('order', $context->get_id(), add_query_arg('key', $context->order_key, get_permalink(woocommerce_get_page_id('pay'))))
+            );
+        }
+
+        return $redirect;
+    }
 
 
 
