@@ -347,7 +347,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             $authSignature = $this->authSignature($x_ref_payco, $x_transaction_id, $x_amount, $x_currency_code);
         }
         $isTestPluginMode = $this->epayco->storeConfig->isTestMode();
-        $modo = $isTestPluginMode?'Prueba':'Producci¨®n';
+        $modo = $isTestPluginMode?'Prueba':'ProducciÃ³n';
         $current_state = $order->get_status();
         if(floatval($order->get_total()) == floatval($x_amount)){
             if($isTestPluginMode){
