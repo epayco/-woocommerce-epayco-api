@@ -255,7 +255,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             'wc_epayco_token_sdk',
             //$this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/creditcard/library', '.js')
             //"https://cms.epayco.io/library.js"
-            "https://plugins.epayco.io/develop/library.js"
+            "https://cms.epayco.io/js/library.js"
         );
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
@@ -325,20 +325,20 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     public function webhook(): void
     {
         global $woocommerce;
-        $order_id_info = sanitize_text_field($_GET['order_id']);
+        $order_id_info = trim(sanitize_text_field($_GET['order_id']));
         $order_id_explode = explode('=',$order_id_info);
         $order_id_rpl  = str_replace('?ref_payco','',$order_id_explode);
         $order_id = $order_id_rpl[0];
         $order = new \WC_Order($order_id);
         $data = Form::sanitizedGetData();
         $params = $data??$_POST;
-        $params = $_POST;
-        $x_signature = sanitize_text_field($params['x_signature']);
-        $x_cod_transaction_state = sanitize_text_field($params['x_cod_transaction_state']);
-        $x_ref_payco = sanitize_text_field($params['x_ref_payco']);
-        $x_transaction_id = sanitize_text_field($params['x_transaction_id']);
-        $x_amount = sanitize_text_field($params['x_amount']);
-        $x_currency_code = sanitize_text_field($params['x_currency_code']);
+        //$params = $_POST;
+        $x_signature = trim(sanitize_text_field($params['x_signature']));
+        $x_cod_transaction_state =intval(trim(sanitize_text_field($params['x_cod_transaction_state'])));
+        $x_ref_payco = trim(sanitize_text_field($params['x_ref_payco']));
+        $x_transaction_id = trim(sanitize_text_field($params['x_transaction_id']));
+        $x_amount = trim(sanitize_text_field($params['x_amount']));
+        $x_currency_code = trim(sanitize_text_field($params['x_currency_code']));
         $x_test_request = trim(sanitize_text_field($params['x_test_request']));
         $x_approval_code = trim(sanitize_text_field($params['x_approval_code']));
         $x_franchise = trim(sanitize_text_field($params['x_franchise']));
@@ -347,7 +347,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             $authSignature = $this->authSignature($x_ref_payco, $x_transaction_id, $x_amount, $x_currency_code);
         }
         $isTestPluginMode = $this->epayco->storeConfig->isTestMode();
-        $modo = $isTestPluginMode?'Prueba':'ProducciÃ³n';
+        $modo = $isTestPluginMode?'Prueba':'Producci¨®n';
         $current_state = $order->get_status();
         if(floatval($order->get_total()) == floatval($x_amount)){
             if($isTestPluginMode){
@@ -369,7 +369,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             $validation = false;
         }
 
-        if($authSignature == $x_signature && $validation){
+        if($authSignature == $x_signature){
             switch ($x_cod_transaction_state) {
                 case 1: {
                     $message = 'Pago Proccesado ' .$x_ref_payco;
