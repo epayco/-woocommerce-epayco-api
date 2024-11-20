@@ -397,7 +397,7 @@
                     "" === daviplataContentEmail.value && verifyEmail(daviplataContentEmail);
                     "" === daviplataContentAddress.value && verifyAddress(daviplataContentAddress);
                     "" === daviplataContentCellphone.value && verifyCellphone(daviplataContentCellphone);
-                    "Type" === doc_type && verifyDocument(daviplataContentDocument);
+                    "Type"||"Tipo" === doc_type && verifyDocument(daviplataContentDocument);
                     "" === daviplataContentDocument.value && verifyDocument(daviplataContentDocument);
                     "" === daviplataContentCountry.value && verifyCountry(daviplataContentCountry);
                     !agree && termanAndContictionHelpers.classList.add("mp-error");
@@ -416,7 +416,7 @@
                     "" !== daviplataContentCellphone.value &&
                     "" !== daviplataContentDocument.value &&
                     "" !== daviplataContentCountry.value &&
-                    "Type" !== doc_type,
+                    "Type"||"Tipo" !== doc_type,
                         {
                             type: o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers)  || o(countryHelpers) || !agree ? P.responseTypes.ERROR : P.responseTypes.SUCCESS,
                             meta: {paymentMethodData: n}

@@ -223,9 +223,10 @@ class DaviplataGateway extends AbstractGateway
             $response          = $this->transaction->createDaviplataPayment($order, $checkout);
             if (is_array($response) && $response['success']) {
                 //$this->handleWithRejectPayment($response);
-                $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$response['data']['refPayco']]);
-                if (isset($response['data']['refPayco'])) {
-                    $response['urlPayment'] = 'https://vtex.epayco.io/daviplata?refPayco='.$response['data']['refPayco'];
+                $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
+                if (isset($ref_payco)) {
+                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
+                    $response['urlPayment'] = 'https://vtex.epayco.io/daviplata?refPayco='.$ref_payco;
                     $this->epayco->hooks->order->setDaviplataMetadata($order, $response);
                     $description = sprintf(
                         "ePayco: %s <a target='_blank' href='%s'>%s</a>",

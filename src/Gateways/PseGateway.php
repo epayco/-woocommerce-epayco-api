@@ -3,6 +3,7 @@
 namespace Epayco\Woocommerce\Gateways;
 
 use Epayco\Woocommerce\Helpers\Form;
+use Epayco\Woocommerce\Helpers\PaymentStatus;
 use Epayco\Woocommerce\Transactions\PseTransaction;
 use Epayco\Woocommerce\Exceptions\ResponseStatusException;
 use Epayco\Woocommerce\Exceptions\InvalidCheckoutDataException;
@@ -59,6 +60,7 @@ class PseGateway extends AbstractGateway
 
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
+        $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
 
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
 
@@ -324,6 +326,106 @@ class PseGateway extends AbstractGateway
         }
 
         return false;
+    }
+    
+    /**
+     * Render thank you page
+     *
+     * @param $order_id
+     */
+    public function renderThankYouPage($order_id): void
+    {
+        $order        = wc_get_order($order_id);
+        $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
+        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+
+        if (empty($paymentInfo)) {
+            return;
+        }
+        $data = array(
+            "filter" => array("referencePayco" => $paymentInfo),
+            "success" =>true
+        );
+        $transactionDetails = $this->sdk->transaction->get($data);
+        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+
+        if (empty($transactionInfo)) {
+            return;
+        }
+ 
+        $status = 'pending';
+        $alert_title = '';
+        foreach ($transactionInfo['data']['data'] as $data) {
+            $status = $data['status'];
+            $alert_title = $data['response'];
+            $ref_payco = $data['referencePayco'];
+            $test = $data['test'] ? 'Pruebas' : 'Producción';
+            $transactionDateTime= $data['transactionDateTime'];
+            $bank= $data['bank'];
+            $authorization= $data['authorization'];
+        }
+        $paymentStatusType = PaymentStatus::getStatusType(strtolower($status));
+
+        $transaction = [];
+        switch ($paymentStatusType) {
+            case 'success':
+                $transaction = [
+                    'card_title'        => "",
+                    'img_src'           => $this->epayco->helpers->url->getPluginFileUrl('assets/images/icons/icon-success', '.png', true),
+                    'alert_title'       => $alert_title,
+                    'link'              => 'https://www.epayco.com',
+                    'border_left_color' => '#00A650',
+                    'link_description'  => "",
+                    'sync_button_text'  => "",
+                    'ref_payco'         => $ref_payco,
+                    'test'              => $test,
+                    'transactionDateTime'              => $transactionDateTime,
+                    'bank'              => $bank,
+                    'authorization'     => $authorization
+                ];
+
+            case 'pending':
+                 $transaction = [
+                    'card_title'        => "",
+                    'img_src'           => $this->epayco->helpers->url->getPluginFileUrl('assets/images/icons/icon-alert', '.png', true),
+                    'alert_title'       => $alert_title,
+                    'link'              => 'https://www.epayco.com',
+                    'border_left_color' => '#f73',
+                    'link_description'  => "",
+                    'sync_button_text'  => "",
+                    'ref_payco'         => $ref_payco,
+                    'test'              => $test,
+                    'transactionDateTime'              => $transactionDateTime,
+                    'bank'              => $bank,
+                    'authorization'     => $authorization
+                ];
+
+            case 'rejected':
+            case 'refunded':
+            case 'charged_back':
+                 $transaction = [
+                    'card_title'        => "",
+                    'img_src'           => $this->epayco->helpers->url->getPluginFileUrl('assets/images/icons/icon-warning', '.png', true),
+                    'alert_title'       => $alert_title,
+                    'link'              => "",
+                    'border_left_color' => '#F23D4F',
+                    'link_description'  => "",
+                    'sync_button_text'  => "",
+                    'ref_payco'         => $ref_payco,
+                    'test'              => $test,
+                    'transactionDateTime'              => $transactionDateTime,
+                    'bank'              => $bank,
+                    'authorization'     => $authorization
+                ];
+        };
+        if (empty($transaction)) {
+            return;
+        }
+
+        $this->epayco->hooks->template->getWoocommerceTemplate(
+            'public/order/order-received.php',
+            $transaction
+        );
     }
 
 

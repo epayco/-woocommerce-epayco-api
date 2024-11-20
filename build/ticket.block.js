@@ -443,7 +443,7 @@
                     "" === ticketContentEmail.value && verifyEmail(ticketContentEmail);
                     "" === ticketContentAddress.value && verifyAddress(ticketContentAddress);
                     "" === ticketContentCellphone.value && verifyCellphone(ticketContentCellphone);
-                    "Type" === doc_type && verifyDocument(ticketContentDocument);
+                    "Type"||"Tipo" === doc_type && verifyDocument(ticketContentDocument);
                     "" === ticketContentDocument.value && verifyDocument(ticketContentDocument);
                     "" === ticketContentCountry.value && verifyCountry(ticketContentCountry);
                     !agree && termanAndContictionHelpers.classList.add("mp-error");
@@ -463,7 +463,7 @@
                     "" !== ticketContentCellphone.value &&
                     "" !== ticketContentDocument.value &&
                     "" !== ticketContentCountry.value &&
-                    "Type" !== doc_type,
+                    "Type"||"Tipo" !== doc_type,
                         {
                             type: o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers) || o(paymentMethodHelpers) || o(countryHelpers) || !agree ? P.responseTypes.ERROR : P.responseTypes.SUCCESS,
                             meta: {paymentMethodData: n}

@@ -428,7 +428,7 @@
                         "" === cardNumberContentName.value && verifyCardNumber(cardNumberContentName);
                         "" === cardExpirationContentName.value && verifyCardExpiration(cardExpirationContentName);
                         "" === cardSecurityContentName.value && verifyCardSecurity(cardSecurityContentName);
-                        "Type" === doc_type.value && verifyDocument(cardContentDocument);
+                        "Type"||"Tipo" === doc_type.value && verifyDocument(cardContentDocument);
                         "" === cardContentDocument.value && verifyDocument(cardContentDocument);
                         "" === customContentAddress.value && verifyAddress(customContentAddress);
                         "" === customContentEmail.value && verifyEmail(customContentEmail);
@@ -499,7 +499,7 @@
                                 "" !== customContentCellphone.value &&
                                 "" !== countryContentCountry.value &&
                                 "" !== doc_number_value &&
-                                "Type" !== doc_type.value &&
+                                "Type"||"Tipo" !== doc_type.value &&
                                 "" !== token
                             ,
                             Z("creditcard"),
