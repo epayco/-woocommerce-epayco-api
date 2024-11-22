@@ -203,7 +203,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:405
 #: src/Translations/AdminTranslations.php:408
-msgid "Activate and show this information on Sdk Checkout"
+msgid "Activate and show this information on ePayco Checkout"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:606
@@ -215,7 +215,7 @@ msgstr ""
 #: src/Translations/AdminTranslations.php:361
 msgid ""
 "Activate this option so that the value of the currency set in WooCommerce is "
-"compatible with the value of the currency you use in Sdk."
+"compatible with the value of the currency you use in ePayco."
 msgstr ""
 
 #: src/WoocommerceEpayco.php:420 src/Translations/AdminTranslations.php:173
@@ -339,7 +339,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:353
 msgid ""
-"By disabling it, you will disable all payments from Sdk Checkout at Sdk "
+"By disabling it, you will disable all payments from ePayco Checkout at ePayco "
 "website by redirect."
 msgstr ""
 
@@ -455,13 +455,13 @@ msgstr ""
 #: src/Translations/AdminTranslations.php:404
 msgid ""
 "Choose a percentage value that you want to discount your customers for "
-"paying with Sdk."
+"paying with ePayco."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:407
 msgid ""
 "Choose an additional percentage value that you want to charge as commission "
-"to your customers for paying with Sdk."
+"to your customers for paying with ePayco."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:626
@@ -500,7 +500,7 @@ msgid "Click to try again"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:406
-msgid "Commission in Sdk Checkouts"
+msgid "Commission in ePayco Checkouts"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:476
@@ -509,7 +509,7 @@ msgstr ""
 
 #. Description of the plugin
 msgid ""
-"Configure the payment options and accept payments with cards, ticket and PSE."
+"Configure the payment options and accept payments with cards, cash and PSE."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:282
@@ -606,7 +606,7 @@ msgid "Debit Cards"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:400
-msgid "Debit, Credit and Invoice in Sdk environment."
+msgid "Debit, Credit and Invoice in ePayco environment."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:773
@@ -639,7 +639,7 @@ msgid "disabled"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:403
-msgid "Discount in Sdk Checkouts"
+msgid "Discount in ePayco Checkouts"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:109
@@ -691,7 +691,7 @@ msgid ""
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:179
-msgid "Enable payments via Sdk account"
+msgid "Enable payments via ePayco account"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:561
@@ -835,7 +835,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:184
 msgid ""
-"Follow the instructions below to integrate your store with Sdk and start to "
+"Follow the instructions below to integrate your store with ePayco and start to "
 "sell."
 msgstr ""
 
@@ -1300,7 +1300,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:752
 #: src/Translations/AdminTranslations.php:802
-msgid "Please contact Sdk for further details."
+msgid "Please contact ePayco for further details."
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:477
@@ -1333,7 +1333,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:778
 #: src/Translations/AdminTranslations.php:788
-msgid "Please wait or contact Sdk for further details"
+msgid "Please wait or contact ePayco for further details"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:258
@@ -1406,11 +1406,11 @@ msgid "Represents the discount configured on plugin settings."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:214
-msgid "Represents the installment fee charged by Sdk."
+msgid "Represents the installment fee charged by ePayco."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:216
-msgid "Represents the total purchase plus the installment fee charged by Sdk."
+msgid "Represents the total purchase plus the installment fee charged by ePayco."
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:180
@@ -1442,7 +1442,7 @@ msgid "Save changes"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:801
-msgid "Sdk did not process the payment"
+msgid "ePayco did not process the payment"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:187
@@ -1660,7 +1660,7 @@ msgstr ""
 #: src/Translations/AdminTranslations.php:709
 msgid ""
 "The currency settings you have in WooCommerce are not compatible with the "
-"currency you use in your Sdk account. Please activate the currency "
+"currency you use in your ePayco account. Please activate the currency "
 "conversion."
 msgstr ""
 
@@ -1739,7 +1739,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:740
 msgid ""
-"This is the payment status of your Sdk Activities. To check the order status,"
+"This is the payment status of your ePayco Activities. To check the order status,"
 " please refer to Order details."
 msgstr ""
 
@@ -1749,7 +1749,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:837
 msgid ""
-"This payment was declined because it did not pass Sdk security controls. "
+"This payment was declined because it did not pass ePayco security controls. "
 "Please ask your client to use another card."
 msgstr ""
 
@@ -1807,7 +1807,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:741
 #: src/Translations/AdminTranslations.php:743
-msgid "View purchase details at Sdk"
+msgid "View purchase details at ePayco"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:790
@@ -1873,7 +1873,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:180
 msgid ""
-"When you enable this function, your customers pay faster using their Sdk "
+"When you enable this function, your customers pay faster using their ePayco "
 "accounts.</br>The approval rate of these payments in your store can be 25% "
 "higher compared to other payment methods."
 msgstr ""
@@ -1899,7 +1899,7 @@ msgid "with"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:348
-msgid "With Checkout Pro you sell with all the safety inside Sdk environment."
+msgid "With Checkout Pro you sell with all the safety inside ePayco environment."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:439
@@ -1925,7 +1925,7 @@ msgid "with your bank"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:183
-msgid "You activated Sdk’s plug-in"
+msgid "You activated ePayco’s plug-in"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:535
@@ -2029,7 +2029,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:754
 msgid ""
-"Your refund request has been made. Please contact Sdk for further details."
+"Your refund request has been made. Please contact ePayco for further details."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:678

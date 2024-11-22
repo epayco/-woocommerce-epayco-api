@@ -2,6 +2,7 @@
 
 namespace Epayco\Woocommerce\Gateways;
 
+use Epayco\Woocommerce\Helpers\PaymentStatus;
 use Epayco\Woocommerce\Transactions\SubscriptionTransaction;
 use Epayco\Woocommerce\Exceptions\InvalidCheckoutDataException;
 use Epayco\Woocommerce\Helpers\Form;
@@ -69,7 +70,7 @@ class SubscriptionGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerAvailablePaymentGateway();
 
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
-
+        $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
         $this->epayco->helpers->currency->handleCurrencyNotices($this);
     }
 
@@ -329,6 +330,83 @@ class SubscriptionGateway extends AbstractGateway
         }
 
         return $checkout;
+    }
+
+    /**
+     * Render thank you page
+     *
+     * @param $order_id
+     */
+    public function renderThankYouPage($order_id): void
+    {
+        $order        = wc_get_order($order_id);
+        $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
+        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+
+        if (empty($paymentInfo)) {
+            return;
+        }
+        $data = array(
+            "filter" => array("referencePayco" => $paymentInfo),
+            "success" =>true
+        );
+        $transactionDetails = $this->sdk->transaction->get($data);
+        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+
+        if (empty($transactionInfo)) {
+            return;
+        }
+
+        $status = 'pending';
+        $alert_title = '';
+        foreach ($transactionInfo['data']['data'] as $data) {
+            $status = $data['status'];
+            $alert_title = $data['response'];
+            $ref_payco = $data['referencePayco'];
+            $test = $data['test'] ? 'Pruebas' : 'Producción';
+            $transactionDateTime= $data['transactionDateTime'];
+            $bank= $data['bank'];
+            $authorization= $data['authorization'];
+            $factura = $data['referenceClient'];
+            $descripcion = $data['description'];
+            $valor = $data['amount'];
+            $iva = $data['iva'];
+            $estado = $data['status'];
+            $currency = $data['currency'];
+            $name =  $data['names']." ". $data['lastnames'];
+            $card = $data['card'];
+        }
+        $paymentStatusType = PaymentStatus::getStatusType(strtolower($status));
+
+        $transaction = [
+            'status' => $status,
+            'type' => "",
+            'refPayco' => $ref_payco,
+            'factura' => $factura,
+            'descripcion' => $descripcion,
+            'valor' => $valor,
+            'iva' => $iva,
+            'estado' => $estado,
+            'respuesta' => $alert_title,
+            'fecha' => $transactionDateTime,
+            'currency' => $currency,
+            'name' => $name,
+            'card' => $card,
+            'success_message' => $this->storeTranslations['success_message'],
+            'error_message' => $this->storeTranslations['error_message'],
+            'error_description' => $this->storeTranslations['error_description'],
+            'payment_method'  => $this->storeTranslations['payment_method'],
+            'statusandresponse'=> $this->storeTranslations['statusandresponse'],
+            'dateandtime' => $this->storeTranslations['dateandtime'],
+        ];
+        if (empty($transaction)) {
+            return;
+        }
+
+        $this->epayco->hooks->template->getWoocommerceTemplate(
+            'public/order/order-received.php',
+            $transaction
+        );
     }
 
 }

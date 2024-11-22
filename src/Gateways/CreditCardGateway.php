@@ -366,61 +366,38 @@ class CreditCardGateway extends AbstractGateway
             $transactionDateTime= $data['transactionDateTime'];
             $bank= $data['bank'];
             $authorization= $data['authorization'];
+            $factura = $data['referenceClient'];
+            $descripcion = $data['description'];
+            $valor = $data['amount'];
+            $iva = $data['iva'];
+            $estado = $data['status'];
+            $currency = $data['currency'];
+            $name =  $data['names']." ". $data['lastnames'];
+            $card = $data['card'];
         }
         $paymentStatusType = PaymentStatus::getStatusType(strtolower($status));
 
-        $transaction = [];
-        switch ($paymentStatusType) {
-            case 'success':
-                $transaction = [
-                    'card_title'        => "",
-                    'img_src'           => $this->epayco->helpers->url->getPluginFileUrl('assets/images/icons/icon-success', '.png', true),
-                    'alert_title'       => $alert_title,
-                    'link'              => 'https://www.epayco.com',
-                    'border_left_color' => '#00A650',
-                    'link_description'  => "",
-                    'sync_button_text'  => "",
-                    'ref_payco'         => $ref_payco,
-                    'test'              => $test,
-                    'transactionDateTime'              => $transactionDateTime,
-                    'bank'              => $bank,
-                    'authorization'     => $authorization
-                ];
-
-            case 'pending':
-                 $transaction = [
-                    'card_title'        => "",
-                    'img_src'           => $this->epayco->helpers->url->getPluginFileUrl('assets/images/icons/icon-alert', '.png', true),
-                    'alert_title'       => $alert_title,
-                    'link'              => 'https://www.epayco.com',
-                    'border_left_color' => '#f73',
-                    'link_description'  => "",
-                    'sync_button_text'  => "",
-                    'ref_payco'         => $ref_payco,
-                    'test'              => $test,
-                    'transactionDateTime'              => $transactionDateTime,
-                    'bank'              => $bank,
-                    'authorization'     => $authorization
-                ];
-
-            case 'rejected':
-            case 'refunded':
-            case 'charged_back':
-                 $transaction = [
-                    'card_title'        => "",
-                    'img_src'           => $this->epayco->helpers->url->getPluginFileUrl('assets/images/icons/icon-warning', '.png', true),
-                    'alert_title'       => $alert_title,
-                    'link'              => "",
-                    'border_left_color' => '#F23D4F',
-                    'link_description'  => "",
-                    'sync_button_text'  => "",
-                    'ref_payco'         => $ref_payco,
-                    'test'              => $test,
-                    'transactionDateTime'              => $transactionDateTime,
-                    'bank'              => $bank,
-                    'authorization'     => $authorization
-                ];
-        };
+        $transaction = [
+            'status' => $status,
+            'type' => "",
+            'refPayco' => $ref_payco,
+            'factura' => $factura,
+            'descripcion' => $descripcion,
+            'valor' => $valor,
+            'iva' => $iva,
+            'estado' => $estado,
+            'respuesta' => $alert_title,
+            'fecha' => $transactionDateTime,
+            'currency' => $currency,
+            'name' => $name,
+            'card' => $card,
+            'success_message' => $this->storeTranslations['success_message'],
+            'error_message' => $this->storeTranslations['error_message'],
+            'error_description' => $this->storeTranslations['error_description'],
+            'payment_method'  => $this->storeTranslations['payment_method'],
+            'statusandresponse'=> $this->storeTranslations['statusandresponse'],
+            'dateandtime' => $this->storeTranslations['dateandtime'],
+        ];
         if (empty($transaction)) {
             return;
         }

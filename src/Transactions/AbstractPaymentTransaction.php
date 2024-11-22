@@ -65,12 +65,14 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];
         $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
-        /*if(!$customerData['success']){
+        /*$customerData = $this->getCustomer($checkout);
+        if(!$customerData['success']){
             return $customerData;
         }*/
         $data = array(
             "token_card" => $checkout["token"],
-            "customer_id" => "customer_id",
+            //"customer_id" => $customerData['customer_id'],
+            "customer_id" => 'customer_id',
             "bill" => (string)$order->get_id()."_wc_api_test",
             "dues" => $dues,
             "description" => $descripcion,

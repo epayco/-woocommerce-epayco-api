@@ -204,6 +204,12 @@ class StoreTranslations
             'terms_and_conditions_label'                          => __('I agree with the', 'woocommerce-epayco'),
             'terms_and_conditions_description'                    => __('and accept them', 'woocommerce-epayco'),
             'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woocommerce-epayco'),
+            'success_message'                  => __('You made a payment of', 'woocommerce-epayco'),
+            'error_message'                    => __('Payment has failed', 'woocommerce-epayco'),
+            'error_description'                => __('Please try again later.', 'woocommerce-epayco'),
+            'payment_method'                   => __('payment method', 'woocommerce-epayco'),
+            'dateandtime'                   => __('Date and time', 'woocommerce-epayco'),
+            'statusandresponse'                   => __('Status and response', 'woocommerce-epayco'),
         ];
     }
 
@@ -251,6 +257,12 @@ class StoreTranslations
             'terms_and_conditions_label'                          => __('I agree with the', 'woocommerce-epayco'),
             'terms_and_conditions_description'                    => __('and accept them', 'woocommerce-epayco'),
             'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woocommerce-epayco'),
+            'success_message'                  => __('You made a payment of', 'woocommerce-epayco'),
+            'error_message'                    => __('Payment has failed', 'woocommerce-epayco'),
+            'error_description'                => __('Please try again later.', 'woocommerce-epayco'),
+            'payment_method'                   => __('payment method', 'woocommerce-epayco'),
+            'dateandtime'                   => __('Date and time', 'woocommerce-epayco'),
+            'statusandresponse'                   => __('Status and response', 'woocommerce-epayco'),
         ];
     }
 
@@ -344,6 +356,12 @@ class StoreTranslations
             'terms_and_conditions_label'                          => __('I agree with the', 'woocommerce-epayco'),
             'terms_and_conditions_description'                    => __('and accept them', 'woocommerce-epayco'),
             'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woocommerce-epayco'),
+            'success_message'                  => __('You made a payment of', 'woocommerce-epayco'),
+            'error_message'                    => __('Payment has failed', 'woocommerce-epayco'),
+            'error_description'                => __('Please try again later.', 'woocommerce-epayco'),
+            'payment_method'                   => __('payment method', 'woocommerce-epayco'),
+            'dateandtime'                   => __('Date and time', 'woocommerce-epayco'),
+            'statusandresponse'                   => __('Status and response', 'woocommerce-epayco'),
         ];
     }
 
