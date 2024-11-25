@@ -431,11 +431,11 @@ class AdminTranslations
         );
 
         $this->creditcardGatewaySettings = [
-            'gateway_title'                             => __('Credit and debit cards', 'woocommerce-epayco'),
-            'gateway_description'                       => __('Payments without leaving your store with our customizable checkout', 'woocommerce-epayco'),
+            'gateway_title'                             => __('Credit and Debit Cards by ePayco', 'woocommerce-epayco'),
+            'gateway_description'                       => __('Accept fast and secure payments directly from your store using credit and debit cards from any bank. No redirects, ensuring a seamless shopping experience.  (Visa, Mastercard, Amex & Dinners)', 'woocommerce-epayco'),
             'gateway_method_title'                      => __('ePayco - Checkout API', 'woocommerce-epayco'),
             'gateway_method_description'                => __('Payments without leaving your store with our customizable checkout', 'woocommerce-epayco'),
-            'header_title'                              => __('Credit card', 'woocommerce-epayco'),
+            'header_title'                              => __('Credit and Debit Cards by ePayco', 'woocommerce-epayco'),
             'header_description'                        => __('With the Credit card payment, you can sell inside your store environment, without redirection and with the security from ePayco.', 'woocommerce-epayco'),
             'enabled_title'                             => __('Enable', 'woocommerce-epayco'),
             'enabled_subtitle'                          => __('By disabling it, you will disable all credit cards payments from ePayco.', 'woocommerce-epayco'),
@@ -498,7 +498,7 @@ class AdminTranslations
     {
         $this->ticketGatewaySettings = [
             'gateway_title'                => __('Cash', 'woocommerce-epayco'),
-            'gateway_description'          => __('Payments without leaving your store with our customizable checkout', 'woocommerce-epayco'),
+            'gateway_description'          => __('Add the cash payment option directly in your store. Perfect for customers who prefer paying at physical locations, with no hassles or redirects.', 'woocommerce-epayco'),
             'method_title'                 => __('ePayco - Checkout API', 'woocommerce-epayco'),
             'header_title'                 => __('Cash Checkout', 'woocommerce-epayco'),
             'header_description'           => __('With the Transparent Checkout, you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woocommerce-epayco'),
@@ -529,7 +529,7 @@ class AdminTranslations
     {
         $this->daviplatatewaySettings = [
             'gateway_title'                => __('Daviplata', 'woocommerce-epayco'),
-            'gateway_description'          => __('Payments without leaving your store with our customizable checkout', 'woocommerce-epayco'),
+            'gateway_description'          => __('Connect with millions of Daviplata users in Colombia. Customers can pay directly from your store without extra steps, quickly and easily.', 'woocommerce-epayco'),
             'method_title'                 => __('Daviplata', 'woocommerce-epayco'),
             'header_title'                 => __('Daviplata', 'woocommerce-epayco'),
             'header_description'           => __('you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woocommerce-epayco'),
@@ -553,10 +553,10 @@ class AdminTranslations
     private function setPseGatewaySettingsTranslations(): void
     {
         $this->pseGatewaySettings = [
-            'gateway_title'                => __('PSE', 'woocommerce-epayco'),
-            'gateway_description'          => __('Payments without leaving your store with our customizable checkout', 'woocommerce-epayco'),
+            'gateway_title'                => __('PSE by ePayco', 'woocommerce-epayco'),
+            'gateway_description'          => __('Let your customers pay with direct bank transfers from any Colombian bank, all without leaving your online store. Secure, fast, and interruption-free.', 'woocommerce-epayco'),
             'method_title'                 => __('ePayco - Checkout API', 'woocommerce-epayco'),
-            'header_title'                 => __('PSE', 'woocommerce-epayco'),
+            'header_title'                 => __('PSE by ePayco', 'woocommerce-epayco'),
             'header_description'           => __('you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woocommerce-epayco'),
             'enabled_title'                => __('Enable PSE', 'woocommerce-epayco'),
             'enabled_subtitle'             => __('By deactivating it, you will disable PSE payments from ePayco', 'woocommerce-epayco'),
@@ -589,10 +589,10 @@ class AdminTranslations
             __('disabled', 'woocommerce-epayco')
         );
         $this->checkoutGatewaySettings = [
-            'gateway_title'                => __('Checkout', 'woocommerce-epayco'),
-            'gateway_description'          => __('Payments without leaving your store with our customizable checkout', 'woocommerce-epayco'),
+            'gateway_title'                => __('Web CheckOut', 'woocommerce-epayco'),
+            'gateway_description'          => __('Offer your customers a complete payment experience with multiple options: cards, bank transfers, digital wallets, and cash. All in one secure and easy-to-use platform!', 'woocommerce-epayco'),
             'method_title'                 => __('ePayco', 'woocommerce-epayco'),
-            'header_title'                 => __('Checkout', 'woocommerce-epayco'),
+            'header_title'                 => __('Web CheckOut', 'woocommerce-epayco'),
             'header_description'           => __('you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woocommerce-epayco'),
             'enabled_title'                => __('Enable ePayco', 'woocommerce-epayco'),
             'enabled_subtitle'             => __('By deactivating it, you will disable Checkout payment from ePayco', 'woocommerce-epayco'),
