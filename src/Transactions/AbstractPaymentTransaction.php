@@ -211,7 +211,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "methodConfirmation" => "GET",
             "extra1" => (string)$order->get_id(),
             "testMode" => $testMode,
-            "extras_epayco"=>["extra5"=>"P19"]
+            "extras_epayco"=>["extra5"=>"P58"]
         );
         $pse = $this->sdk->bank->create($data);
         return $pse;

@@ -374,15 +374,33 @@ class CreditCardGateway extends AbstractGateway
             $currency = $data['currency'];
             $name =  $data['names']." ". $data['lastnames'];
             $card = $data['card'];
+            switch ($status) {
+                case 'Aceptada': {
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('check');
+                    $iconColor = '#67C940';
+                    $message = $this->storeTranslations['success_message'];
+                }break;
+                case 'Pendiente':
+                case 'Pending':{
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('warning');
+                    $iconColor = '#FFD100';
+                    $message = $this->storeTranslations['pending_message'];
+                }break;
+                default: {
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('error');
+                    $iconColor = '#E1251B';
+                    $message = $this->storeTranslations['fail_message'];
+                }break;
+            }
         }
         $paymentStatusType = PaymentStatus::getStatusType(strtolower($status));
-
+        $this->transaction = new CreditCardTransaction($this, $order, []);
         $transaction = [
             'status' => $status,
             'type' => "",
             'refPayco' => $ref_payco,
             'factura' => $factura,
-            'descripcion' => $descripcion,
+            'descripcion_order' => $descripcion,
             'valor' => $valor,
             'iva' => $iva,
             'estado' => $estado,
@@ -391,13 +409,27 @@ class CreditCardGateway extends AbstractGateway
             'currency' => $currency,
             'name' => $name,
             'card' => $card,
-            'success_message' => $this->storeTranslations['success_message'],
+            'message' => $message,
             'error_message' => $this->storeTranslations['error_message'],
             'error_description' => $this->storeTranslations['error_description'],
             'payment_method'  => $this->storeTranslations['payment_method'],
-            'statusandresponse'=> $this->storeTranslations['statusandresponse'],
+            'response'=> $this->storeTranslations['response'],
             'dateandtime' => $this->storeTranslations['dateandtime'],
+            'authorization' => $authorization,
+            'iconUrl' => $iconUrl,
+            'iconColor' => $iconColor,
+            'ip' => $this->transaction->getCustomerIp(),
+            'totalValue' => $this->storeTranslations['totalValue'],
+            'description' => $this->storeTranslations['description'],
+            'reference' => $this->storeTranslations['reference'],
+            'purchase' => $this->storeTranslations['purchase'],
+            'iPaddress' => $this->storeTranslations['iPaddress'],
+            'receipt' => $this->storeTranslations['receipt'],
+            'authorizations' => $this->storeTranslations['authorization'],
+            'paymentMethod'  => $this->storeTranslations['paymentMethod'],
+            'epayco_refecence'  => $this->storeTranslations['epayco_refecence'],
         ];
+
         if (empty($transaction)) {
             return;
         }
