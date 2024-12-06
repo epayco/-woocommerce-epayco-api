@@ -16,34 +16,9 @@ abstract class AbstractPreferenceTransaction extends AbstractTransaction
     {
         parent::__construct($gateway, $order);
 
-        $this->transaction = $this->sdk->getPreferenceInstance();
-
         $this->setCommonTransaction();
-        $this->setPayerTransaction();
-        $this->setBackUrlsTransaction();
-        $this->setAutoReturnTransaction();
-        $this->setShipmentsTransaction($this->transaction->shipments);
-        $this->setItemsTransaction($this->transaction->items);
-        $this->setShippingTransaction($this->transaction->items);
-        $this->setFeeTransaction($this->transaction->items);
-        $this->setAdditionalInfoTransaction();
     }
 
-    /**
-     * Create preference
-     *
-     * @return array|bool
-     * @throws \Exception
-     */
-    public function createPreference()
-    {
-        $preference = $this->getTransaction('Preference');
-
-        $data = $preference->save();
-        $this->epayco->logs->file->info('Preference created', $this->gateway::LOG_SOURCE, $data);
-
-        return $data;
-    }
 
     /**
      * Set common transaction
@@ -62,56 +37,4 @@ abstract class AbstractPreferenceTransaction extends AbstractTransaction
         }
     }
 
-    /**
-     * Set payer
-     *
-     * @return void
-     */
-    public function setPayerTransaction(): void
-    {
-        $payer = $this->transaction->payer;
-
-        $payer->email                = $this->epayco->orderBilling->getEmail($this->order);
-        $payer->name                 = $this->epayco->orderBilling->getFirstName($this->order);
-        $payer->surname              = $this->epayco->orderBilling->getLastName($this->order);
-        $payer->phone->number        = $this->epayco->orderBilling->getPhone($this->order);
-        $payer->address->zip_code    = $this->epayco->orderBilling->getZipcode($this->order);
-        $payer->address->street_name = $this->epayco->orderBilling->getFullAddress($this->order);
-    }
-
-    /**
-     * Set back URLs
-     *
-     * @return void
-     */
-    public function setBackUrlsTransaction(): void
-    {
-        $successUrl = $this->epayco->hooks->options->getGatewayOption($this->gateway, 'success_url');
-        $failureUrl = $this->epayco->hooks->options->getGatewayOption($this->gateway, 'failure_url');
-        $pendingUrl = $this->epayco->hooks->options->getGatewayOption($this->gateway, 'pending_url');
-
-        $this->transaction->back_urls->success = empty($successUrl)
-            ? $this->epayco->helpers->strings->fixUrlAmpersand(esc_url($this->gateway->get_return_url($this->order)))
-            : $successUrl;
-
-        $this->transaction->back_urls->failure = empty($failureUrl)
-            ? $this->epayco->helpers->strings->fixUrlAmpersand(esc_url($this->order->get_cancel_order_url()))
-            : $failureUrl;
-
-        $this->transaction->back_urls->pending = empty($pendingUrl)
-            ? $this->epayco->helpers->strings->fixUrlAmpersand(esc_url($this->gateway->get_return_url($this->order)))
-            : $pendingUrl;
-    }
-
-    /**
-     * Set auto return
-     *
-     * @return void
-     */
-    public function setAutoReturnTransaction(): void
-    {
-        if ($this->epayco->hooks->options->getGatewayOption($this->gateway, 'auto_return') === 'yes') {
-            $this->transaction->auto_return = 'approved';
-        }
-    }
 }

@@ -3,6 +3,7 @@
 namespace Epayco\Woocommerce\Gateways;
 
 use Epayco\Woocommerce\Helpers\Form;
+use Epayco\Woocommerce\Helpers\PaymentStatus;
 use Epayco\Woocommerce\Transactions\PseTransaction;
 use Epayco\Woocommerce\Exceptions\ResponseStatusException;
 use Epayco\Woocommerce\Exceptions\InvalidCheckoutDataException;
@@ -56,14 +57,12 @@ class PseGateway extends AbstractGateway
         $this->description        = $this->adminTranslations['gateway_description'];
         $this->method_title       = $this->adminTranslations['method_title'];
         $this->method_description = $this->description;
-        $this->discount           = $this->getActionableValue('gateway_discount', 0);
-        $this->commission         = $this->getActionableValue('commission', 0);
 
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
+        $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
 
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
-        $this->epayco->hooks->cart->registerCartCalculateFees([$this, 'registerDiscountAndCommissionFeesOnCart']);
 
         $this->epayco->helpers->currency->handleCurrencyNotices($this);
     }
@@ -173,14 +172,12 @@ class PseGateway extends AbstractGateway
      */
     public function getPaymentFieldsParams(): array
     {
-        $currentUser     = $this->epayco->helpers->currentUser->getCurrentUser();
-        $loggedUserEmail = ($currentUser->ID != 0) ? $currentUser->user_email : null;
-        $amountAndCurrencyRatio = $this->getAmountAndCurrency();
-        return ['test_mode'                        => $this->epayco->storeConfig->isTestMode(),
+        return [
+            'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
             'test_mode_link_text'              => $this->storeTranslations['test_mode_link_text'],
-            'test_mode_link_src'               => $this->links['docs_integration_test'],
+            //'test_mode_link_src'               => $this->links['docs_integration_test'],
             'input_name_label'                 => $this->storeTranslations['input_name_label'],
             'input_name_helper'                => $this->storeTranslations['input_name_helper'],
             'input_email_label'                => $this->storeTranslations['input_email_label'],
@@ -193,23 +190,16 @@ class PseGateway extends AbstractGateway
             'input_ind_phone_helper'           => $this->storeTranslations['input_ind_phone_helper'],
             'input_country_label'              => $this->storeTranslations['input_country_label'],
             'input_country_helper'             => $this->storeTranslations['input_country_helper'],
-            'input_table_button'               => $this->storeTranslations['input_table_button'],
+            'person_type_label'                => $this->storeTranslations['person_type_label'],
+            'financial_institutions'           => json_encode($this->getFinancialInstitutions()),
+            'financial_institutions_label'     => $this->storeTranslations['financial_institutions_label'],
+            'financial_institutions_helper'    => $this->storeTranslations['financial_institutions_helper'],
+            'financial_placeholder'            => $this->storeTranslations['financial_placeholder'],
+            'site_id'                          => $this->epayco->sellerConfig->getSiteId(),
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
-            'site_id'                          => $this->epayco->sellerConfig->getSiteId(),
-            'payer_email'                      => esc_js($loggedUserEmail),
-            'woocommerce_currency'             => get_woocommerce_currency(),
-            'account_currency'                 => $this->epayco->helpers->country->getCountryConfigs(),
-            'financial_institutions'           => json_encode($this->getFinancialInstitutions()),
-            'person_type_label'                => $this->storeTranslations['person_type_label'],
-            'financial_institutions_label'     => $this->storeTranslations['financial_institutions_label'],
-            'financial_institutions_helper'    => $this->storeTranslations['financial_institutions_helper'],
-            'financial_placeholder'            => $this->storeTranslations['financial_placeholder'],
-            'amount'                           => $amountAndCurrencyRatio['amount'],
-            'currency_ratio'                   => $amountAndCurrencyRatio['currencyRatio'],
-            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
         ];
     }
 
@@ -240,8 +230,6 @@ class PseGateway extends AbstractGateway
             $response = $this->transaction->createPsePayment($order_id, $checkout);
             $response = json_decode(json_encode($response), true);
             if (is_array($response) && $response['success']) {
-                //$this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$response['id']]);
-                //$this->handleWithRejectPayment($response);
                 if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
                     $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
                     $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
@@ -251,13 +239,13 @@ class PseGateway extends AbstractGateway
                             wc_reduce_stock_levels($order_id);
                             wc_increase_stock_levels($order_id);
                     }*/
-                    //$this->epayco->hooks->order->addOrderNote($order, $this->storeTranslations['customer_not_paid']);
                     return [
                         'result'   => 'success',
                         'redirect' => $response['data']['urlbanco'],
                     ];
                 }
             }else{
+                //$this->handleWithRejectPayment($response);
                 $messageError = $response['message']?? $response['titleResponse'];
                 $errorMessage = "";
                 if (isset($response['data']['errors'])) {
@@ -276,11 +264,9 @@ class PseGateway extends AbstractGateway
                         $errorMessage = $error['errorMessage'] . "\n";
                     }
                 }
-                return [
-                    'result'   => 'fail',
-                    'redirect' => '',
-                    'message'  => $messageError. " " . $errorMessage,
-                ];
+                $processReturnFailMessage = $messageError. " " . $errorMessage;
+                return $this->returnFail($processReturnFailMessage, $order);
+
             }
             //throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
         } catch (\Exception $e) {
@@ -314,11 +300,11 @@ class PseGateway extends AbstractGateway
                     'description' => $bank->bankName
                 );
             }
+        }else{
+            $convertedBanks[] =['id' => 0, 'description' => "Selecciona el banco"];
+            $convertedBanks[] =['id' => 1, 'description' => "nequi"];
         }
-        $convertedBanks[] =[
-            'id' => 0,
-            'description' => "nequi"
-        ];
+
 
             return $convertedBanks;
     }
@@ -340,6 +326,117 @@ class PseGateway extends AbstractGateway
         }
 
         return false;
+    }
+    
+    /**
+     * Render thank you page
+     *
+     * @param $order_id
+     */
+    public function renderThankYouPage($order_id): void
+    {
+        $order        = wc_get_order($order_id);
+        $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
+        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+
+        if (empty($paymentInfo)) {
+            return;
+        }
+        $data = array(
+            "filter" => array("referencePayco" => $paymentInfo),
+            "success" =>true
+        );
+        $transactionDetails = $this->sdk->transaction->get($data);
+        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+
+        if (empty($transactionInfo)) {
+            return;
+        }
+ 
+        $status = 'pending';
+        $alert_title = '';
+        foreach ($transactionInfo['data']['data'] as $data) {
+            $status = $data['status'];
+            $alert_title = $data['response'];
+            $ref_payco = $data['referencePayco'];
+            $test = $data['test'] ? 'Pruebas' : 'Producción';
+            $transactionDateTime= $data['transactionDateTime'];
+            $bank= $data['bank'];
+            $authorization= $data['authorization'];
+            $factura = $data['referenceClient'];
+            $descripcion = $data['description'];
+            $valor = $data['amount'];
+            $iva = $data['iva'];
+            $estado = $data['status'];
+            $currency = $data['currency'];
+            $name =  $data['names']." ". $data['lastnames'];
+            $card = $data['card'];
+             switch ($status) {
+                case 'Aceptada': {
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('check');
+                    $iconColor = '#67C940';
+                    $message = $this->storeTranslations['success_message'];
+                }break;
+                case 'Pendiente':
+                case 'Pending':{
+                   $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('warning');
+                   $iconColor = '#FFD100';
+                   $message = $this->storeTranslations['pending_message'];
+                }break;
+                 default: {
+                     $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('error');
+                     $iconColor = '#E1251B';
+                     $message = $this->storeTranslations['fail_message'];
+                 }break;
+             }
+            
+        }
+        $paymentStatusType = PaymentStatus::getStatusType(strtolower($status));
+        $this->transaction = new PseTransaction($this, $order, []);
+        $transaction = [
+            'status' => $status,
+            'type' => "",
+            'refPayco' => $ref_payco,
+            'factura' => $factura,
+            'descripcion_order' => $descripcion,
+            'valor' => $valor,
+            'iva' => $iva,
+            'estado' => $estado,
+            'respuesta' => $alert_title,
+            'fecha' => $transactionDateTime,
+            'currency' => $currency,
+            'name' => $name,
+            'card' => $card,
+            'message' => $message,
+            'error_message' => $this->storeTranslations['error_message'],
+            'error_description' => $this->storeTranslations['error_description'],
+            'payment_method'  => $this->storeTranslations['payment_method'],
+            'response'=> $this->storeTranslations['response'],
+            'dateandtime' => $this->storeTranslations['dateandtime'],
+            'authorization' => $authorization,
+            'iconUrl' => $iconUrl,
+            'iconColor' => $iconColor,
+            'ip' => $this->transaction->getCustomerIp(),
+            'totalValue' => $this->storeTranslations['totalValue'],
+            'description' => $this->storeTranslations['description'],
+            'reference' => $this->storeTranslations['reference'],
+            'purchase' => $this->storeTranslations['purchase'],
+            'iPaddress' => $this->storeTranslations['iPaddress'],
+            'receipt' => $this->storeTranslations['receipt'],
+            'authorizations' => $this->storeTranslations['authorization'],
+            'paymentMethod'  => $this->storeTranslations['paymentMethod'],
+            'epayco_refecence'  => $this->storeTranslations['epayco_refecence'],
+        ];
+
+
+        if (empty($transaction)) {
+            return;
+        }
+
+        $this->epayco->hooks->template->getWoocommerceTemplate(
+            'public/order/order-received.php',
+            $transaction
+        );
     }
 
 

@@ -2,19 +2,14 @@
 
 namespace Epayco\Woocommerce\Funnel;
 
-use MercadoPago\PP\Sdk\Sdk;
 use Epayco\Woocommerce\Configs\Seller;
 use Epayco\Woocommerce\Configs\Store;
 use Epayco\Woocommerce\Helpers\Gateways;
 use Epayco\Woocommerce\Helpers\Country;
-use Epayco\Woocommerce\Libraries\Metrics\Datadog;
 
 class Funnel
 {
-    /**
-     * @var Sdk
-     */
-    private $sdk;
+
 
     /**
      * @var Store
@@ -36,10 +31,6 @@ class Funnel
      */
     private $gateways;
 
-    /**
-     * @var Datadog
-     */
-    private $datadog;
 
     /**
      * Funnel constructor
@@ -51,45 +42,23 @@ class Funnel
      */
     public function __construct(Store $store, Seller $seller, Country $country, Gateways $gateways)
     {
-        $this->sdk      = new Sdk();
         $this->store    = $store;
         $this->seller   = $seller;
         $this->country  = $country;
         $this->gateways = $gateways;
-        $this->datadog  = Datadog::getInstance();
     }
 
     public function getInstallationId(): void
     {
         if ($this->validateStartFunnel()) {
-            $this->runWithTreatment(function () {
-                $createSellerFunnelBase = $this->sdk->getCreateSellerFunnelBaseInstance();
-                $createSellerFunnelBase->platform_id = EP_PLATFORM_ID;
-                $createSellerFunnelBase->shop_url = site_url();
-                $createSellerFunnelBase->platform_version = $this->getWoocommerceVersion();
-                $createSellerFunnelBase->plugin_version = EP_VERSION;
-                $response = $createSellerFunnelBase->save();
-                $this->store->setInstallationId($response->id);
-                $this->store->setInstallationKey($response->cpp_token);
-                $this->store->setExecuteActivate('no');
-            });
+
         }
     }
 
     public function updateStepCredentials(): void
     {
         if ($this->isInstallationId()) {
-            $this->runWithTreatment(function () {
-                $updateSellerFunnelBase = $this->sdk->getUpdateSellerFunnelBaseInstance();
-                $updateSellerFunnelBase->id = $this->store->getInstallationId();
-                $updateSellerFunnelBase->cpp_token = $this->store->getInstallationKey();
-                $updateSellerFunnelBase->is_added_production_credential = !empty($this->seller->getCredentialsAccessTokenProd());
-                $updateSellerFunnelBase->is_added_test_credential = !empty($this->seller->getCredentialsAccessTokenTest());
-                $updateSellerFunnelBase->plugin_mode = $this->getPluginMode();
-                $updateSellerFunnelBase->cust_id = $this->seller->getCustIdFromAT();
-                $updateSellerFunnelBase->site_id = $this->country->countryToSiteId($this->country->getPluginDefaultCountry());
-                $updateSellerFunnelBase->update();
-            });
+
         }
     }
 
@@ -101,52 +70,27 @@ class Funnel
     public function updateStepPaymentMethods(): void
     {
         if ($this->isInstallationId()) {
-            $this->runWithTreatment(function () {
-                $updateSellerFunnelBase = $this->sdk->getUpdateSellerFunnelBaseInstance();
-                $updateSellerFunnelBase->id = $this->store->getInstallationId();
-                $updateSellerFunnelBase->cpp_token = $this->store->getInstallationKey();
-                $updateSellerFunnelBase->accepted_payments = $this->gateways->getEnabledPaymentGateways();
-                $updateSellerFunnelBase->update();
-            });
+
         }
     }
 
     public function updateStepPluginMode(): void
     {
         if ($this->isInstallationId()) {
-            $this->runWithTreatment(function () {
-                $updateSellerFunnelBase = $this->sdk->getUpdateSellerFunnelBaseInstance();
-                $updateSellerFunnelBase->id = $this->store->getInstallationId();
-                $updateSellerFunnelBase->cpp_token = $this->store->getInstallationKey();
-                $updateSellerFunnelBase->plugin_mode = $this->getPluginMode();
-                $updateSellerFunnelBase->update();
-            });
+
         }
     }
 
     public function updateStepUninstall(): void
     {
         if ($this->isInstallationId()) {
-            $this->runWithTreatment(function () {
-                $updateSellerFunnelBase = $this->sdk->getUpdateSellerFunnelBaseInstance();
-                $updateSellerFunnelBase->id = $this->store->getInstallationId();
-                $updateSellerFunnelBase->cpp_token = $this->store->getInstallationKey();
-                $updateSellerFunnelBase->is_deleted = true;
-                $updateSellerFunnelBase->update();
-            });
+
         }
     }
 
     public function updateStepDisable(): void
     {
         if ($this->isInstallationId()) {
-            $this->runWithTreatment(function () {
-                $updateSellerFunnelBase = $this->sdk->getUpdateSellerFunnelBaseInstance();
-                $updateSellerFunnelBase->id = $this->store->getInstallationId();
-                $updateSellerFunnelBase->cpp_token = $this->store->getInstallationKey();
-                $updateSellerFunnelBase->is_disabled = true;
-                $updateSellerFunnelBase->update();
-            });
         }
     }
 
@@ -154,11 +98,6 @@ class Funnel
     {
         if ($this->isInstallationId()) {
             $this->runWithTreatment(function () {
-                $updateSellerFunnelBase = $this->sdk->getUpdateSellerFunnelBaseInstance();
-                $updateSellerFunnelBase->id = $this->store->getInstallationId();
-                $updateSellerFunnelBase->cpp_token = $this->store->getInstallationKey();
-                $updateSellerFunnelBase->is_disabled = false;
-                $updateSellerFunnelBase->update();
                 $this->store->setExecuteActivate('no');
             });
         }
@@ -192,19 +131,12 @@ class Funnel
         try {
             $callback();
 
-            $this->sendSuccessEvent();
         } catch (\Exception $ex) {
-            $this->sendErrorEvent($ex->getMessage());
+
         }
     }
 
-    private function sendSuccessEvent()
-    {
-        $this->datadog->sendEvent('funnel', 'success');
-    }
 
-    private function sendErrorEvent(string $message)
-    {
-        $this->datadog->sendEvent('funnel', 'error', $message);
-    }
+
+
 }

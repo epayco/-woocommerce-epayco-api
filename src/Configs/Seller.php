@@ -3,10 +3,8 @@
 namespace Epayco\Woocommerce\Configs;
 
 use Epayco\Woocommerce\Helpers\Cache;
-use Epayco\Woocommerce\Helpers\Requester;
 use Epayco\Woocommerce\Hooks\Options;
-use Epayco\Woocommerce\Libraries\Logs\Logs;
-use Epayco\Woocommerce\Helpers\Device;
+
 
 if (!defined('ABSPATH')) {
     exit;
@@ -94,11 +92,6 @@ class Seller
      */
     private const SITE_ID_PAYMENT_METHODS = '_site_id_payment_methods';
 
-    /**
-     * @const
-     */
-    private const CHECKOUT_PAYMENT_METHOD_PIX = '_ep_payment_methods_pix';
-
 
     /**
      * @const
@@ -113,7 +106,8 @@ class Seller
     /**
      * @const
      */
-    private const EP_APIFY = 'https://apify.epayco.io';
+    //private const EP_APIFY = 'https://apify.epayco.co';
+    private const EP_APIFY  = "https://apify.epayco.io";
 
     /**
      * @var Cache
@@ -125,37 +119,26 @@ class Seller
      */
     private $options;
 
-    /**
-     * @var Requester
-     */
-    private $requester;
 
     /**
      * @var Store
      */
     private $store;
 
-    /**
-     * @var Logs
-     */
-    private $logs;
+
 
     /**
      * Credentials constructor
      *
      * @param Cache $cache
      * @param Options $options
-     * @param Requester $requester
      * @param Store $store
-     * @param Logs $logs
      */
-    public function __construct(Cache $cache, Options $options, Requester $requester, Store $store, Logs $logs)
+    public function __construct(Cache $cache, Options $options, Store $store)
     {
         $this->cache     = $cache;
         $this->options   = $options;
-        $this->requester = $requester;
         $this->store     = $store;
-        $this->logs      = $logs;
     }
 
     /**
@@ -206,37 +189,8 @@ class Seller
         $this->options->set(self::COLLECTOR_ID, $collectorId);
     }
 
-    /**
-     * @return string
-     */
-    public function getCredentialsPublicKeyProd(): string
-    {
-        return $this->options->get(self::CREDENTIALS_PUBLIC_KEY_PROD, '');
-    }
 
-    /**
-     * @param string $credentialsPublicKeyProd
-     */
-    public function setCredentialsPublicKeyProd(string $credentialsPublicKeyProd): void
-    {
-        $this->options->set(self::CREDENTIALS_PUBLIC_KEY_PROD, $credentialsPublicKeyProd);
-    }
 
-    /**
-     * @return string
-     */
-    public function getCredentialsPublicKeyTest(): string
-    {
-        return $this->options->get(self::CREDENTIALS_PUBLIC_KEY_TEST, '');
-    }
-
-    /**
-     * @param string $credentialsPublicKeyTest
-     */
-    public function setCredentialsPublicKeyTest(string $credentialsPublicKeyTest): void
-    {
-        $this->options->set(self::CREDENTIALS_PUBLIC_KEY_TEST, $credentialsPublicKeyTest);
-    }
 
     /**
      * @return string
@@ -301,6 +255,11 @@ class Seller
     {
         $this->options->set(self::CREDENTIALS_PRIVATE_KEY, $credentialsPrivateKey);
     }
+
+
+
+
+
 
     /**
      * @return string
@@ -375,382 +334,6 @@ class Seller
     }
 
     /**
-     * @return string
-     */
-    public function getCredentialsPublicKey(): string
-    {
-        if ($this->store->isTestMode()) {
-            return $this->getCredentialsPublicKeyTest();
-        }
-
-        return $this->getCredentialsPublicKeyProd();
-    }
-
-    /**
-     * @return string
-     */
-    public function getCredentialsAccessToken(): string
-    {
-        if ($this->store->isTestMode()) {
-            return $this->getCredentialsAccessTokenTest();
-        }
-
-        return $this->getCredentialsAccessTokenProd();
-    }
-
-    /**
-     * @return string
-     */
-    public function getCustIdFromAT()
-    {
-        preg_match('/(\d+)$/', $this->getCredentialsAccessToken(), $matches);
-        return $matches[0];
-    }
-
-    /**
-     * @param string $gatewayOption
-     *
-     * @return array
-     */
-    public function getPaymentMethodsByGatewayOption(string $gatewayOption): array
-    {
-        $paymentMethods = $this->options->get($gatewayOption, []);
-
-        if (!$paymentMethods) {
-            $this->updatePaymentMethods();
-            $paymentMethods = $this->options->get($gatewayOption, []);
-        }
-
-        if (!is_array($paymentMethods)) {
-            $paymentMethods = json_decode($paymentMethods, true);
-        }
-
-        return $paymentMethods;
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getCheckoutBasicPaymentMethods(): array
-    {
-        return $this->getPaymentMethodsByGatewayOption(self::CHECKOUT_BASIC_PAYMENT_METHODS);
-    }
-
-    /**
-     * @param array $checkoutBasicPaymentMethods
-     */
-    public function setCheckoutBasicPaymentMethods(array $checkoutBasicPaymentMethods): void
-    {
-        $this->options->set(self::CHECKOUT_BASIC_PAYMENT_METHODS, $checkoutBasicPaymentMethods);
-    }
-
-
-
-    /**
-     * @return array
-     */
-    public function getCheckoutPsePaymentMethods(): array
-    {
-        return $this->getPaymentMethodsByGatewayOption(self::CHECKOUT_PSE_PAYMENT_METHODS);
-    }
-
-    /**
-     * @param array $checkoutPaymentMethodsPse
-     */
-    public function setCheckoutPsePaymentMethods(array $checkoutPaymentMethodsPse): void
-    {
-        $this->options->set(self::CHECKOUT_PSE_PAYMENT_METHODS, $checkoutPaymentMethodsPse);
-    }
-
-    /**
-     * @return array
-     */
-    public function getSiteIdPaymentMethods(): array
-    {
-        $siteIdPaymentMethods = $this->options->get(self::SITE_ID_PAYMENT_METHODS, []);
-
-        if (empty($siteIdPaymentMethods)) {
-            $this->updatePaymentMethodsBySiteId();
-            $siteIdPaymentMethods = $this->options->get(self::SITE_ID_PAYMENT_METHODS, []);
-        }
-
-        return $siteIdPaymentMethods;
-    }
-
-    /**
-     * @param array $checkoutTicketPaymentMethods
-     */
-    public function setSiteIdPaymentMethods(array $checkoutTicketPaymentMethods): void
-    {
-        $this->options->set(self::SITE_ID_PAYMENT_METHODS, $checkoutTicketPaymentMethods);
-    }
-
-    /**
-     * @return array
-     */
-    public function getCheckoutPixPaymentMethods(): array
-    {
-        return $this->getPaymentMethodsByGatewayOption(self::CHECKOUT_PAYMENT_METHOD_PIX);
-    }
-
-    /**
-     * @param array $checkoutPaymentMethodsPix
-     */
-    public function setCheckoutPixPaymentMethods(array $checkoutPaymentMethodsPix): void
-    {
-        $this->options->set(self::CHECKOUT_PAYMENT_METHOD_PIX, $checkoutPaymentMethodsPix);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAllPaymentMethods()
-    {
-        return $this->options->get(self::CHECKOUT_BASIC_PAYMENT_METHODS, '');
-    }
-
-    /**
-     * Get excluded payments
-     *
-     * @param $gateway
-     *
-     * @return array
-     */
-    public function getExPayments($gateway): array
-    {
-        $exPayments       = [];
-        $exPaymentOptions = $this->getAllPaymentMethods();
-
-        if (!empty($exPaymentOptions)) {
-            foreach ($exPaymentOptions as $exPaymentOption) {
-                $paymentId = $exPaymentOption['id'];
-                if ($this->options->getGatewayOption($gateway, "ex_payments_$paymentId", 'yes') === 'no') {
-                    $exPayments[] = $paymentId;
-                }
-            }
-        }
-
-        return $exPayments;
-    }
-
-    /**
-     * Update Payment Methods
-     *
-     * @param string|null $publicKey
-     * @param string|null $accessToken
-     *
-     */
-    public function updatePaymentMethods(string $publicKey = null, string $accessToken = null): void
-    {
-        if ($publicKey === null) {
-            $publicKey = $this->getCredentialsPublicKey();
-        }
-        if ($accessToken === null) {
-            $accessToken = $this->getCredentialsAccessToken();
-        }
-        $paymentMethodsResponse = $this->getPaymentMethods($publicKey, $accessToken);
-        if ($paymentMethodsResponse['status'] !== 200) {
-            $this->setCheckoutBasicPaymentMethods([]);
-            $this->setCheckoutPsePaymentMethods([]);
-            return;
-        }
-        $this->setupBasicPaymentMethods($paymentMethodsResponse);
-        $this->setupPsePaymentMethods($paymentMethodsResponse);
-    }
-
-    /**
-     * Update Payment Methods
-     *
-     * @param string|null $siteId
-     *
-     */
-    public function updatePaymentMethodsBySiteId(string $siteId = null): void
-    {
-        if ($siteId === null) {
-            $siteId = $this->getSiteId();
-        }
-
-        $paymentMethodsResponseBySiteId = $this->getPaymentMethodsBySiteId($siteId);
-
-        if ($paymentMethodsResponseBySiteId['status'] !== 200) {
-            $this->setSiteIdPaymentMethods([]);
-            return;
-        }
-
-        $this->setSiteIdPaymentMethods($paymentMethodsResponseBySiteId['data']);
-    }
-
-    /**
-     * Setup Basic Payment Methods
-     *
-     * @param array $paymentMethodsResponse
-     *
-     */
-    private function setupBasicPaymentMethods(array $paymentMethodsResponse): void
-    {
-        $excludedPaymentMethods   = ['consumer_credits', 'paypal', 'account_money'];
-        $serializedPaymentMethods = [];
-
-        foreach ($paymentMethodsResponse['data'] as $paymentMethod) {
-            if (in_array($paymentMethod['id'], $excludedPaymentMethods, true)) {
-                continue;
-            }
-
-            $serializedPaymentMethods[] = [
-                'id'     => $paymentMethod['id'],
-                'name'   => $paymentMethod['name'],
-                'type'   => $paymentMethod['payment_type_id'],
-                'image'  => $paymentMethod['secure_thumbnail'],
-                'config' => 'ex_payments_' . $paymentMethod['id'],
-            ];
-        }
-
-        $this->setCheckoutBasicPaymentMethods($serializedPaymentMethods);
-    }
-
-    /**
-     * Setup Pse Payment Methods
-     *
-     * @param array $paymentMethodsResponse
-     */
-    private function setupPsePaymentMethods(array $paymentMethodsResponse): void
-    {
-        $serializedPaymentMethods = [];
-
-        foreach ($paymentMethodsResponse['data'] as $paymentMethod) {
-            if ('pse' === $paymentMethod['id']) {
-                $serializedPaymentMethods[] = [
-                    'id'     => $paymentMethod['id'],
-                    'name'   => $paymentMethod['name'],
-                    'type'   => $paymentMethod['payment_type_id'],
-                    'image'  => $paymentMethod['secure_thumbnail'],
-                    'config' => 'ex_payments_' . $paymentMethod['id'],
-                    'financial_institutions' => $paymentMethod['financial_institutions']
-                ];
-
-                break;
-            }
-        }
-
-        $this->setCheckoutPsePaymentMethods($serializedPaymentMethods);
-    }
-
-
-
-
-    /**
-     * Build payment places for paycash
-     *
-     * @param array $serializedPaymentMethods
-     *
-     * @return array
-     */
-    public function buildPaymentPlaces(array $serializedPaymentMethods): array
-    {
-        $paymentPlaces = [
-            'paycash' => [
-                [
-                    'payment_option_id' => 'efecty',
-                    'name'              => 'Efecty',
-                    'status'            => 'active',
-                    'thumbnail'         => 'https://secure.epayco.co/img/efecty.png'
-                ],
-                [
-                    'payment_option_id' => 'gana',
-                    'name'              => 'Gana',
-                    'status'            => 'active',
-                    'thumbnail'         => 'https://secure.epayco.co/img/gana_no_red.png'
-                ],
-                [
-                    'payment_option_id' => 'puntored',
-                    'name'              => 'Puntored',
-                    'status'            => 'active',
-                    'thumbnail'         => 'https://secure.epayco.co/img/puntored.jpg'
-                ],
-                [
-                    'payment_option_id' => 'redservi',
-                    'name'              => 'Redservi',
-                    'status'            => 'active',
-                    'thumbnail'         => 'https://secure.epayco.co/img/redservi.jpg'
-                ],
-                [
-                    'payment_option_id' => 'sured',
-                    'name'              => 'Sured',
-                    'status'            => 'active',
-                    'thumbnail'         => 'https://secure.epayco.co/img/sured.jpg'
-                ],
-                [
-                    'payment_option_id' => 'pagatodo',
-                    'name'              => 'Pagatodo',
-                    'status'            => 'active',
-                    'thumbnail'         => 'https://secure.epayco.co/img/pagatodo.jpg'
-                ],
-                [
-                    'payment_option_id' => 'acertemos',
-                    'name'              => 'Acertemos',
-                    'status'            => 'active',
-                    'thumbnail'         => 'https://secure.epayco.co/img/acertemos.jpg'
-                ],
-                [
-                    'payment_option_id' => 'ganagana',
-                    'name'              => 'Ganagana',
-                    'status'            => 'active',
-                    'thumbnail'         => 'https://secure.epayco.co/img/ganagana.jpg'
-                ],
-                [
-                    'payment_option_id' => 'suchance',
-                    'name'              => 'Suchance',
-                    'status'            => 'active',
-                    'thumbnail'         => 'https://secure.epayco.co/img/suchance.jpg'
-                ],
-                [
-                    'payment_option_id' => 'jer',
-                    'name'              => 'Jer',
-                    'status'            => 'active',
-                    'thumbnail'         => 'https://secure.epayco.co/img/jer.jpg'
-                ],
-                [
-                    'payment_option_id' => 'laperla',
-                    'name'              => 'Laperla',
-                    'status'            => 'active',
-                    'thumbnail'         => 'https://secure.epayco.co/img/laperla.jpg'
-                ]
-            ],
-        ];
-
-        foreach ($serializedPaymentMethods as $key => $method) {
-            if (isset($paymentPlaces[$method['id']])) {
-                $serializedPaymentMethods[$key]['payment_places'] = $paymentPlaces[$method['id']];
-            }
-        }
-
-        return $serializedPaymentMethods;
-    }
-
-
-
-    /**
-     * @param string $publicKey
-     *
-     * @return array
-     */
-    public function validatePublicKey(string $publicKey): array
-    {
-        return $this->validateCredentials(null, $publicKey);
-    }
-
-    /**
-     * @param string $accessToken
-     *
-     * @return array
-     */
-    public function validateAccessToken(string $accessToken): array
-    {
-        return $this->validateCredentials($accessToken);
-    }
-
-    /**
      * @param string $key
      * @param string $type
      *
@@ -821,10 +404,6 @@ class Seller
 
             return $serializedResponse;
         } catch (\Exception $e) {
-            $this->logs->file->error(
-                "ePayco gave error to validate seller credentials: {$e->getMessage()}",
-                __CLASS__
-            );
             return [
                 'data'   => null,
                 'status' => 500,
@@ -833,7 +412,7 @@ class Seller
     }
 
     private function my_woocommerce_post_request($uri, $headers, $body = []) {
-        $url = self::EP_APIFY.$uri; // The API endpoint you want to send the request to
+        $url = self::EP_APIFY.$uri;
         /*$response = wp_remote_post( $url, array(
             'body'    => wp_json_encode( $body ),
             'headers' => $headers,
@@ -863,155 +442,8 @@ class Seller
         return $response_data;
     }
 
-    /**
-     * Validate credentials with plugins wrapper credentials API
-     *
-     * @param string|null $accessToken
-     * @param string|null $publicKey
-     *
-     * @return array
-     */
-    private function validateCredentials(string $accessToken = null, string $publicKey = null): array
-    {
-        try {
-            $key   = sprintf('%sat%spk%s', __FUNCTION__, $accessToken, $publicKey);
-            $cache = $this->cache->getCache($key);
-
-            if ($cache) {
-                return $cache;
-            }
-
-            $headers = [];
-            $uri     = '/plugins-credentials-wrapper/credentials';
-
-            if ($accessToken) {
-                $headers[] = 'Authorization: Bearer ' . $accessToken;
-            } elseif ($publicKey) {
-                $uri = $uri . '?public_key=' . $publicKey;
-            }
-
-            $response           = $this->requester->get($uri, $headers);
-            $serializedResponse = [
-                'data'   => $response->getData(),
-                'status' => $response->getStatus(),
-            ];
-
-            $this->cache->setCache($key, $serializedResponse);
-
-            return $serializedResponse;
-        } catch (\Exception $e) {
-            $this->logs->file->error(
-                "ePayco gave error to validate seller credentials: {$e->getMessage()}",
-                __CLASS__
-            );
-            return [
-                'data'   => null,
-                'status' => 500,
-            ];
-        }
-    }
-
-    /**
-     * Get Payment Methods
-     *
-     * @param string|null $publicKey
-     * @param string|null $accessToken
-     *
-     * @return array
-     */
-    private function getPaymentMethods(string $publicKey = null, string $accessToken = null): array
-    {
-        try {
-            $key       = sprintf('%sat%spk%s', __FUNCTION__, $accessToken, $publicKey);
-            $cache     = $this->cache->getCache($key);
-            $productId = Device::getDeviceProductId();
-
-            if ($cache) {
-                return $cache;
-            }
-
-            $headers = [];
-            $uri     = '/v1/payment_methods';
-
-            if ($productId) {
-                $headers[] = 'X-Product-Id: ' . $productId;
-            }
-
-            if ($accessToken) {
-                $headers[] = 'Authorization: Bearer ' . $accessToken;
-            }
 
 
-            if ($publicKey) {
-                $uri = $uri . '?public_key=' . $publicKey;
-            }
-
-            $response           = $this->requester->get($uri, $headers);
-            $serializedResponse = [
-                'data'   => $response->getData(),
-                'status' => $response->getStatus(),
-            ];
-
-            $this->cache->setCache($key, $serializedResponse);
-
-            return $serializedResponse;
-        } catch (\Exception $e) {
-            $this->logs->file->error(
-                "ePayco gave error to get seller payment methods: {$e->getMessage()}",
-                __CLASS__
-            );
-            return [
-                'data'   => null,
-                'status' => 500,
-            ];
-        }
-    }
-
-    /**
-     * Get Payment Methods by SiteId
-     *
-     * @param string $siteId
-     *
-     * @return array
-     */
-    private function getPaymentMethodsBySiteId(string $siteId): array
-    {
-        try {
-            $key       = sprintf('%ssi%s', __FUNCTION__, $siteId);
-            $cache     = $this->cache->getCache($key);
-            $productId = Device::getDeviceProductId();
-
-            if ($cache) {
-                return $cache;
-            }
-
-            $headers = [];
-            if ($productId) {
-                $headers[] = 'X-Product-Id: ' . $productId;
-            }
-
-            $uri = '/sites/' . $siteId . '/payment_methods';
-
-            $response           = $this->requester->get($uri, $headers);
-            $serializedResponse = [
-                'data'   => $response->getData(),
-                'status' => $response->getStatus(),
-            ];
-
-            $this->cache->setCache($key, $serializedResponse);
-
-            return $serializedResponse;
-        } catch (\Exception $e) {
-            $this->logs->file->error(
-                "ePayco gave error to get seller payment methods by ID: {$e->getMessage()}",
-                __CLASS__
-            );
-            return [
-                'data'   => null,
-                'status' => 500,
-            ];
-        }
-    }
     /**
      * Get auto update mode
      *
@@ -1021,7 +453,7 @@ class Seller
     {
         $auto_update_plugins = $this->options->get(self::AUTO_UPDATE_PLUGINS, '');
 
-        if (is_array($auto_update_plugins) && in_array('woocommerce-epayco/woocommerce-epayco.php', $auto_update_plugins)) {
+        if (is_array($auto_update_plugins) && in_array('-woocommerce-epayco-api-develop/woocommerce-epayco.php', $auto_update_plugins)) {
             return true;
         }
         return false;

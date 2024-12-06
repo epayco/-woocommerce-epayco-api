@@ -181,11 +181,11 @@ setting the value of this constant to `true`.
 
   Users of the Requests native custom autoloader will need to adjust their code to initialize the autoloader:
   ```php
-  // OLD: Using the custom autoloader in Requests 1.x.
+  // OLD: Using the credits autoloader in Requests 1.x.
   require_once 'path/to/Requests/library/Requests.php';
   Requests::register_autoloader();
 
-  // NEW: Using the custom autoloader in Requests 2.x.
+  // NEW: Using the credits autoloader in Requests 2.x.
   require_once 'path/to/Requests/src/Autoload.php';
   WpOrg\Requests\Autoload::register();
   ```

@@ -11,22 +11,18 @@ final class Links
     /**
      * @const
      */
-    private const MP_URL = 'https://www.mercadopago.com';
+    private const EP_URL = 'https://www.epayco.com';
 
     /**
      * @const
      */
-    private const MP_URL_PREFIX = 'https://www.mercadopago';
+    private const EP_URL_PREFIX = 'https://www.epayco';
 
     /**
      * @const
      */
     private const EP_DASHBOARD = 'https://dashboard.epayco.io';
 
-    /**
-     * @const
-     */
-    private const MP_DEVELOPERS_URL = 'https://developers.mercadopago.com';
 
     /**
      * @var Country
@@ -60,38 +56,14 @@ final class Links
         $countryConfig = $this->country->getCountryConfigs();
 
         return array_merge_recursive(
-            $this->getDocumentationLinks($countryConfig),
             $this->getEpaycoLinks($countryConfig),
-            $this->getCreditsLinks($countryConfig),
             $this->getAdminLinks(),
             $this->getStoreLinks(),
             $this->getWordpressLinks()
         );
     }
 
-    /**
-     * Get documentation links on Sdk Devsite page
-     *
-     * @param array $countryConfig
-     *
-     * @return array
-     */
-    private function getDocumentationLinks(array $countryConfig): array
-    {
-        $baseLink = self::MP_URL_PREFIX . $countryConfig['suffix_url'] . '/developers/' . $countryConfig['translate'];
 
-        return [
-            'docs_developers_program'       => $baseLink . '/developer-program',
-            'docs_test_cards'               => $baseLink . '/docs/checkout-api/additional-content/your-integrations/test/cards',
-            'docs_integration_credentials'  => 'https://dashboard.epayco.com/configuration',
-            'docs_reasons_refusals'         => $baseLink . '/docs/woocommerce/reasons-refusals',
-            'docs_ipn_notification'         => $baseLink . '/docs/woocommerce/integration-configuration/notifications',
-            'docs_integration_test'         => $baseLink . '/docs/woocommerce/integration-test',
-            'docs_integration_config'       => $baseLink . '/docs/woocommerce/integration-configuration',
-            'reasons_refusals'              => $baseLink . '/docs/woocommerce/reasons-refusals',
-            'docs_support_faq'              => $baseLink . '/support/26097',
-        ];
-    }
 
     /**
      * Get documentation links on Sdk Panel page
@@ -103,16 +75,11 @@ final class Links
     private function getEpaycoLinks(array $countryConfig): array
     {
         return [
-            'epayco_home'                 => self::MP_URL_PREFIX . $countryConfig['suffix_url'] . '/home',
-            'epayco_costs'                => self::MP_URL_PREFIX . $countryConfig['suffix_url'] . '/costs-section',
-            'epayco_test_user'            => self::MP_URL . '/developers/panel/test-users',
+            'epayco_home'                 => self::EP_URL,
             'epayco_credentials'          => self::EP_DASHBOARD .  '/configuration',
-            'epayco_developers'           => self::MP_DEVELOPERS_URL,
-            'epayco_pix'                  => self::MP_URL_PREFIX . '.com.br/ferramentas-para-vender/aceitar-pix',
-            'epayco_debts'                => self::MP_URL_PREFIX . '.com.ar/cuotas',
-            'epayco_support'              => self::MP_URL_PREFIX . $countryConfig['suffix_url'] . '/developers/' . $countryConfig['translate'] . '/support/contact?utm_source=CPWOOCOMMERCE',
-            'epayco_terms_and_conditions' => 'https://epayco.com/terminos-y-condiciones-epayco-vende/',
-            'epayco_pix_config'           => self::MP_URL_PREFIX . '.com.br/stop/pix?url=https://www.epayco.com.br/admin-pix-keys/my-keys?authentication_mode=required',
+            'epayco_developers'           => self::EP_URL . '/desarrolladores/',
+            'epayco_support'              => self::EP_URL . '/contacto/',
+            'epayco_terms_and_conditions' => self::EP_URL. '/terminos-y-condiciones-usuario-pagador-comprador/',
         ];
     }
 
@@ -141,34 +108,7 @@ final class Links
         ];
     }
 
-    /**
-     * Get store links
-     *
-     * @param array $countryConfig
-     *
-     * @return array
-     */
-    private function getCreditsLinks(array $countryConfig): array
-    {
-        $siteId = $countryConfig['site_id'];
 
-        $country_links = [
-            'MLA' => [
-                'credits_blog_link' => 'https://vendedores.epayco.com.ar/nota/impulsa-tus-ventas-y-alcanza-mas-publico-con-mercado-credito',
-                'credits_faq_link'  => 'https://www.epayco.com.ar/help/19040'
-            ],
-            'MLM' => [
-                'credits_blog_link' => 'https://vendedores.epayco.com.mx/nota/impulsa-tus-ventas-y-alcanza-a-mas-clientes-con-mercado-credito',
-                'credits_faq_link'  => 'https://www.epayco.com.mx/help/19040'
-            ],
-            'MLB' => [
-                'credits_blog_link' => 'https://conteudo.epayco.com.br/parcelamento-via-boleto-bancario-no-mercado-pago-seus-clientes-ja-podem-solicitar',
-                'credits_faq_link'  => 'https://www.epayco.com.br/help/19040'
-            ],
-        ];
-
-        return array_key_exists($siteId, $country_links) ? $country_links[$siteId] : $country_links['MLA'];
-    }
 
     /**
      * Get wordpress links

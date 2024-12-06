@@ -151,7 +151,7 @@ class Notices
             return;
         }
 
-        if (!$this->store->getDismissedReviewNotice()) {
+        /*if (!$this->store->getDismissedReviewNotice()) {
             if ($this->store->getAnyOrderCompleted()) {
                 add_action(
                     'admin_notices',
@@ -167,8 +167,7 @@ class Notices
         }
 
         if (
-            !$this->store->getDismissedSavedCardsNotice() &&
-            !empty($this->sellerConfig->getCredentialsPublicKey()) && !empty($this->sellerConfig->getCredentialsAccessToken())
+            !$this->store->getDismissedSavedCardsNotice()
         ) {
             add_action(
                 'admin_notices',
@@ -182,7 +181,7 @@ class Notices
                     include dirname(__FILE__) . '/../../templates/admin/notices/saved-cards-notice.php';
                 }
             );
-        }
+        }*/
     }
 
     /**

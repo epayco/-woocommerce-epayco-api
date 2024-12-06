@@ -54,10 +54,6 @@ final class Currency
      */
     private $notices;
 
-    /**
-     * @var Requester
-     */
-    private $requester;
 
     /**
      * @var Seller
@@ -82,7 +78,6 @@ final class Currency
      * @param Country           $country
      * @param Logs              $logs
      * @param Notices           $notices
-     * @param Requester         $requester
      * @param Seller            $seller
      * @param Options           $options
      * @param Url               $url
@@ -93,7 +88,6 @@ final class Currency
         Country $country,
         Logs $logs,
         Notices $notices,
-        Requester $requester,
         Seller $seller,
         Options $options,
         Url $url
@@ -103,7 +97,6 @@ final class Currency
         $this->country      = $country;
         $this->logs         = $logs;
         $this->notices      = $notices;
-        $this->requester    = $requester;
         $this->seller       = $seller;
         $this->options      = $options;
         $this->url          = $url;
@@ -243,23 +236,18 @@ final class Currency
     {
         $toCurrency   = $this->getCurrency();
         $fromCurrency = $this->getWoocommerceCurrency();
-        $accessToken  = $this->seller->getCredentialsAccessToken();
 
         try {
-            $key   = sprintf('%sat%s-%sto%s', __FUNCTION__, $accessToken, $fromCurrency, $toCurrency);
+            $key   = sprintf('%sat%s-%sto%s', __FUNCTION__, "", $fromCurrency, $toCurrency);
             $cache = $this->cache->getCache($key);
 
             if ($cache) {
                 return $cache;
             }
 
-            $uri     = sprintf('/currency_conversions/search?from=%s&to=%s', $fromCurrency, $toCurrency);
-            $headers = ['Authorization: Bearer ' . $accessToken];
-
-            $response           = $this->requester->get($uri, $headers);
             $serializedResponse = [
-                'data'   => $response->getData(),
-                'status' => $response->getStatus(),
+                'data'   => ['cop','usd'],
+                'status' => 200,
             ];
 
             $this->cache->setCache($key, $serializedResponse);
