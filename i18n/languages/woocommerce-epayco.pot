@@ -1631,7 +1631,7 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:358
 #: src/Translations/StoreTranslations.php:383
 #: src/Translations/StoreTranslations.php:414
-msgid "Terms and conditions"
+msgid "ePayco Terms and Conditions and Personal Data Processing Policy"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:623
