@@ -248,7 +248,6 @@ class TicketGateway extends AbstractGateway
             parent::process_payment($order_id);
 
             if (
-                !empty($checkout['amount']) &&
                 !empty($checkout['payment_method_id'])
             ) {
                 $redirect_url =get_site_url() . "/";
@@ -314,11 +313,8 @@ class TicketGateway extends AbstractGateway
                             $errorMessage = $error['errorMessage'] . "\n";
                         }
                     }
-                    return [
-                        'result'   => 'fail',
-                        'redirect' => '',
-                        'message'  => $messageError. " " . $errorMessage,
-                    ];
+                    $processReturnFailMessage = $messageError. " " . $errorMessage;
+                    return $this->returnFail($processReturnFailMessage, $order);
                 }
 
             }

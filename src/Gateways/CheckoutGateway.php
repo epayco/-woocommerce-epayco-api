@@ -361,7 +361,7 @@ class CheckoutGateway extends AbstractGateway
             $testMode,
             $descripcion,
             $descripcion,
-            $order->get_id(),
+            $order->get_id()."_wc",
             $currency,
             $order->get_total(),
             $base_tax,

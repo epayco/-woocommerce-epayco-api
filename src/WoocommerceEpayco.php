@@ -201,7 +201,7 @@ class WoocommerceEpayco
                     $payment_method_registry->register(new CreditCardBlock());
                     $payment_method_registry->register(new DaviplataBlock());
                     $payment_method_registry->register(new PseBlock());
-                    $payment_method_registry->register(new SubscriptionBlock());
+                    //$payment_method_registry->register(new SubscriptionBlock());
                     $payment_method_registry->register(new TicketBlock());
                 }
             );
@@ -220,6 +220,11 @@ class WoocommerceEpayco
             $this->adminNoticeMissWoocoommerce();
             return;
         }
+
+        /*if (!class_exists('WC_Subscriptions_Cart')) {
+            $this->adminNoticeMissWoocoommerceSubscription();
+            return;
+        }*/
 
         $this->setProperties();
         $this->setPluginSettingsLink();
@@ -251,7 +256,7 @@ class WoocommerceEpayco
      */
     public function disablePlugin()
     {
-        self::$funnel->updateStepDisable();
+        //self::$funnel->updateStepDisable();
     }
 
     /**
@@ -449,6 +454,33 @@ class WoocommerceEpayco
                 include dirname(__FILE__) . '/../templates/admin/notices/miss-woocommerce-notice.php';
             }
         );
+    }
+
+    /**
+     * Show woocommerce missing notice
+     * This function should use WordPress features only
+     *
+     * @return void
+     */
+    public function adminNoticeMissWoocoommerceSubscription(): void
+    {
+        $url_docs = 'https://github.com/wp-premium/woocommerce-subscriptions';
+        $subs = __( 'Subscription ePayco: Woocommerce subscriptions must be installed and active, ') . sprintf(__('<a target="_blank" href="%s">'. __('check documentation for help') .'</a>'), $url_docs);
+        add_action(
+            'admin_notices',
+            function() use($subs) {
+                $this->subscription_epayco_se_notices($subs);
+            }
+        );
+    }
+
+    public function subscription_epayco_se_notices( $notice ): void
+    {
+        ?>
+        <div class="error notice">
+            <p><?php echo $notice; ?></p>
+        </div>
+        <?php
     }
 
 }

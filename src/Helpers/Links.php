@@ -79,7 +79,7 @@ final class Links
             'epayco_credentials'          => self::EP_DASHBOARD .  '/configuration',
             'epayco_developers'           => self::EP_URL . '/desarrolladores/',
             'epayco_support'              => self::EP_URL . '/contacto/',
-            'epayco_terms_and_conditions' => self::EP_URL. '/terminos-y-condiciones-epayco-vende/',
+            'epayco_terms_and_conditions' => self::EP_URL. '/terminos-y-condiciones-usuario-pagador-comprador/',
         ];
     }
 

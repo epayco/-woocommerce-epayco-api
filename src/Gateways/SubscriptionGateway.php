@@ -2,6 +2,7 @@
 
 namespace Epayco\Woocommerce\Gateways;
 
+use Epayco\Woocommerce\Helpers\PaymentStatus;
 use Epayco\Woocommerce\Transactions\SubscriptionTransaction;
 use Epayco\Woocommerce\Exceptions\InvalidCheckoutDataException;
 use Epayco\Woocommerce\Helpers\Form;
@@ -69,7 +70,7 @@ class SubscriptionGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerAvailablePaymentGateway();
 
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
-
+        $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
         $this->epayco->helpers->currency->handleCurrencyNotices($this);
     }
 
@@ -187,6 +188,7 @@ class SubscriptionGateway extends AbstractGateway
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
             'test_mode_link_text'              => $this->storeTranslations['test_mode_link_text'],
             //'test_mode_link_src'               => $this->links['docs_integration_test'],
+            'card_detail'                      => $this->storeTranslations['card_detail'],
             'card_form_title'                  => $this->storeTranslations['card_form_title'],
             'card_holder_name_input_label'     => $this->storeTranslations['card_holder_name_input_label'],
             'card_holder_name_input_helper'    => $this->storeTranslations['card_holder_name_input_helper'],
@@ -195,6 +197,7 @@ class SubscriptionGateway extends AbstractGateway
             'card_expiration_input_label'      => $this->storeTranslations['card_expiration_input_label'],
             'card_expiration_input_helper'     => $this->storeTranslations['card_expiration_input_helper'],
             'card_expiration_input_invalid_length' => $this->storeTranslations['input_helper_message_expiration_date_invalid_value'],
+            'customer_data'                       => $this->storeTranslations['customer_data'],
             'card_security_code_input_label'   => $this->storeTranslations['card_security_code_input_label'],
             'card_security_code_input_helper'  => $this->storeTranslations['card_security_code_input_helper'],
             'card_security_code_input_invalid_length' => $this->storeTranslations['input_helper_message_security_code_invalid_length'],
@@ -247,9 +250,9 @@ class SubscriptionGateway extends AbstractGateway
                 $response = $this->transaction->createSubscriptionPayment($order_id, $checkout);
                 $response = json_decode(json_encode($response), true);
                 if (is_array($response) && $response['success']) {
-                    $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
+                    $ref_payco = $response['ref_payco'][0];
                     $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
-                    if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
+                    if (in_array(strtolower($response['estado'][0]),["pendiente","pending"])) {
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
@@ -258,7 +261,7 @@ class SubscriptionGateway extends AbstractGateway
                             'redirect' => $urlReceived,
                         ];
                     }
-                    if (in_array(strtolower($response['data']['estado']),["aceptada","acepted"])) {
+                    if (in_array(strtolower($response['estado'][0]),["aceptada","acepted","aprobada"])) {
                         $order->update_status("processing");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
@@ -266,11 +269,11 @@ class SubscriptionGateway extends AbstractGateway
                             'result'   => 'success',
                             'redirect' => $urlReceived,
                         ];
-                    }if (in_array(strtolower($response['data']['estado']),["rechazada","fallida","cancelada","abandonada"])) {
+                    }if (in_array(strtolower($response['estado'][0]),["rechazada","fallida","cancelada","abandonada"])) {
                         $urlReceived = wc_get_checkout_url();
                         $return = [
                             'result'   => 'fail',
-                            'message' => $response['data']['respuesta'],
+                            'message' => $response['message'][0],
                             'redirect' => $urlReceived,
                         ];
                     }
@@ -289,11 +292,8 @@ class SubscriptionGateway extends AbstractGateway
                             $errorMessage = $error['errorMessage'] . "\n";
                         }
                     }
-                    return [
-                        'result'   => 'fail',
-                        'redirect' => '',
-                        'message'  => $messageError. " " . $errorMessage,
-                    ];
+                    $processReturnFailMessage = $messageError. " " . $errorMessage;
+                    return $this->returnFail($processReturnFailMessage, $order);
                 }
             }
 
@@ -330,6 +330,83 @@ class SubscriptionGateway extends AbstractGateway
         }
 
         return $checkout;
+    }
+
+    /**
+     * Render thank you page
+     *
+     * @param $order_id
+     */
+    public function renderThankYouPage($order_id): void
+    {
+        $order        = wc_get_order($order_id);
+        $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
+        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+
+        if (empty($paymentInfo)) {
+            return;
+        }
+        $data = array(
+            "filter" => array("referencePayco" => $paymentInfo),
+            "success" =>true
+        );
+        $transactionDetails = $this->sdk->transaction->get($data);
+        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+
+        if (empty($transactionInfo)) {
+            return;
+        }
+
+        $status = 'pending';
+        $alert_title = '';
+        foreach ($transactionInfo['data']['data'] as $data) {
+            $status = $data['status'];
+            $alert_title = $data['response'];
+            $ref_payco = $data['referencePayco'];
+            $test = $data['test'] ? 'Pruebas' : 'Producción';
+            $transactionDateTime= $data['transactionDateTime'];
+            $bank= $data['bank'];
+            $authorization= $data['authorization'];
+            $factura = $data['referenceClient'];
+            $descripcion = $data['description'];
+            $valor = $data['amount'];
+            $iva = $data['iva'];
+            $estado = $data['status'];
+            $currency = $data['currency'];
+            $name =  $data['names']." ". $data['lastnames'];
+            $card = $data['card'];
+        }
+        $paymentStatusType = PaymentStatus::getStatusType(strtolower($status));
+
+        $transaction = [
+            'status' => $status,
+            'type' => "",
+            'refPayco' => $ref_payco,
+            'factura' => $factura,
+            'descripcion' => $descripcion,
+            'valor' => $valor,
+            'iva' => $iva,
+            'estado' => $estado,
+            'respuesta' => $alert_title,
+            'fecha' => $transactionDateTime,
+            'currency' => $currency,
+            'name' => $name,
+            'card' => $card,
+            'success_message' => $this->storeTranslations['success_message'],
+            'error_message' => $this->storeTranslations['error_message'],
+            'error_description' => $this->storeTranslations['error_description'],
+            'payment_method'  => $this->storeTranslations['payment_method'],
+            'statusandresponse'=> $this->storeTranslations['statusandresponse'],
+            'dateandtime' => $this->storeTranslations['dateandtime'],
+        ];
+        if (empty($transaction)) {
+            return;
+        }
+
+        $this->epayco->hooks->template->getWoocommerceTemplate(
+            'public/order/order-received.php',
+            $transaction
+        );
     }
 
 }

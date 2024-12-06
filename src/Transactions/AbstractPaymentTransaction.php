@@ -62,16 +62,18 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         //$person_type= $checkout["person_type"]??$checkout[""]["person_type"];
         $holder_address= $checkout["address"]??$checkout[""]["address"];
         $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"];
-        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];
         $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
-        /*if(!$customerData['success']){
+        /*$customerData = $this->getCustomer($checkout);
+        if(!$customerData['success']){
             return $customerData;
         }*/
         $data = array(
             "token_card" => $checkout["token"],
-            "customer_id" => "customer_id",
-            "bill" => (string)$order->get_id(),
+            //"customer_id" => $customerData['customer_id'],
+            "customer_id" => 'customer_id',
+            "bill" => (string)$order->get_id()."_wc_api_test",
             "dues" => $dues,
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
@@ -132,85 +134,9 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                 'success' => false,
                 'message' => implode(' - ', $errorMessage)
             ];
+        }else{
+            return $validatePlan;
         }
-
-
-
-
-
-
-        $descripcionParts = array();
-        $iva=0;
-        $ico=0;
-        $base_tax=$order->get_subtotal()-$order->get_total_discount();
-        foreach($order->get_items('tax') as $item_id => $item ) {
-            if( strtolower( $item->get_label() ) == 'iva' ){
-                $iva += round($item->get_tax_total(),2);
-            }
-            if( strtolower( $item->get_label() ) == 'ico'){
-                $ico += round($item->get_tax_total(),2);
-            }
-        }
-
-        foreach ($order->get_items() as $product) {
-            $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
-            $descripcionParts[] = $clearData;
-        }
-
-        $descripcion = implode(' - ', $descripcionParts);
-        $currency = strtolower(get_woocommerce_currency());
-        $basedCountry = WC()->countries->get_base_country();
-        //$customerData = $this->getCustomer($checkout);
-        $basedCountry = $checkout["countryType"]??$checkout["countrytype"]??$checkout[""]["countryType"];
-        $city = $checkout["country"]??$checkout[""]["country"];
-        $myIp=$this->getCustomerIp();
-        $confirm_url = $checkout["confirm_url"];
-        $response_url = $checkout["response_url"];
-        $testMode = $this->epayco->storeConfig->isTestMode()??false;
-        $customerName = $checkout["name"]??$checkout[""]["name"];
-        $explodeName = explode(" ", $customerName);
-        $name = $explodeName[0];
-        $lastName = $explodeName[1];
-        $dues= $checkout["installmet"]??$checkout[""]["installmet"];
-        //$person_type= $checkout["person_type"]??$checkout[""]["person_type"];
-        $holder_address= $checkout["address"]??$checkout[""]["address"];
-        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"];
-        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
-        $email= $checkout["email"]??$checkout[""]["email"];
-        $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
-        /*if(!$customerData['success']){
-            return $customerData;
-        }*/
-        $data = array(
-            "token_card" => $checkout["token"],
-            "customer_id" => "customer_id",
-            "bill" => (string)$order->get_id(),
-            "dues" => $dues,
-            "description" => $descripcion,
-            "value" =>(string)$order->get_total(),
-            "tax" => $iva,
-            "tax_base" => $base_tax,
-            "currency" => $currency,
-            "doc_type" => $doc_type,
-            "doc_number" => $doc_number,
-            "name" => $name,
-            "last_name" => $lastName,
-            "email" => $email,
-            "country" => $basedCountry,
-            "address"=> $holder_address,
-            "city" => $city,
-            "cell_phone" => $cellphone,
-            "ip" => $myIp,
-            "url_response" => $response_url,
-            "url_confirmation" => $confirm_url,
-            "metodoconfirmacion" => "POST",
-            "use_default_card_customer" => true,
-            "extra1" => (string)$order->get_id(),
-            "extras_epayco"=>["extra5"=>"P19"]
-        );
-        die();
-         $charge = $this->sdk->charge->create($data);
-        return $charge;
     }
 
 
@@ -258,12 +184,12 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
         $holder_address= $checkout["address"]??$checkout[""]["address"];
         $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"];
-        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];
         $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
         $data = array(
             "bank" => $bank,
-            "invoice" => (string)$order->get_id(),
+            "invoice" => (string)$order->get_id()."_wc_api_test",
             "description" => $descripcion,
             "value" =>$order->get_total(),
             "tax" => $iva,
@@ -282,10 +208,10 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "ip" => $myIp,
             "urlResponse" => $response_url,
             "urlConfirmation" => $confirm_url,
-            "methodConfirmation" => "POST",
+            "methodConfirmation" => "GET",
             "extra1" => (string)$order->get_id(),
             "testMode" => $testMode,
-            "extras_epayco"=>["extra5"=>"P19"]
+            "extras_epayco"=>["extra5"=>"P58"]
         );
         $pse = $this->sdk->bank->create($data);
         return $pse;
@@ -334,13 +260,13 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $lastName = $explodeName[1];
         $person_type= $checkout["person_type"];
         $holder_address= $checkout["address"];
-        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"];
-        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout["documentType"];
+        $doc_number= $checkout["doc_number"]??$checkout["document"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"];
         $cellphone= $checkout["cellphone"];
         $data = array(
             "paymentMethod" => $checkout["paymentMethod"],
-            "invoice" => (string)$order->get_id(),
+            "invoice" => (string)$order->get_id()."_wc_api_test",
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,
@@ -412,7 +338,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
         $holder_address= $checkout["address"]??$checkout[""]["address"];
         $doc_type= $checkout["identificationtype"]??$checkout["identificationType"];
-        $doc_number= $checkout["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];
         $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
         $cellphonetype = $_POST["cellphoneType"]??$checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
@@ -420,7 +346,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $city = WC()->countries->get_base_city() !='' ? WC()->countries->get_base_city():$order->get_shipping_city();
         $testMode = $this->epayco->storeConfig->isTestMode()??false;
         $data = array(
-            "invoice" => (string)$order->get_id(),
+            "invoice" => (string)$order->get_id()."_wc_api_test",
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,
@@ -440,7 +366,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "ip" => $myIp,
             "urlResponse" => $response_url,
             "urlConfirmation" => $confirm_url,
-            "methodConfirmation" => "POST",
+            "methodConfirmation" => "GET",
             "extra1" => (string)$order->get_id(),
             "vtex" => true,
             "testMode" => $testMode,
@@ -529,15 +455,19 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                 ];
                 return $response_status;
             } else {
+                $count_cards = 0;
                 for ($i = 0; $i < count($customerGetData); $i++) {
                     $customers = $this->sdk->customer->get($customerGetData[$i]->customer_id);
                     $customers = json_decode(json_encode($customers), true);
                     if($customers['success']){
                         $cards = $customers['data']['cards'];
                         for ($j = 0; $j < count($cards); $j++) {
-                            if ($cards[$j]['token'] != trim($customerData['token'])) {
-                                $this->customerAddToken($customerGetData[$i]->customer_id, trim($customerData['token']));
+                            if ($cards[$j]['token'] == trim($customerData['token'])) {
+                                $count_customers += 1;
                             }
+                        }
+                        if($count_customers == 0){
+                            $this->customerAddToken($customerGetData[$i]->customer_id, trim($customerData['token']));
                         }
                     }
                     /*if ($customerGetData[$i]->email == trim($customerData['email']) && $customerGetData[$i]->token_id != trim($customerData['token'])) {
@@ -805,7 +735,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                     return false;
                 }
 
-            } catch (Exception $exception) {
+            } catch (\Exception $exception) {
                 return false;
             }
         }
@@ -849,12 +779,12 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
     public function process_payment_epayco(array $plans, array $customerData, $subscriptions, $order, $checkout)
     {
         $subsCreated = $this->subscriptionCreate($plans, $customerData, $checkout);
-        //$subsCreated = json_decode(json_encode('{"status":true,"message":"Suscripci\u00f3n creada","created":"05-11-2024","id":"72a8d8c2cd131499b0985a6","success":true,"current_period_start":"11\/05\/2024","current_period_end":"05-11-2024","customer":{"_id":"72a6e60670f068ec00241b8","name":"ricardo saldarriaga","email":"ricardo.saldarriaga@payco.co","doc_number":"1232323111","merchantId":"627236","indicative":"","country":"CO","city":"","address":"calle 109 # 67-112","break_card":false,"doc_type":"CC","updated_at":"2024-11-05T21:26:36.930000Z"},"status_subscription":"inactive","type":"Create Subscription","data":{"idClient":"coffe_020","name":"Plan coffe","description":"Plan coffe","amount":28000,"currency":"COP","interval":"month","interval_count":"1","trialDays":0,"createdAt":"2024-11-05T20:44:10.306000Z"},"object":"subscription"}'), true);
+        //$subsCreated = json_decode(json_encode('{"status":true,"message":"Suscripci\u00f3n creada","created":"06-11-2024","id":"72b74c1bc789d28620a5196","success":true,"current_period_start":"11\/06\/2024","current_period_end":"06-11-2024","customer":{"_id":"72a6e60670f068ec00241b8","name":"ricardo saldarriaga","email":"ricardo.saldarriaga@payco.co","doc_number":"1232323111","merchantId":"627236","indicative":"","country":"CO","city":"","address":"calle 109 # 67-112","break_card":false,"doc_type":"CC","updated_at":"2024-11-06T13:53:25.556000Z"},"status_subscription":"inactive","type":"Create Subscription","data":{"idClient":"coffe_020_15000","name":"Plan coffe","description":"Plan coffe","amount":15000,"currency":"COP","interval":"month","interval_count":"1","trialDays":0,"createdAt":"2024-11-05T23:02:01.926000Z"},"object":"subscription"}'), true);
         //$subsCreated = json_decode($subsCreated);
         if ($subsCreated->status) {
             $subs = $this->subscriptionCharge($plans, $customerData, $checkout);
-            //$subs = json_decode(json_encode('[{"success":true,"title_response":"Transacci\u00f3n realizada","text_response":"Transaccion realizada con tarjeta de pruebas","last_action":"Validar tarjeta de pruebas","data":{"ref_payco":101645805,"factura":"72a8d8c2cd131499b0985a6-1730842044","descripcion":"Plan coffe","valor":28000,"iva":0,"ico":0,"baseiva":28000,"valorneto":28000,"moneda":"COP","banco":"BANCO DE PRUEBAS","estado":"Rechazada","respuesta":"Tarjeta restringida por el centro de autorizaciones","autorizacion":"000000","recibo":"101645805","fecha":"2024-11-05 16:27:25","franquicia":"VS","cod_respuesta":2,"cod_error":"04","ip":"192.168.32.1","enpruebas":1,"tipo_doc":"CC","documento":"1232323111","nombres":"ricardo","apellidos":"saldarriaga","email":"ricardo.saldarriaga@payco.co","ciudad":"SIN CIUDAD","direccion":"calle 109 # 67112","ind_pais":"PE","country_card":"PE","extras":{"extra1":"72a8d8c2cd131499b0985a6","extra2":"72a6e60670f068ec00241b8","extra3":"72a839a6af64966850cc488","extra9":"627236","extra4":"","extra5":"","extra6":"","extra7":"","extra8":"","extra10":""},"cc_network_response":{"code":"04","message":"Tarjeta restringida por el centro de autorizaciones"},"extras_epayco":{"extra5":"P10"}},"subscription":{"idPlan":"coffe_020","data":{"idClient":"coffe_020","name":"Plan coffe","description":"Plan coffe","amount":28000,"currency":"COP","interval":"month","interval_count":"1","trialDays":0},"periodStart":"2024-11-05T16:26:36.000000Z","periodEnd":"05-11-2024","nextVerificationDate":"05-11-2024","status":"inactive","first":false,"idCustomer":"72a6e60670f068ec00241b8","tokenCard":"72a454eedd810ca690b26bd","ip":"192.168.32.3","paymentAttempts":[],"url_confirmation":"http:\/\/localhost:86\/wordpress\/?wc-api=WC_Epayco_Subscription_Gateway&order_id=53&confirmation=1","method_confirmation":"POST"}}]'), true);
-            //&$subs = json_decode($subs);
+            //$subs = json_decode(json_encode('[{"success":true,"title_response":"Transacci\u00f3n realizada","text_response":"Transaccion realizada con tarjeta de pruebas","last_action":"Validar tarjeta de pruebas","data":{"ref_payco":101645839,"factura":"72b74c1bc789d28620a5196-1730902023","descripcion":"Plan coffe","valor":15000,"iva":0,"ico":0,"baseiva":15000,"valorneto":15000,"moneda":"COP","banco":"BANCO DE PRUEBAS","estado":"Aceptada","respuesta":"Aprobada","autorizacion":"000000","recibo":"101645839","fecha":"2024-11-06 09:07:05","franquicia":"VS","cod_respuesta":1,"cod_error":"00","ip":"192.168.32.1","enpruebas":1,"tipo_doc":"CC","documento":"1232323111","nombres":"ricardo","apellidos":"saldarriaga","email":"ricardo.saldarriaga@payco.co","ciudad":"SIN CIUDAD","direccion":"calle 109 # 67112","ind_pais":"PE","country_card":"PE","extras":{"extra1":"72b74c1bc789d28620a5196","extra2":"72a6e60670f068ec00241b8","extra3":"72aa3e96af64966850cc489","extra9":"627236","extra4":"","extra5":"","extra6":"","extra7":"","extra8":"","extra10":""},"cc_network_response":{"code":"00","message":"Aprobada"},"extras_epayco":{"extra5":"P10"}},"subscription":{"idPlan":"coffe_020_15000","data":{"idClient":"coffe_020_15000","name":"Plan coffe","description":"Plan coffe","amount":15000,"currency":"COP","interval":"month","interval_count":"1","trialDays":0},"periodStart":"2024-11-06T08:53:05.000000Z","periodEnd":"06-12-2024","nextVerificationDate":"06-12-2024","status":"active","first":true,"idCustomer":"72a6e60670f068ec00241b8","tokenCard":"72b71096c1e3afd5f035db6","ip":"192.168.32.1","paymentAttempts":[],"url_confirmation":"http:\/\/localhost:86\/wordpress\/?wc-api=WC_Epayco_Subscription_Gateway&order_id=73&confirmation=1","method_confirmation":"POST"}}]'), true);
+            //$subs = json_decode($subs);
             foreach ($subs as $sub) {
                 $validation = !is_null($sub->status) ? $sub->status : $sub->success;
                 if ($validation) {
@@ -883,9 +813,10 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $confirm_url = $checkout["confirm_url"];
         foreach ($plans as $plan) {
             try {
+                $planId = str_replace("-", "_",strtolower($plan['id_plan']));
                 $suscriptioncreted = $this->sdk->subscriptions->create(
                     [
-                        "id_plan" => $plan['id_plan'],
+                        "id_plan" => $planId,
                         "customer" => $customer['customer_id'],
                         "token_card" => $customer['token_card'],
                         "doc_type" => $customer['type_document'],
@@ -912,9 +843,10 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $confirm_url = $checkout["confirm_url"];
         foreach ($plans as $plan) {
             try {
+                $planId = str_replace("-", "_",strtolower($plan['id_plan']));
                 $subs[] = $this->sdk->subscriptions->charge(
                     [
-                        "id_plan" => $plan['id_plan'],
+                        "id_plan" => $planId,
                         "customer" => $customer['customer_id'],
                         "token_card" => $customer['token_card'],
                         "doc_type" => $customer['type_document'],
@@ -941,17 +873,24 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $count = 0;
         $messageStatus = [];
         $messageStatus['status'] = true;
+        $messageStatus['success'] = false;
         $messageStatus['message'] = [];
+        $messageStatus['estado'] = [];
         $messageStatus['ref_payco'] = [];
         $quantitySubscriptions = count($subscriptionsStatus);
+        $orederStatus = array("Aprobada", "Aceptada", "Pendiente");
         foreach ($subscriptions as $subscription) {
             $sub = $subscriptionsStatus[$count];
             $messageStatus['ref_payco'] = array_merge($messageStatus['ref_payco'], [$sub->data->ref_payco]);
             $messageStatus['message'] = array_merge($messageStatus['message'], ["estado: {$sub->data->respuesta}"]);
+            $messageStatus['estado'] = array_merge($messageStatus['estado'], [$sub->data->respuesta]);
+            if(in_array($sub->data->respuesta, $orederStatus)){
+                $messageStatus['success'] = true;
+            }
             $count++;
 
-            if ($count === $quantitySubscriptions && count($messageStatus['message']) >= $count)
-                $messageStatus['success'] = false;
+            //if ($count === $quantitySubscriptions && count($messageStatus['message']) >= $count)
+                //$messageStatus['success'] = $subscriptionsStatus[$count]->success;
         }
         return $messageStatus;
 

@@ -409,7 +409,7 @@
                     "" === ticketContentEmail.value && verifyEmail(ticketContentEmail);
                     "" === ticketContentAddress.value && verifyAddress(ticketContentAddress);
                     "" === ticketContentCellphone.value && verifyCellphone(ticketContentCellphone);
-                    "Type" === doc_type && verifyDocument(pseContentDocument);
+                    "Type"||"Tipo" === doc_type && verifyDocument(pseContentDocument);
                     "" === pseContentDocument.value && verifyDocument(pseContentDocument);
                     "" === ticketContentCountry.value && verifyCountry(ticketContentCountry);
                     !agree && termanAndContictionHelpers.classList.add("mp-error");
@@ -441,7 +441,7 @@
                     "" !== ticketContentCellphone.value &&
                     "" !== pseContentDocument.value &&
                     "" !== ticketContentCountry.value &&
-                    "Type" !== doc_type,
+                    "Type"||"Tipo" !== doc_type,
                         {
                             type: o(bankHelper) || o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers)  || o(countryHelpers) || !agree ? O.responseTypes.ERROR : O.responseTypes.SUCCESS,
                             meta: {paymentMethodData: t}

@@ -3,7 +3,7 @@
 /**
  * Plugin Name: ePayco Gateway
  * Plugin URI: https://github.com/epayco/Plugin_ePayco_WooCommerce
- * Description: Configure the payment options and accept payments with cards, ticket and PSE.
+ * Description: Configure the payment options and accept payments with cards, cash and PSE.
  * Version: 7.6.4
  * Author: ePayco
  * Author URI: http://epayco.co
