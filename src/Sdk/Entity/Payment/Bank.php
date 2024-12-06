@@ -12,11 +12,10 @@ Class Bank extends Resource
     public function pseBank($testMode = null)
     {
         $url = "/pse/bancos.json?public_key=" . $this->epayco->api_key;
-        /*if(isset($testMode) && gettype($testMode) === "boolean"){
+        if(isset($testMode) && gettype($testMode) === "boolean"){
             $test = $testMode  ? "TRUE" : "FALSE";
             $url = $url."&test=".$test;
-        }*/
-        $url = '/payment/pse/banks';
+        }
         return $this->request(
             "GET",
             $url,
@@ -28,7 +27,7 @@ Class Bank extends Resource
             $this->epayco->lang,
             null,
             null,
-            true
+            false
         );
     }
 

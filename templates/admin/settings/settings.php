@@ -3,14 +3,30 @@
 /**
  * @var array $headerTranslations
  * @var array $credentialsTranslations
+ * @var array $storeTranslations
  * @var array $gatewaysTranslations
  * @var array $testModeTranslations
  * @var string $pcustid
  * @var string $publicKey
  * @var string $privateKey
  * @var string $pKey
+ * @var string $storeId
+ * @var string $storeName
+ * @var string $storeCategory
+ * @var string $customDomain
+ * @var string $customDomainOptions
+ * @var string $checkboxCheckoutTestMode
+ * @var string $checkboxCheckoutProductionMode
+ * @var string $phpVersion
+ * @var string $wcVersion
+ * @var string $wpVersion
+ * @var string $pluginVersion
+ *
  * @var array $links
  * @var bool  $testMode
+ * @var array $categories
+ *
+ * @var array $pluginLogs
  * @var array $allowedHtmlTags
  *
  * @see \Epayco\Woocommerce\Admin\Settings
@@ -230,7 +246,11 @@ if (!defined('ABSPATH')) {
 
                     <div class="mp-settings-alert-payment-methods" style="display:none;">
                         <div id="mp-red-badge" class="mp-settings-alert-red"></div>
-
+                        <div class="mp-settings-alert-payment-methods-gray">
+                            <div class="mp-settings-margin-right mp-settings-mode-style">
+                                <span id="mp-icon-badge-error" class="mp-settings-icon-warning"></span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mp-settings-alert-payment-methods">
@@ -256,7 +276,9 @@ if (!defined('ABSPATH')) {
                                             <!--<?= wp_kses($testModeTranslations['subtitle_message_prod'], $allowedHtmlTags) ?>-->
                                         </span>
                                         <span id="mp-helper-test" style="display: <?= $testMode ? 'block' : 'none' ?>">
-
+                                            <!--<span><?= wp_kses($testModeTranslations['subtitle_test_one'], $allowedHtmlTags) ?></span><br />
+                                            <span><?= wp_kses($testModeTranslations['subtitle_test_two'], $allowedHtmlTags) ?></span><br />
+                                            <span><?= wp_kses($testModeTranslations['subtitle_test_three'], $allowedHtmlTags) ?></span>-->
                                         </span>
                                     </div>
                                 </div>

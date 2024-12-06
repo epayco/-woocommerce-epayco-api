@@ -2,7 +2,7 @@
 /**
  * Backwards compatibility layer for Requests.
  *
- * Allows for Composer to autoload the old PSR-0 classes via the credits autoloader.
+ * Allows for Composer to autoload the old PSR-0 classes via the custom autoloader.
  * This prevents issues with _extending final classes_ (which was the previous solution).
  *
  * Please see the Changelog for the 2.0.0 release for upgrade notes.

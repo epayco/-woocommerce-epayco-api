@@ -23,12 +23,12 @@ class StoreTranslations
     /**
      * @var array
      */
-    public $creditcardCheckout = [];
+    public $creditsCheckout = [];
 
     /**
      * @var array
      */
-    public $subscriptionCheckout = [];
+    public $customCheckout = [];
 
     /**
      * @var array
@@ -86,8 +86,8 @@ class StoreTranslations
 
         $this->setCommonCheckoutTranslations();
         $this->setBasicCheckoutTranslations();
-        $this->setCreditCardCheckoutTranslations ();
-        $this->setSubscriptionCheckoutTranslations();
+        $this->setCreditsCheckoutTranslations();
+        $this->setCustomCheckoutTranslations();
         $this->setTicketCheckoutTranslations();
         $this->setPseCheckoutTranslations();
         $this->setEpaycoCheckoutTranslations();
@@ -155,150 +155,164 @@ class StoreTranslations
             'pay_with_mp_title'                               => __('Pay with Mercado Pago', 'woocommerce-epayco'),
             'cancel_url_text'                                 => __('Cancel &amp; Clear Cart', 'woocommerce-epayco'),
             'message_error_amount'                            => __('There was an error. Please try again in a few minutes.', 'woocommerce-epayco'),
-            'success_message'                                 => __('Approved transaction', 'woocommerce-epayco'),
-            'pending_message'                                 => __('Pending transaction', 'woocommerce-epayco'),
-            'fail_message'                                    => __('Transaction rejected', 'woocommerce-epayco'),
-            'payment_method'                                      => __('payment method', 'woocommerce-epayco'),
-            'dateandtime'                                         => __('Date and time', 'woocommerce-epayco'),
-            'response'                         => __('Response', 'woocommerce-epayco'),
-            'totalValue'                       => __('Total value', 'woocommerce-epayco'),
-            'description'                       => __('Description', 'woocommerce-epayco'),
-            'reference'                       => __('reference', 'woocommerce-epayco'),
-            'purchase'                        => __('Purchase details', 'woocommerce-epayco'),
-            'iPaddress'                       => __('IP address', 'woocommerce-epayco'),
-            'receipt'                         => __('Receipt', 'woocommerce-epayco'),
-            'authorization'                   => __('Authorization', 'woocommerce-epayco'),
-            'paymentMethod'                   => __('Payment method', 'woocommerce-epayco'),
-            'epayco_refecence'                => __('ePayco Reference', 'woocommerce-epayco'),
+
         ];
     }
-
 
     /**
      * Set credits checkout translations
      *
      * @return void
      */
-    private function setCreditCardCheckoutTranslations (): void
+    private function setCreditsCheckoutTranslations(): void
     {
-        $this->creditcardCheckout = [
-            'message_error_amount'                                => __('There was an error. Please try again in a few minutes.', 'woocommerce-epayco'),
+        $this->creditsCheckout = [
+            'test_mode_title'                           => __('No card installments in Test Mode', 'woocommerce-epayco'),
+            'test_mode_description'                     => __('Use ePayco\'s payment methods without real charges. ', 'woocommerce-epayco'),
+            'test_mode_link_text'                       => __('See the rules for the test mode.', 'woocommerce-epayco'),
+            'checkout_benefits_title'                   => __('Buy in up to 12 installments without credit cards', 'woocommerce-epayco'),
+            'checkout_benefits_installments_title'      => __('Choose the amount of installments', 'woocommerce-epayco'),
+            'checkout_benefits_installments_subtitle'   => __('Learn your credit limit on Mercado Credito and choose the amount of installments.', 'woocommerce-epayco'),
+            'checkout_benefits_installments_alt'        => __('Step 1', 'woocommerce-epayco'),
+            'checkout_benefits_confirm_title'           => __('Confirm your installments', 'woocommerce-epayco'),
+            'checkout_benefits_confirm_subtitle'        => __('Payment is credited immediately and 100% protected. ', 'woocommerce-epayco'),
+            'checkout_benefits_confirm_alt'             => __('Step 2', 'woocommerce-epayco'),
+            'checkout_benefits_payment_title'           => __('Pay month by month', 'woocommerce-epayco'),
+            'checkout_benefits_payment_subtitle'        => __('Pay from your Mercado Pago account with the method of your choice.', 'woocommerce-epayco'),
+            'checkout_benefits_payment_alt'             => __('Step 3', 'woocommerce-epayco'),
+            'checkout_benefits_tip'                     => __('If you don’t have Mercado Credito yet, activate it when paying.', 'woocommerce-epayco'),
+            'checkout_redirect_text'                    => __('Next, we’ll take you to Mercado Pago to log in and complete your purchase.', 'woocommerce-epayco'),
+            'checkout_redirect_alt'                     => __('Checkout Pro redirect info image', 'woocommerce-epayco'),
+            'terms_and_conditions_label'                          => __('I agree with the', 'woocommerce-epayco'),
+            'terms_and_conditions_description'                    => __('and accept them', 'woocommerce-epayco'),
+            'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woocommerce-epayco'),
+            'tooltip_link'                              => __('Learn more', 'woocommerce-epayco'),
+            'modal_title'                               => __('Buy through Mercado Credito without cards and pay month by month', 'woocommerce-epayco'),
+            'modal_step_1'                              => __('Add your product to the cart and, for the payment, select Mercado Credito.', 'woocommerce-epayco'),
+            'modal_step_2'                              => __('Log in to Mercado Pago.', 'woocommerce-epayco'),
+            'modal_step_3'                              => __('Choose the amount of installments that best suit you and you’re all set!', 'woocommerce-epayco'),
+            'modal_footer'                              => __('Any Questions? Check our ', 'woocommerce-epayco'),
+            'modal_footer_link'                         => __('Help', 'woocommerce-epayco'),
+            'modal_footer_init'                         => __('Credit subject to approval.', 'woocommerce-epayco'),
+            'message_error_amount'                      => __('There was an error. Please try again in a few minutes.', 'woocommerce-epayco'),
+        ];
+        $this->creditsCheckout = array_merge($this->creditsCheckout, $this->setCreditsTooltipTranslations());
+    }
+
+    /**
+     * Set credits tooltip translations
+     *
+     * @return array
+     */
+    private function setCreditsTooltipTranslations(): array
+    {
+        $tooltipComponentOption1 = sprintf(
+            '<b>%s</b> %s.',
+            __('Up to 12 installments without cards', 'woocommerce-epayco'),
+            __('through ePayco', 'woocommerce-epayco')
+        );
+
+        $tooltipComponentOption2 = sprintf(
+            '<b>%s</b> %s.',
+            __('Buy now, pay later', 'woocommerce-epayco'),
+            __('through ePayco', 'woocommerce-epayco')
+        );
+
+        $tooltipComponentOption3 = sprintf(
+            '%s <b>%s</b>.',
+            __('With ePayco,', 'woocommerce-epayco'),
+            __('get it now and pay month by month', 'woocommerce-epayco')
+        );
+
+        $tooltipComponentOption4 = sprintf(
+            '<b>%s</b> %s.',
+            __('Pay in up to 12 installments', 'woocommerce-epayco'),
+            __('without credit card', 'woocommerce-epayco')
+        );
+
+        return [
+            'tooltip_component_option1'                 => $tooltipComponentOption1,
+            'tooltip_component_option2'                 => $tooltipComponentOption2,
+            'tooltip_component_option3'                 => $tooltipComponentOption3,
+            'tooltip_component_option4'                 => $tooltipComponentOption4,
+        ];
+    }
+
+    /**
+     * Set credits checkout translations
+     *
+     * @return void
+     */
+    private function setCustomCheckoutTranslations(): void
+    {
+        $this->customCheckout = [
             'test_mode_title'                                     => __('Test Mode', 'woocommerce-epayco'),
             'test_mode_description'                               => __('Use ePayco\'s payment methods without real charges. ', 'woocommerce-epayco'),
             'test_mode_link_text'                                 => __('See the rules for the test mode.', 'woocommerce-epayco'),
-            'card_detail'                                         => __('Card details', 'woocommerce-epayco'),
+            'wallet_button_title'                                 => __('Pay with saved cards', 'woocommerce-epayco'),
+            'wallet_button_description'                           => __('Do you have a ePayco account? Then use the same email and password to pay faster with Mercado Pago.', 'woocommerce-epayco'),
+            'wallet_button_button_text'                           => __('Pay with ePayco', 'woocommerce-epayco'),
+            'available_payments_title'                            => __('With which card can you pay?', 'woocommerce-epayco'),
+            'available_payments_image'                            => __('See current promotions', 'woocommerce-epayco'),
+            'available_payments_credit_card_title'                => __('Credit cards', 'woocommerce-epayco'),
+            'available_payments_credit_card_label'                => __('Up to 12 installments', 'woocommerce-epayco'),
+            'available_payments_debit_card_title'                 => __('Debit cards', 'woocommerce-epayco'),
+            'payment_methods_promotion_text'                      => __('See current promotions', 'woocommerce-epayco'),
             'card_form_title'                                     => __('Card details', 'woocommerce-epayco'),
-            'card_holder_name_input_label'                        => __('Holder name as it appears on the card', 'woocommerce-epayco'),
-            'card_holder_name_input_helper'                       => __('Holder name is required', 'woocommerce-epayco'),
+            'card_customer_title'                                 => __('Customer data', 'woocommerce-epayco'),
             'card_number_input_label'                             => __('Card number', 'woocommerce-epayco'),
             'card_number_input_helper'                            => __('Required Card number', 'woocommerce-epayco'),
-            'card_expiration_input_label'                         => __('Expiration', 'woocommerce-epayco'),
-            'card_expiration_input_helper'                        => __('Required data', 'woocommerce-epayco'),
-            'customer_data'                                       => __('Customer data', 'woocommerce-epayco'),
-            'input_helper_message_expiration_date_invalid_type'   => __('Expiration date invalid', 'woocommerce-epayco'),
-            'input_helper_message_expiration_date_invalid_length' => __('Expiration date incomplete', 'woocommerce-epayco'),
-            'input_helper_message_expiration_date_invalid_value'  => __('Expiration date invalid', 'woocommerce-epayco'),
-            'card_security_code_input_label'                      => __('Security Code', 'woocommerce-epayco'),
-            'card_security_code_input_helper'                     => __('Required data', 'woocommerce-epayco'),
-            'input_helper_message_security_code_invalid_type'     => __('Security code is required', 'woocommerce-epayco'),
-            'input_helper_message_security_code_invalid_length'   => __('Security code incomplete', 'woocommerce-epayco'),
-            'card_fees_input_label'                               => __('Fees', 'woocommerce-epayco'),
-            'card_customer_title'                                 => __('Customer data', 'woocommerce-epayco'),
-            'card_document_input_label'                           => __('Holder document', 'woocommerce-epayco'),
-            'card_document_input_helper'                          => __('Invalid document', 'woocommerce-epayco'),
-            'card_holder_address_input_label'                     => __('Address ', 'woocommerce-epayco'),
-            'card_holder_address_input_helper'                    => __('Holder address is required', 'woocommerce-epayco'),
+            'card_holder_name_input_label'                        => __('Holder name as it appears on the card', 'woocommerce-epayco'),
+            'card_holder_name_input_helper'                       => __('Holder name is required', 'woocommerce-epayco'),
             'card_holder_email_input_label'                       => __('Email', 'woocommerce-epayco'),
             'card_holder_email_input_helper'                      => __('Holder email is required', 'woocommerce-epayco'),
-            'input_helper_message_card_holder_email'              => __('Holder email invalid', 'woocommerce-epayco'),
-            'input_ind_phone_label'                               => __('Holder Phone', 'woocommerce-epayco'),
-            'input_ind_phone_helper'                               => __('Invalid Phone', 'woocommerce-epayco'),
+            'card_holder_address_input_label'                      => __('Address ', 'woocommerce-epayco'),
+            'card_holder_address_input_helper'                     => __('Holder address is required', 'woocommerce-epayco'),
+            'card_expiration_input_label'                         => __('Expiration', 'woocommerce-epayco'),
+            'card_expiration_input_helper'                        => __('Required data', 'woocommerce-epayco'),
+            'card_security_code_input_label'                      => __('Security Code', 'woocommerce-epayco'),
+            'card_security_code_input_helper'                     => __('Required data', 'woocommerce-epayco'),
+            'card_document_input_label'                           => __('Holder document', 'woocommerce-epayco'),
+            'card_document_input_helper'                          => __('Invalid document', 'woocommerce-epayco'),
+            'card_installments_title'                             => __('Select the number of fees', 'woocommerce-epayco'),
+            'card_issuer_input_label'                             => __('Fees', 'woocommerce-epayco'),
+            'card_installments_input_helper'                      => __('Select the number of fees', 'woocommerce-epayco'),
+            'card_cellphone_input_label'                          => __('Cellphone', 'woocommerce-epayco'),
+            'card_cellphone_input_helper'                         => __('Holder cellphone is required', 'woocommerce-epayco'),
             'input_country_label'                                 => __('Holder Country', 'woocommerce-epayco'),
             'input_country_helper'                                => __('Invalid City', 'woocommerce-epayco'),
             'terms_and_conditions_label'                          => __('I agree with the', 'woocommerce-epayco'),
             'terms_and_conditions_description'                    => __('and accept them', 'woocommerce-epayco'),
             'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woocommerce-epayco'),
-            'success_message'                  => __('Approved transaction', 'woocommerce-epayco'),
-            'pending_message'                  => __('Pending transaction', 'woocommerce-epayco'),
-            'fail_message'                  => __('Transaction rejected', 'woocommerce-epayco'),
-            'error_message'                    => __('Payment has failed', 'woocommerce-epayco'),
-            'error_description'                => __('Please try again later.', 'woocommerce-epayco'),
-            'payment_method'                   => __('payment method', 'woocommerce-epayco'),
-            'dateandtime'                      => __('Date and time', 'woocommerce-epayco'),
-            'response'                         => __('Response', 'woocommerce-epayco'),
-            'totalValue'                       => __('Total value', 'woocommerce-epayco'),
-            'description'                       => __('Description', 'woocommerce-epayco'),
-            'reference'                       => __('reference', 'woocommerce-epayco'),
-            'purchase'                        => __('Purchase details', 'woocommerce-epayco'),
-            'iPaddress'                       => __('IP address', 'woocommerce-epayco'),
-            'receipt'                         => __('Receipt', 'woocommerce-epayco'),
-            'authorization'                   => __('Authorization', 'woocommerce-epayco'),
-            'paymentMethod'                   => __('Payment method', 'woocommerce-epayco'),
-            'epayco_refecence'                => __('ePayco Reference', 'woocommerce-epayco'),
-        ];
-    }
-
-
-    /**
-     * Set credits checkout translations
-     *
-     * @return void
-     */
-    private function setSubscriptionCheckoutTranslations(): void
-    {
-        $this->subscriptionCheckout = [
+            'placeholders_card_expiration_date'                   => __('mm/yy', 'woocommerce-epayco'),
+            'placeholders_issuer'                                 => __('Issuer', 'woocommerce-epayco'),
+            'placeholders_installments'                           => __('Installments', 'woocommerce-epayco'),
+            'cvv_hint_back'                                       => __('on the back', 'woocommerce-epayco'),
+            'cvv_hint_front'                                      => __('on the front', 'woocommerce-epayco'),
+            'cvv_text'                                            => __('digits', 'woocommerce-epayco'),
+            'installment_obs_fee'                                 => __('No fee', 'woocommerce-epayco'),
+            'installment_button'                                  => __('More options', 'woocommerce-epayco'),
+            'bank_interest_text'                                  => __('The interest rate is applied and charged by your bank.', 'woocommerce-epayco'),
+            'interest_text'                                       => __('Interest', 'woocommerce-epayco'),
+            'input_helper_message_invalid_type'                   => __('Card number is required', 'woocommerce-epayco'),
+            'input_helper_message_invalid_length'                 => __('Card number invalid', 'woocommerce-epayco'),
+            'input_helper_message_card_holder_name_221'           => __('Holder name is required', 'woocommerce-epayco'),
+            'input_helper_message_card_holder_name_316'           => __('Holder name invalid', 'woocommerce-epayco'),
+            'input_helper_message_card_holder_email_221'          => __('Holder email is required', 'woocommerce-epayco'),
+            'input_helper_message_card_holder_email_316'          => __('Holder email invalid', 'woocommerce-epayco'),
+            'input_helper_message_card_holder_adress_221'         => __('Holder adress is required', 'woocommerce-epayco'),
+            'input_helper_message_card_holder_adress_316'         => __('Holder adress invalid', 'woocommerce-epayco'),
+            'input_helper_message_expiration_date_invalid_type'   => __('Expiration date invalid', 'woocommerce-epayco'),
+            'input_helper_message_expiration_date_invalid_length' => __('Expiration date incomplete', 'woocommerce-epayco'),
+            'input_helper_message_expiration_date_invalid_value'  => __('Expiration date invalid', 'woocommerce-epayco'),
+            'input_helper_message_security_code_invalid_type'     => __('Security code is required', 'woocommerce-epayco'),
+            'input_helper_message_security_code_invalid_length'   => __('Security code incomplete', 'woocommerce-epayco'),
+            'title_installment_cost'                              => __('Cost of installments', 'woocommerce-epayco'),
+            'title_installment_total'                             => __('Total with installments', 'woocommerce-epayco'),
+            'text_installments'                                   => __('installments of', 'woocommerce-epayco'),
+            'wallet_button_order_receipt_title'                   => __('Pay with ePayco', 'woocommerce-epayco'),
+            'cancel_url_text'                                     => __('Cancel &amp; Clear Cart', 'woocommerce-epayco'),
             'message_error_amount'                                => __('There was an error. Please try again in a few minutes.', 'woocommerce-epayco'),
-            'test_mode_title'                                     => __('Test Mode', 'woocommerce-epayco'),
-            'test_mode_description'                               => __('Use ePayco\'s payment methods without real charges. ', 'woocommerce-epayco'),
-            'test_mode_link_text'                                 => __('See the rules for the test mode.', 'woocommerce-epayco'),
-            'card_detail'                                         => __('Card details', 'woocommerce-epayco'),
-            'card_form_title'                                     => __('Subscription', 'woocommerce-epayco'),
-            'card_holder_name_input_label'                        => __('Holder name as it appears on the card', 'woocommerce-epayco'),
-            'card_holder_name_input_helper'                       => __('Holder name is required', 'woocommerce-epayco'),
-            'card_number_input_label'                             => __('Card number', 'woocommerce-epayco'),
-            'card_number_input_helper'                            => __('Required Card number', 'woocommerce-epayco'),
-            'card_expiration_input_label'                         => __('Expiration', 'woocommerce-epayco'),
-            'card_expiration_input_helper'                        => __('Required data', 'woocommerce-epayco'),
-            'customer_data'                                       => __('Customer data', 'woocommerce-epayco'),
-            'input_helper_message_expiration_date_invalid_type'   => __('Expiration date invalid', 'woocommerce-epayco'),
-            'input_helper_message_expiration_date_invalid_length' => __('Expiration date incomplete', 'woocommerce-epayco'),
-            'input_helper_message_expiration_date_invalid_value'  => __('Expiration date invalid', 'woocommerce-epayco'),
-            'card_security_code_input_label'                      => __('Security Code', 'woocommerce-epayco'),
-            'card_security_code_input_helper'                     => __('Required data', 'woocommerce-epayco'),
-            'input_helper_message_security_code_invalid_type'     => __('Security code is required', 'woocommerce-epayco'),
-            'input_helper_message_security_code_invalid_length'   => __('Security code incomplete', 'woocommerce-epayco'),
-            'card_customer_title'                                 => __('Customer data', 'woocommerce-epayco'),
-            'card_document_input_label'                           => __('Holder document', 'woocommerce-epayco'),
-            'card_document_input_helper'                          => __('Invalid document', 'woocommerce-epayco'),
-            'card_holder_address_input_label'                     => __('Address ', 'woocommerce-epayco'),
-            'card_holder_address_input_helper'                    => __('Holder address is required', 'woocommerce-epayco'),
-            'card_holder_email_input_label'                       => __('Email', 'woocommerce-epayco'),
-            'card_holder_email_input_helper'                      => __('Holder email is required', 'woocommerce-epayco'),
-            'input_helper_message_card_holder_email'              => __('Holder email invalid', 'woocommerce-epayco'),
-            'input_ind_phone_label'                               => __('Holder Phone', 'woocommerce-epayco'),
-            'input_ind_phone_helper'                              => __('Invalid Phone', 'woocommerce-epayco'),
-            'input_country_label'                                 => __('Holder Country', 'woocommerce-epayco'),
-            'input_country_helper'                                => __('Invalid City', 'woocommerce-epayco'),
-            'terms_and_conditions_label'                          => __('I agree with the', 'woocommerce-epayco'),
-            'terms_and_conditions_description'                    => __('and accept them', 'woocommerce-epayco'),
-            'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woocommerce-epayco'),
-            'success_message'                                     => __('Approved transaction', 'woocommerce-epayco'),
-            'pending_message'                                     => __('Pending transaction', 'woocommerce-epayco'),
-            'fail_message'                                        => __('Transaction rejected', 'woocommerce-epayco'),
-            'error_message'                                       => __('Payment has failed', 'woocommerce-epayco'),
-            'error_description'                                   => __('Please try again later.', 'woocommerce-epayco'),
-            'payment_method'                                      => __('payment method', 'woocommerce-epayco'),
-            'dateandtime'                                         => __('Date and time', 'woocommerce-epayco'),
-            'response'                         => __('Response', 'woocommerce-epayco'),
-            'totalValue'                       => __('Total value', 'woocommerce-epayco'),
-            'description'                       => __('Description', 'woocommerce-epayco'),
-            'reference'                       => __('reference', 'woocommerce-epayco'),
-            'purchase'                        => __('Purchase details', 'woocommerce-epayco'),
-            'iPaddress'                       => __('IP address', 'woocommerce-epayco'),
-            'receipt'                         => __('Receipt', 'woocommerce-epayco'),
-            'authorization'                   => __('Authorization', 'woocommerce-epayco'),
-            'paymentMethod'                   => __('Payment method', 'woocommerce-epayco'),
-            'epayco_refecence'                => __('ePayco Reference', 'woocommerce-epayco'),
         ];
     }
 
@@ -334,29 +348,36 @@ class StoreTranslations
     private function setTicketCheckoutTranslations(): void
     {
         $this->ticketCheckout = [
-            'message_error_amount'             => __('There was an error. Please try again in a few minutes.', 'woocommerce-epayco'),
             'test_mode_title'                  => __('Offline Methods in Test Mode', 'woocommerce-epayco'),
             'test_mode_description'            => __('You can test the flow to generate an invoice, but you cannot finalize the payment.', 'woocommerce-epayco'),
             'test_mode_link_text'              => __('See the rules for the test mode.', 'woocommerce-epayco'),
             'input_name_label'                 => __('Holder name', 'woocommerce-epayco'),
             'input_name_helper'                => __('Invalid name', 'woocommerce-epayco'),
-            'input_email_label'                => __('Holder email', 'woocommerce-epayco'),
-            'input_email_helper'               => __('Invalid email', 'woocommerce-epayco'),
             'input_address_label'              => __('Holder address', 'woocommerce-epayco'),
             'input_address_helper'             => __('Invalid adress', 'woocommerce-epayco'),
+            'input_email_label'                => __('Holder email', 'woocommerce-epayco'),
+            'input_email_helper'               => __('Invalid email', 'woocommerce-epayco'),
             'input_ind_phone_label'            => __('Holder cellphone', 'woocommerce-epayco'),
             'input_ind_phone_helper'           => __('Invalid cellphone', 'woocommerce-epayco'),
+            'input_country_label'              => __('Holder Country', 'woocommerce-epayco'),
+            'input_country_helper'             => __('Invalid City', 'woocommerce-epayco'),
             'person_type_label'                => __('Person type', 'woocommerce-epayco'),
             'input_document_label'             => __('Holder document', 'woocommerce-epayco'),
             'input_document_helper'            => __('Invalid document', 'woocommerce-epayco'),
-            'input_country_label'              => __('Holder Country', 'woocommerce-epayco'),
-            'input_country_helper'             => __('Invalid City', 'woocommerce-epayco'),
             'ticket_text_label'                => __('Select where you want to pay', 'woocommerce-epayco'),
             'input_table_button'               => __('more options', 'woocommerce-epayco'),
             'input_helper_label'               => __('Select a payment method', 'woocommerce-epayco'),
             'terms_and_conditions_label'       => __('I agree with the', 'woocommerce-epayco'),
             'terms_and_conditions_description' => __('and accept them', 'woocommerce-epayco'),
             'terms_and_conditions_link_text'   => __('Terms and conditions', 'woocommerce-epayco'),
+            'print_ticket_label'               => __('Great, we processed your purchase order. Complete the payment with ticket so that we finish approving it.', 'woocommerce-epayco'),
+            'print_ticket_link'                => __('Print ticket', 'woocommerce-epayco'),
+            'paycash_concatenator'             => __(' and ', 'woocommerce-epayco'),
+            'congrats_title'                   => __('To print the ticket again click', 'woocommerce-epayco'),
+            'congrats_subtitle'                => __('here', 'woocommerce-epayco'),
+            'customer_not_paid'                => __('Mercado Pago: The customer has not paid yet.', 'woocommerce-epayco'),
+            'message_error_amount'             => __('There was an error. Please try again in a few minutes.', 'woocommerce-epayco'),
+
         ];
     }
 
@@ -369,7 +390,6 @@ class StoreTranslations
     private function setPseCheckoutTranslations(): void
     {
         $this->pseCheckout = [
-            'message_error_amount'             => __('There was an error. Please try again in a few minutes.', 'woocommerce-epayco'),
             'test_mode_title'                  => __('Test Mode', 'woocommerce-epayco'),
             'test_mode_description'            => __('You can test the flow to generate a payment with PSE', 'woocommerce-epayco'),
             'test_mode_link_text'              => __('See the rules for the test mode.', 'woocommerce-epayco'),
@@ -385,30 +405,17 @@ class StoreTranslations
             'input_ind_phone_helper'           => __('Invalid cellphone', 'woocommerce-epayco'),
             'input_country_label'              => __('Holder Country', 'woocommerce-epayco'),
             'input_country_helper'             => __('Invalid City', 'woocommerce-epayco'),
+            'input_table_button'               => __('more options', 'woocommerce-epayco'),
             'person_type_label'                => __('Person type ', 'woocommerce-epayco'),
             'financial_institutions_label'     => __('Bank', 'woocommerce-epayco'),
             'financial_institutions_helper'    => __('Select the Bank', 'woocommerce-epayco'),
             'financial_placeholder'            => __('Select the institution', 'woocommerce-epayco'),
+            'customer_not_paid'                => __('ePayco: The customer has not paid yet.', 'woocommerce-epayco'),
+            'message_error_amount'             => __('There was an error. Please try again in a few minutes.', 'woocommerce-epayco'),
             'terms_and_conditions_label'                          => __('I agree with the', 'woocommerce-epayco'),
             'terms_and_conditions_description'                    => __('and accept them', 'woocommerce-epayco'),
             'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woocommerce-epayco'),
-            'success_message'                  => __('Approved transaction', 'woocommerce-epayco'),
-            'pending_message'                  => __('Pending transaction', 'woocommerce-epayco'),
-            'fail_message'                     => __('Transaction rejected', 'woocommerce-epayco'),
-            'error_message'                    => __('Payment has failed', 'woocommerce-epayco'),
-            'error_description'                => __('Please try again later.', 'woocommerce-epayco'),
-            'payment_method'                   => __('payment method', 'woocommerce-epayco'),
-            'dateandtime'                      => __('Date and time', 'woocommerce-epayco'),
-            'response'                         => __('Response', 'woocommerce-epayco'),
-            'totalValue'                       => __('Total value', 'woocommerce-epayco'),
-            'description'                       => __('Description', 'woocommerce-epayco'),
-            'reference'                       => __('reference', 'woocommerce-epayco'),
-            'purchase'                        => __('Purchase details', 'woocommerce-epayco'),
-            'iPaddress'                       => __('IP address', 'woocommerce-epayco'),
-            'receipt'                         => __('Receipt', 'woocommerce-epayco'),
-            'authorization'                   => __('Authorization', 'woocommerce-epayco'),
-            'paymentMethod'                   => __('Payment method', 'woocommerce-epayco'),
-            'epayco_refecence'                => __('ePayco Reference', 'woocommerce-epayco'),
+
         ];
     }
 
@@ -439,7 +446,6 @@ class StoreTranslations
     private function setDaviplataCheckoutTranslations(): void
     {
         $this->daviplataCheckout = [
-            'message_error_amount'             => __('There was an error. Please try again in a few minutes.', 'woocommerce-epayco'),
             'test_mode_title'                  => __('Test Mode', 'woocommerce-epayco'),
             'test_mode_description'            => __('You can test the flow to generate a payment with Daviplata', 'woocommerce-epayco'),
             'test_mode_link_text'              => __('See the rules for the test mode.', 'woocommerce-epayco'),
@@ -451,17 +457,17 @@ class StoreTranslations
             'input_address_helper'             => __('Invalid address', 'woocommerce-epayco'),
             'input_ind_phone_label'            => __('Cellphone', 'woocommerce-epayco'),
             'input_ind_phone_helper'           => __('Invalid cellphone', 'woocommerce-epayco'),
+            'input_country_label'              => __('Holder Country', 'woocommerce-epayco'),
+            'input_country_helper'             => __('Invalid City', 'woocommerce-epayco'),
             'person_type_label'                => __('Person type', 'woocommerce-epayco'),
             'input_document_label'             => __('Holder document', 'woocommerce-epayco'),
             'input_document_helper'            => __('Invalid document', 'woocommerce-epayco'),
-            'input_country_label'              => __('Holder Country', 'woocommerce-epayco'),
-            'input_country_helper'             => __('Invalid City', 'woocommerce-epayco'),
+            'print_daviplata_label'            => __('Great, we processed your purchase order. Complete the payment with daviplata so that we finish approving it.', 'woocommerce-epayco'),
+            'print_daviplata_link'             => __('finish payment process', 'woocommerce-epayco'),
+            'message_error_amount'             => __('There was an error. Please try again in a few minutes.', 'woocommerce-epayco'),
             'terms_and_conditions_label'                          => __('I agree with the', 'woocommerce-epayco'),
             'terms_and_conditions_description'                    => __('and accept them', 'woocommerce-epayco'),
             'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woocommerce-epayco'),
-            'success_message'                  => __('Approved transaction', 'woocommerce-epayco'),
-            'pending_message'                  => __('Pending transaction', 'woocommerce-epayco'),
-            'fail_message'                  => __('Transaction rejected', 'woocommerce-epayco')
         ];
     }
 

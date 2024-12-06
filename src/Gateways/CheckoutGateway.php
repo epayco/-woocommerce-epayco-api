@@ -55,7 +55,9 @@ class CheckoutGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
         $this->epayco->hooks->gateway->registerGatewayReceiptPage($this->id, [$this, 'receiptPage']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
+        //$this->epayco->hooks->cart->registerCartCalculateFees([$this, 'registerDiscountAndCommissionFeesOnCart']);
 
+        //$this->epayco->helpers->currency->handleCurrencyNotices($this);
     }
 
     /**
@@ -162,10 +164,13 @@ class CheckoutGateway extends AbstractGateway
      */
     public function getPaymentFieldsParams(): array
     {
+        $amountAndCurrencyRatio = $this->getAmountAndCurrency();
         return [
             'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
+            'amount'                           => $amountAndCurrencyRatio['amount'],
+            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
@@ -361,7 +366,7 @@ class CheckoutGateway extends AbstractGateway
             $testMode,
             $descripcion,
             $descripcion,
-            $order->get_id()."_wc",
+            $order->get_id(),
             $currency,
             $order->get_total(),
             $base_tax,

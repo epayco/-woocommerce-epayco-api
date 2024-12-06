@@ -190,7 +190,7 @@
                 hiddenId: s,
                 defaultOption: r
             }) =>
-            (0, e.createElement)("input-banks", {
+            (0, e.createElement)("input-select", {
                 name: t,
                 label: n,
                 options: o,
@@ -281,6 +281,7 @@
                 input_country_label: cl,
                 input_country_helper: ch,
                 person_type_label: E,
+                amount: S,
                 site_id: f,
                 terms_and_conditions_label: ll,
                 terms_and_conditions_description: v,
@@ -291,16 +292,18 @@
                 financial_institutions_label: x,
                 financial_institutions_helper: R,
                 financial_placeholder: T,
+                message_error_amount: M
             } = _.params;
+            if (null == S) return (0, e.createElement)(e.Fragment, null, (0, e.createElement)("p", {className: "alert-message"}, M));
             const P = (0, a.useRef)(null), {eventRegistration: q, emitResponse: O} = t, {onPaymentSetup: I} = q;
             let U = {
                 labelMessage: k,
                 helperMessage: h,
-                inputId:"identificationTypeNumber",
+                inputId:"dentificationTypeNumber",
                 inputName: "epayco_pse[docNumber]",
-                hiddenId: "identificationType",
+                hiddenId: "dentificationType",
                 inputDataCheckout: "doc_number",
-                selectId: "identificationType",
+                selectId: "dentificationType",
                 selectName: "identificationType",
                 selectDataCheckout: "doc_type",
                 flagError: "docNumberError",
@@ -347,10 +350,10 @@
                     }
                 }
 
-                const pseContentDocument = P.current.querySelector('input-document').querySelector('input');
+                const ticketContentDocument = P.current.querySelector('input-document').querySelector('input');
                 const documentHelpers =  P.current.querySelector('input-document').querySelector("input-helper").querySelector("div");
-                const verifyDocument = (pseContentDocument) => {
-                    if (pseContentDocument.value === '') {
+                const verifyDocument = (ticketContentDocument) => {
+                    if (ticketContentDocument.value === '') {
                         P.current.querySelector('input-document').querySelector(".mp-input").classList.add("mp-error");
                         P.current.querySelector('input-document').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
                         documentHelpers.style.display = 'flex';
@@ -367,32 +370,19 @@
                     }
                 }
 
-                var agree = false;
-                const termanAndContictionContent = P.current.parentElement.parentElement.querySelector('terms-and-conditions').querySelector('input');
-                const termanAndContictionHelpers =  P.current.parentElement.parentElement.querySelector('terms-and-conditions').querySelector(".mp-terms-and-conditions-container");
-                termanAndContictionContent.addEventListener('click', function() {
-                    const checkbox = termanAndContictionContent;
-                    if (checkbox.checked) {
-                        termanAndContictionHelpers.classList.remove("mp-error")
-                        agree = true;
-                    } else {
-                        termanAndContictionHelpers.classList.add("mp-error")
-                        agree = false;
-                    }
-                });
-
 
                 const e = I((async () => {
 
-                    const doc_type = pseContentDocument.parentElement.parentElement.querySelector("#identificationType").querySelector("select").value;
+                    const doc_type = ticketContentDocument.parentElement.parentElement.querySelector("#identificationType").value;
                     const cellphoneType = ticketContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                     const countryType = ticketContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                     const person_type_value = P.current.querySelector("#epayco_pse\\[person_type\\]").value;
-                    const doc_number_value = P.current.querySelector("#identificationTypeNumber").querySelector("input").value;
+                    const doc_number_value = P.current.querySelector("#dentificationTypeNumber").querySelector("input").value;
                     const bank = P.current.querySelector("#epayco_pse\\[bank\\]").value;
 
                     const t = {
                             "epayco_pse[site_id]": f,
+                            "epayco_pse[amount]": S.toString(),
                             "epayco_pse[name]": ticketContentName.value,
                             "epayco_pse[address]": ticketContentAddress.value,
                             "epayco_pse[email]": ticketContentEmail.value,
@@ -409,19 +399,16 @@
                     "" === ticketContentEmail.value && verifyEmail(ticketContentEmail);
                     "" === ticketContentAddress.value && verifyAddress(ticketContentAddress);
                     "" === ticketContentCellphone.value && verifyCellphone(ticketContentCellphone);
-                    "Type"||"Tipo" === doc_type && verifyDocument(pseContentDocument);
-                    "" === pseContentDocument.value && verifyDocument(pseContentDocument);
+                    "Type" === doc_type.value && verifyDocument(ticketContentDocument);
+                    "" === ticketContentDocument.value && verifyDocument(ticketContentDocument);
                     "" === ticketContentCountry.value && verifyCountry(ticketContentCountry);
-                    !agree && termanAndContictionHelpers.classList.add("mp-error");
 
                     const n = P.current.querySelector("#epayco_pse\\[bank\\]");
-                    const bankHelper =  P.current.querySelector('.mp-input-select-bank').parentElement.parentElement.querySelector("input-helper").querySelector("div");
+                    const bankHelper =  P.current.querySelector('.mp-checkout-pse-bank').querySelector("input-helper").querySelector("div");
                     if("0" === bank){
-                        P.current.querySelector('.mp-input-select-bank').parentElement.classList.add("mp-error")
                         c(bankHelper, "flex")
                         bankHelper.lastChild.innerText='invalid bank'
                     }else{
-                        P.current.querySelector('.mp-input-select-bank').parentElement.classList.remove("mp-error")
                         c(bankHelper, "none")
                         bankHelper.lastChild.innerText=''
                     }
@@ -439,11 +426,11 @@
                     "" !== ticketContentAddress.value &&
                     "" !==  ticketContentEmail.value &&
                     "" !== ticketContentCellphone.value &&
-                    "" !== pseContentDocument.value &&
+                    "" !== ticketContentDocument.value &&
                     "" !== ticketContentCountry.value &&
-                    "Type"||"Tipo" !== doc_type,
+                    "Type" !== doc_type,
                         {
-                            type: o(bankHelper) || o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers)  || o(countryHelpers) || !agree ? O.responseTypes.ERROR : O.responseTypes.SUCCESS,
+                            type: o(bankHelper) || o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers)  || o(countryHelpers) ? O.responseTypes.ERROR : O.responseTypes.SUCCESS,
                             meta: {paymentMethodData: t}
                         }
 
@@ -544,7 +531,7 @@
                                         options: N,
                                         "hidden-id": "hidden-financial-pse",
                                         "helper-message": R,
-                                        "default-option": ""
+                                        "default-option": T
                                     }),
                                 ),
 

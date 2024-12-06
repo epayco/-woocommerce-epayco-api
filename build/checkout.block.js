@@ -9,7 +9,8 @@
         a = ({
                 title: t,
                 description: c
-            }) => (0, e.createElement)("div", {className: "mp-checkout-pro-test-mode"},
+            }) =>
+            (0, e.createElement)("div", {className: "mp-checkout-pro-test-mode"},
                 (0, e.createElement)("test-mode", {
                 title: t,
                 description: c
@@ -62,8 +63,12 @@
                 test_mode_title: n,
                 test_mode_description: o,
                 test_mode: x,
+                amount: b,
+                message_error_amount: R
             } = u.params;
-            return (0, e.createElement)("div", {className: "mp-checkout-container"},
+            return null == b ?
+                (0, e.createElement)(e.Fragment, null, (0, e.createElement)("p", {className: "alert-message"}, R)) :
+                (0, e.createElement)("div", {className: "mp-checkout-container"},
                     (0, e.createElement)("div", {className: "mp-checkout-pro-container"},
                         (0, e.createElement)("div", {className: "mp-checkout-pro-content",style: {display: x ? "contents":"none"} },
                             x ? (0, e.createElement)(a, {

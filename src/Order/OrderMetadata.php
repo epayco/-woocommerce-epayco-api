@@ -342,7 +342,7 @@ class OrderMetadata
 
 
     /**
-     * Set credits metadata in the order
+     * Set custom metadata in the order
      *
      * @param \WC_Order $order
      * @param mixed $data

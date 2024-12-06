@@ -3,6 +3,7 @@
 namespace Epayco\Woocommerce\Libraries\Logs\Transports;
 
 use Epayco\Woocommerce\Configs\Store;
+use Epayco\Woocommerce\Helpers\Requester;
 use Epayco\Woocommerce\Interfaces\LogInterface;
 use Epayco\Woocommerce\Libraries\Logs\LogLevels;
 
@@ -27,16 +28,22 @@ class Remote implements LogInterface
      */
     private $store;
 
+    /**
+     * @var Requester
+     */
+    private $requester;
 
     /**
      * Remote Logs constructor
      *
      * @param Store $store
+     * @param Requester $requester
      */
-    public function __construct(Store $store)
+    public function __construct(Store $store, Requester $requester)
     {
         $this->store     = $store;
         $this->debugMode = $this->store->getDebugMode() === 'yes';
+        $this->requester = $requester;
     }
 
     /**
@@ -158,7 +165,7 @@ class Remote implements LogInterface
                 ],
             ];
 
-            //$this->requester->post($requestUrl, $headers, $body);
+            $this->requester->post($requestUrl, $headers, $body);
         } catch (\Exception $e) {
             return;
         }

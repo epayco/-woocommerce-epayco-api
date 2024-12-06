@@ -18,9 +18,7 @@
       verifyDocument(pseContent);
       verifyCountry(pseContent)
       verifyFinancial(pseContent);
-      verifyTermAndCondictions(pseContent)
-      let checked =  pseContent.parentElement.querySelector('terms-and-conditions').querySelector('input').checked
-      if (checkForErrors(pseContent.querySelectorAll('input-helper')) || !checked) {
+      if (checkForErrors(pseContent.querySelectorAll('input-helper'))) {
         return  false;
       }
       return true;
@@ -92,7 +90,7 @@
     function verifyFinancial(pseContent) {
       let documentElement = pseContent.querySelector('#epayco_pse\\[bank\\]');
       let pseHelpers =  pseContent.querySelector('.mp-checkout-pse-bank').querySelector('input-helper');
-      if (documentElement.value === '0' ) {
+      if (documentElement.value === '' || wc_epayco_pse_checkout_params.financial_placeholder === documentElement.value ) {
         documentElement.parentElement.classList.add('mp-error');
         let child = pseHelpers.querySelector('div');
         child.style.display = 'flex';
@@ -101,13 +99,6 @@
         documentElement.parentElement.classList.remove('mp-error');
         pseHelpers.querySelector('div').style.display = 'none';
       });
-    }
-
-    function verifyTermAndCondictions(pseContent) {
-      let addressElement = pseContent.parentElement.querySelector('terms-and-conditions').querySelector('input');
-      if (!addressElement.checked) {
-        pseContent.parentElement.querySelector('terms-and-conditions > div').classList.add('mp-error')
-      }
     }
 
     function checkForErrors(pseHelpers) {

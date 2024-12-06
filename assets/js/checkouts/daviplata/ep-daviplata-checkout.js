@@ -4,7 +4,7 @@
     'use strict';
 
     $(function () {
-        var epayco_submit_ticket = false;
+        var mercado_pago_submit_ticket = false;
 
         // Handler form submit
         function epaycoFormHandlerTicket() {
@@ -19,15 +19,14 @@
             verifyCellphone(DaviplataContent)
             verifyDocument(DaviplataContent);
             verifyCountry(DaviplataContent)
-            verifyTermAndCondictions(DaviplataContent)
-            let checked =  DaviplataContent.parentElement.querySelector('terms-and-conditions').querySelector('input').checked
-            if (checkForErrors(ticketHelpers)|| !checked) {
+
+            if (checkForErrors(ticketHelpers)) {
                 removeBlockOverlay();
             } else {
-                epayco_submit_ticket = true;
+                mercado_pago_submit_ticket = true;
             }
 
-            return epayco_submit_ticket;
+            return mercado_pago_submit_ticket;
         }
 
         function checkForErrors(ticketHelpers) {
@@ -103,13 +102,6 @@
                 let pseHelpers = psedaviplataContent.querySelector('#form-checkout__identificationCountry-container').parentElement.querySelector('input-helper');
                 let child = pseHelpers.querySelector('div');
                 child.style.display = 'flex';
-            }
-        }
-
-        function verifyTermAndCondictions(psedaviplataContent) {
-            let addressElement = psedaviplataContent.parentElement.querySelector('terms-and-conditions').querySelector('input');
-            if (!addressElement.checked) {
-                psedaviplataContent.parentElement.querySelector('terms-and-conditions > div').classList.add('mp-error')
             }
         }
 

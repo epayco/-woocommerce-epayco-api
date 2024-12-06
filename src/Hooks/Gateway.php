@@ -172,10 +172,6 @@ class Gateway
     public function registerAvailablePaymentGateway(): void
     {
         add_filter('woocommerce_available_payment_gateways', function ($methods) {
-            /*$enable = \WC_Subscriptions_Cart::cart_contains_subscription();
-            if (!$enable && isset($methods['woo-epayco-subscription'])){
-                unset($methods['woo-epayco-subscription']);
-            }*/
             return $methods;
         });
     }
@@ -225,7 +221,7 @@ class Gateway
     }
 
     /**
-     * Handles credits components for better integration with native hooks
+     * Handles custom components for better integration with native hooks
      *
      * @param $gateway
      *

@@ -6,6 +6,7 @@ use Epayco\Woocommerce\Helpers\Actions;
 use Epayco\Woocommerce\Helpers\Cache;
 use Epayco\Woocommerce\Helpers\Cart;
 use Epayco\Woocommerce\Helpers\Country;
+use Epayco\Woocommerce\Helpers\CreditsEnabled;
 use Epayco\Woocommerce\Helpers\Currency;
 use Epayco\Woocommerce\Helpers\CurrentUser;
 use Epayco\Woocommerce\Helpers\Gateways;
@@ -14,6 +15,7 @@ use Epayco\Woocommerce\Helpers\Links;
 use Epayco\Woocommerce\Helpers\Nonce;
 use Epayco\Woocommerce\Helpers\Notices;
 use Epayco\Woocommerce\Helpers\PaymentMethods;
+use Epayco\Woocommerce\Helpers\Requester;
 use Epayco\Woocommerce\Helpers\Session;
 use Epayco\Woocommerce\Helpers\Strings;
 use Epayco\Woocommerce\Helpers\Url;
@@ -44,6 +46,10 @@ class Helpers
      */
     public $country;
 
+    /**
+     * @var CreditsEnabled
+     */
+    public $creditsEnabled;
 
     /**
      * @var Currency
@@ -86,6 +92,11 @@ class Helpers
     public $paymentMethods;
 
     /**
+     * @var Requester
+     */
+    public $requester;
+
+    /**
      * @var Session
      */
     public $session;
@@ -101,19 +112,21 @@ class Helpers
     public $url;
 
     public function __construct(
-        Actions           $actions,
-        Cache             $cache,
-        Cart              $cart,
-        Country           $country,
-        Currency          $currency,
-        CurrentUser       $currentUser,
-        Gateways          $gateways,
-        Images            $images,
-        Links             $links,
-        Nonce             $nonce,
-        Notices           $notices,
-        PaymentMethods    $paymentMethods,
-        Session           $session,
+        Actions $actions,
+        Cache $cache,
+        Cart $cart,
+        Country $country,
+        CreditsEnabled $creditsEnabled,
+        Currency $currency,
+        CurrentUser $currentUser,
+        Gateways $gateways,
+        Images $images,
+        Links $links,
+        Nonce $nonce,
+        Notices $notices,
+        PaymentMethods $paymentMethods,
+        Requester $requester,
+        Session $session,
         Strings $strings,
         Url $url
     ) {
@@ -121,6 +134,7 @@ class Helpers
         $this->cache          = $cache;
         $this->cart           = $cart;
         $this->country        = $country;
+        $this->creditsEnabled = $creditsEnabled;
         $this->currency       = $currency;
         $this->currentUser    = $currentUser;
         $this->gateways       = $gateways;
@@ -129,6 +143,7 @@ class Helpers
         $this->nonce          = $nonce;
         $this->notices        = $notices;
         $this->paymentMethods = $paymentMethods;
+        $this->requester      = $requester;
         $this->session        = $session;
         $this->strings        = $strings;
         $this->url            = $url;

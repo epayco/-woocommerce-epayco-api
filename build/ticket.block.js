@@ -273,14 +273,16 @@
                 input_table_button: S,
                 input_helper_label: f,
                 payment_methods: w,
+                amount: b,
                 site_id: C,
                 terms_and_conditions_label: ll,
                 terms_and_conditions_description: v,
                 terms_and_conditions_link_text: N,
                 terms_and_conditions_link_src: T,
                 test_mode: R,
+                message_error_amount: x
             } = k.params;
-            //if (null == b) return (0, e.createElement)(e.Fragment, null, (0, e.createElement)("p", {className: "alert-message"}, x));
+            if (null == b) return (0, e.createElement)(e.Fragment, null, (0, e.createElement)("p", {className: "alert-message"}, x));
             const M = (0, a.useRef)(null),
                 {eventRegistration: I, emitResponse: P} = t,
                 {onPaymentSetup: O} = I;
@@ -288,11 +290,11 @@
             let B = {
                 labelMessage: h,
                 helperMessage: y,
-                inputId:"identificationTypeNumber",
+                inputId:"dentificationTypeNumber",
                 inputName: "epayco_ticket[docNumber]",
-                hiddenId: "identificationType",
+                hiddenId: "dentificationType",
                 inputDataCheckout: "doc_number",
-                selectId: "identificationType",
+                selectId: "dentificationType",
                 selectName: "identificationType",
                 selectDataCheckout: "doc_type",
                 flagError: "docNumberError",
@@ -393,20 +395,6 @@
 
                 //verifyPaymentMethods(M.current)
 
-                var agree = false;
-                const termanAndContictionContent = M.current.parentElement.parentElement.querySelector('terms-and-conditions').querySelector('input');
-                const termanAndContictionHelpers = M. current.parentElement.parentElement.querySelector('terms-and-conditions').querySelector(".mp-terms-and-conditions-container");
-                termanAndContictionContent.addEventListener('click', function() {
-                    const checkbox = termanAndContictionContent;
-                    if (checkbox.checked) {
-                        termanAndContictionHelpers.classList.remove("mp-error")
-                        agree = true;
-                    } else {
-                        termanAndContictionHelpers.classList.add("mp-error")
-                        agree = false;
-                    }
-                });
-
 
                 const e = O((async () => {
                     var paymentOptionSelected = null;
@@ -420,13 +408,14 @@
                         verifyPaymentMethods(M.current)
                     }
 
-                    const doc_type = ticketContentDocument.parentElement.parentElement.querySelector("#identificationType").querySelector("select").value;
+                    const doc_type = ticketContentDocument.parentElement.parentElement.querySelector("#identificationType").value;
                     const cellphoneType = ticketContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                     const countryType = ticketContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
                     const person_type_value = M.current.querySelector("#epayco_ticket\\[person_type\\]").value;
-                    const doc_number_value = M.current.querySelector("#identificationTypeNumber").querySelector("input").value;
+                    const doc_number_value = M.current.querySelector("#dentificationTypeNumber").querySelector("input").value;
                     const n = {
                             "epayco_ticket[site_id]": C,
+                            "epayco_ticket[amount]": b.toString(),
                             "epayco_ticket[name]": ticketContentName.value,
                             "epayco_ticket[address]": ticketContentAddress.value,
                             "epayco_ticket[email]": ticketContentEmail.value,
@@ -443,10 +432,9 @@
                     "" === ticketContentEmail.value && verifyEmail(ticketContentEmail);
                     "" === ticketContentAddress.value && verifyAddress(ticketContentAddress);
                     "" === ticketContentCellphone.value && verifyCellphone(ticketContentCellphone);
-                    "Type"||"Tipo" === doc_type && verifyDocument(ticketContentDocument);
+                    "Type" === doc_type.value && verifyDocument(ticketContentDocument);
                     "" === ticketContentDocument.value && verifyDocument(ticketContentDocument);
                     "" === ticketContentCountry.value && verifyCountry(ticketContentCountry);
-                    !agree && termanAndContictionHelpers.classList.add("mp-error");
 
                     function c(e, t) {
                         e && e.style && (e.style.display = t)
@@ -463,9 +451,9 @@
                     "" !== ticketContentCellphone.value &&
                     "" !== ticketContentDocument.value &&
                     "" !== ticketContentCountry.value &&
-                    "Type"||"Tipo" !== doc_type,
+                    "Type" !== doc_type,
                         {
-                            type: o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers) || o(paymentMethodHelpers) || o(countryHelpers) || !agree ? P.responseTypes.ERROR : P.responseTypes.SUCCESS,
+                            type: o(nameHelpers) || o(emailHelpers) || o(addressHelpers) || o(cellphoneHelpers) || o(documentHelpers) || o(paymentMethodHelpers) || o(countryHelpers) ? P.responseTypes.ERROR : P.responseTypes.SUCCESS,
                             meta: {paymentMethodData: n}
                         }
                 }));

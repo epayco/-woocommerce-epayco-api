@@ -11,11 +11,13 @@ use Epayco\Woocommerce\Helpers\CurrentUser;
 use Epayco\Woocommerce\Helpers\Form;
 use Epayco\Woocommerce\Helpers\Nonce;
 use Epayco\Woocommerce\Helpers\PaymentStatus;
+use Epayco\Woocommerce\Helpers\Requester;
 use Epayco\Woocommerce\Helpers\Url;
 use Epayco\Woocommerce\Order\OrderStatus;
 use Epayco\Woocommerce\Translations\AdminTranslations;
 use Epayco\Woocommerce\Translations\StoreTranslations;
 use Epayco\Woocommerce\Libraries\Logs\Logs;
+use Epayco\Woocommerce\Libraries\Metrics\Datadog;
 use Epayco\Woocommerce\Sdk\EpaycoSdk;
 
 if (!defined('ABSPATH')) {
@@ -90,12 +92,20 @@ class Order
      */
     private $currentUser;
 
+    /**
+     * @var Requester
+     */
+    private $requester;
 
     /**
      * @var Logs
      */
     private $logs;
 
+    /**
+     * @var Datadog
+     */
+    private $datadog;
 
     /**
      * @const
@@ -117,6 +127,7 @@ class Order
      * @param Endpoints $endpoints
      * @param Cron $cron
      * @param CurrentUser $currentUser
+     * @param Requester $requester
      * @param Logs $logs
      */
     public function __construct(
@@ -133,6 +144,7 @@ class Order
         Endpoints $endpoints,
         Cron $cron,
         CurrentUser $currentUser,
+        Requester $requester,
         Logs $logs
     ) {
         $this->template          = $template;
@@ -148,7 +160,9 @@ class Order
         $this->endpoints         = $endpoints;
         $this->cron              = $cron;
         $this->currentUser       = $currentUser;
+        $this->requester         = $requester;
         $this->logs              = $logs;
+        $this->datadog           = Datadog::getInstance();
 
         $this->sdk  = $this->getSdkInstance();
 
@@ -249,7 +263,7 @@ class Order
     {
         $paymentInfo  = $this->getLastPaymentInfo($order);
         $paymentInfo = json_decode(json_encode($paymentInfo), true);
-        //$paymentInfo = json_decode('{"success":true,"titleResponse":"Successful consult","textResponse":"successful consult","lastAction":"successful consult","data":{"pagination":{"totalCount":1,"limit":50,"page":1},"data":[{"referencePayco":101638598,"referenceClient":"32_test_1","transactionDate":"2024-10-19","description":"my coffe subscription","paymentMethod":"DP","amount":22000,"status":"Rechazada","test":true,"currency":"COP","transactionDateTime":"2024-10-19 16:45:18","iva":0,"bank":"DaviPlata","card":"DP","receipt":"10163859820241019112993","authorization":"000000","response":"C\u00f3digo de confirmaci\u00f3n incorrecto","trmdia":null,"docType":"CC","document":"8019","names":"Paola","lastnames":"Margarita","cicloPse":null}],"aggregations":{"status":[{"key":"Rechazada","doc_count":1}],"transactionType":{"produccion":{"doc_count":0},"pruebas":{"doc_count":1}},"transactionFranchises":{"American Express":{"doc_count":0},"Baloto":{"doc_count":0},"Bot\u00f3n Bancolombia":{"doc_count":0},"Codensa":{"doc_count":0},"Credibanco Bot\u00f3n":{"doc_count":0},"Cr\u00e9dito Credencial":{"doc_count":0},"Cr\u00e9dito Mastercard":{"doc_count":0},"Cr\u00e9dito Visa":{"doc_count":0},"C\u00f3digo QR":{"doc_count":0},"Daviplata":{"doc_count":1},"Daviplata App":{"doc_count":0},"Debito Mastercard":{"doc_count":0},"Debito Visa":{"doc_count":0},"Diners Club":{"doc_count":0},"D\u00e9bito Autom\u00e1tico Interbancario":{"doc_count":0},"Efecty":{"doc_count":0},"Epm":{"doc_count":0},"Gana":{"doc_count":0},"PSE":{"doc_count":0},"PayPal":{"doc_count":0},"Punto Red":{"doc_count":0},"Puntos Colombia":{"doc_count":0},"Puntos y Cr\u00e9dito Davivienda":{"doc_count":0},"Recarga Daviplata PSE":{"doc_count":0},"Red Servi":{"doc_count":0},"SafetyPay":{"doc_count":0},"Sin medio de Pago":{"doc_count":0},"Split Payment":{"doc_count":0},"Split Receiver Fee":{"doc_count":0},"Sured":{"doc_count":0},"Tarjeta Mef\u00eda":{"doc_count":0}},"transactionStatus":{"Abandonada":{"doc_count":0},"Aceptada":{"doc_count":0},"Antifraude":{"doc_count":0},"Cancelada":{"doc_count":0},"Expirada":{"doc_count":0},"Fallida":{"doc_count":0},"Iniciada":{"doc_count":0},"Pendiente":{"doc_count":0},"Rechazada":{"doc_count":1},"Retenida":{"doc_count":0},"Reversada":{"doc_count":0}}}}}', true);
+        //$paymentInfo = json_decode('{"success":true,"titleResponse":"Successful consult","textResponse":"successful consult","lastAction":"successful consult","data":{"pagination":{"totalCount":1,"limit":50,"page":1},"data":[{"referencePayco":101638598,"referenceClient":"32_test_1","transactionDate":"2024-10-19","description":"my coffe suscription","paymentMethod":"DP","amount":22000,"status":"Rechazada","test":true,"currency":"COP","transactionDateTime":"2024-10-19 16:45:18","iva":0,"bank":"DaviPlata","card":"DP","receipt":"10163859820241019112993","authorization":"000000","response":"C\u00f3digo de confirmaci\u00f3n incorrecto","trmdia":null,"docType":"CC","document":"8019","names":"Paola","lastnames":"Margarita","cicloPse":null}],"aggregations":{"status":[{"key":"Rechazada","doc_count":1}],"transactionType":{"produccion":{"doc_count":0},"pruebas":{"doc_count":1}},"transactionFranchises":{"American Express":{"doc_count":0},"Baloto":{"doc_count":0},"Bot\u00f3n Bancolombia":{"doc_count":0},"Codensa":{"doc_count":0},"Credibanco Bot\u00f3n":{"doc_count":0},"Cr\u00e9dito Credencial":{"doc_count":0},"Cr\u00e9dito Mastercard":{"doc_count":0},"Cr\u00e9dito Visa":{"doc_count":0},"C\u00f3digo QR":{"doc_count":0},"Daviplata":{"doc_count":1},"Daviplata App":{"doc_count":0},"Debito Mastercard":{"doc_count":0},"Debito Visa":{"doc_count":0},"Diners Club":{"doc_count":0},"D\u00e9bito Autom\u00e1tico Interbancario":{"doc_count":0},"Efecty":{"doc_count":0},"Epm":{"doc_count":0},"Gana":{"doc_count":0},"PSE":{"doc_count":0},"PayPal":{"doc_count":0},"Punto Red":{"doc_count":0},"Puntos Colombia":{"doc_count":0},"Puntos y Cr\u00e9dito Davivienda":{"doc_count":0},"Recarga Daviplata PSE":{"doc_count":0},"Red Servi":{"doc_count":0},"SafetyPay":{"doc_count":0},"Sin medio de Pago":{"doc_count":0},"Split Payment":{"doc_count":0},"Split Receiver Fee":{"doc_count":0},"Sured":{"doc_count":0},"Tarjeta Mef\u00eda":{"doc_count":0}},"transactionStatus":{"Abandonada":{"doc_count":0},"Aceptada":{"doc_count":0},"Antifraude":{"doc_count":0},"Cancelada":{"doc_count":0},"Expirada":{"doc_count":0},"Fallida":{"doc_count":0},"Iniciada":{"doc_count":0},"Pendiente":{"doc_count":0},"Rechazada":{"doc_count":1},"Retenida":{"doc_count":0},"Reversada":{"doc_count":0}}}}}', true);
         $status = 'pending';
         $alert_title = '';
         foreach ($paymentInfo['data']['data'] as $data) {
@@ -431,7 +445,7 @@ class Order
                     $this->syncOrderStatus($order);
                 }
 
-
+                $this->sendEventOnAction('success');
             } catch (\Exception $ex) {
                 $error_message = "Unable to update batch of orders on action got error: {$ex->getMessage()}";
 
@@ -439,7 +453,7 @@ class Order
                     $error_message,
                     __CLASS__
                 );
-
+                $this->sendEventOnAction('error', $error_message);
             }
         });
     }
@@ -459,6 +473,7 @@ class Order
             $this->cron->unregisterScheduledEvent($action);
         }
 
+        $this->sendEventOnToggle($enabled);
     }
 
     /**
@@ -572,4 +587,20 @@ class Order
         $order->save();
     }
 
+
+    /**
+     * Send an datadog event inside the sync order status action on fail and success
+     */
+    private function sendEventOnAction($value, $message = null)
+    {
+        $this->datadog->sendEvent('order_sync_status_action', $value, $message);
+    }
+
+    /**
+     * Send an datadog event when an seller toggles (activating or deactivating) the cron button
+     */
+    private function sendEventOnToggle($value)
+    {
+        $this->datadog->sendEvent('order_toggle_cron', $value);
+    }
 }

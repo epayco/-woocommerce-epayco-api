@@ -4,6 +4,7 @@ namespace Epayco\Woocommerce\Admin;
 
 use Epayco\Woocommerce\Configs\Seller;
 use Epayco\Woocommerce\Configs\Store;
+use Epayco\Woocommerce\Helpers\Categories;
 use Epayco\Woocommerce\Helpers\CurrentUser;
 use Epayco\Woocommerce\Helpers\Form;
 use Epayco\Woocommerce\Helpers\Links;
@@ -16,6 +17,7 @@ use Epayco\Woocommerce\Hooks\Endpoints;
 use Epayco\Woocommerce\Hooks\Order;
 use Epayco\Woocommerce\Hooks\Plugin;
 use Epayco\Woocommerce\Hooks\Scripts;
+use Epayco\Woocommerce\Libraries\Logs\Logs;
 use Epayco\Woocommerce\Translations\AdminTranslations;
 use Epayco\Woocommerce\Funnel\Funnel;
 
@@ -100,6 +102,11 @@ class Settings
      */
     private $session;
 
+    /**
+     * @var Logs
+     */
+    private $logs;
+
 
     /**
      * @var Funnel
@@ -127,6 +134,8 @@ class Settings
      * @param Nonce $nonce
      * @param CurrentUser $currentUser
      * @param Session $session
+     * @param Logs $logs
+     * @param Downloader $downloader
      * @param Funnel $funnel
      * @param Strings $strings
      */
@@ -144,6 +153,7 @@ class Settings
         Nonce $nonce,
         CurrentUser $currentUser,
         Session $session,
+        Logs $logs,
         Funnel $funnel,
         Strings $strings
     ) {
@@ -160,6 +170,7 @@ class Settings
         $this->nonce        = $nonce;
         $this->currentUser  = $currentUser;
         $this->session      = $session;
+        $this->logs         = $logs;
         $this->funnel       = $funnel;
         $this->strings      = $strings;
 
@@ -168,10 +179,14 @@ class Settings
         $this->registerAjaxEndpoints();
 
         $this->plugin->registerOnPluginCredentialsUpdate(function () {
+            $this->seller->updatePaymentMethods();
+            $this->seller->updatePaymentMethodsBySiteId();
             $this->funnel->updateStepCredentials();
         });
 
         $this->plugin->registerOnPluginTestModeUpdate(function () {
+            $this->seller->updatePaymentMethods();
+            $this->seller->updatePaymentMethodsBySiteId();
             $this->funnel->updateStepPluginMode();
         });
 
@@ -212,7 +227,9 @@ class Settings
                 'epayco_settings_admin_js',
                 $this->url->getPluginFileUrl('assets/js/admin/ep-admin-settings', '.js'),
                 [
-                    'nonce'              => $this->nonce->generateNonce(self::NONCE_ID)
+                    'nonce'              => $this->nonce->generateNonce(self::NONCE_ID),
+                    'show_advanced_text' => $this->translations->storeSettings['accordion_advanced_store_show'],
+                    'hide_advanced_text' => $this->translations->storeSettings['accordion_advanced_store_hide'],
                 ]
             );
 
@@ -292,19 +309,35 @@ class Settings
     {
         $headerTranslations      = $this->translations->headerSettings;
         $credentialsTranslations = $this->translations->credentialsSettings;
+        $storeTranslations       = $this->translations->storeSettings;
         $gatewaysTranslations    = $this->translations->gatewaysSettings;
         $testModeTranslations    = $this->translations->testModeSettings;
+        $allowedHtmlTags         = $this->strings->getAllowedHtmlTags();
+
         $pcustid   = $this->seller->getCredentialsPCustId();
+        $pKey   = $this->seller->getCredentialsPkey();
         $publicKey   = $this->seller->getCredentialsPublicKeyPayment();
         $privateKey   = $this->seller->getCredentialsPrivateKeyPayment();
-        $pKey   = $this->seller->getCredentialsPkey();
+
+        $storeId             = $this->store->getStoreId();
+        $storeName           = $this->store->getStoreName();
+        $storeCategory       = $this->store->getStoreCategory('others');
+        $customDomain        = $this->store->getCustomDomain();
+        $customDomainOptions = $this->store->getCustomDomainOptions();
+        $integratorId        = $this->store->getIntegratorId();
 
         $checkboxCheckoutTestMode       = $this->store->getCheckboxCheckoutTestMode();
         $checkboxCheckoutProductionMode = $this->store->getCheckboxCheckoutProductionMode();
 
         $links      = $this->links->getLinks();
         $testMode   = ($checkboxCheckoutTestMode === 'yes');
-        $allowedHtmlTags         = $this->strings->getAllowedHtmlTags();
+        $categories = Categories::getCategories();
+
+        $phpVersion = phpversion() ? phpversion() : "";
+        $wpVersion = $GLOBALS['wp_version'] ? $GLOBALS['wp_version'] : "";
+        $wcVersion = $GLOBALS['woocommerce']->version ? $GLOBALS['woocommerce']->version : "";
+        $pluginVersion = EP_VERSION ? EP_VERSION : "";
+
 
         include dirname(__FILE__) . '/../../templates/admin/settings/settings.php';
     }
@@ -344,9 +377,14 @@ class Settings
 
             wp_send_json_success($payment_gateway_properties);
         } catch (\Exception $e) {
+            $this->logs->file->error(
+                "ePayco gave error in epaycoPaymentMethods: {$e->getMessage()}",
+                __CLASS__
+            );
             $response = [
                 'message' => $e->getMessage()
             ];
+
             wp_send_json_error($response);
         }
     }
@@ -441,15 +479,10 @@ class Settings
 
 
         } catch (\Exception $e) {
-            $response = [
-                'type'      => 'error',
-                'message'   => $e->getMessage(),
-                'subtitle'  => $e->getMessage() . ' ',
-                'linkMsg'   => '',
-                'link'      => '',
-                'test_mode' => $this->store->getCheckboxCheckoutTestMode()
-            ];
-            wp_send_json_error($response);
+            $this->logs->file->error(
+                "ePayco gave error in update option credentials: {$e->getMessage()}",
+                __CLASS__
+            );
         }
     }
 

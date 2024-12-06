@@ -71,8 +71,8 @@ function selectTestMode(test) {
     badge.classList.remove('mp-settings-prod-mode-alert');
     badge.classList.add('mp-settings-test-mode-alert');
 
-    colorBadge.classList.remove('mp-settings-alert-payment-methods-green');
-    colorBadge.classList.add('mp-settings-alert-payment-methods-orange');
+    //colorBadge.classList.remove('mp-settings-alert-payment-methods-green');
+    //colorBadge.classList.add('mp-settings-alert-payment-methods-orange');
 
     iconBadge.classList.remove('mp-settings-icon-success');
     iconBadge.classList.add('mp-settings-icon-warning');
@@ -94,8 +94,8 @@ function selectTestMode(test) {
 
     red_badge.style.display = 'none';
 
-    colorBadge.classList.remove('mp-settings-alert-payment-methods-orange');
-    colorBadge.classList.add('mp-settings-alert-payment-methods-green');
+    //colorBadge.classList.remove('mp-settings-alert-payment-methods-orange');
+    //colorBadge.classList.add('mp-settings-alert-payment-methods-green');
 
     iconBadge.classList.remove('mp-settings-icon-warning');
     iconBadge.classList.add('mp-settings-icon-success');
@@ -150,8 +150,8 @@ function mpShowMessage(message, type, block) {
   }
 
   type === 'error'
-      ? (messageDiv.className = 'mp-alert mp-alert-danger mp-text-center mp-card-body')
-      : (messageDiv.className = 'mp-alert mp-alert-success mp-text-center mp-card-body');
+    ? (messageDiv.className = 'mp-alert mp-alert-danger mp-text-center mp-card-body')
+    : (messageDiv.className = 'mp-alert mp-alert-success mp-text-center mp-card-body');
 
   messageDiv.appendChild(document.createTextNode(message));
   card.insertBefore(messageDiv, heading);
@@ -162,51 +162,51 @@ function mpShowMessage(message, type, block) {
 function mpValidateCredentialsTips() {
   const iconCredentials = document.getElementById('mp-settings-icon-credentials');
   jQuery
-      .post(
-          ajaxurl,
-          {
-            action: 'ep_validate_credentials_tips',
-            nonce: epayco_settings_admin_js_params.nonce,
-          },
-          function () {
-          }
-      )
-      .done(function (response) {
-        if (response.success) {
-          iconCredentials.classList.remove('mp-settings-icon-credentials');
-          iconCredentials.classList.add('mp-settings-icon-success');
-        } else {
-          iconCredentials.classList.remove('mp-settings-icon-success');
-        }
-      })
-      .fail(function () {
+    .post(
+      ajaxurl,
+      {
+        action: 'ep_validate_credentials_tips',
+        nonce: epayco_settings_admin_js_params.nonce,
+      },
+      function () {
+      }
+    )
+    .done(function (response) {
+      if (response.success) {
+        iconCredentials.classList.remove('mp-settings-icon-credentials');
+        iconCredentials.classList.add('mp-settings-icon-success');
+      } else {
         iconCredentials.classList.remove('mp-settings-icon-success');
-      });
+      }
+    })
+    .fail(function () {
+      iconCredentials.classList.remove('mp-settings-icon-success');
+    });
 }
 
 function mpValidatePaymentTips() {
   const iconPayment = document.getElementById('mp-settings-icon-payment');
   jQuery
-      .post(
-          ajaxurl,
-          {
-            action: 'ep_validate_payment_tips',
-            nonce: epayco_settings_admin_js_params.nonce,
-          },
-          function () {
-          }
-      )
-      .done(function (response) {
-        if (response.success) {
+    .post(
+      ajaxurl,
+      {
+        action: 'ep_validate_payment_tips',
+        nonce: epayco_settings_admin_js_params.nonce,
+      },
+      function () {
+      }
+    )
+    .done(function (response) {
+      if (response.success) {
           iconPayment.classList.remove('mp-settings-icon-payment');
           iconPayment.classList.add('mp-settings-icon-success');
-        } else {
+      } else {
           iconPayment.classList.remove('mp-settings-icon-success');
-        }
-      })
-      .fail(function () {
-        iconPayment.classList.remove('mp-settings-icon-success');
-      });
+      }
+    })
+    .fail(function () {
+      iconPayment.classList.remove('mp-settings-icon-success');
+    });
 }
 
 function mpGoToNextStep(actualStep, nextStep, actualArrowId, nextArrowId) {
@@ -242,35 +242,35 @@ function mpGoToNextStep(actualStep, nextStep, actualArrowId, nextArrowId) {
 
 function mpContinueToNextStep() {
   document
-      .getElementById('mp-payment-method-continue')
-      .addEventListener('click', function () {
-        mpGoToNextStep('mp-step-3', 'mp-step-4', 'mp-payments-arrow-up', 'mp-modes-arrow-up');
-      });
+    .getElementById('mp-payment-method-continue')
+    .addEventListener('click', function () {
+      mpGoToNextStep('mp-step-3', 'mp-step-4', 'mp-payments-arrow-up', 'mp-modes-arrow-up');
+    });
 }
 
 
 function mpGetPaymentMethods() {
   jQuery.post(
-      ajaxurl,
-      {
-        action: 'ep_get_payment_methods',
-        nonce: epayco_settings_admin_js_params.nonce,
-      },
-      function (response) {
-        const payment = document.getElementById('mp-payment');
+    ajaxurl,
+    {
+      action: 'ep_get_payment_methods',
+      nonce: epayco_settings_admin_js_params.nonce,
+    },
+    function (response) {
+      const payment = document.getElementById('mp-payment');
 
-        // removes current payment methods
-        document.querySelectorAll('.mp-settings-payment-block').forEach(element => {element.remove()})
+      // removes current payment methods
+      document.querySelectorAll('.mp-settings-payment-block').forEach(element => {element.remove()})
 
-        response.data.reverse().forEach((gateway) => {
-          payment.insertAdjacentElement('afterend', createMpPaymentMethodComponent(gateway));
-        });
-
-        // added melidata events on store configuration step three
-        if (window.melidata && window.melidata.client && window.melidata.client.stepPaymentMethodsCallback) {
-          window.melidata.client.stepPaymentMethodsCallback();
-        }
+      response.data.reverse().forEach((gateway) => {
+        payment.insertAdjacentElement('afterend', createMpPaymentMethodComponent(gateway));
       });
+
+      // added melidata events on store configuration step three
+      if (window.melidata && window.melidata.client && window.melidata.client.stepPaymentMethodsCallback) {
+        window.melidata.client.stepPaymentMethodsCallback();
+      }
+    });
 }
 
 function createMpPaymentMethodComponent(gateway) {
@@ -346,7 +346,7 @@ function mpValidateCredentials() {
       .getElementById('mp-p_cust_id')
       .addEventListener('change', function () {
         const self = this;
-        if (self.value.length<5) {
+        if (self.value.length<=5) {
           self.classList.remove('mp-credential-feedback-positive');
           self.classList.add('mp-credential-feedback-negative');
         } else {
@@ -359,7 +359,7 @@ function mpValidateCredentials() {
       .getElementById('mp-p_key')
       .addEventListener('change', function () {
         const self = this;
-        if (self.value.length<39) {
+        if (self.value.length<=39) {
           self.classList.remove('mp-credential-feedback-positive');
           self.classList.add('mp-credential-feedback-negative');
         } else {
@@ -372,7 +372,7 @@ function mpValidateCredentials() {
       .getElementById('mp-publicKey')
       .addEventListener('change', function () {
         const self = this;
-        if (self.value.length<31) {
+        if (self.value.length<=31) {
           self.classList.remove('mp-credential-feedback-positive');
           self.classList.add('mp-credential-feedback-negative');
         } else {
@@ -385,7 +385,7 @@ function mpValidateCredentials() {
       .getElementById('mp-private_key')
       .addEventListener('change', function () {
         const self = this;
-        if (self.value.length<31) {
+        if (self.value.length<=31) {
           self.classList.remove('mp-credential-feedback-positive');
           self.classList.add('mp-credential-feedback-negative');
         } else {
@@ -413,68 +413,63 @@ function hideLoading() {
 
 function mpUpdateOptionCredentials() {
   document
-      .getElementById('mp-btn-credentials')
-      .addEventListener('click', function () {
-        const msgAlert = document.getElementById('msg-info-credentials');
-        if (msgAlert.childNodes.length >= 1) {
-          document.querySelector('.mp-card-info').remove();
-        }
-        showLoading();
-        /*setTimeout(() => {
-            hideLoading();
-        }, 1000);
-        setTimeout(() => {
-            mpGoToNextStep('mp-step-1', 'mp-step-3', 'mp-credentials-arrow-up', 'mp-store-info-arrow-up');
-        }, 2000);*/
+    .getElementById('mp-btn-credentials')
+    .addEventListener('click', function () {
+      const msgAlert = document.getElementById('msg-info-credentials');
+      if (msgAlert.childNodes.length >= 1) {
+        document.querySelector('.mp-card-info').remove();
+      }
+      showLoading();
+      setTimeout(() => {
+        hideLoading();
+      }, 1000);
+      setTimeout(() => {
+        mpGoToNextStep('mp-step-1', 'mp-step-3', 'mp-credentials-arrow-up', 'mp-store-info-arrow-up');
+      }, 2000);
 
-        jQuery
-            .post(
-                ajaxurl,
-                {
-                  p_cust_id: document.getElementById('mp-p_cust_id').value,
-                  p_key: document.getElementById('mp-p_key').value,
-                  publicKey: document.getElementById('mp-publicKey').value,
-                  private_key: document.getElementById('mp-private_key').value,
-                  action: 'ep_update_option_credentials',
-                  nonce: epayco_settings_admin_js_params.nonce,
-                },
-                function () {
-                }
-            )
-            .done(function (response) {
-              mpGetPaymentMethods();
-              if (response.success) {
-                mpVerifyAlertTestMode();
-                mpShowMessage(response.data, 'success', 'credentials');
-                mpValidateCredentialsTips();
-                hideLoading();
-                setTimeout(() => {
-                  mpGoToNextStep('mp-step-1', 'mp-step-3', 'mp-credentials-arrow-up', 'mp-modes-arrow-up');
-                }, 1000);
-              } else {
-                const rad = document.querySelectorAll('input[name="mp-test-prod"]');
-                const { message, subtitle, link, linkMsg, type, test_mode } = response?.data;
+      /*jQuery
+        .post(
+          ajaxurl,
+          {
+            p_cust_id: document.getElementById('mp-p_cust_id').value,
+            p_key: document.getElementById('mp-p_key').value,
+            publicKey: document.getElementById('mp-publicKey').value,
+            private_key: document.getElementById('mp-private_key').value,
+            action: 'ep_update_option_credentials',
+            nonce: epayco_settings_admin_js_params.nonce,
+          },
+          function () {
+          }
+        )
+        .done(function (response) {
+          mpGetPaymentMethods();
+          if (response.success) {
+            mpVerifyAlertTestMode();
+            mpShowMessage(response.data, 'success', 'credentials');
+            mpValidateCredentialsTips();
 
-                mpMsgElement('msg-info-credentials', message, subtitle, link, linkMsg, type);
+            setTimeout(() => {
+              mpGoToNextStep('mp-step-1', 'mp-step-3', 'mp-credentials-arrow-up', 'mp-modes-arrow-up');
+            }, 1000);
+          } else {
+            const rad = document.querySelectorAll('input[name="mp-test-prod"]');
+            const { message, subtitle, link, linkMsg, type, test_mode } = response?.data;
 
-                if (test_mode === 'no') {
-                  rad[1].checked = true;
-                  selectTestMode(false);
-                } else {
-                  rad[0].checked = true;
-                  selectTestMode(true);
-                }
+            mpMsgElement('msg-info-credentials', message, subtitle, link, linkMsg, type);
 
-                setTimeout(() => {
-                  hideLoading();
-                }, 1000);
-              }
-            })
-            .fail(function (error) {
-              hideLoading();
-              mpShowMessage(error?.data, 'error', 'credentials');
-            });
-      });
+            if (test_mode === 'no') {
+              rad[1].checked = true;
+              selectTestMode(false);
+            } else {
+              rad[0].checked = true;
+              selectTestMode(true);
+            }
+          }
+        })
+        .fail(function (error) {
+          mpShowMessage(error?.data, 'error', 'credentials');
+        });*/
+    });
 }
 
 
@@ -494,34 +489,34 @@ function mpUpdateTestMode() {
   });
 
   document
-      .getElementById('mp-store-mode-save')
-      .addEventListener('click', function () {
-        jQuery
-            .post(
-                ajaxurl,
-                {
-                  input_mode_value: document.querySelector('input[name="mp-test-prod"]:checked').value,
-                  input_verify_alert_test_mode: mpVerifyAlertTestMode() ? 'yes' : 'no',
-                  action: 'ep_update_test_mode',
-                  nonce: epayco_settings_admin_js_params.nonce,
-                },
-                function () {
-                }
-            )
-            .done(function (response) {
-              if (response.success) {
-                mpShowMessage(response.data, 'success', 'test_mode');
-              } else {
-                mpShowMessage(response.data, 'error', 'test_mode');
-              }
-              setTimeout(() => {
-                mpGoToNextStep('mp-step-4', 'mp-step-5', 'mp-modes-arrow-up', 'mp-store-info-arrow-up');
-              }, 1000);
-            })
-            .fail(function (error) {
-              mpShowMessage(error.data, 'error', 'test_mode');
-            });
-      });
+    .getElementById('mp-store-mode-save')
+    .addEventListener('click', function () {
+      jQuery
+        .post(
+          ajaxurl,
+          {
+            input_mode_value: document.querySelector('input[name="mp-test-prod"]:checked').value,
+            input_verify_alert_test_mode: mpVerifyAlertTestMode() ? 'yes' : 'no',
+            action: 'ep_update_test_mode',
+            nonce: epayco_settings_admin_js_params.nonce,
+          },
+          function () {
+          }
+        )
+        .done(function (response) {
+          if (response.success) {
+            mpShowMessage(response.data, 'success', 'test_mode');
+          } else {
+            mpShowMessage(response.data, 'error', 'test_mode');
+          }
+          setTimeout(() => {
+            mpGoToNextStep('mp-step-4', 'mp-step-5', 'mp-modes-arrow-up', 'mp-store-info-arrow-up');
+          }, 1000);
+        })
+        .fail(function (error) {
+          mpShowMessage(error.data, 'error', 'test_mode');
+        });
+    });
 }
 
 function mp_settings_screen_load() {
@@ -567,12 +562,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  /*selectAllCheckbox.addEventListener('change', function () {
-      checkboxes.forEach((checkbox) => {
-          checkbox.checked = selectAllCheckbox.checked;
-      });
-      downloadButton.disabled = !selectAllCheckbox.checked;
-  });*/
+  selectAllCheckbox.addEventListener('change', function () {
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = selectAllCheckbox.checked;
+    });
+    downloadButton.disabled = !selectAllCheckbox.checked;
+ });
 
 });
 

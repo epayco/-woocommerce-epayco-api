@@ -55,7 +55,7 @@ class DaviplataGateway extends AbstractGateway
 
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
-        //$this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
+        $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
     }
 
@@ -161,6 +161,7 @@ class DaviplataGateway extends AbstractGateway
      */
     public function getPaymentFieldsParams(): array
     {
+        $amountAndCurrencyRatio = $this->getAmountAndCurrency();
         return [
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
@@ -173,12 +174,14 @@ class DaviplataGateway extends AbstractGateway
             'input_address_helper'             => $this->storeTranslations['input_address_helper'],
             'input_ind_phone_label'            => $this->storeTranslations['input_ind_phone_label'],
             'input_ind_phone_helper'           => $this->storeTranslations['input_ind_phone_helper'],
+            'input_country_label'              => $this->storeTranslations['input_country_label'],
+            'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'person_type_label'                => $this->storeTranslations['person_type_label'],
             'input_document_label'             => $this->storeTranslations['input_document_label'],
             'input_document_helper'            => $this->storeTranslations['input_document_helper'],
-            'input_country_label'              => $this->storeTranslations['input_country_label'],
-            'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'site_id'                          => $this->epayco->sellerConfig->getSiteId(),
+            'amount'                           => $amountAndCurrencyRatio['amount'],
+            'message_error_amount'             => $this->storeTranslations['message_error_amount'],
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
@@ -223,10 +226,9 @@ class DaviplataGateway extends AbstractGateway
             $response          = $this->transaction->createDaviplataPayment($order, $checkout);
             if (is_array($response) && $response['success']) {
                 //$this->handleWithRejectPayment($response);
-                $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
-                if (isset($ref_payco)) {
-                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
-                    $response['urlPayment'] = 'https://vtex.epayco.io/daviplata?refPayco='.$ref_payco;
+                $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$response['data']['refPayco']]);
+                if (isset($response['data']['refPayco'])) {
+                    $response['urlPayment'] = 'https://vtex.epayco.io/daviplata?refPayco='.$response['data']['refPayco'];
                     $this->epayco->hooks->order->setDaviplataMetadata($order, $response);
                     $description = sprintf(
                         "ePayco: %s <a target='_blank' href='%s'>%s</a>",
@@ -241,8 +243,7 @@ class DaviplataGateway extends AbstractGateway
                 if (in_array(strtolower($response['data']['estatus']),["pendiente","pending"])) {
                     $order->update_status("on-hold");
                     $this->epayco->woocommerce->cart->empty_cart();
-                    //$urlReceived = $order->get_checkout_order_received_url();
-                    $urlReceived = $response['urlPayment'];
+                    $urlReceived = $order->get_checkout_order_received_url();
                     $return = [
                         'result'   => 'success',
                         'redirect' => $urlReceived,
@@ -250,7 +251,7 @@ class DaviplataGateway extends AbstractGateway
                     return $return;
                 }
             }else{
-                $messageError = $response['message']??$response['titleResponse']??'error';
+                $messageError = $response['message']?? $response['titleResponse'];
                 $errorMessage = "";
                 if (isset($response['data']['errors'])) {
                     $errors = $response['data']['errors'];
@@ -273,9 +274,17 @@ class DaviplataGateway extends AbstractGateway
                         $errorMessage = $error['errorMessage'] . "\n";
                     }
                 }
-                $processReturnFailMessage = $messageError. " " . $errorMessage;
-                return $this->returnFail($processReturnFailMessage, $order);
+                return [
+                    'result'   => 'fail',
+                    'redirect' => '',
+                    'message'  => $messageError. " " . $errorMessage,
+                ];
             }
+            return [
+                'result'   => 'fail',
+                'redirect' => '',
+                'message'  => "error en daviplata",
+            ];
 
         }catch (\Exception $e) {
             return $this->processReturnFail(

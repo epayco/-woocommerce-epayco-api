@@ -4,6 +4,8 @@ namespace Epayco\Woocommerce\Gateways;
 
 use Epayco\Woocommerce\Helpers\Device;
 use Epayco\Woocommerce\Sdk\EpaycoSdk;
+use MercadoPago\PP\Sdk\Entity\Payment\Payment;
+use MercadoPago\PP\Sdk\Entity\Preference\Preference;
 use Epayco\Woocommerce\Helpers\Form;
 use Epayco\Woocommerce\Helpers\Numbers;
 use Epayco\Woocommerce\WoocommerceEpayco;
@@ -43,6 +45,12 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
      */
     protected $epayco;
 
+    /**
+     * Transaction
+     *
+     * @var Payment|Preference
+     */
+    protected $transaction;
 
     /**
      * Commission
@@ -112,12 +120,15 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
 
         $this->checkoutCountry = $this->epayco->storeConfig->getCheckoutCountry();
         $this->countryConfigs  = $this->epayco->helpers->country->getCountryConfigs();
+        $this->ratio           = $this->epayco->helpers->currency->getRatio($this);
         $this->links           = $this->epayco->helpers->links->getLinks();
 
         $this->has_fields = true;
         $this->supports   = ['products', 'refunds'];
 
         $this->init_settings();
+        $this->loadResearchComponent();
+        //$this->loadMelidataStoreScripts();
         $this->sdk  = $this->getSdkInstance();
     }
 
@@ -181,6 +192,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, explode(',', $paymentIds));
             return;
         }
+        $this->epayco->logs->file->info("no payment ids to update", "Epayco_AbstractGateway");
     }
 
     /**
@@ -205,6 +217,31 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
         return false;
     }
 
+    /**
+     * If the seller is homologated, it returns an array of an empty $form_fields field.
+     * If not, then return a notice to inform that the seller must be homologated to be able to sell.
+     *
+     * @return array
+     */
+    protected function getHomologValidateNoticeOrHidden(): array
+    {
+        if ($this->epayco->sellerConfig->getHomologValidate()) {
+            return [
+                'type'  => 'title',
+                'value' => '',
+            ];
+        }
+        return [
+            'type'  => 'ep_card_info',
+            'value' => [
+                'button_url'  => $this->links['admin_settings_page'],
+                'icon'        => 'ep-icon-badge-warning',
+                'color_card'  => 'ep-alert-color-alert',
+                'size_card'   => 'ep-card-body-size-homolog',
+                'target'      => '_blank',
+            ]
+        ];
+    }
 
     /**
      * Added gateway scripts
@@ -249,13 +286,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
      */
     public function registerCheckoutScripts(): void
     {
-
-
-        $this->epayco->hooks->scripts->registerCheckoutScript(
-            'wc_epayco_token_sdk',
-            //$this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/creditcard/library', '.js')
-            "https://cms.epayco.io/js/library.js"
-        );
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_checkout_components',
@@ -324,20 +354,20 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     public function webhook(): void
     {
         global $woocommerce;
-        $order_id_info = trim(sanitize_text_field($_GET['order_id']));
+        $order_id_info = sanitize_text_field($_GET['order_id']);
         $order_id_explode = explode('=',$order_id_info);
         $order_id_rpl  = str_replace('?ref_payco','',$order_id_explode);
         $order_id = $order_id_rpl[0];
         $order = new \WC_Order($order_id);
         $data = Form::sanitizedGetData();
         $params = $data??$_POST;
-        //$params = $_POST;
-        $x_signature = trim(sanitize_text_field($params['x_signature']));
-        $x_cod_transaction_state =intval(trim(sanitize_text_field($params['x_cod_transaction_state'])));
-        $x_ref_payco = trim(sanitize_text_field($params['x_ref_payco']));
-        $x_transaction_id = trim(sanitize_text_field($params['x_transaction_id']));
-        $x_amount = trim(sanitize_text_field($params['x_amount']));
-        $x_currency_code = trim(sanitize_text_field($params['x_currency_code']));
+        $params = $_POST;
+        $x_signature = sanitize_text_field($params['x_signature']);
+        $x_cod_transaction_state = sanitize_text_field($params['x_cod_transaction_state']);
+        $x_ref_payco = sanitize_text_field($params['x_ref_payco']);
+        $x_transaction_id = sanitize_text_field($params['x_transaction_id']);
+        $x_amount = sanitize_text_field($params['x_amount']);
+        $x_currency_code = sanitize_text_field($params['x_currency_code']);
         $x_test_request = trim(sanitize_text_field($params['x_test_request']));
         $x_approval_code = trim(sanitize_text_field($params['x_approval_code']));
         $x_franchise = trim(sanitize_text_field($params['x_franchise']));
@@ -368,7 +398,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             $validation = false;
         }
 
-        if($authSignature == $x_signature){
+        if($authSignature == $x_signature && $validation){
             switch ($x_cod_transaction_state) {
                 case 1: {
                     $message = 'Pago Proccesado ' .$x_ref_payco;
@@ -418,6 +448,10 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
         }
         echo $message;
         die();
+        /*$notificationFactory = new NotificationFactory();
+        $notificationHandler = $notificationFactory->createNotificationHandler($this, $data);
+
+        $notificationHandler->handleReceivedNotification($data);*/
     }
 
     public function authSignature($x_ref_payco, $x_transaction_id, $x_amount, $x_currency_code){
@@ -471,34 +505,57 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Process if result is fail
+     * Load research component
      *
-     * @param string $message
-     * @param mixed $context
-     *
-     * @return array
+     * @return void
      */
-    public function returnFail(string $message, $context): array
+    public function loadResearchComponent(): void
     {
-        wc_add_notice($message, 'error');
-        if (version_compare(WOOCOMMERCE_VERSION, '2.1', '>=')) {
-            $redirect = array(
-                'result'   => 'fail',
-                'message'  => $message,
-                'redirect' => add_query_arg('order-pay', $context->get_id(), add_query_arg('key', $context->order_key, get_permalink(woocommerce_get_page_id('pay'))))
-            );
-        } else {
-            $redirect = array(
-                'result'   => 'fail',
-                'message'  => $message,
-                'redirect' => add_query_arg('order', $context->get_id(), add_query_arg('key', $context->order_key, get_permalink(woocommerce_get_page_id('pay'))))
-            );
-        }
-
-        return $redirect;
+        $this->epayco->hooks->gateway->registerAfterSettingsCheckout(
+            'admin/components/research-fields.php',
+            [
+                [
+                    'field_key'   => 'ep-public-key-prod',
+                    'field_value' => $this->epayco->sellerConfig->getCredentialsPublicKey(),
+                ],
+                [
+                    'field_key'   => 'reference',
+                    'field_value' => '{"ep-screen-name":"' . $this->getCheckoutName() . '"}',
+                ]
+            ]
+        );
     }
 
+    /**
+     * Load melidata script on store
+     *
+     * @return void
+     */
+    public function loadMelidataStoreScripts(): void
+    {
+        $this->epayco->hooks->checkout->registerBeforePay(function () {
+            $this->epayco->hooks->scripts->registerMelidataStoreScript('/woocommerce_pay');
+        });
 
+        $this->epayco->hooks->checkout->registerBeforeCheckoutForm(function () {
+            $this->epayco->hooks->scripts->registerMelidataStoreScript('/checkout');
+        });
+
+        $this->epayco->hooks->checkout->registerPayOrderBeforeSubmit(function () {
+            $this->epayco->hooks->scripts->registerMelidataStoreScript('/pay_order');
+        });
+
+        $this->epayco->hooks->gateway->registerBeforeThankYou(function ($orderId) {
+            $order         = wc_get_order($orderId);
+            $paymentMethod = $order->get_payment_method();
+
+            foreach ($this->epayco->storeConfig->getAvailablePaymentGateways() as $gateway) {
+                if ($gateway::ID === $paymentMethod) {
+                    //$this->epayco->hooks->scripts->registerMelidataStoreScript('/thankyou', $paymentMethod);
+                }
+            }
+        });
+    }
 
     /**
      * Process if result is fail
@@ -676,7 +733,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generate credits toggle switch component
+     * Generate custom toggle switch component
      *
      * @param string $key
      * @param array $settings
@@ -696,7 +753,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generate credits toggle switch component
+     * Generate custom toggle switch component
      *
      * @param string $key
      * @param array  $settings
@@ -714,7 +771,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generate credits header component
+     * Generate custom header component
      *
      * @param string $key
      * @param array $settings
@@ -734,7 +791,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generating credits actionable input component
+     * Generating custom actionable input component
      *
      * @param string $key
      * @param array $settings
@@ -758,7 +815,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generating credits card info component
+     * Generating custom card info component
      *
      * @param string $key
      * @param array $settings
@@ -778,7 +835,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Generating credits preview component
+     * Generating custom preview component
      *
      * @param string $key
      * @param array $settings
@@ -873,6 +930,10 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             $accessToken = $this->epayco->sellerConfig->getCredentialsAccessToken();
 
             if (empty($publicKey) || empty($accessToken)) {
+                $this->epayco->logs->file->error(
+                    "No credentials to enable payment method",
+                    "Epayco_AbstractGateway"
+                );
 
                 echo wp_json_encode(
                     array(
@@ -928,4 +989,22 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
         return $this->links['admin_settings_page'];
     }
 
+    protected function getAmountAndCurrency(): array
+    {
+        $currencyRatio = 0;
+        $amount = null;
+        try {
+            $currencyRatio = $this->epayco->helpers->currency->getRatio($this);
+            $amount = $this->getAmount();
+        } catch (\Exception $e) {
+            $this->epayco->logs->file->warning(
+                "ePayco gave error to call getRatio: {$e->getMessage()}",
+                self::LOG_SOURCE
+            );
+        }
+        return [
+            'currencyRatio' => $currencyRatio,
+            'amount' => $amount,
+        ];
+    }
 }

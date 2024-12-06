@@ -37,7 +37,7 @@ class PseTransaction extends AbstractPaymentTransaction
 
         $internalMetadata = parent::getInternalMetadata();
 
-        $internalMetadata->checkout      = 'credits';
+        $internalMetadata->checkout      = 'custom';
         $internalMetadata->checkout_type = self::ID;
 
         return $internalMetadata;
