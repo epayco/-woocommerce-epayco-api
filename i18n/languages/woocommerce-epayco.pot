@@ -263,7 +263,7 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:357
 #: src/Translations/StoreTranslations.php:382
 #: src/Translations/StoreTranslations.php:413
-msgid "of ePayco."
+msgid " of ePayco."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:871
@@ -1631,7 +1631,7 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:358
 #: src/Translations/StoreTranslations.php:383
 #: src/Translations/StoreTranslations.php:414
-msgid "Terms and Conditions and Personal Data Processing Policy"
+msgid "Terms and Conditions"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:623

@@ -11,12 +11,12 @@ final class Links
     /**
      * @const
      */
-    private const EP_URL = 'https://www.epayco.com';
+    private const EP_URL = 'https://epayco.com';
 
     /**
      * @const
      */
-    private const EP_URL_PREFIX = 'https://www.epayco';
+    private const EP_URL_PREFIX = 'https://.epayco';
 
     /**
      * @const
