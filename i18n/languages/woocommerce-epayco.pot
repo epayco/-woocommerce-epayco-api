@@ -964,12 +964,12 @@ msgstr ""
 msgid "https://github.com/epayco/Plugin_ePayco_WooCommerce"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:204
-#: src/Translations/StoreTranslations.php:257
-#: src/Translations/StoreTranslations.php:321
-#: src/Translations/StoreTranslations.php:356
-#: src/Translations/StoreTranslations.php:381
-#: src/Translations/StoreTranslations.php:412
+#: src/Translations/StoreTranslations.php:218
+#: src/Translations/StoreTranslations.php:282
+#: src/Translations/StoreTranslations.php:357
+#: src/Translations/StoreTranslations.php:392
+#: src/Translations/StoreTranslations.php:428
+#: src/Translations/StoreTranslations.php:459
 msgid "I confirm and accept the"
 msgstr ""
 
@@ -1246,7 +1246,7 @@ msgstr ""
 msgid "Payment was canceled."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:282
+#: src/Translations/StoreTranslations.php:318
 msgid "Payment was declined. The customer can try again."
 msgstr ""
 
@@ -1538,7 +1538,7 @@ msgstr ""
 msgid "Select a payment method"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:354
+#: src/Translations/StoreTranslations.php:390
 msgid "Select the Bank"
 msgstr ""
 
@@ -1552,7 +1552,7 @@ msgid ""
 "set it up."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:318
+#: src/Translations/StoreTranslations.php:354
 msgid "Select where you want to pay"
 msgstr ""
 
@@ -1625,12 +1625,12 @@ msgid "Sync order status"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:154
-#: src/Translations/StoreTranslations.php:206
-#: src/Translations/StoreTranslations.php:259
-#: src/Translations/StoreTranslations.php:323
-#: src/Translations/StoreTranslations.php:358
-#: src/Translations/StoreTranslations.php:383
-#: src/Translations/StoreTranslations.php:414
+#: src/Translations/StoreTranslations.php:220
+#: src/Translations/StoreTranslations.php:284
+#: src/Translations/StoreTranslations.php:359
+#: src/Translations/StoreTranslations.php:394
+#: src/Translations/StoreTranslations.php:430
+#: src/Translations/StoreTranslations.php:461
 msgid "Terms and Conditions"
 msgstr ""
 

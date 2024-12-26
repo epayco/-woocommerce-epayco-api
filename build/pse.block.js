@@ -419,7 +419,7 @@
                     if("0" === bank){
                         P.current.querySelector('.mp-input-select-bank').parentElement.classList.add("mp-error")
                         c(bankHelper, "flex")
-                        bankHelper.lastChild.innerText='invalid bank'
+                        bankHelper.lastChild.innerText=R
                     }else{
                         P.current.querySelector('.mp-input-select-bank').parentElement.classList.remove("mp-error")
                         c(bankHelper, "none")

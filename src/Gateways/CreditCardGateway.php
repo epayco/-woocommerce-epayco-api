@@ -178,6 +178,12 @@ class CreditCardGateway extends AbstractGateway
      */
     public function getPaymentFieldsParams(): array
     {
+        $idioma = substr(get_locale(), 0, 2);
+        if($idioma == 'es'){
+            $termsAndCondiction = 'Términos y condiciones';
+        }else{
+            $termsAndCondiction = 'Terms and conditions';
+        }
         return [
             'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
@@ -212,7 +218,8 @@ class CreditCardGateway extends AbstractGateway
             'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
-            'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
+            //'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
+            'terms_and_conditions_link_text'   => $termsAndCondiction,
             'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
             'site_id'                          => $this->epayco->sellerConfig->getSiteId() ?: $this->epayco->helpers->country::SITE_ID_MLA,
         ];
