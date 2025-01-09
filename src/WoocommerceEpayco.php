@@ -201,7 +201,7 @@ class WoocommerceEpayco
                     $payment_method_registry->register(new CreditCardBlock());
                     $payment_method_registry->register(new DaviplataBlock());
                     $payment_method_registry->register(new PseBlock());
-                    //$payment_method_registry->register(new SubscriptionBlock());
+                    $payment_method_registry->register(new SubscriptionBlock());
                     $payment_method_registry->register(new TicketBlock());
                 }
             );
