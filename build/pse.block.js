@@ -292,6 +292,12 @@
                 financial_institutions_helper: R,
                 financial_placeholder: T,
             } = _.params;
+            var city;
+            if (ch.includes("Ciudad")) {
+                city = "Ciudad";
+            } else {
+                city = "City";
+            }
             const P = (0, a.useRef)(null), {eventRegistration: q, emitResponse: O} = t, {onPaymentSetup: I} = q;
             let U = {
                 labelMessage: k,
@@ -533,7 +539,7 @@
                                         selectDataCheckout: "country_type",
                                         flagError: "countryTypeError",
                                         validate: "true",
-                                        placeholder: "city"
+                                        placeholder: city
                                     })
                                 ),
                                 (0, e.createElement)("div", {className: "mp-checkout-pse-bank"},

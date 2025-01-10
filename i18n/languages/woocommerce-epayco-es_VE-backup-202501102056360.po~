@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: ePayco Gateway\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-25 15:52+0000\n"
-"PO-Revision-Date: 2025-01-10 20:55+0000\n"
+"PO-Revision-Date: 2025-01-10 20:56+0000\n"
 "Last-Translator: \n"
-"Language-Team: Español\n"
-"Language: es_ES\n"
+"Language-Team: Español de Venezuela\n"
+"Language: es_VE\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -301,7 +301,7 @@ msgstr "Dirección"
 
 #: src/Translations/AdminTranslations.php:382
 msgid "Advanced settings"
-msgstr "Configuración avanzada"
+msgstr "Ajustes avanzados"
 
 #: src/Translations/AdminTranslations.php:518
 msgid "All payment methods"
@@ -576,7 +576,7 @@ msgid ""
 "Choose the URL that we will show your customers when they finish their "
 "purchase."
 msgstr ""
-"Elija la URL que mostraremos a sus clientes cuando finalicen su compra."
+"Elige la URL que mostraremos a tus clientes cuando finalicen su compra."
 
 #: src/Translations/StoreTranslations.php:430
 msgid "Click to try again"
@@ -731,7 +731,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:281
 msgid "Disabled"
-msgstr "Inactivo"
+msgstr "Discapacitados"
 
 #: src/Translations/AdminTranslations.php:302
 #: src/Translations/AdminTranslations.php:314
@@ -876,7 +876,7 @@ msgid ""
 "ePayco Error: PHP Extension GD is not installed. Installation of GD "
 "extension is required to send QR Code Pix by email."
 msgstr ""
-"error de ePayco: La extensión PHP GD no está instalada. Se requiere la "
+"error ePayco: La extensión PHP GD no está instalada. Se requiere la "
 "instalación de la extensión GD para enviar QR Code Pix por correo "
 "electrónico."
 
@@ -1212,7 +1212,7 @@ msgstr ""
 
 #: src/Translations/StoreTranslations.php:302
 msgid "Offline Methods in Test Mode"
-msgstr "Métodos offline en modo test"
+msgstr "Métodos fuera de línea en modo de prueba"
 
 #: src/Translations/AdminTranslations.php:874
 msgid "on the dev website."
@@ -1788,7 +1788,7 @@ msgstr "Reglas del modo de prueba."
 
 #: src/Translations/StoreTranslations.php:431
 msgid "That's it, payment accepted!"
-msgstr "Ya está, ¡pago aceptado!"
+msgstr "Eso es, ¡pago aceptado!"
 
 #: src/Translations/AdminTranslations.php:839
 msgid ""
@@ -1945,8 +1945,7 @@ msgstr "El texto aquí insertado no se traducirá a otras lenguas"
 #: src/Translations/StoreTranslations.php:380
 #: src/Translations/StoreTranslations.php:395
 msgid "There was an error. Please try again in a few minutes."
-msgstr ""
-"Se ha producido un error. Por favor, inténtelo de nuevo en unos minutos."
+msgstr "Se ha producido un error. Vuelva a intentarlo dentro de unos minutos."
 
 #: src/Translations/AdminTranslations.php:740
 msgid ""

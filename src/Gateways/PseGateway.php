@@ -172,6 +172,11 @@ class PseGateway extends AbstractGateway
      */
     public function getPaymentFieldsParams(): array
     {
+        if (strpos($this->storeTranslations['input_country_helper'], "Ciudad") !== false) {
+            $city = "Ciudad";
+        } else {
+            $city = "City";
+        }
         return [
             'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
@@ -200,6 +205,7 @@ class PseGateway extends AbstractGateway
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
+            'city'                          => $city,
         ];
     }
 

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ePayco Gateway\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-25 15:52+0000\n"
-"PO-Revision-Date: 2025-01-10 20:55+0000\n"
+"PO-Revision-Date: 2025-01-10 20:54+0000\n"
 "Last-Translator: \n"
 "Language-Team: Español\n"
 "Language: es_ES\n"
@@ -853,7 +853,7 @@ msgstr "ePayco - Caja Pro"
 
 #: src/Translations/AdminTranslations.php:631
 msgid "ePayco Checkouts Production."
-msgstr "producción ePayco Checkouts."
+msgstr "producción de cajas ePayco."
 
 #: src/Translations/AdminTranslations.php:628
 msgid "ePayco Checkouts Test."

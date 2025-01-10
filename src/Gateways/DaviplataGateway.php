@@ -161,6 +161,11 @@ class DaviplataGateway extends AbstractGateway
      */
     public function getPaymentFieldsParams(): array
     {
+        if (strpos($this->storeTranslations['input_country_helper'], "Ciudad") !== false) {
+            $city = "Ciudad";
+        } else {
+            $city = "City";
+        }
         return [
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
@@ -183,6 +188,7 @@ class DaviplataGateway extends AbstractGateway
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
+            'city'                          => $city,
         ];
     }
 

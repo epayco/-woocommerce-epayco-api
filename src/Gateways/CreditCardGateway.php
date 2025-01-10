@@ -184,6 +184,11 @@ class CreditCardGateway extends AbstractGateway
         }else{
             $termsAndCondiction = 'Terms and conditions';
         }
+        if (strpos($this->storeTranslations['input_country_helper'], "Ciudad") !== false) {
+            $city = "Ciudad";
+        } else {
+            $city = "City";
+        }
         return [
             'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
@@ -222,6 +227,7 @@ class CreditCardGateway extends AbstractGateway
             'terms_and_conditions_link_text'   => $termsAndCondiction,
             'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
             'site_id'                          => $this->epayco->sellerConfig->getSiteId() ?: $this->epayco->helpers->country::SITE_ID_MLA,
+            'city'                          => $city,
         ];
     }
 

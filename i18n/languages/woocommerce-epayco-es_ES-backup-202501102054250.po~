@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ePayco Gateway\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-25 15:52+0000\n"
-"PO-Revision-Date: 2025-01-10 20:55+0000\n"
+"PO-Revision-Date: 2025-01-10 20:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: Español\n"
 "Language: es_ES\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.11; wp-6.7.1\n"
+"X-Loco-Version: 2.6.11; wp-6.6.2\n"
 "X-Domain: woocommerce-epayco"
 
 #: src/Translations/AdminTranslations.php:683
@@ -731,7 +731,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:281
 msgid "Disabled"
-msgstr "Inactivo"
+msgstr "Discapacitados"
 
 #: src/Translations/AdminTranslations.php:302
 #: src/Translations/AdminTranslations.php:314
@@ -853,7 +853,7 @@ msgstr "ePayco - Caja Pro"
 
 #: src/Translations/AdminTranslations.php:631
 msgid "ePayco Checkouts Production."
-msgstr "producción ePayco Checkouts."
+msgstr "producción de cajas ePayco."
 
 #: src/Translations/AdminTranslations.php:628
 msgid "ePayco Checkouts Test."

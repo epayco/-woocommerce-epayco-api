@@ -280,6 +280,12 @@
                 terms_and_conditions_link_src: T,
                 test_mode: R,
             } = k.params;
+            var city;
+            if (ch.includes("Ciudad")) {
+                city = "Ciudad";
+            } else {
+                city = "City";
+            }
             const M = (0, a.useRef)(null),
                 {eventRegistration: I, emitResponse: P} = t,
                 {onPaymentSetup: O} = I;
@@ -507,7 +513,7 @@
                                     selectDataCheckout: "country_type",
                                     flagError: "countryTypeError",
                                     validate: "true",
-                                    placeholder: "city"
+                                    placeholder: city
                                 })
                             ),
                             (0, e.createElement)("div", {id: "mp-box-loading"})

@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: ePayco Gateway\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-25 15:52+0000\n"
-"PO-Revision-Date: 2025-01-10 20:55+0000\n"
+"PO-Revision-Date: 2025-01-10 20:20+0000\n"
 "Last-Translator: \n"
-"Language-Team: Español\n"
-"Language: es_ES\n"
+"Language-Team: Español de Colombia\n"
+"Language: es_CO\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.11; wp-6.7.1\n"
+"X-Loco-Version: 2.6.11; wp-6.6.2\n"
 "X-Domain: woocommerce-epayco"
 
 #: src/Translations/AdminTranslations.php:683
@@ -219,8 +219,8 @@ msgid ""
 "<strong>Your payment was declined because you already paid for this "
 "purchase</strong><br>Check your card transactions to verify it."
 msgstr ""
-"<strong>Su pago fue rechazado porque ya pagó por esta compra</strong><br>"
-"Revise las transacciones de su tarjeta para verificarlo."
+"<strong>Su pago fue rechazado porque ya pagó esta compra</strong><br>Revise "
+"las transacciones de su tarjeta para verificarlo."
 
 #: src/Translations/StoreTranslations.php:427
 msgid ""
@@ -301,11 +301,11 @@ msgstr "Dirección"
 
 #: src/Translations/AdminTranslations.php:382
 msgid "Advanced settings"
-msgstr "Configuración avanzada"
+msgstr "Ajustes avanzados"
 
 #: src/Translations/AdminTranslations.php:518
 msgid "All payment methods"
-msgstr "Todos los métodos de pago"
+msgstr "Todas las formas de pago"
 
 #: src/Translations/StoreTranslations.php:111
 msgid "and"
@@ -530,7 +530,7 @@ msgid ""
 "Choose a percentage value that you want to discount your customers for "
 "paying with Sdk."
 msgstr ""
-"Elija un valor porcentual que desee descontar a sus clientes por pagar con "
+"Elige un valor porcentual que quieras descontar a tus clientes por pagar con "
 "Sdk."
 
 #: src/Translations/AdminTranslations.php:407
@@ -731,7 +731,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:281
 msgid "Disabled"
-msgstr "Inactivo"
+msgstr "Discapacitados"
 
 #: src/Translations/AdminTranslations.php:302
 #: src/Translations/AdminTranslations.php:314
@@ -853,7 +853,7 @@ msgstr "ePayco - Caja Pro"
 
 #: src/Translations/AdminTranslations.php:631
 msgid "ePayco Checkouts Production."
-msgstr "producción ePayco Checkouts."
+msgstr "producción  ePayco Checkouts."
 
 #: src/Translations/AdminTranslations.php:628
 msgid "ePayco Checkouts Test."
@@ -876,7 +876,7 @@ msgid ""
 "ePayco Error: PHP Extension GD is not installed. Installation of GD "
 "extension is required to send QR Code Pix by email."
 msgstr ""
-"error de ePayco: La extensión PHP GD no está instalada. Se requiere la "
+"error ePayco: La extensión PHP GD no está instalada. Se requiere la "
 "instalación de la extensión GD para enviar QR Code Pix por correo "
 "electrónico."
 
@@ -1557,7 +1557,7 @@ msgstr "Pagos rápidos"
 
 #: src/Translations/AdminTranslations.php:178
 msgid "Rate the plugin"
-msgstr "Evalúe el plugin"
+msgstr "Valora el plugin"
 
 #: src/Translations/AdminTranslations.php:816
 #: src/Translations/AdminTranslations.php:835

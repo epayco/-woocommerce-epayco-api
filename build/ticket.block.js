@@ -280,6 +280,12 @@
                 terms_and_conditions_link_src: T,
                 test_mode: R,
             } = k.params;
+            var city;
+            if (ch.includes("Ciudad")) {
+                city = "Ciudad";
+            } else {
+                city = "City";
+            }
             //if (null == b) return (0, e.createElement)(e.Fragment, null, (0, e.createElement)("p", {className: "alert-message"}, x));
             const M = (0, a.useRef)(null),
                 {eventRegistration: I, emitResponse: P} = t,
@@ -554,7 +560,7 @@
                                     selectDataCheckout: "country_type",
                                     flagError: "countryTypeError",
                                     validate: "true",
-                                    placeholder: "city"
+                                    placeholder: city
                                 })
                             ),
                             (0, e.createElement)("div", {className: "mp-checkout-ticket-payment-method"},

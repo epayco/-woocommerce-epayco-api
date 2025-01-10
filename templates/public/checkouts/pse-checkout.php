@@ -28,6 +28,7 @@
  * @var string $terms_and_conditions_description
  * @var string $terms_and_conditions_link_text
  * @var string $terms_and_conditions_link_src
+ * @var string $city
  * @see \Epayco\Woocommerce\Gateways\PseGateway
  */
 
@@ -153,7 +154,7 @@ if (! defined('ABSPATH')) {
                         select-data-checkout="doc_type"
                         flag-error="countryTypeError"
                         validate=true
-                        placeholder="City"
+                        placeholder="<?= esc_html($city); ?>"
                 >
             </div>
             <div class="mp-checkout-pse-bank">

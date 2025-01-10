@@ -309,6 +309,12 @@
                 amount: J,
                 message_error_amount: G
             } = k.params;
+            var city;
+            if (ch.includes("Ciudad")) {
+                city = "Ciudad";
+            } else {
+                city = "City";
+            }
             //if (null == J) return (0, e.createElement)(e.Fragment, null, (0, e.createElement)("p", {className: "alert-message"}, G));
             const W = (0, c.useRef)(null), [X, Z] = (0, c.useState)("subscription"), {
                 eventRegistration: ee,
@@ -686,7 +692,7 @@
                                         selectDataCheckout: "country_type",
                                         flagError: "countryTypeError",
                                         validate: "true",
-                                        placeholder: "city"
+                                        placeholder: city
                                     })
                                 ),
                             ),
