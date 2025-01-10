@@ -738,7 +738,7 @@ input:checked + .mp-settings-slider:before {
 }
 
 .mp-settings-link {
-    width: 75%;
+    width: 92%;
     display: flex;
     text-decoration: none
 }

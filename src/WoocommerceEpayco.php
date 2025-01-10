@@ -65,7 +65,7 @@ class WoocommerceEpayco
     /**
      * @const
      */
-    private const PLUGIN_NAME = '-woocommerce-epayco-api-develop/woocommerce-epayco.php';
+    private const PLUGIN_NAME = '-woocommerce-epayco-api/woocommerce-epayco.php';
 
     /**
      * @var \WooCommerce
@@ -201,7 +201,7 @@ class WoocommerceEpayco
                     $payment_method_registry->register(new CreditCardBlock());
                     $payment_method_registry->register(new DaviplataBlock());
                     $payment_method_registry->register(new PseBlock());
-                    //$payment_method_registry->register(new SubscriptionBlock());
+                    $payment_method_registry->register(new SubscriptionBlock());
                     $payment_method_registry->register(new TicketBlock());
                 }
             );
