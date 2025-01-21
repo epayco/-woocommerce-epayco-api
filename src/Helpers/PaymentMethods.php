@@ -2,24 +2,14 @@
 
 namespace Epayco\Woocommerce\Helpers;
 
-use Epayco\Woocommerce\Gateways\CreditCardGateway;
-
 if (!defined('ABSPATH')) {
     exit;
 }
 
-final class PaymentMethods
+class PaymentMethods
 {
-    /**
-     * @const
-     */
     private const SEPARATOR = '_';
-
-    /**
-     * @var Url
-     */
-    private $url;
-
+    private Url $url;
     /**
      * Url constructor
      *
@@ -28,60 +18,6 @@ final class PaymentMethods
     public function __construct(Url $url)
     {
         $this->url = $url;
-    }
-
-    /**
-     * Generate ID from payment place
-     *
-     * @param $paymentMethodId
-     * @param $paymentPlaceId
-     *
-     * @return string
-     */
-    public function generateIdFromPlace($paymentMethodId, $paymentPlaceId): string
-    {
-        return $paymentMethodId . self::SEPARATOR . $paymentPlaceId;
-    }
-
-
-    /**
-     * Parse composite ID
-     *
-     * @param $compositeId
-     * @return array
-     */
-    private function parseCompositeId($compositeId): array
-    {
-        $exploded = explode(self::SEPARATOR, $compositeId);
-
-        return [
-            'payment_method_id' => $exploded[0],
-            'payment_place_id'  => $exploded[1] ?? '',
-        ];
-    }
-
-    /**
-     * Get Payment Method ID
-     *
-     * @param $compositeId
-     *
-     * @return string
-     */
-    public function getPaymentMethodId($compositeId): string
-    {
-        return $this->parseCompositeId($compositeId)['payment_method_id'];
-    }
-
-    /**
-     * Get Payment Place ID
-     *
-     * @param $compositeId
-     *
-     * @return string
-     */
-    public function getPaymentPlaceId($compositeId): string
-    {
-        return $this->parseCompositeId($compositeId)['payment_place_id'];
     }
 
     /**
@@ -112,7 +48,7 @@ final class PaymentMethods
                 $treatedPaymentMethod['id']      = $paymentMethod['id'];
                 $treatedPaymentMethod['value']   = $paymentMethod['id'];
                 $treatedPaymentMethod['rowText'] = $paymentMethod['name'];
-                $treatedPaymentMethod['img']     = $paymentMethod['thumbnail'];
+                $treatedPaymentMethod['img']     = $paymentMethod['thumbnail']??$paymentMethod['secure_thumbnail'];
                 $treatedPaymentMethod['alt']     = $paymentMethod['name'];
                 $treatedPaymentMethods[]         = $treatedPaymentMethod;
             }
@@ -122,21 +58,15 @@ final class PaymentMethods
     }
 
     /**
-     * Treat basic payment methods
+     * Generate ID from payment place
      *
-     * @param array $paymentMethods
+     * @param $paymentMethodId
+     * @param $paymentPlaceId
      *
-     * @return array
+     * @return string
      */
-    public function treatBasicPaymentMethods(array $paymentMethods): array
+    public function generateIdFromPlace($paymentMethodId, $paymentPlaceId): string
     {
-        if (CreditCardGateway::isAvailable()) {
-            $paymentMethods[] = [
-                'src' => $this->url->getPluginFileUrl('assets/images/icons/icon-credits', '.png', true),
-                'alt' => 'Credits image'
-            ];
-        }
-
-        return $paymentMethods;
+        return $paymentMethodId . self::SEPARATOR . $paymentPlaceId;
     }
 }

@@ -1,24 +1,31 @@
 <?php
-
 /**
- * Plugin Name: ePayco Gateway
+ * @since             1.0.0
+ *
+ * @wordpress-plugin
+ * Plugin Name:       ePayco WooCommerce
+ * Description:       Plugin ePayco WooCommerce.
  * Plugin URI: https://github.com/epayco/Plugin_ePayco_WooCommerce
- * Description: Configure the payment options and accept payments with cards, cash and PSE.
- * Version: 7.6.4
+ * Version:           6.1.0
  * Author: ePayco
  * Author URI: http://epayco.co
- * Text Domain: woocommerce-epayco
- * Domain Path: /i18n/languages/
+ * Text Domain:     woo-epayco-api
+ * Author URI:
+ * Licence
+ * Domain Path:      /i18n/languages/
  * WC requires at least: 5.5.2
- * WC tested up to: 9.0.2
+ * WC tested up to: 9.4.3
  * Requires PHP: 7.4
- *
- * @package Sdk
+ * Requires Plugins: woocommerce
+ * @package Epayco
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
+
+defined('EP_PLUGIN_FILE') || define('EP_PLUGIN_FILE', __FILE__);
+
 
 require_once dirname(__FILE__) . '/src/Startup.php';
 

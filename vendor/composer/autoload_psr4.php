@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Sdk\\Woocommerce\\' => array($baseDir . '/src'),
-    'MercadoPago\\PP\\Sdk\\' => array($baseDir . '/packages/sdk/src'),
+    'Epayco\\Woocommerce\\' => array($baseDir . '/src'),
+    'WpOrg\\Requests\\' => array($vendorDir . '/rmccue/requests/src'),
+    'Epayco\\' => array($vendorDir . '/epayco/epayco-php/src'),
 );

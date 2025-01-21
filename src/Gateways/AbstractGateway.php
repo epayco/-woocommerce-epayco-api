@@ -2,107 +2,30 @@
 
 namespace Epayco\Woocommerce\Gateways;
 
-use Epayco\Woocommerce\Helpers\Device;
-use Epayco\Woocommerce\Sdk\EpaycoSdk;
 use Epayco\Woocommerce\Helpers\Form;
-use Epayco\Woocommerce\Helpers\Numbers;
-use Epayco\Woocommerce\WoocommerceEpayco;
 use Epayco\Woocommerce\Interfaces\EpaycoGatewayInterface;
-use Epayco\Woocommerce\Notification\NotificationFactory;
+use Epayco\Woocommerce\WoocommerceEpayco;
+use Exception;
 use Epayco\Woocommerce\Exceptions\RejectedPaymentException;
+use WC_Payment_Gateway;
 
-abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGatewayInterface
+abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatewayInterface
 {
-    /**
-     * @const
-     */
     public const ID = '';
 
-    /**
-     * @const
-     */
     public const CHECKOUT_NAME = '';
 
-    /**
-     * @const
-     */
     public const WEBHOOK_API_NAME = '';
 
-    /**
-     * @const
-     */
     public const LOG_SOURCE = '';
 
-    /**
-     * @var string
-     */
-    public $iconAdmin;
+    public array $adminTranslations;
 
-    /**
-     * @var WoocommerceEpayco
-     */
-    protected $epayco;
-
-
-    /**
-     * Commission
-     *
-     * @var int
-     */
-    public $commission;
-
-    /**
-     * Discount
-     *
-     * @var int
-     */
-    public $discount;
-
-    /**
-     * Expiration date
-     *
-     * @var int
-     */
-    public $expirationDate;
-
-    /**
-     * Checkout country
-     *
-     * @var string
-     */
-    public $checkoutCountry;
-
-    /**
-     * Translations
-     *
-     * @var array
-     */
-    protected $adminTranslations;
-
-    /**
-     * Translations
-     *
-     * @var array
-     */
-    protected $storeTranslations;
-
-    /**
-     * @var float
-     */
-    protected $ratio;
-
-    /**
-     * @var array
-     */
-    protected $countryConfigs;
-
-    /**
-     * @var array
-     */
-    protected $links;
+    public WoocommerceEpayco $epayco;
 
     /**
      * Abstract Gateway constructor
+     * @throws Exception
      */
     public function __construct()
     {
@@ -110,77 +33,9 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
 
         $this->epayco = $epayco;
 
-        $this->checkoutCountry = $this->epayco->storeConfig->getCheckoutCountry();
-        $this->countryConfigs  = $this->epayco->helpers->country->getCountryConfigs();
-        $this->links           = $this->epayco->helpers->links->getLinks();
-
         $this->has_fields = true;
-        $this->supports   = ['products', 'refunds'];
-
+        $this->supports   = [ 'products', 'refunds' ];
         $this->init_settings();
-        $this->sdk  = $this->getSdkInstance();
-    }
-
-    /**
-     * Get SDK instance
-     */
-    public function getSdkInstance():EpaycoSdk
-    {
-
-        $public_key = $this->epayco->sellerConfig->getCredentialsPublicKeyPayment();
-        $private_key = $this->epayco->sellerConfig->getCredentialsPrivateKeyPayment();
-        $pCustId = $this->epayco->sellerConfig->getCredentialsPCustId();
-        $pKey = $this->epayco->sellerConfig->getCredentialsPkey();
-        $isTestMode = $this->epayco->storeConfig->isTestMode()?"true":"false";
-        $idioma = substr(get_locale(), 0, 2);
-        return new EpaycoSdk([
-            "apiKey" => $public_key,
-            "privateKey" =>$private_key,
-            "lenguage" => strtoupper($idioma),
-            "test" => $isTestMode
-        ],
-            "",
-            $public_key,
-            $private_key,
-            $pCustId,
-            $pKey
-        );
-
-
-
-    }
-
-    /**
-     * Process blocks checkout data
-     *
-     * @param $prefix
-     * @param $postData
-     *
-     * @return array
-     */
-    public function processBlocksCheckoutData($prefix, $postData): array
-    {
-        $checkoutData = [];
-
-        foreach ($postData as $key => $value) {
-            if (strpos($key, $prefix) === 0) {
-                $newKey = substr($key, strlen($prefix));
-                $checkoutData[$newKey] = $value;
-            }
-        }
-
-        return $checkoutData;
-    }
-
-    public function saveOrderPaymentsId(string $orderId)
-    {
-        $order = wc_get_order($orderId);
-        $paymentIds = Form::sanitizedGetData('payment_id');
-
-        if ($paymentIds) {
-            $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, explode(',', $paymentIds));
-            return;
-        }
     }
 
     /**
@@ -194,19 +49,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Add a "missing credentials" notice into the $form_fields array if there ir no credentials configured.
-     * Returns true when the notice is added to the array, and false otherwise.
-     *
-     * @return bool
-     */
-    protected function addMissingCredentialsNoticeAsFormField(): bool
-    {
-
-        return false;
-    }
-
-
-    /**
      * Added gateway scripts
      *
      * @param string $gatewaySection
@@ -215,9 +57,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
      */
     public function payment_scripts(string $gatewaySection): void
     {
-        if ($this->canAdminLoadScriptsAndStyles($gatewaySection)) {
-            $this->registerAdminScripts();
-        }
 
         if ($this->canCheckoutLoadScriptsAndStyles()) {
             $this->registerCheckoutScripts();
@@ -225,21 +64,14 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Register admin scripts
+     * Check if admin scripts and styles can be loaded
      *
-     * @return void
+     * @return bool
      */
-    public function registerAdminScripts()
+    public function canCheckoutLoadScriptsAndStyles(): bool
     {
-        $this->epayco->hooks->scripts->registerAdminScript(
-            'wc_epayco_admin_components',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/admin/ep-admin-configs', '.js')
-        );
-
-        $this->epayco->hooks->scripts->registerAdminStyle(
-            'wc_epayco_admin_components',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/css/admin/ep-admin-configs', '.css')
-        );
+        return $this->epayco->hooks->gateway->isEnabled($this) &&
+            ! $this->epayco->helpers->url->validateQueryVar('order-received');
     }
 
     /**
@@ -250,16 +82,14 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     public function registerCheckoutScripts(): void
     {
 
-
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_token_sdk',
-            //$this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/creditcard/library', '.js')
+            //$this->epayco->helpers->url->getJsAsset('checkouts/creditcard/library')
             "https://cms.epayco.io/js/library.js"
         );
-
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_checkout_components',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/ep-plugins-components', '.js'),
+            $this->epayco->helpers->url->getJsAsset('checkouts/ep-plugins-components'),
             [
                 'ep_json_url' => EP_PLUGIN_URL,
                 'lang' => substr(get_locale(), 0, 2)
@@ -268,12 +98,12 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
 
         $this->epayco->hooks->scripts->registerCheckoutStyle(
             'wc_epayco_checkout_components',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/css/checkouts/ep-plugins-components', '.css')
+            $this->epayco->helpers->url->getCssAsset('checkouts/ep-plugins-components')
         );
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_checkout_update',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/ep-checkout-update', '.js')
+            $this->epayco->helpers->url->getJsAsset('checkouts/ep-checkout-update')
         );
     }
 
@@ -302,17 +132,10 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
      * @param $order_id
      *
      * @return array
+     * @throws Exception
      */
     public function process_payment($order_id): array
     {
-        $order = wc_get_order($order_id);
-
-        $isProductionMode = $this->epayco->storeConfig->getProductionMode();
-
-        $this->epayco->orderMetadata->setIsProductionModeData($order, $isProductionMode);
-        $this->epayco->orderMetadata->setUsedGatewayData($order, get_class($this)::ID);
-
-
         return [];
     }
 
@@ -330,7 +153,10 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
         $order_id = $order_id_rpl[0];
         $order = new \WC_Order($order_id);
         $data = Form::sanitizedGetData();
-        $params = $data??$_POST;
+        $params = $data;
+        if(is_null($params['x_ref_payco'])){
+            $params = $_POST;
+        }
         //$params = $_POST;
         $x_signature = trim(sanitize_text_field($params['x_signature']));
         $x_cod_transaction_state =intval(trim(sanitize_text_field($params['x_cod_transaction_state'])));
@@ -433,7 +259,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
         );
         return $signature;
     }
-
     /**
      * Verify if the gateway is available
      *
@@ -445,65 +270,71 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Check if admin scripts and styles can be loaded
-     *
-     * @param string $gatewaySection
-     *
-     * @return bool
-     */
-    public function canAdminLoadScriptsAndStyles(string $gatewaySection): bool
-    {
-        return $this->epayco->hooks->admin->isAdmin() && ($this->epayco->helpers->url->validatePage('wc-settings') &&
-            $this->epayco->helpers->url->validateSection($gatewaySection)
-        );
-    }
-
-    /**
-     * Check if admin scripts and styles can be loaded
-     *
-     * @return bool
-     */
-    public function canCheckoutLoadScriptsAndStyles(): bool
-    {
-        return $this->epayco->hooks->checkout->isCheckout() &&
-            $this->epayco->hooks->gateway->isEnabled($this) &&
-            !$this->epayco->helpers->url->validateQueryVar('order-received');
-    }
-
-    /**
-     * Process if result is fail
-     *
-     * @param string $message
-     * @param mixed $context
+     * If the seller is homologated, it returns an array of an empty $form_fields field.
+     * If not, then return a notice to inform that the seller must be homologated to be able to sell.
      *
      * @return array
      */
-    public function returnFail(string $message, $context): array
+    protected function getHomologValidateNoticeOrHidden(): array
     {
-        wc_add_notice($message, 'error');
-        if (version_compare(WOOCOMMERCE_VERSION, '2.1', '>=')) {
-            $redirect = array(
-                'result'   => 'fail',
-                'message'  => $message,
-                'redirect' => add_query_arg('order-pay', $context->get_id(), add_query_arg('key', $context->order_key, get_permalink(woocommerce_get_page_id('pay'))))
-            );
-        } else {
-            $redirect = array(
-                'result'   => 'fail',
-                'message'  => $message,
-                'redirect' => add_query_arg('order', $context->get_id(), add_query_arg('key', $context->order_key, get_permalink(woocommerce_get_page_id('pay'))))
-            );
+        if ($this->epayco->sellerConfig->getHomologValidate()) {
+            return [
+                'type'  => 'title',
+                'value' => '',
+            ];
         }
 
-        return $redirect;
+        return [
+            'type'  => 'mp_card_info',
+            'value' => [
+                'title'       => $this->epayco->adminTranslations->credentialsSettings['card_homolog_title'],
+                'subtitle'    => $this->epayco->adminTranslations->credentialsSettings['card_homolog_subtitle'],
+                'button_text' => $this->epayco->adminTranslations->credentialsSettings['card_homolog_button_text'],
+                'button_url'  => admin_url('admin.php?page=epayco-settings'),
+                'icon'        => 'mp-icon-badge-warning',
+                'color_card'  => 'mp-alert-color-alert',
+                'size_card'   => 'mp-card-body-size-homolog',
+                'target'      => '_blank',
+            ]
+        ];
     }
 
 
+    /**
+     * Add a "missing credentials" notice into the $form_fields array if there ir no credentials configured.
+     * Returns true when the notice is added to the array, and false otherwise.
+     *
+     * @return bool
+     */
+    protected function addMissingCredentialsNoticeAsFormField(): bool
+    {
+        if (empty($this->epayco->sellerConfig->getCredentialsPublicKeyPayment()) || empty($this->epayco->sellerConfig->getCredentialsPrivateKeyPayment())) {
+            $this->form_fields = [
+                'card_info_validate' => [
+                    'type'  => 'mp_card_info',
+                    'value' => [
+                        'title'       => '',
+                        'subtitle'    => $this->epayco->adminTranslations->credentialsSettings['card_info_subtitle'],
+                        'button_text' => $this->epayco->adminTranslations->credentialsSettings['card_info_button_text'],
+                        'button_url'  => admin_url('admin.php?page=epayco-settings'),
+                        'icon'        => 'mp-icon-badge-warning',
+                        'color_card'  => 'mp-alert-color-error',
+                        'size_card'   => 'mp-card-body-size',
+                        'target'      => '_self',
+                    ]
+                ]
+            ];
+
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * Process if result is fail
      *
-     * @param \Exception $e
+     * @param Exception $e
      * @param string $message
      * @param string $source
      * @param array $context
@@ -511,7 +342,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
      *
      * @return array
      */
-    public function processReturnFail(\Exception $e, string $message, string $source, array $context = [], bool $notice = false): array
+    public function processReturnFail(Exception $e, string $message, string $source, array $context = [], bool $notice = false): array
     {
 
         $errorMessages = [
@@ -538,354 +369,6 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
             'redirect' => '',
             'message'  => $message,
         ];
-    }
-
-    /**
-     * Register plugin and commission to WC_Cart fees
-     *
-     * @return void
-     */
-    public function registerDiscountAndCommissionFeesOnCart()
-    {
-        if ($this->epayco->hooks->checkout->isCheckout()) {
-            $this->epayco->helpers->cart->addDiscountAndCommissionOnFees($this);
-        }
-    }
-
-    /**
-     * Get checkout name
-     *
-     * @return string
-     */
-    public function getCheckoutName(): string
-    {
-        return self::CHECKOUT_NAME;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFeeTitle(): string
-    {
-        if ($this->epayco->helpers->cart->isAvailable()) {
-            $discount = $this->epayco->helpers->cart->calculateSubtotalWithDiscount($this);
-            $commission = $this->epayco->helpers->cart->calculateSubtotalWithCommission($this);
-
-            return $this->epayco->hooks->gateway->buildTitleWithDiscountAndCommission(
-                $discount,
-                $commission,
-                $this->epayco->storeTranslations->commonCheckout['discount_title'],
-                $this->epayco->storeTranslations->commonCheckout['fee_title']
-            );
-        }
-
-        return '';
-    }
-
-    /**
-     * Get actionable component value
-     *
-     * @param string $optionName
-     * @param mixed $default
-     *
-     * @return string
-     */
-    public function getActionableValue(string $optionName, $default): string
-    {
-        $active = $this->epayco->hooks->options->getGatewayOption($this, "{$optionName}_checkbox");
-
-        if ($active === 'yes') {
-            return $this->epayco->hooks->options->getGatewayOption($this, $optionName, $default);
-        }
-
-        return $default;
-    }
-
-    /**
-     * Get fee text
-     *
-     * @param string $text
-     * @param string $feeName
-     * @param float $feeValue
-     *
-     * @return string
-     */
-    public function getFeeText(string $text, string $feeName, float $feeValue): string
-    {
-        $total = Numbers::formatWithCurrencySymbol($this->epayco->helpers->currency->getCurrencySymbol(), $feeValue);
-        return "$text $feeName% = $total";
-    }
-
-    /**
-     * Get amount
-     *
-     * @return float
-     */
-    protected function getAmount(): float
-    {
-        // WC_Cart is null when blocks is loaded on the admin
-        if (!$this->epayco->helpers->cart->isAvailable()) {
-            return 0.00;
-        }
-
-        return $this->epayco->helpers->cart->calculateTotalWithDiscountAndCommission($this);
-    }
-
-    /**
-     * Get discount config field
-     *
-     * @return array
-     */
-    public function getDiscountField(): array
-    {
-        return [
-            'type'              => 'ep_actionable_input',
-            'title'             => $this->adminTranslations['discount_title'],
-            'input_type'        => 'number',
-            'description'       => $this->adminTranslations['discount_description'],
-            'checkbox_label'    => $this->adminTranslations['discount_checkbox_label'],
-            'default'           => '0',
-            'custom_attributes' => [
-                'step' => '0.01',
-                'min'  => '0',
-                'max'  => '99',
-            ],
-        ];
-    }
-
-    /**
-     * Get commission config field
-     *
-     * @return array
-     */
-    public function getCommissionField(): array
-    {
-        return [
-            'type'              => 'ep_actionable_input',
-            'title'             => $this->adminTranslations['commission_title'],
-            'input_type'        => 'number',
-            'description'       => $this->adminTranslations['commission_description'],
-            'checkbox_label'    => $this->adminTranslations['commission_checkbox_label'],
-            'default'           => '0',
-            'custom_attributes' => [
-                'step' => '0.01',
-                'min'  => '0',
-                'max'  => '99',
-            ],
-        ];
-    }
-
-    /**
-     * Generate credits toggle switch component
-     *
-     * @param string $key
-     * @param array $settings
-     *
-     * @return string
-     */
-    public function generate_ep_toggle_switch_html(string $key, array $settings): string
-    {
-        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
-            'admin/components/toggle-switch.php',
-            [
-                'field_key'   => $this->get_field_key($key),
-                'field_value' => $this->epayco->hooks->options->getGatewayOption($this, $key, $settings['default']),
-                'settings'    => $settings,
-            ]
-        );
-    }
-
-    /**
-     * Generate credits toggle switch component
-     *
-     * @param string $key
-     * @param array  $settings
-     *
-     * @return string
-     */
-    public function generate_ep_checkbox_list_html(string $key, array $settings): string
-    {
-        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
-            'admin/components/checkbox-list.php',
-            [
-                'settings' => $settings,
-            ]
-        );
-    }
-
-    /**
-     * Generate credits header component
-     *
-     * @param string $key
-     * @param array $settings
-     *
-     * @return string
-     */
-    public function generate_ep_config_title_html(string $key, array $settings): string
-    {
-        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
-            'admin/components/config-title.php',
-            [
-                'field_key'   => $this->get_field_key($key),
-                'field_value' => null,
-                'settings'    => $settings,
-            ]
-        );
-    }
-
-    /**
-     * Generating credits actionable input component
-     *
-     * @param string $key
-     * @param array $settings
-     *
-     * @return string
-     */
-    public function generate_ep_actionable_input_html(string $key, array $settings): string
-    {
-        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
-            'admin/components/actionable-input.php',
-            [
-                'field_key'          => $this->get_field_key($key),
-                'field_key_checkbox' => $this->get_field_key($key . '_checkbox'),
-                'field_value'        => $this->epayco->hooks->options->getGatewayOption($this, $key),
-                'enabled'            => $this->epayco->hooks->options->getGatewayOption($this, $key . '_checkbox'),
-                'custom_attributes'  => $this->get_custom_attribute_html($settings),
-                'settings'           => $settings,
-                'allowedHtmlTags'    => $this->epayco->helpers->strings->getAllowedHtmlTags(),
-            ]
-        );
-    }
-
-    /**
-     * Generating credits card info component
-     *
-     * @param string $key
-     * @param array $settings
-     *
-     * @return string
-     */
-    public function generate_ep_card_info_html(string $key, array $settings): string
-    {
-        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
-            'admin/components/card-info.php',
-            [
-                'field_key'   => $this->get_field_key($key),
-                'field_value' => null,
-                'settings'    => $settings,
-            ]
-        );
-    }
-
-    /**
-     * Generating credits preview component
-     *
-     * @param string $key
-     * @param array $settings
-     *
-     * @return string
-     */
-    public function generate_ep_preview_html(string $key, array $settings): string
-    {
-        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
-            'admin/components/preview.php',
-            [
-                'field_key'   => $this->get_field_key($key),
-                'field_value' => null,
-                'settings'    => $settings,
-            ]
-        );
-    }
-
-      /**
-     * Generating support link component
-     *
-     * @param string $key
-     * @param array $settings
-     *
-     * @return string
-     */
-    public function generate_ep_support_link_html(string $key, array $settings): string
-    {
-        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
-            'admin/components/support-link.php',
-            [
-                'field_key'   => $this->get_field_key($key),
-                'field_value' => null,
-                'settings'    => $settings,
-            ]
-        );
-    }
-
-      /**
-     * Generating tooltip selection component
-     *
-     * @param string $key
-     * @param array $settings
-     *
-     * @return string
-     */
-    public function generate_ep_tooltip_selection_html(string $key, array $settings): string
-    {
-        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
-            'admin/components/tooltip-selection.php',
-            [
-                'field_key'   => $this->get_field_key($key),
-                'field_value' => null,
-                'settings'    => $settings,
-            ]
-        );
-    }
-
-    /**
-     * Generating credits checkout example component
-     *
-     * @param string $key
-     * @param array $settings
-     *
-     * @return string
-     */
-    public function generate_ep_credits_checkout_example_html(string $key, array $settings): string
-    {
-        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
-            'admin/components/credits-checkout-example.php',
-            [
-                'field_key'   => $this->get_field_key($key),
-                'field_value' => null,
-                'settings'    => $settings,
-            ]
-        );
-    }
-
-
-    /**
-     * Update Option
-     *
-     * @param string $key key.
-     * @param string $value value.
-     *
-     * @return bool
-     */
-    public function update_option($key, $value = ''): bool
-    {
-        if ($key === 'enabled' && $value === 'yes') {
-            $publicKey   = $this->epayco->sellerConfig->getCredentialsPublicKey();
-            $accessToken = $this->epayco->sellerConfig->getCredentialsAccessToken();
-
-            if (empty($publicKey) || empty($accessToken)) {
-
-                echo wp_json_encode(
-                    array(
-                        'data'    => $this->epayco->adminTranslations->gatewaysSettings['empty_credentials'],
-                        'success' => false,
-                    )
-                );
-
-                die();
-            }
-        }
-
-        return parent::update_option($key, $value);
     }
 
     /**
@@ -919,13 +402,239 @@ abstract class AbstractGateway extends \WC_Payment_Gateway implements EpaycoGate
     }
 
     /**
-     * Get url setting
+     * Process if result is fail
+     *
+     * @param string $message
+     * @param mixed $context
+     *
+     * @return array
+     */
+    public function returnFail(string $message, $context): array
+    {
+        wc_add_notice($message, 'error');
+        if (version_compare(WOOCOMMERCE_VERSION, '2.1', '>=')) {
+            $redirect = array(
+                'result'   => 'fail',
+                'message'  => $message,
+                'redirect' => add_query_arg('order-pay', $context->get_id(), add_query_arg('key', $context->order_key, get_permalink(woocommerce_get_page_id('pay'))))
+            );
+        } else {
+            $redirect = array(
+                'result'   => 'fail',
+                'message'  => $message,
+                'redirect' => add_query_arg('order', $context->get_id(), add_query_arg('key', $context->order_key, get_permalink(woocommerce_get_page_id('pay'))))
+            );
+        }
+
+        return $redirect;
+    }
+
+    /**
+     * Process blocks checkout data
+     *
+     * @param $prefix
+     * @param $postData
+     *
+     * @return array
+     */
+    public function processBlocksCheckoutData($prefix, $postData): array
+    {
+        $checkoutData = [];
+
+        foreach ($postData as $key => $value) {
+            if (strpos($key, $prefix) === 0) {
+                $newKey                  = substr($key, strlen($prefix));
+                $checkoutData[ $newKey ] = $value;
+            }
+        }
+
+        return $checkoutData;
+    }
+
+    /**
+     * Generate custom toggle switch component
+     *
+     * @param string $key
+     * @param array $settings
      *
      * @return string
      */
-    public function get_settings_url()
+    public function generate_mp_toggle_switch_html(string $key, array $settings): string
     {
-        return $this->links['admin_settings_page'];
+        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
+            'admin/components/toggle-switch.php',
+            [
+                'field_key'   => $this->get_field_key($key),
+                'field_value' => $this->epayco->hooks->options->getGatewayOption($this, $key, $settings['default']),
+                'settings'    => $settings,
+            ]
+        );
     }
+
+    /**
+     * Generate custom toggle switch component
+     *
+     * @param string $key
+     * @param array $settings
+     *
+     * @return string
+     */
+    public function generate_mp_checkbox_list_html(string $key, array $settings): string
+    {
+
+        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
+            'admin/components/checkbox-list.php',
+            [
+                'field_key' => $this->get_field_key($key),
+                'settings'  => $settings,
+            ]
+        );
+    }
+
+    /**
+     * Generate custom header component
+     *
+     * @param string $key
+     * @param array $settings
+     *
+     * @return string
+     */
+    public function generate_mp_config_title_html(string $key, array $settings): string
+    {
+        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
+            'admin/components/config-title.php',
+            [
+                'field_key'   => $this->get_field_key($key),
+                'field_value' => null,
+                'settings'    => $settings,
+            ]
+        );
+    }
+
+    /**
+     * Generating custom actionable input component
+     *
+     * @param string $key
+     * @param array $settings
+     *
+     * @return string
+     */
+    public function generate_mp_actionable_input_html(string $key, array $settings): string
+    {
+        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
+            'admin/components/actionable-input.php',
+            [
+                'field_key'          => $this->get_field_key($key),
+                'field_key_checkbox' => $this->get_field_key($key . '_checkbox'),
+                'field_value'        => $this->epayco->hooks->options->getGatewayOption($this, $key),
+                'enabled'            => $this->epayco->hooks->options->getGatewayOption($this, $key . '_checkbox'),
+                'custom_attributes'  => $this->get_custom_attribute_html($settings),
+                'settings'           => $settings,
+                'allowedHtmlTags'    => $this->epayco->helpers->strings->getAllowedHtmlTags(),
+            ]
+        );
+    }
+
+    /**
+     * Generating custom card info component
+     *
+     * @param string $key
+     * @param array $settings
+     *
+     * @return string
+     */
+    public function generate_mp_card_info_html(string $key, array $settings): string
+    {
+        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
+            'admin/components/card-info.php',
+            [
+                'field_key'   => $this->get_field_key($key),
+                'field_value' => null,
+                'settings'    => $settings,
+            ]
+        );
+    }
+
+    /**
+     * Generating custom preview component
+     *
+     * @param string $key
+     * @param array $settings
+     *
+     * @return string
+     */
+    public function generate_mp_preview_html(string $key, array $settings): string
+    {
+        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
+            'admin/components/preview.php',
+            [
+                'field_key'   => $this->get_field_key($key),
+                'field_value' => null,
+                'settings'    => $settings,
+            ]
+        );
+    }
+
+    /**
+     * Generating support link component
+     *
+     * @param string $key
+     * @param array $settings
+     *
+     * @return string
+     */
+    public function generate_mp_support_link_html(string $key, array $settings): string
+    {
+        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
+            'admin/components/support-link.php',
+            [
+                'field_key'   => $this->get_field_key($key),
+                'field_value' => null,
+                'settings'    => $settings,
+            ]
+        );
+    }
+
+    /**
+     * Generating tooltip selection component
+     *
+     * @param string $key
+     * @param array $settings
+     *
+     * @return string
+     */
+    public function generate_mp_tooltip_selection_html(string $key, array $settings): string
+    {
+        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
+            'admin/components/tooltip-selection.php',
+            [
+                'field_key'   => $this->get_field_key($key),
+                'field_value' => null,
+                'settings'    => $settings,
+            ]
+        );
+    }
+
+    /**
+     * Generating credits checkout example component
+     *
+     * @param string $key
+     * @param array $settings
+     *
+     * @return string
+     */
+    public function generate_mp_credits_checkout_example_html(string $key, array $settings): string
+    {
+        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
+            'admin/components/credits-checkout-example.php',
+            [
+                'field_key'   => $this->get_field_key($key),
+                'field_value' => null,
+                'settings'    => $settings,
+            ]
+        );
+    }
+
+
 
 }

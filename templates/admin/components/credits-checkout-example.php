@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Part of Woo Sdk Module
- * Author - Sdk
+ * Part of Woo Mercado Pago Module
+ * Author - Mercado Pago
  * Developer
- * Copyright - Copyright(c) Sdk [https://www.epayco.com]
+ * Copyright - Copyright(c) MercadoPago [https://www.mercadopago.com]
  * License - https://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  *
- * @package Sdk
+ * @package MercadoPago
  *
  * @var array $settings
  *
- * @see \Epayco\Woocommerce\Gateways\AbstractGateway
+ * @see \MercadoPago\Woocommerce\Gateways\AbstractGateway
  */
 
 if (!defined('ABSPATH')) {

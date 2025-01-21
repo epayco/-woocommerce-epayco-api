@@ -3,7 +3,6 @@
 namespace Epayco\Woocommerce\Transactions;
 
 use Epayco\Woocommerce\Gateways\AbstractGateway;
-use Epayco\Woocommerce\Entities\Metadata\PaymentMetadata;
 
 class SubscriptionTransaction extends AbstractPaymentTransaction
 {
@@ -24,21 +23,5 @@ class SubscriptionTransaction extends AbstractPaymentTransaction
         parent::__construct($gateway, $order, $checkout);
 
     }
-
-    /**
-     * Get internal metadata
-     *
-     * @return PaymentMetadata
-     */
-    public function getInternalMetadata(): PaymentMetadata
-    {
-        $internalMetadata = parent::getInternalMetadata();
-
-        $internalMetadata->checkout      = 'subscription';
-        $internalMetadata->checkout_type = self::ID;
-
-        return $internalMetadata;
-    }
-
 
 }

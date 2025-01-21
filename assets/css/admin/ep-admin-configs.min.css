@@ -229,7 +229,7 @@
 
 .form-table th {
     width: 100% !important;
-    display: flex; !important;
+    display: block
 }
 
 .form-table td {
@@ -262,7 +262,7 @@
 }
 
 .mp-subtitle-header {
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 28px !important;
     font-weight: 600 !important;
     line-height: 35px;
@@ -480,7 +480,7 @@
 }
 
 .mp-text-title {
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 16px;
     line-height: 20px;
     display: flex;
@@ -491,7 +491,7 @@
 }
 
 .mp-text-subtitle {
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 16px;
     line-height: 18px;
     display: flex;
@@ -606,7 +606,7 @@
 
 .mp-support-link-text {
     display: inline-block;
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     color: rgba(0, 0, 0, .9);
     font-size: 14px;
     font-style: normal;

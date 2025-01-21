@@ -3,7 +3,7 @@
 /**
  * @var array $settings
  *
- * @see \Epayco\Woocommerce\Gateways\AbstractGateway
+ * @see \MercadoPago\Woocommerce\Gateways\AbstractGateway
  */
 
 if (!defined('ABSPATH')) {
@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 
     <div class="mp-card-body-payments <?= esc_html($settings['value']['size_card']); ?>">
         <div class="<?= esc_html($settings['value']['icon']); ?>"></div>
-        <!--<div>
+        <div>
             <span class="mp-text-title"><b><?= esc_html($settings['value']['title']); ?></b></span>
             <span class="mp-text-subtitle"><?= wp_kses($settings['value']['subtitle'], 'b'); ?></span>
             <a class="mp-button-payments-a" target="<?= esc_html($settings['value']['target']); ?>"
@@ -25,6 +25,6 @@ if (!defined('ABSPATH')) {
                 <button type="button"
                         class="mp-button-payments"><?= esc_html($settings['value']['button_text']); ?></button>
             </a>
-        </div>-->
+        </div>
     </div>
 </div>

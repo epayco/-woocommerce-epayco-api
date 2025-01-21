@@ -2,10 +2,10 @@
 
 namespace Epayco\Woocommerce\Gateways;
 
+use Epayco\Woocommerce\Helpers\Form;
 use Epayco\Woocommerce\Helpers\PaymentStatus;
 use Epayco\Woocommerce\Transactions\SubscriptionTransaction;
-use Epayco\Woocommerce\Exceptions\InvalidCheckoutDataException;
-use Epayco\Woocommerce\Helpers\Form;
+
 
 if (!defined('ABSPATH')) {
     exit;
@@ -34,7 +34,7 @@ class SubscriptionGateway extends AbstractGateway
     public const LOG_SOURCE = 'Epayco_SubscriptionGateway';
 
     /**
-     * CustomGateway constructor
+     * SubscriptionGateway constructor
      */
     public function __construct()
     {
@@ -44,13 +44,12 @@ class SubscriptionGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->subscriptionCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card-admin');
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card.png');
+        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card-admin.png');
         $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
-
         $this->supports = [
             'subscriptions',
             'subscription_suspension',
@@ -62,16 +61,12 @@ class SubscriptionGateway extends AbstractGateway
         $this->description        = $this->adminTranslations['gateway_description'];
         $this->method_title       = $this->adminTranslations['gateway_method_title'];
         $this->method_description = $this->adminTranslations['gateway_method_description'];
-        $this->discount           = $this->getActionableValue('gateway_discount', 0);
-        $this->commission         = $this->getActionableValue('commission', 0);
 
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
-        $this->epayco->hooks->gateway->registerAvailablePaymentGateway();
-
-        $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
         $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
-        $this->epayco->helpers->currency->handleCurrencyNotices($this);
+        $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
+
     }
 
     /**
@@ -99,12 +94,12 @@ class SubscriptionGateway extends AbstractGateway
 
         $this->form_fields = array_merge($this->form_fields, [
             'header' => [
-                'type'        => 'ep_config_title',
+                'type'        => 'mp_config_title',
                 'title'       => $this->adminTranslations['header_title'],
                 'description' => $this->adminTranslations['header_description'],
             ],
             'enabled' => [
-                'type'         => 'ep_toggle_switch',
+                'type'         => 'mp_toggle_switch',
                 'title'        => $this->adminTranslations['enabled_title'],
                 'subtitle'     => $this->adminTranslations['enabled_subtitle'],
                 'default'      => 'no',
@@ -154,9 +149,20 @@ class SubscriptionGateway extends AbstractGateway
         parent::registerCheckoutScripts();
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_subscription_page',
+            $this->epayco->helpers->url->getJsAsset('checkouts/subscription/ep-subscription-page')
+        );
+
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_subscription_elements',
+            $this->epayco->helpers->url->getJsAsset('checkouts/subscription/ep-subscription-elements')
+        );
+
+        $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_subscription_checkout',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/subscription/ep-subscription-checkout', '.js'),
+            $this->epayco->helpers->url->getJsAsset('checkouts/subscription/ep-subscription-checkout'),
             [
+                'site_id' => 'epayco',
                 'public_key_epayco'        => $this->epayco->sellerConfig->getCredentialsPublicKeyPayment()
             ]
         );
@@ -170,7 +176,7 @@ class SubscriptionGateway extends AbstractGateway
     public function payment_fields(): void
     {
         $this->epayco->hooks->template->getWoocommerceTemplate(
-            'public/checkouts/subscription-checkout.php',
+            'public/checkout/subscription-checkout.php',
             $this->getPaymentFieldsParams()
         );
     }
@@ -182,6 +188,12 @@ class SubscriptionGateway extends AbstractGateway
      */
     public function getPaymentFieldsParams(): array
     {
+        $idioma = substr(get_locale(), 0, 2);
+        if($idioma == 'es'){
+            $termsAndCondiction = 'Términos y condiciones';
+        }else{
+            $termsAndCondiction = 'Terms and conditions';
+        }
         if (strpos($this->storeTranslations['input_country_helper'], "Ciudad") !== false) {
             $city = "Ciudad";
         } else {
@@ -192,8 +204,8 @@ class SubscriptionGateway extends AbstractGateway
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
             'test_mode_link_text'              => $this->storeTranslations['test_mode_link_text'],
-            //'test_mode_link_src'               => $this->links['docs_integration_test'],
             'card_detail'                      => $this->storeTranslations['card_detail'],
+            //'test_mode_link_src'               => $this->links['docs_integration_test'],
             'card_form_title'                  => $this->storeTranslations['card_form_title'],
             'card_holder_name_input_label'     => $this->storeTranslations['card_holder_name_input_label'],
             'card_holder_name_input_helper'    => $this->storeTranslations['card_holder_name_input_helper'],
@@ -220,9 +232,10 @@ class SubscriptionGateway extends AbstractGateway
             'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
-            'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
-            'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
-            'site_id'                          => $this->epayco->sellerConfig->getSiteId() ?: $this->epayco->helpers->country::SITE_ID_MLA,
+            //'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
+            'terms_and_conditions_link_text'   => $termsAndCondiction,
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
+            'site_id'                          => 'epayco',
             'city'                          => $city,
         ];
     }
@@ -253,21 +266,22 @@ class SubscriptionGateway extends AbstractGateway
                 $confirm_url = $redirect_url.'&confirmation=1';
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
-                $response = $this->transaction->createSubscriptionPayment($order_id, $checkout);
+                $response = $this->transaction->createTcPayment($order_id, $checkout);
                 $response = json_decode(json_encode($response), true);
                 if (is_array($response) && $response['success']) {
-                    $ref_payco = $response['ref_payco'][0];
+                    $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
                     $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
-                    if (in_array(strtolower($response['estado'][0]),["pendiente","pending"])) {
+                    if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
+                        //$this->epayco->hooks->order->addOrderNote($order, $this->storeTranslations['customer_not_paid']);
                         $urlReceived = $order->get_checkout_order_received_url();
                         $return = [
                             'result'   => 'success',
                             'redirect' => $urlReceived,
                         ];
                     }
-                    if (in_array(strtolower($response['estado'][0]),["aceptada","acepted","aprobada"])) {
+                    if (in_array(strtolower($response['data']['estado']),["aceptada","acepted"])) {
                         $order->update_status("processing");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
@@ -275,11 +289,11 @@ class SubscriptionGateway extends AbstractGateway
                             'result'   => 'success',
                             'redirect' => $urlReceived,
                         ];
-                    }if (in_array(strtolower($response['estado'][0]),["rechazada","fallida","cancelada","abandonada"])) {
+                    }if (in_array(strtolower($response['data']['estado']),["rechazada","fallida","cancelada","abandonada"])) {
                         $urlReceived = wc_get_checkout_url();
                         $return = [
                             'result'   => 'fail',
-                            'message' => $response['message'][0],
+                            'message' => $response['data']['respuesta'],
                             'redirect' => $urlReceived,
                         ];
                     }
@@ -301,9 +315,10 @@ class SubscriptionGateway extends AbstractGateway
                     $processReturnFailMessage = $messageError. " " . $errorMessage;
                     return $this->returnFail($processReturnFailMessage, $order);
                 }
+            }else{
+                $processReturnFailMessage = "Token incorrect ";
+                return $this->returnFail($processReturnFailMessage, $order);
             }
-
-            throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
 
         } catch (\Exception $e) {
             return $this->processReturnFail(
@@ -356,7 +371,8 @@ class SubscriptionGateway extends AbstractGateway
             "filter" => array("referencePayco" => $paymentInfo),
             "success" =>true
         );
-        $transactionDetails = $this->sdk->transaction->get($data);
+        $this->transaction = new SubscriptionTransaction($this, $order, []);
+        $transactionDetails = $this->transaction->sdk->transaction->get($data);
         $transactionInfo = json_decode(json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {
@@ -381,15 +397,32 @@ class SubscriptionGateway extends AbstractGateway
             $currency = $data['currency'];
             $name =  $data['names']." ". $data['lastnames'];
             $card = $data['card'];
+            switch ($status) {
+                case 'Aceptada': {
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('check');
+                    $iconColor = '#67C940';
+                    $message = $this->storeTranslations['success_message'];
+                }break;
+                case 'Pendiente':
+                case 'Pending':{
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('warning');
+                    $iconColor = '#FFD100';
+                    $message = $this->storeTranslations['pending_message'];
+                }break;
+                default: {
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('error');
+                    $iconColor = '#E1251B';
+                    $message = $this->storeTranslations['fail_message'];
+                }break;
+            }
         }
-        $paymentStatusType = PaymentStatus::getStatusType(strtolower($status));
 
         $transaction = [
             'status' => $status,
             'type' => "",
             'refPayco' => $ref_payco,
             'factura' => $factura,
-            'descripcion' => $descripcion,
+            'descripcion_order' => $descripcion,
             'valor' => $valor,
             'iva' => $iva,
             'estado' => $estado,
@@ -398,13 +431,27 @@ class SubscriptionGateway extends AbstractGateway
             'currency' => $currency,
             'name' => $name,
             'card' => $card,
-            'success_message' => $this->storeTranslations['success_message'],
+            'message' => $message,
             'error_message' => $this->storeTranslations['error_message'],
             'error_description' => $this->storeTranslations['error_description'],
             'payment_method'  => $this->storeTranslations['payment_method'],
-            'statusandresponse'=> $this->storeTranslations['statusandresponse'],
+            'response'=> $this->storeTranslations['response'],
             'dateandtime' => $this->storeTranslations['dateandtime'],
+            'authorization' => $authorization,
+            'iconUrl' => $iconUrl,
+            'iconColor' => $iconColor,
+            'ip' => $this->transaction->getCustomerIp(),
+            'totalValue' => $this->storeTranslations['totalValue'],
+            'description' => $this->storeTranslations['description'],
+            'reference' => $this->storeTranslations['reference'],
+            'purchase' => $this->storeTranslations['purchase'],
+            'iPaddress' => $this->storeTranslations['iPaddress'],
+            'receipt' => $this->storeTranslations['receipt'],
+            'authorizations' => $this->storeTranslations['authorization'],
+            'paymentMethod'  => $this->storeTranslations['paymentMethod'],
+            'epayco_refecence'  => $this->storeTranslations['epayco_refecence'],
         ];
+
         if (empty($transaction)) {
             return;
         }

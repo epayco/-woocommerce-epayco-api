@@ -2,6 +2,8 @@
 
 namespace Epayco\Woocommerce\Gateways;
 
+use Exception;
+use Epayco as EpaycoSdk;
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -38,10 +40,9 @@ class CheckoutGateway extends AbstractGateway
 
         $this->adminTranslations = $this->epayco->adminTranslations->checkoutGatewaySettings;
         $this->storeTranslations = $this->epayco->storeTranslations->epaycoCheckout;
-        $this->version = '8.1.1';
         $this->id        = self::ID;
-        $this->icon      = $this->getCheckoutIcon();
-        $this->iconAdmin = $this->getCheckoutIcon(true);
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-checkout.png');
+        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('icon-checkout.png');
         $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
 
         $this->init_form_fields();
@@ -53,8 +54,20 @@ class CheckoutGateway extends AbstractGateway
 
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
+        $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
         $this->epayco->hooks->gateway->registerGatewayReceiptPage($this->id, [$this, 'receiptPage']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
+        $lang = get_locale();
+        $lang = explode('_', $lang);
+        $lang = $lang[0];
+        $this->epaycoSdk = new EpaycoSdk\Epayco(
+            [
+                "apiKey" => $this->get_option('apiKey'),
+                "privateKey" => $this->get_option('privateKey'),
+                "lenguage" => strtoupper($lang),
+                "test" => (bool)$this->get_option('environment')
+            ]
+        );
 
     }
 
@@ -75,20 +88,20 @@ class CheckoutGateway extends AbstractGateway
      */
     public function init_form_fields(): void
     {
-        /*if ($this->addMissingCredentialsNoticeAsFormField()) {
+        if ($this->addMissingCredentialsNoticeAsFormField()) {
             return;
-        }*/
+        }
 
         parent::init_form_fields();
 
         $this->form_fields = array_merge($this->form_fields, [
             'config_header' => [
-                'type'        => 'ep_config_title',
+                'type'        => 'mp_config_title',
                 'title'       => $this->adminTranslations['header_title'],
                 'description' => $this->adminTranslations['header_description'],
             ],
             'enabled' => [
-                'type'         => 'ep_toggle_switch',
+                'type'         => 'mp_toggle_switch',
                 'title'        => $this->adminTranslations['enabled_title'],
                 'subtitle'     => $this->adminTranslations['enabled_subtitle'],
                 'default'      => 'no',
@@ -106,7 +119,7 @@ class CheckoutGateway extends AbstractGateway
                 'class'       => 'limit-title-max-length',
             ],
             'epayco_type_checkout' => [
-                'type'         => 'ep_toggle_switch',
+                'type'         => 'mp_toggle_switch',
                 'title'        => $this->adminTranslations['epayco_type_checkout_title'],
                 'subtitle'     => $this->adminTranslations['epayco_type_checkout_subtitle'],
                 'default'      => 'no',
@@ -138,6 +151,10 @@ class CheckoutGateway extends AbstractGateway
     public function registerCheckoutScripts(): void
     {
         parent::registerCheckoutScripts();
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_checkout',
+            'https://epayco-checkout-testing.s3.amazonaws.com/checkout.preprod.js'
+        );
 
     }
 
@@ -150,7 +167,7 @@ class CheckoutGateway extends AbstractGateway
     public function payment_fields(): void
     {
         $this->epayco->hooks->template->getWoocommerceTemplate(
-            'public/checkouts/epayco-checkout.php',
+            'public/checkout/epayco-checkout.php',
             $this->getPaymentFieldsParams()
         );
     }
@@ -169,20 +186,8 @@ class CheckoutGateway extends AbstractGateway
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
-            'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
         ];
-    }
-
-    /**
-     * Get Sdk Icon
-     *
-     * @return string
-     */
-    private function getCheckoutIcon(bool $adminVersion = false): string
-    {
-        $iconName = 'icon-checkout';
-
-        return $this->epayco->hooks->gateway->getGatewayIcon($iconName . ($adminVersion ? '-admin' : ''));
     }
 
     /**
@@ -263,12 +268,11 @@ class CheckoutGateway extends AbstractGateway
         if($current_state != $orderStatus){
             $order->update_status($orderStatus);
         }
+        //$order->update_status("on-hold");
+        $this->epayco->woocommerce->cart->empty_cart();
         $public_key = $this->epayco->sellerConfig->getCredentialsPublicKeyPayment();
         $private_key = $this->epayco->sellerConfig->getCredentialsPrivateKeyPayment();
-        $pCustId = $this->epayco->sellerConfig->getCredentialsPCustId();
-        $pKey = $this->epayco->sellerConfig->getCredentialsPkey();
         $testMode = $this->epayco->storeConfig->isTestMode() ? "true" : "false";
-        $isProductionMode = $this->epayco->storeConfig->getProductionMode();
         echo sprintf('
                     <script> var handler = ePayco.checkout.configure({
                         key: "%s",
@@ -297,6 +301,7 @@ class CheckoutGateway extends AbstractGateway
                         autoclick: "true",
                         ip: "%s",
                         test: "%s".toString(),
+                        extra1: "%s",
                         extras_epayco:{extra5:"p19"},
                         method_confirmation: "POST"
                     }
@@ -361,7 +366,7 @@ class CheckoutGateway extends AbstractGateway
             $testMode,
             $descripcion,
             $descripcion,
-            $order->get_id()."_wc",
+            $order->get_id()."_wc_".$order->get_id(),
             $currency,
             $order->get_total(),
             $base_tax,
@@ -378,16 +383,11 @@ class CheckoutGateway extends AbstractGateway
             $phone_billing,
             $myIp,
             $testMode,
+            $order->get_id(),
             trim($public_key),
             trim($private_key)
         );
-        wp_enqueue_script('epayco',  'https://epayco-checkout-testing.s3.amazonaws.com/checkout.preprod.js', array(), $this->version, null);
-        wc_enqueue_js('
-		jQuery("#btn_epayco_new").click(function(){
-            console.log("epayco")
-		});
-		'
-        );
+        wp_enqueue_script('epayco',  'https://epayco-checkout-testing.s3.amazonaws.com/checkout.preprod.js', array(), '1.0.0', null);
         return '<form  method="post" id="appGateway">
 		        </form>';
     }
@@ -455,6 +455,114 @@ class CheckoutGateway extends AbstractGateway
         else
             $ipaddress = 'UNKNOWN';
         return $ipaddress;
+    }
+
+    /**
+     * Render thank you page
+     *
+     * @param $order_id
+     */
+    public function renderThankYouPage($order_id): void
+    {
+        $order        = wc_get_order($order_id);
+        $ref_payco = sanitize_text_field($_REQUEST['ref_payco']);
+        if(empty($ref_payco)){
+            $order_id_explode = explode('=',$ref_payco);
+            $order_id_rpl  = str_replace('?ref_payco','',$order_id_explode);
+            $ref_payco =$order_id_rpl[0];
+        }
+        if (!$ref_payco)
+        {
+            $explode=explode('=',$order_id);
+            $ref_payco=$explode[1];
+        }
+
+        if($ref_payco){
+            $url = 'https://secure.epayco.io/validation/v1/reference/'.$ref_payco;
+            $response = wp_remote_get(  $url );
+            $body = wp_remote_retrieve_body( $response );
+            $jsonData = @json_decode($body, true);
+            $validationData = $jsonData['data'];
+            $status = trim($validationData['x_response']);
+            $alert_title = trim($validationData['x_response']);
+            $ref_payco =trim($validationData['x_ref_payco']);
+            $test = trim($validationData['x_test_request']) == 'TRUE' ? 'Pruebas' : 'Producción';
+            $transactionDateTime=trim($validationData['x_transaction_date']);
+            $bank= trim($validationData['x_franchise']);
+            $authorization= trim($validationData['x_approval_code']);
+            $factura = trim($validationData['x_id_factura']);
+            $descripcion = trim($validationData['x_description']);
+            $valor = trim($validationData['x_amount']);
+            $iva = trim($validationData['x_tax']);
+            $estado = trim($validationData['x_respuesta']);
+            $currency = trim($validationData['x_currency_code']);
+            $name =  trim($validationData['x_customer_name'])." ".trim($validationData['x_customer_lastname']);
+            $card = trim($validationData['x_franchise']);
+            $ip = trim($validationData['x_customer_ip']);
+            switch ($status) {
+                case 'Aceptada': {
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('check.png');
+                    $iconColor = '#67C940';
+                    $message = $this->storeTranslations['success_message'];
+                }break;
+                case 'Pendiente':
+                case 'Pending':{
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('warning.png');
+                    $iconColor = '#FFD100';
+                    $message = $this->storeTranslations['pending_message'];
+                }break;
+                default: {
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('error.png');
+                    $iconColor = '#E1251B';
+                    $message = $this->storeTranslations['fail_message'];
+                }break;
+            }
+            $transaction = [
+                'status' => $status,
+                'type' => "",
+                'refPayco' => $ref_payco,
+                'factura' => $factura,
+                'descripcion_order' => $descripcion,
+                'valor' => $valor,
+                'iva' => $iva,
+                'estado' => $estado,
+                'respuesta' => $alert_title,
+                'fecha' => $transactionDateTime,
+                'currency' => $currency,
+                'name' => $name,
+                'card' => $card,
+                'message' => $message,
+                'error_message' => $this->storeTranslations['error_message'],
+                'error_description' => $this->storeTranslations['error_description'],
+                'payment_method'  => $this->storeTranslations['payment_method'],
+                'response'=> $this->storeTranslations['response'],
+                'dateandtime' => $this->storeTranslations['dateandtime'],
+                'authorization' => $authorization,
+                'iconUrl' => $iconUrl,
+                'iconColor' => $iconColor,
+                'ip' => $ip,
+                'totalValue' => $this->storeTranslations['totalValue'],
+                'description' => $this->storeTranslations['description'],
+                'reference' => $this->storeTranslations['reference'],
+                'purchase' => $this->storeTranslations['purchase'],
+                'iPaddress' => $this->storeTranslations['iPaddress'],
+                'receipt' => $this->storeTranslations['receipt'],
+                'authorizations' => $this->storeTranslations['authorization'],
+                'paymentMethod'  => $this->storeTranslations['paymentMethod'],
+                'epayco_refecence'  => $this->storeTranslations['epayco_refecence'],
+            ];
+
+            if (empty($transaction)) {
+                return;
+            }
+            $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
+            $this->epayco->hooks->template->getWoocommerceTemplate(
+                'public/order/order-received.php',
+                $transaction
+            );
+        }
+
+
     }
 
 }

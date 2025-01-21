@@ -2,20 +2,16 @@
 
 namespace Epayco\Woocommerce\Blocks;
 
+use Epayco\Woocommerce\Helpers\Template;
+
 if (!defined('ABSPATH')) {
     exit;
 }
 
 class DaviplataBlock extends AbstractBlock
 {
-    /**
-     * @var string
-     */
     protected $scriptName = 'daviplata';
 
-    /**
-     * @var string
-     */
     protected $name = 'woo-epayco-daviplata';
 
     /**
@@ -34,6 +30,11 @@ class DaviplataBlock extends AbstractBlock
      */
     public function getScriptParams(): array
     {
-        return $this->gateway->getPaymentFieldsParams();
+        return [
+            'content' => Template::html(
+                'public/checkout/daviplata-checkout',
+                $this->gateway->getPaymentFieldsParams()
+            ),
+        ];
     }
 }

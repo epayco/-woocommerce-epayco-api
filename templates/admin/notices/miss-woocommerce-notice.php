@@ -8,7 +8,7 @@
  * @var array $translations
  * @var array $allowedHtmlTags
  *
- * @see \Epayco\Woocommerce\WoocommerceEpayco
+ * @see \EpaycoSubscription\Woocommerce\WoocommerceEpayco
  */
 
 if (!defined('ABSPATH')) {

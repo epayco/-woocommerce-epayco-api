@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class PaymentStatus
+class PaymentStatus
 {
     /**
      * Get Status Type
@@ -18,19 +18,16 @@ final class PaymentStatus
     public static function getStatusType(string $paymentStatus): string
     {
         $paymentStatusMap = [
-            'aceptada'      => 'success',
-            'accepted'      => 'success',
-            'pendiente'     => 'pending',
-            'pending'       => 'pending',
-            'rechazada'     => 'rejected',
-            'rejected'      => 'rejected',
-            'cancelada'     => 'rejected',
-            'canceled'      =>  'rejected',
-            'fallida'       =>  'rejected',
-            'failed'        =>  'rejected',
+            'approved'     => 'success',
+            'authorized'   => 'success',
+            'pending'      => 'pending',
+            'in_process'   => 'pending',
+            'in_mediation' => 'pending',
+            'rejected'     => 'rejected',
+            'canceled'     => 'rejected',
+            'generic'      => 'rejected',
             'refunded'     => 'refunded',
-            'charged_back' => 'charged_back',
-            'generic'      => 'rejected'
+            'charged_back' => 'charged_back'
         ];
 
         return array_key_exists($paymentStatus, $paymentStatusMap)

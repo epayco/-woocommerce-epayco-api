@@ -69,23 +69,31 @@
 }
 
 div .mp-error {
-    border: 1px solid #f23d4f !important;
+    border: 2px solid #f23d4f !important;
     color: #f23d4f !important;
     border-radius: 8px !important;
 }
 
 .mp-helper .mp-helper-icon {
-    background: #fff;
-    border: 2px solid #f23d4f;
-    border-radius: 12px;
-    color: #a70a0a;
+    border-radius: 19px !important;
+    color: rgb(167, 10, 10);
     display: flex;
-    height: 14px;
-    margin: 0 4px;
+    height: 17px;
     align-content: center;
     justify-content: center;
-    align-items: flex-end;
-    font-size: 15px;
+    align-items: center;
+    /* font-size: 15px; */
+    font-weight: bold;
+    /* width: 17px; */
+    /* border-width: 5px; */
+    border-style: solid;
+    border-color: rgb(219 11 32);
+    border-image: initial;
+
+    background: #fff;
+    border: 2px solid #f23d4f;
+    margin: 0 4px;
+    font-size: 12px;
     font-weight: bold;
 }
 
@@ -95,7 +103,7 @@ div .mp-error {
     display: none;
     font-family: Poppins, Electrolize !important;
     font-size: 13px !important;
-    font-weight: 400 !important;
+    font-weight: bold !important;
     margin-bottom: 10px !important;
     margin-top: 4px !important;
 }
@@ -292,7 +300,7 @@ div .mp-error {
     border-radius: 8px !important;
     display: flex !important;
     height: 48px !important;
-    /*width: 100%;*/
+    width: 100%;
 }
 
 .with-country{

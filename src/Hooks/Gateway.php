@@ -2,95 +2,46 @@
 
 namespace Epayco\Woocommerce\Hooks;
 
-use Epayco\Woocommerce\Configs\Store;
+
+use Exception;
 use Epayco\Woocommerce\Gateways\AbstractGateway;
 use Epayco\Woocommerce\Helpers\Url;
-use Epayco\Woocommerce\Translations\StoreTranslations;
 use Epayco\Woocommerce\Funnel\Funnel;
+use Epayco\Woocommerce\Configs\Store;
+
 
 if (!defined('ABSPATH')) {
     exit;
 }
-
 class Gateway
 {
-    /**
-     * @const
-     */
     public const GATEWAY_ICON_FILTER = 'woo_epayco_icon';
-
-    /**
-     * @var Options
-     */
-    private $options;
-
-    /**
-     * @var Template
-     */
-    private $template;
-
-    /**
-     * @var Store
-     */
-    private $store;
-
-    /**
-     * @var Checkout
-     */
-    private $checkout;
-
-    /**
-     * @var StoreTranslations
-     */
-    private $translations;
-
-    /**
-     * @var Url
-     */
-    private $url;
-
-    /**
-     * @var Funnel
-     */
-    private $funnel;
+    private Store $store;
+    private Url $url;
+    private Funnel $funnel;
 
     /**
      * Gateway constructor
-     *
-     * @param Options $options
-     * @param Template $template
      * @param Store $store
-     * @param Checkout $checkout
-     * @param StoreTranslations $translations
      * @param Url $url
      * @param Funnel $funnel
      */
-    public function __construct(
-        Options $options,
-        Template $template,
-        Store $store,
-        Checkout $checkout,
-        StoreTranslations $translations,
-        Url $url,
-        Funnel $funnel
-    ) {
-        $this->options      = $options;
-        $this->template     = $template;
-        $this->store        = $store;
-        $this->checkout     = $checkout;
-        $this->translations = $translations;
-        $this->url          = $url;
-        $this->funnel       = $funnel;
-    }
-
-    /**
+      public function __construct(
+          Store $store,
+          Url $url,
+          Funnel $funnel
+      ) {
+          $this->store        = $store;
+          $this->url          = $url;
+          $this->funnel       = $funnel;
+      }
+  /**
      * Verify if gateway is enabled and available
      *
      * @param AbstractGateway $gateway
      *
      * @return bool
-     */
-    public function isEnabled(AbstractGateway $gateway): bool
+     */    public function isEnabled(AbstractGateway $gateway): bool
     {
         return $gateway->is_available();
     }
@@ -98,17 +49,17 @@ class Gateway
     /**
      * Register gateway on Woocommerce if it is valid
      *
-     * @param string $gateway
+     * @param string $gatewayClass
      *
      * @return void
      */
-    public function registerGateway(string $gateway): void
+    public function registerGateway(string $gatewayClass): void
     {
-        if ($gateway::isAvailable()) {
-            $this->store->addAvailablePaymentGateway($gateway);
+        if (call_user_func([$gatewayClass, 'isAvailable'])) {
+            $this->store->addAvailablePaymentGateway($gatewayClass);
 
-                add_filter('woocommerce_payment_gateways', function ($methods) use ($gateway) {
-                $methods[] = $gateway;
+            add_filter('woocommerce_payment_gateways', function ($methods) use ($gatewayClass) {
+                $methods[] = $gatewayClass;
                 return $methods;
             });
         }
@@ -120,6 +71,7 @@ class Gateway
      * @param AbstractGateway $gateway
      *
      * @return void
+     * @throws Exception
      */
     public function registerGatewayTitle(AbstractGateway $gateway): void
     {
@@ -132,52 +84,8 @@ class Gateway
                 return $title;
             }
 
-            if (!$this->checkout->isCheckout() && !(defined('DOING_AJAX') && DOING_AJAX)) {
-                return $title;
-            }
-
-            if ($gateway->commission == 0 && $gateway->discount == 0) {
-                return $title;
-            }
-
-            if (!is_numeric($gateway->discount) || $gateway->discount > 99) {
-                return $title;
-            }
-
-            if (!is_numeric($gateway->commission) || $gateway->commission > 99) {
-                return $title;
-            }
-
-            global $epayco;
-
-            $discount   = $epayco->helpers->cart->calculateSubtotalWithDiscount($gateway);
-            $commission = $epayco->helpers->cart->calculateSubtotalWithCommission($gateway);
-
-            $title .= $this->buildTitleWithDiscountAndCommission(
-                $discount,
-                $commission,
-                $this->translations->commonCheckout['discount_title'],
-                $this->translations->commonCheckout['fee_title']
-            );
-
             return $title;
         }, 10, 2);
-    }
-
-    /**
-     * Register available payment gateways
-     *
-     * @return void
-     */
-    public function registerAvailablePaymentGateway(): void
-    {
-        add_filter('woocommerce_available_payment_gateways', function ($methods) {
-            $enable = \WC_Subscriptions_Cart::cart_contains_subscription();
-            if (!$enable && isset($methods['woo-epayco-subscription'])){
-                unset($methods['woo-epayco-subscription']);
-            }
-            return $methods;
-        });
     }
 
     /**
@@ -203,12 +111,10 @@ class Gateway
 
             $optionKey       = $gateway->get_option_key();
             $sanitizedFields = apply_filters('woocommerce_settings_api_sanitized_fields_' . $gateway->id, $gateway->settings);
+            update_option($optionKey, $sanitizedFields);
 
-            $this->options->set($optionKey, $sanitizedFields);
-            $this->funnel->updateStepPaymentMethods();
         });
     }
-
 
     /**
      * Add action for checkout tab on settings in woocommerce
@@ -225,7 +131,43 @@ class Gateway
     }
 
     /**
-     * Handles credits components for better integration with native hooks
+     * Register checkout custom billing fields
+     *
+     * @param AbstractGateway $gateway
+     *
+     * @return void
+     */
+    public function registerCustomBillingFieldOptions(): void
+    {
+        add_filter( 'woocommerce_checkout_fields', function( $fields ) {
+            $fields['billing']['billing_custom_field'] = array(
+                'type'        => 'text',
+                'label'       => 'Campo Personalizado',
+                'placeholder' => 'Escribe algo...',
+                'required'    => true,
+                'class'       => array( 'form-row-wide' ),
+                'clear'       => true,
+            );
+
+            return $fields;
+        });
+    }
+
+    /**
+     * Register gateway receipt
+     *
+     * @param string $id
+     * @param mixed $callback
+     * @return void
+     */
+    public function registerGatewayReceiptPage(string $id, $callback): void
+    {
+        add_action('woocommerce_receipt_' . $id, $callback);
+    }
+
+
+    /**
+     * Handles custom components for better integration with native hooks
      *
      * @param $gateway
      *
@@ -236,16 +178,16 @@ class Gateway
         $formFields = $gateway->get_form_fields();
 
         foreach ($formFields as $key => $field) {
-            if ('ep_checkbox_list' === $field['type']) {
+            if ('mp_checkbox_list' === $field['type']) {
                 $formFields += $this->separateCheckboxes($formFields[$key]);
                 unset($formFields[$key]);
             }
 
-            if ('ep_actionable_input' === $field['type'] && !isset($formFields[$key . '_checkbox'])) {
+            if ('mp_actionable_input' === $field['type'] && !isset($formFields[$key . '_checkbox'])) {
                 $formFields[$key . '_checkbox'] = ['type' => 'checkbox'];
             }
 
-            if ('ep_toggle_switch' === $field['type']) {
+            if ('mp_toggle_switch' === $field['type']) {
                 $formFields[$key]['type'] = 'checkbox';
             }
         }
@@ -272,12 +214,12 @@ class Gateway
     }
 
     /**
-     * Separates multiple exPayments checkbox into an array
-     *
-     * @param array $exPaymentsList
-     *
-     * @return array
-     */
+    * Separates multiple exPayments checkbox into an array
+    *
+    * @param array $exPaymentsList
+    *
+    * @return array
+    */
     public function separateCheckboxesList(array $exPaymentsList): array
     {
         $paymentMethods = [];
@@ -287,18 +229,6 @@ class Gateway
         }
 
         return $paymentMethods;
-    }
-
-    /**
-     * Register gateway receipt
-     *
-     * @param string $id
-     * @param mixed $callback
-     * @return void
-     */
-    public function registerGatewayReceiptPage(string $id, $callback): void
-    {
-        add_action('woocommerce_receipt_' . $id, $callback);
     }
 
     /**
@@ -315,31 +245,18 @@ class Gateway
     }
 
     /**
-     * Register before thank you page
-     *
-     * @param mixed $callback
+     * Register available payment gateways
      *
      * @return void
      */
-    public function registerBeforeThankYou($callback): void
+    public function registerAvailablePaymentGateway(): void
     {
-        add_action('woocommerce_before_thankyou', $callback);
-    }
-
-    /**
-     * Register after settings checkout
-     *
-     * @param string $name
-     * @param array $args
-     *
-     * @return void
-     */
-    public function registerAfterSettingsCheckout(string $name, array $args): void
-    {
-        add_action('woocommerce_after_settings_checkout', function () use ($name, $args) {
-            foreach ($args as $arg) {
-                $this->template->getWoocommerceTemplate($name, $arg);
+        add_filter('woocommerce_available_payment_gateways', function ($methods) {
+            $enable = \WC_Subscriptions_Cart::cart_contains_subscription();
+            if (!$enable && isset($methods['woo-epaycosuscription'])){
+                unset($methods['woo-epaycosuscription']);
             }
+            return $methods;
         });
     }
 
@@ -354,36 +271,5 @@ class Gateway
     {
         $path = $this->url->getPluginFileUrl("assets/images/icons/$iconName", '.png', true);
         return apply_filters(self::GATEWAY_ICON_FILTER, $path);
-    }
-
-    /**
-     * Build title for gateways with discount and commission
-     *
-     * @param float $discount
-     * @param float $commission
-     * @param string $strDiscount
-     * @param string $strCommission
-     *
-     * @return string
-     */
-    public function buildTitleWithDiscountAndCommission(float $discount, float $commission, string $strDiscount, string $strCommission): string
-    {
-        $treatedDiscount   = wp_strip_all_tags(wc_price($discount));
-        $treatedCommission = wp_strip_all_tags(wc_price($commission));
-        $textConcatenation = $this->translations->commonCheckout['text_concatenation'];
-
-        if ($discount > 0 && $commission > 0) {
-            return " ($strDiscount $treatedDiscount $textConcatenation $strCommission $treatedCommission)";
-        }
-
-        if ($discount > 0) {
-            return " ($strDiscount $treatedDiscount)";
-        }
-
-        if ($commission > 0) {
-            return " ($strCommission $treatedCommission)";
-        }
-
-        return '';
     }
 }

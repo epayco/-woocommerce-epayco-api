@@ -13,7 +13,7 @@
  * @var bool  $testMode
  * @var array $allowedHtmlTags
  *
- * @see \Epayco\Woocommerce\Admin\Settings
+ * @see \EpaycoSubscription\Woocommerce\Admin\Settings
  */
 
 if (!defined('ABSPATH')) {
@@ -32,11 +32,11 @@ if (!defined('ABSPATH')) {
 
 <div class="mp-settings">
     <div class="mp-settings-header">
-            <div class="mp-settings-header-img"></div>
+        <div class="mp-settings-header-img"></div>
         <div style="float: right">
             <div class="mp-settings-header-logo"></div>
-        <hr class="mp-settings-header-hr" />
-        <p class="mp-settings-header-title"><?= wp_kses($headerTranslations['title_header'], $allowedHtmlTags) ?></p>
+            <hr class="mp-settings-header-hr" />
+            <p class="mp-settings-header-title"><?= wp_kses($headerTranslations['title_header'], $allowedHtmlTags) ?></p>
         </div>
     </div>
 

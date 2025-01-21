@@ -2,25 +2,14 @@
 
 namespace Epayco\Woocommerce\Hooks;
 
+use Epayco\Woocommerce\Helpers\Template as TemplateHelper;
+
 if (!defined('ABSPATH')) {
     exit;
 }
 
 class Template
 {
-    /**
-     * @var String
-     */
-    public $path;
-
-    /**
-     * Template constructor
-     */
-    public function __construct()
-    {
-        $this->path = plugin_dir_path(__FILE__) . '../../templates/';
-    }
-
     /**
      * Get woocommerce template
      *
@@ -31,7 +20,7 @@ class Template
      */
     public function getWoocommerceTemplate(string $name, array $variables = []): void
     {
-        wc_get_template($name, $variables, null, $this->path);
+        TemplateHelper::render($name, $variables);
     }
 
     /**
@@ -44,6 +33,6 @@ class Template
      */
     public function getWoocommerceTemplateHtml(string $name, array $variables = []): string
     {
-        return wc_get_template_html($name, $variables, null, $this->path);
+        return TemplateHelper::html($name, $variables);
     }
 }

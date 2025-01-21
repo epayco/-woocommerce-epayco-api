@@ -2,29 +2,23 @@
 
 namespace Epayco\Woocommerce\Blocks;
 
+use Epayco\Woocommerce\Helpers\Template;
+
 if (!defined('ABSPATH')) {
     exit;
 }
-
 class CheckoutBlock extends AbstractBlock
 {
-    /**
-     * @var string
-     */
     protected $scriptName = 'checkout';
 
-    /**
-     * @var string
-     */
     protected $name = 'woo-epayco-checkout';
 
     /**
-     * CustomBlock constructor
+     * SubscriptionBlock constructor
      */
     public function __construct()
     {
         parent::__construct();
-        $this->storeTranslations = $this->epayco->storeTranslations->epaycoCheckout;
     }
 
     /**
@@ -34,6 +28,11 @@ class CheckoutBlock extends AbstractBlock
      */
     public function getScriptParams(): array
     {
-        return $this->gateway->getPaymentFieldsParams();
+        return [
+            'content' => Template::html(
+                'public/checkout/epayco-checkout',
+                $this->gateway->getPaymentFieldsParams()
+            ),
+        ];
     }
 }

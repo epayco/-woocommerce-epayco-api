@@ -4,16 +4,14 @@ namespace Epayco\Woocommerce\Helpers;
 
 use Epayco\Woocommerce\Helpers\Form;
 
+
 if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Url
+class Url
 {
-    /**
-     * @var Strings
-     */
-    private $strings;
+    private Strings $strings;
 
     /**
      * Url constructor
@@ -26,16 +24,7 @@ final class Url
     }
 
     /**
-     * Get suffix
-     *
-     * @return string
-     */
-    public function getSuffix(): string
-    {
-        return defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-    }
-
-    /**
+     * Get plugin file url
      * Get plugin file url
      *
      * @param string $path
@@ -44,35 +33,41 @@ final class Url
      *
      * @return string
      */
-    public function getPluginFileUrl(string $path, string $extension, bool $ignoreSuffix = false): string
+    public function getPluginFileUrl(string $path): string
     {
-        return sprintf(
-            '%s%s%s%s',
-            trailingslashit(rtrim(plugin_dir_url(plugin_dir_path(__FILE__)), '/src')),
-            $path,
-            $ignoreSuffix ? '' : $this->getSuffix(),
-            $extension
-        );
+        return plugins_url($path, EP_PLUGIN_FILE);
     }
 
     /**
-     * Get plugin file path
+     * Get plugin css asset file url
      *
-     * @param string $path
-     * @param string $extension
-     * @param bool $ignoreSuffix
+     * @param string $fileName
      *
      * @return string
      */
-    public function getPluginFilePath(string $path, string $extension, bool $ignoreSuffix = false): string
+    public function getCssAsset(string $fileName): string
     {
-        return sprintf(
-            '%s%s%s%s',
-            untrailingslashit(plugin_dir_path(__FILE__)),
-            "/../../$path",
-            $ignoreSuffix ? '' : $this->getSuffix(),
-            $extension
-        );
+        return $this->getPluginFileUrl("assets/css/$fileName.min.css");
+    }
+
+    /**
+     * Get plugin js asset file url
+     *
+     * @param string $fileName
+     *
+     * @return string
+     */
+    public function getJsAsset(string $fileName): string
+    {
+        return $this->getPluginFileUrl("assets/js/$fileName.min.js");
+    }
+
+    /**
+     * Get plugin image asset file url
+     */
+    public function getImageAsset(string $fileName): string
+    {
+        return $this->getPluginFileUrl('assets/images/' . Paths::addExtension($fileName, 'png')) . '?ver=' . $this->assetVersion();
     }
 
     /**
@@ -82,7 +77,7 @@ final class Url
      */
     public function getCurrentPage(): string
     {
-        return isset($_GET['page']) ? Form::sanitizedGetData('page') : '';
+        return isset($_GET['page']) ? Form::sanitizedGetData('page'): '';
     }
 
     /**
@@ -171,7 +166,7 @@ final class Url
      *
      * @return bool
      */
-    public function validatePage(string $expectedPage, string $currentPage = null, bool $allowPartialMatch = false): bool
+    public function validatePage(string $expectedPage, ?string $currentPage = null, bool $allowPartialMatch = false): bool
     {
         if (!$currentPage) {
             $currentPage = $this->getCurrentPage();
@@ -189,7 +184,7 @@ final class Url
      *
      * @return bool
      */
-    public function validateSection(string $expectedSection, string $currentSection = null, bool $allowPartialMatch = true): bool
+    public function validateSection(string $expectedSection, ?string $currentSection = null, bool $allowPartialMatch = true): bool
     {
         if (!$currentSection) {
             $currentSection = $this->getCurrentSection();
@@ -207,7 +202,7 @@ final class Url
      *
      * @return bool
      */
-    public function validateUrl(string $expectedUrl, string $currentUrl = null, bool $allowPartialMatch = true): bool
+    public function validateUrl(string $expectedUrl, ?string $currentUrl = null, bool $allowPartialMatch = true): bool
     {
         if (!$currentUrl) {
             $currentUrl = $this->getCurrentUrl();
@@ -238,5 +233,30 @@ final class Url
     public function validateGetVar(string $expectedVar): bool
     {
         return isset($_GET[$expectedVar]);
+    }
+
+    /**
+     * Version to be used on asset urls
+     */
+    public function assetVersion(): string
+    {
+        return self::filterJoin([EP_VERSION, self::isDevelopmentEnvironment() ? time() : false], '.');
+    }
+
+    public static function filterJoin(array $array, string $separator = " ", ?callable $callback = null, int $mode = 0): string
+    {
+        return join($separator, array_filter($array, $callback ?? fn($element) => !!$element, $mode));
+    }
+
+    /**
+     * Checks whether the site is in a development environment
+     **/
+    public static function isDevelopmentEnvironment(): bool
+    {
+        return in_array(
+            wp_get_environment_type(),
+            ['local', 'development'],
+            true
+        );
     }
 }

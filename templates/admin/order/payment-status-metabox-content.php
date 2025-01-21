@@ -14,17 +14,20 @@ if (!defined('ABSPATH')) {
 
 ?>
 
-<div id="mp-payment-status-container">
-    <p style="font-family: 'Lato', sans-serif; font-size: 14px;">
-        <?php echo esc_html($card_title); ?>
-    </p>
-
-    <div id="mp-payment-status-content" class="mp-status-sync-metabox-content" style="border-left: 4px solid <?php echo esc_html($border_left_color); ?>; min-height: 70px;">
-        <div class="mp-status-sync-metabox-icon" style="width: 0 !important; padding: 0 10px;">
+<div id="mp-payment-status-container" style="display: flex;">
+    <div id="mp-payment-status-content" class="mp-status-sync-metabox-content"
+         style="border-left: 4px solid <?php echo esc_html($border_left_color); ?>;
+                 min-height: 70px;
+                 display: inline-flex;
+                align-items: center;
+                 width: 50%;
+                 ">
+        <div class="mp-status-sync-metabox-icon" style="width: 0 !important; padding: 10px; display: contents;">
             <img
                 alt="alert"
                 src="<?php echo esc_url($img_src); ?>"
                 class="mp-status-sync-metabox-circle-img"
+                style="padding: 10px;"
             />
         </div>
 

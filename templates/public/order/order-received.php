@@ -33,11 +33,9 @@ if (!defined('ABSPATH')) {
                 <p><?php echo esc_html($fecha); ?></p>
             </div>
 
-            <!-- Separador -->
-            <div style="border-top: 1px solid #e5e5e5; margin: 20px 0;"></div>
 
             <!-- Información de la transacción -->
-            <div style="margin: 10px; overflow-x:auto;" >
+            <div style="margin: 30px 30px 0px 30px; overflow-x:auto;" >
                 <p style="font-weight: bold; margin: 0; font-size: 16px; color: #000;"><?php echo esc_html($paymentMethod); ?></p>
                 <table  style="width: 100%; table-layout: fixed;">
                     <tr>
@@ -128,7 +126,7 @@ if (!defined('ABSPATH')) {
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
     #transactionBody{
         height: 550px;
-        max-width: 510px;
+        max-width: 550px;
         margin: auto;
         position: relative;
     }

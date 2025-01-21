@@ -1,8 +1,12 @@
 <?php
 
 namespace Epayco\Woocommerce\Gateways;
+
+use Exception;
+use Epayco\Woocommerce\Exceptions\InvalidCheckoutDataException;
 use Epayco\Woocommerce\Helpers\Form;
 use Epayco\Woocommerce\Transactions\DaviplataTransaction;
+use WP_User;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -25,26 +29,53 @@ class DaviplataGateway extends AbstractGateway
     /**
      * @const
      */
-    public const WEBHOOK_API_NAME = 'WC_Epayco_Daviplata_Gateway';
+    public const WEBHOOK_API_NAME = 'WC_WooEpayco_Daviplata_Gateway';
 
     /**
      * @const
      */
+    public const LOG_SOURCE = 'Epayco_DaviplataGateway';
+
+    const CASH_ENTITIES = [
+        [
+            "id" =>"EF",
+            "name" =>"efecty"
+        ],
+        [
+            "id" =>"GA",
+            "name" =>"gana"
+        ],
+        [
+            "id" =>"PR",
+            "name" =>"puntored"
+        ],
+        [
+            "id" =>"RS",
+            "name" =>"redservi"
+        ],
+        [
+            "id" =>"SR",
+            "name" =>"sured"
+        ]
+    ];
 
     /**
-     * TicketGateway constructor
+     * DaviplataGateway constructor
+     * @throws Exception
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->adminTranslations = $this->epayco->adminTranslations->daviplatatewaySettings;
+        $this->adminTranslations = $this->epayco->adminTranslations->daviplataGatewaySettings;
         $this->storeTranslations = $this->epayco->storeTranslations->daviplataCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = $this->getCheckoutIcon();
-        $this->iconAdmin = $this->getCheckoutIcon(true);
-        $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
+        //$this->icon      = $this->getCheckoutIcon();
+        //$this->iconAdmin = $this->getCheckoutIcon(true);
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-daviplata.png');
+        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('icon-daviplata-admin.png');
+        $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, 'efecty');
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
@@ -55,10 +86,12 @@ class DaviplataGateway extends AbstractGateway
 
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
-        //$this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
-        $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
-    }
+        $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
 
+        $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
+
+
+    }
 
     /**
      * Get checkout name
@@ -77,16 +110,34 @@ class DaviplataGateway extends AbstractGateway
      */
     public function init_form_fields(): void
     {
+        if ($this->addMissingCredentialsNoticeAsFormField()) {
+            return;
+        }
+
         parent::init_form_fields();
 
         $this->form_fields = array_merge($this->form_fields, [
             'config_header' => [
-                'type'        => 'ep_config_title',
+                'type'        => 'mp_config_title',
                 'title'       => $this->adminTranslations['header_title'],
                 'description' => $this->adminTranslations['header_description'],
             ],
+            'card_homolog_validate' => $this->getHomologValidateNoticeOrHidden(),
+            'card_settings'  => [
+                'type'  => 'mp_card_info',
+                'value' => [
+                    'title'       => $this->adminTranslations['card_settings_title'],
+                    'subtitle'    => $this->adminTranslations['card_settings_subtitle'],
+                    'button_text' => $this->adminTranslations['card_settings_button_text'],
+                    'button_url'  => admin_url('admin.php?page=epayco-settings'),
+                    'icon'        => 'mp-icon-badge-info',
+                    'color_card'  => 'mp-alert-color-success',
+                    'size_card'   => 'mp-card-body-size',
+                    'target'      => '_self',
+                ],
+            ],
             'enabled' => [
-                'type'         => 'ep_toggle_switch',
+                'type'         => 'mp_toggle_switch',
                 'title'        => $this->adminTranslations['enabled_title'],
                 'subtitle'     => $this->adminTranslations['enabled_subtitle'],
                 'default'      => 'no',
@@ -102,7 +153,7 @@ class DaviplataGateway extends AbstractGateway
                 'default'     => $this->adminTranslations['title_default'],
                 'desc_tip'    => $this->adminTranslations['title_desc_tip'],
                 'class'       => 'limit-title-max-length',
-            ]
+            ],
         ]);
     }
 
@@ -118,7 +169,7 @@ class DaviplataGateway extends AbstractGateway
         parent::payment_scripts($gatewaySection);
 
         if ($this->canCheckoutLoadScriptsAndStyles()) {
-            //$this->registerCheckoutScripts();
+            $this->registerCheckoutScripts();
         }
     }
 
@@ -132,14 +183,23 @@ class DaviplataGateway extends AbstractGateway
         parent::registerCheckoutScripts();
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_daviplata_page',
+            $this->epayco->helpers->url->getJsAsset('checkouts/daviplata/ep-daviplata-page')
+        );
+
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_daviplata_elements',
+            $this->epayco->helpers->url->getJsAsset('checkouts/daviplata/ep-daviplata-elements')
+        );
+
+        $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_daviplata_checkout',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/daviplata/ep-daviplata-checkout', '.js'),
+            $this->epayco->helpers->url->getJsAsset('checkouts/daviplata/ep-daviplata-checkout'),
             [
-                'site_id' => $this->countryConfigs['site_id'],
+                'site_id' => '',
             ]
         );
     }
-
 
     /**
      * Render gateway checkout template
@@ -149,7 +209,7 @@ class DaviplataGateway extends AbstractGateway
     public function payment_fields(): void
     {
         $this->epayco->hooks->template->getWoocommerceTemplate(
-            'public/checkouts/daviplata-checkout.php',
+            'public/checkout/daviplata-checkout.php',
             $this->getPaymentFieldsParams()
         );
     }
@@ -158,6 +218,8 @@ class DaviplataGateway extends AbstractGateway
      * Get Payment Fields params
      *
      * @return array
+     *
+     * @codeCoverageIgnore
      */
     public function getPaymentFieldsParams(): array
     {
@@ -167,9 +229,11 @@ class DaviplataGateway extends AbstractGateway
             $city = "City";
         }
         return [
+            'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
             'test_mode_description'            => $this->storeTranslations['test_mode_description'],
-            'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
+            'test_mode_link_text'              => $this->storeTranslations['test_mode_link_text'],
+            //'test_mode_link_src'               => $this->links['docs_integration_test'],
             'input_name_label'                 => $this->storeTranslations['input_name_label'],
             'input_name_helper'                => $this->storeTranslations['input_name_helper'],
             'input_email_label'                => $this->storeTranslations['input_email_label'],
@@ -183,25 +247,17 @@ class DaviplataGateway extends AbstractGateway
             'input_document_helper'            => $this->storeTranslations['input_document_helper'],
             'input_country_label'              => $this->storeTranslations['input_country_label'],
             'input_country_helper'             => $this->storeTranslations['input_country_helper'],
-            'site_id'                          => $this->epayco->sellerConfig->getSiteId(),
+            'daviplata_text_label'                => $this->storeTranslations['daviplata_text_label'],
+            'input_table_button'               => $this->storeTranslations['input_table_button'],
+            'payment_methods'                  => [],
+            'input_helper_label'               => $this->storeTranslations['input_helper_label'],
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
-            'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
+            'site_id'                          => '',
             'city'                          => $city,
         ];
-    }
-
-    /**
-     * Get Sdk Icon
-     *
-     * @return string
-     */
-    private function getCheckoutIcon(bool $adminVersion = false): string
-    {
-        $iconName = 'icon-daviplata';
-
-        return $this->epayco->hooks->gateway->getGatewayIcon($iconName . ($adminVersion ? '-admin' : ''));
     }
 
     /**
@@ -214,76 +270,87 @@ class DaviplataGateway extends AbstractGateway
     public function process_payment($order_id): array
     {
         $order = wc_get_order($order_id);
+
         try {
-            $checkout = $this->getCheckoutDaviplata($order);
+            $checkout = $this->getCheckoutEpaycoDaviplata($order);
+
+            parent::process_payment($order_id);
+
+            if (
+                !empty($checkout['cellphonetype'])
+            ) {
+                $redirect_url =get_site_url() . "/";
+                $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
+                $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
+                $confirm_url = $redirect_url.'&confirmation=1';
+                $checkout['confirm_url'] = $confirm_url;
+                $checkout['response_url'] = $order->get_checkout_order_received_url();
+                $checkout['date_expiration'] = $this->settings['date_expiration'];
+                $payment_method_id= $checkout["payment_method_id"]??$checkout[""]["payment_method_id"];
+                $key = array_search( $payment_method_id, array_column(self::CASH_ENTITIES, 'name'));
+                $checkout['paymentMethod'] = self::CASH_ENTITIES[$key]['id'];
+                $this->transaction = new DaviplataTransaction($this, $order, $checkout);
+                $response          = $this->transaction->createDaviplataPayment($order, $checkout);
+
+                if (is_array($response) && $response['success']) {
+                    $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
+                    if (isset($ref_payco)) {
+                        $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
+                        $response['urlPayment'] = 'https://vtex.epayco.io/daviplata?refPayco='.$ref_payco;
+                        $this->epayco->hooks->order->setDaviplataMetadata($order, $response);
+                        $description = sprintf(
+                            "ePayco: %s <a target='_blank' href='%s'>%s</a>",
+                            $this->storeTranslations['congrats_title'],
+                            $response['urlPayment'],
+                            $this->storeTranslations['congrats_subtitle']
+                        );
+                        $this->epayco->hooks->order->addOrderNote($order, $description, 1);
+                    }
+                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$response['data']['refPayco']]);
 
 
-            $redirect_url =get_site_url() . "/";
-            $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
-            $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
-            $confirm_url = $redirect_url.'&confirmation=1';
-            $checkout['confirm_url'] = $confirm_url;
-            $checkout['response_url'] = $order->get_checkout_order_received_url();
-            $testMode = $this->epayco->storeConfig->isTestMode()??false;
-            $this->transaction = new DaviplataTransaction($this, $order, $checkout);
-            $response          = $this->transaction->createDaviplataPayment($order, $checkout);
-            if (is_array($response) && $response['success']) {
-                //$this->handleWithRejectPayment($response);
-                $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
-                if (isset($ref_payco)) {
-                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
-                    $response['urlPayment'] = 'https://vtex.epayco.io/daviplata?refPayco='.$ref_payco;
-                    $this->epayco->hooks->order->setDaviplataMetadata($order, $response);
-                    $description = sprintf(
-                        "ePayco: %s <a target='_blank' href='%s'>%s</a>",
-                        $this->storeTranslations['congrats_title'],
-                        $response['urlPayment'],
-                        $this->storeTranslations['congrats_subtitle']
-                    );
-                    $this->epayco->hooks->order->addOrderNote($order, $description, 1);
+                    if (in_array(strtolower($response['data']['estatus']),["pendiente","pending"])) {
+                        $order->update_status("on-hold");
+                        $this->epayco->woocommerce->cart->empty_cart();
+                        $urlReceived = $order->get_checkout_order_received_url();
+                        $return = [
+                            'result'   => 'success',
+                            'redirect' => $urlReceived,
+                        ];
+                        return $return;
+                    }
+                }else{
+                    $messageError = $response['message']?? $response['titleResponse'];
+                    $errorMessage = "";
+                    if (isset($response['data']['errors'])) {
+                        $errors = $response['data']['errors'];
+                        foreach ($errors as $error) {
+                            $errorMessage = $error['errorMessage'] . "\n";
+                        }
+                    } elseif (isset($response['data']['error'])) {
+                        $errores = $response['data']['error'];
+                        foreach ($errores as $error) {
+                            $errorMessage = $error['errorMessage'] . "\n";
+                        }
+                    }elseif (isset($response['data']['errores'])) {
+                        $errores = $response['data']['errores'];
+                        foreach ($errores as $error) {
+                            $errorMessage = $error['errorMessage'] . "\n";
+                        }
+                    }elseif (isset($response['data']['error']['errores'])) {
+                        $errores = $response['data']['error']['errores'];
+                        foreach ($errores as $error) {
+                            $errorMessage = $error['errorMessage'] . "\n";
+                        }
+                    }
+                    $processReturnFailMessage = $messageError. " " . $errorMessage;
+                    return $this->returnFail($processReturnFailMessage, $order);
                 }
 
-
-                if (in_array(strtolower($response['data']['estatus']),["pendiente","pending"])) {
-                    $order->update_status("on-hold");
-                    $this->epayco->woocommerce->cart->empty_cart();
-                    //$urlReceived = $order->get_checkout_order_received_url();
-                    $urlReceived = $response['urlPayment'];
-                    $return = [
-                        'result'   => 'success',
-                        'redirect' => $urlReceived,
-                    ];
-                    return $return;
-                }
             }else{
-                $messageError = $response['message']??$response['titleResponse']??'error';
-                $errorMessage = "";
-                if (isset($response['data']['errors'])) {
-                    $errors = $response['data']['errors'];
-                    foreach ($errors as $error) {
-                        $errorMessage = $error['errorMessage'] . "\n";
-                    }
-                } elseif (isset($response['data']['error'])) {
-                    $errores = $response['data']['error'];
-                    foreach ($errores as $error) {
-                        $errorMessage = $error['errorMessage'] . "\n";
-                    }
-                }elseif (isset($response['data']['errores'])) {
-                    $errores = $response['data']['errores'];
-                    foreach ($errores as $error) {
-                        $errorMessage = $error['errorMessage'] . "\n";
-                    }
-                }elseif (isset($response['data']['error']['errores'])) {
-                    $errores = $response['data']['error']['errores'];
-                    foreach ($errores as $error) {
-                        $errorMessage = $error['errorMessage'] . "\n";
-                    }
-                }
-                $processReturnFailMessage = $messageError. " " . $errorMessage;
-                return $this->returnFail($processReturnFailMessage, $order);
+                throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
             }
-
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return $this->processReturnFail(
                 $e,
                 $e->getMessage(),
@@ -295,13 +362,13 @@ class DaviplataGateway extends AbstractGateway
     }
 
     /**
-     * Get checkout epayco ticket
+     * Get checkout epayco daviplata
      *
      * @param $order
      *
      * @return array
      */
-    private function getCheckoutDaviplata($order): array
+    private function getCheckoutEpaycoDaviplata($order): array
     {
         $checkout = [];
 
@@ -315,6 +382,24 @@ class DaviplataGateway extends AbstractGateway
 
         return $checkout;
     }
+
+
+
+
+    /**
+     * Get Epayco Icon
+     *
+     * @param bool $adminVersion
+     *
+     * @return string
+     */
+    private function getCheckoutIcon(bool $adminVersion = false): string
+    {
+        $iconName = 'icon-daviplata.png';
+        return $this->epayco->hooks->gateway->getGatewayIcon($iconName . ($adminVersion ? '-admin' : ''));
+    }
+
+
 
     /**
      * Render thank you page
@@ -333,8 +418,8 @@ class DaviplataGateway extends AbstractGateway
         $this->epayco->hooks->template->getWoocommerceTemplate(
             'public/order/epayco-order-received.php',
             [
-                'print_daviplata_label'  => $this->storeTranslations['print_daviplata_label'],
-                'print_daviplata_link'  => $this->storeTranslations['print_daviplata_link'],
+                'print_daviplata_label'  => '',
+                'print_daviplata_link'  => '',
                 'transaction_details' => $transactionDetails,
             ]
         );

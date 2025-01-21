@@ -2,20 +2,16 @@
 
 namespace Epayco\Woocommerce\Blocks;
 
+use Epayco\Woocommerce\Helpers\Template;
+
 if (!defined('ABSPATH')) {
     exit;
 }
 
 class TicketBlock extends AbstractBlock
 {
-    /**
-     * @var string
-     */
     protected $scriptName = 'ticket';
 
-    /**
-     * @var string
-     */
     protected $name = 'woo-epayco-ticket';
 
     /**
@@ -34,6 +30,11 @@ class TicketBlock extends AbstractBlock
      */
     public function getScriptParams(): array
     {
-        return $this->gateway->getPaymentFieldsParams();
+        return [
+            'content' => Template::html(
+                'public/checkout/ticket-checkout',
+                $this->gateway->getPaymentFieldsParams()
+            ),
+        ];
     }
 }
