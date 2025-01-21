@@ -62,6 +62,8 @@ class StoreTranslations
             'input_helper_label'               => __('Select a payment method', 'woo-epayco-api'),
             'terms_and_conditions_label'       => __('I confirm and accept the', 'woo-epayco-api'),
             'terms_and_conditions_description' => __(' of ePayco.', 'woo-epayco-api'),
+            'and_the' => __(' and the', 'woo-epayco-api'),
+            'personal_data_processing_link_text' => __(' personal data processing policy', 'woo-epayco-api'),
             'terms_and_conditions_link_text'   => __('Terms and conditions', 'woo-epayco-api'),
             'success_message'                  => __('Approved transaction', 'woo-epayco-api'),
             'pending_message'                  => __('Pending transaction', 'woo-epayco-api'),
@@ -80,6 +82,7 @@ class StoreTranslations
             'authorization'                   => __('Authorization', 'woo-epayco-api'),
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
+            'customer_title'                   => __('Customer data', 'woo-epayco-api'),
         ];
     }
 
@@ -114,6 +117,9 @@ class StoreTranslations
             'terms_and_conditions_label'       => __('I confirm and accept the', 'woo-epayco-api'),
             'terms_and_conditions_description' => __(' of ePayco.', 'woo-epayco-api'),
             'terms_and_conditions_link_text'   => __('Terms and conditions', 'woo-epayco-api'),
+            'and_the' => __(' and the', 'woo-epayco-api'),
+            'personal_data_processing_link_text'                   => __(' personal data processing policy', 'woo-epayco-api'),
+            'customer_title'                   => __('Customer data', 'woo-epayco-api'),
         ];
     }
 
@@ -161,6 +167,8 @@ class StoreTranslations
             'terms_and_conditions_label'                          => __('I confirm and accept the', 'woo-epayco-api'),
             'terms_and_conditions_description'                    => __(' of ePayco.', 'woo-epayco-api'),
             'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woo-epayco-api'),
+            'and_the' => __(' and the', 'woo-epayco-api'),
+            'personal_data_processing_link_text'                   => __(' personal data processing policy', 'woo-epayco-api'),
             'success_message'                  => __('Approved transaction', 'woo-epayco-api'),
             'pending_message'                  => __('Pending transaction', 'woo-epayco-api'),
             'fail_message'                  => __('Transaction rejected', 'woo-epayco-api'),
@@ -212,6 +220,8 @@ class StoreTranslations
             'terms_and_conditions_label'                          => __('I confirm and accept the', 'woo-epayco-api'),
             'terms_and_conditions_description'                    => __(' of ePayco.', 'woo-epayco-api'),
             'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woo-epayco-api'),
+            'and_the' => __(' and the', 'woo-epayco-api'),
+            'personal_data_processing_link_text'                   => __(' personal data processing policy', 'woo-epayco-api'),
             'success_message'                  => __('Approved transaction', 'woo-epayco-api'),
             'pending_message'                  => __('Pending transaction', 'woo-epayco-api'),
             'fail_message'                     => __('Transaction rejected', 'woo-epayco-api'),
@@ -229,6 +239,7 @@ class StoreTranslations
             'authorization'                   => __('Authorization', 'woo-epayco-api'),
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
+            'customer_title'                   => __('Customer data', 'woo-epayco-api'),
         ];
     }
 
@@ -248,6 +259,8 @@ class StoreTranslations
             'terms_and_conditions_label'                          => __('I confirm and accept the', 'woo-epayco-api'),
             'terms_and_conditions_description'                    => __(' of ePayco.', 'woo-epayco-api'),
             'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woo-epayco-api'),
+            'and_the' => __(' and the', 'woo-epayco-api'),
+            'personal_data_processing_link_text'                   => __(' personal data processing policy', 'woo-epayco-api'),
             'success_message'                  => __('Approved transaction', 'woo-epayco-api'),
             'pending_message'                  => __('Pending transaction', 'woo-epayco-api'),
             'fail_message'                  => __('Transaction rejected', 'woo-epayco-api'),
@@ -265,6 +278,7 @@ class StoreTranslations
             'authorization'                   => __('Authorization', 'woo-epayco-api'),
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
+            'customer_title'                   => __('Customer data', 'woo-epayco-api'),
         ];
     }
 
@@ -311,6 +325,8 @@ class StoreTranslations
             'terms_and_conditions_label'                          => __('I confirm and accept the', 'woo-epayco-api'),
             'terms_and_conditions_description'                    => __(' of ePayco.', 'woo-epayco-api'),
             'terms_and_conditions_link_text'                      => __('Terms and conditions', 'woo-epayco-api'),
+            'and_the' => __(' and the', 'woo-epayco-api'),
+            'personal_data_processing_link_text'                   => __(' personal data processing policy', 'woo-epayco-api'),
             'success_message'                                     => __('Approved transaction', 'woo-epayco-api'),
             'pending_message'                                     => __('Pending transaction', 'woo-epayco-api'),
             'fail_message'                                        => __('Transaction rejected', 'woo-epayco-api'),
@@ -328,6 +344,7 @@ class StoreTranslations
             'authorization'                   => __('Authorization', 'woo-epayco-api'),
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
+            'customer_title'                   => __('Customer data', 'woo-epayco-api'),
         ];
     }
 

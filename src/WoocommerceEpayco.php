@@ -129,6 +129,8 @@ class WoocommerceEpayco
         $this->registerBlocks();
         $this->registerGateways();
 
+        $this->hooks->gateway->registerAvailablePaymentGateway();
+
         $this->hooks->gateway->registerSaveCheckoutSettings();
         if ($this->storeConfig->getExecuteActivate()) {
             $this->hooks->plugin->executeActivatePluginAction();

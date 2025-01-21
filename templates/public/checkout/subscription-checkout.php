@@ -32,6 +32,11 @@
  * @var string $terms_and_conditions_link_text
  * @var string $terms_and_conditions_link_src
  * @var string $city
+ * @var string $customer_title
+ * @var string $logo
+ * @var string $personal_data_processing_link_text
+ * @var string $personal_data_processing_link_src
+ * @var string $and_the
  * @see \Epayco\Woocommerce\Gateways\SubscriptionGateway
  */
 
@@ -235,8 +240,16 @@ if (!defined('ABSPATH')) {
                         label="<?= esc_html($terms_and_conditions_label); ?>"
                         description="<?= esc_html($terms_and_conditions_description); ?>"
                         link-text="<?= esc_html($terms_and_conditions_link_text); ?>"
-                        link-src="<?= esc_html($terms_and_conditions_link_src); ?>">
+                        link-src="<?= esc_html($terms_and_conditions_link_src); ?>"
+                        link-condiction-text="<?= esc_html($personal_data_processing_link_text); ?>"
+                        and_the="<?= esc_html($and_the); ?>"
+                        link-condiction-src="<?= esc_html($personal_data_processing_link_src); ?>"
+                >
                 </terms-and-conditions>
+            </div>
+            <div style="display: flex;justify-content: center; align-items: center;padding: 15px;">
+                <p>Secure by</p>
+                <img width="65px" src="<?php echo esc_html($logo); ?>">
             </div>
 
         </div>

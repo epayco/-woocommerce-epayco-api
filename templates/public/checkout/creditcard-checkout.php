@@ -33,6 +33,10 @@
  * @var string $terms_and_conditions_link_text
  * @var string $terms_and_conditions_link_src
  * @var string $city
+ * @var string $logo
+ * @var string $personal_data_processing_link_text
+ * @var string $personal_data_processing_link_src
+ * @var string $and_the
  * @see \Epayco\Woocommerce\Gateways\CreditcardGateway
  */
 
@@ -45,7 +49,7 @@ if (!defined('ABSPATH')) {
     <div class="spinner-card-form"></div>
 </div>
 <div class='mp-checkout-container'>
-    <div class='mp-checkout-creditcard-container'>
+    <div class='mp-checkout-creditcard-container' style="max-width: 452px;margin: auto;">
         <?php if ($test_mode) : ?>
             <div class="mp-checkout-pro-test-mode">
                 <test-mode
@@ -55,6 +59,10 @@ if (!defined('ABSPATH')) {
                         link-src="<?= esc_html($test_mode_link_src) ?>"
                 >
                 </test-mode>
+                <div>
+                    <p>Por favor, utiliza la siguiente información de tarjeta de prueba en modo de prueba:</p>
+                    <p>Número: 4575 6231 8229 0326</p>
+                </div>
             </div>
         <?php endif; ?>
         <div style="margin-top: 10px; font-weight: bold; display: flex; align-items: center;">
@@ -64,7 +72,7 @@ if (!defined('ABSPATH')) {
             <p style="margin-left: 10px;"><?= esc_html($card_form_title) ?></p>
         </div>
 
-        <div id="mp-custom-checkout-form-container">
+        <div id="mp-custom-checkout-form-container" style="margin: 10px;">
             <div class='mp-checkout-custom-card-form'>
 
                 <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
@@ -134,6 +142,7 @@ if (!defined('ABSPATH')) {
                     </div>
                 </div>
             </div>
+        </div>
             <hr>
             <div style="margin-top: 10px; font-weight: bold; display: flex; align-items: center;">
                 <svg width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -142,7 +151,7 @@ if (!defined('ABSPATH')) {
 
                 <p style="margin-left: 10px;"><?= esc_html($card_customer_title) ?></p>
             </div>
-
+        <div id="mp-custom-checkout-form-container" style="margin: 10px;">
             <div id="mp-custom-checkout-form-container">
 
                 <div id="mp-doc-div" class="mp-checkout-custom-input-document">
@@ -245,8 +254,17 @@ if (!defined('ABSPATH')) {
                         label="<?= esc_html($terms_and_conditions_label); ?>"
                         description="<?= esc_html($terms_and_conditions_description); ?>"
                         link-text="<?= esc_html($terms_and_conditions_link_text); ?>"
-                        link-src="<?= esc_html($terms_and_conditions_link_src); ?>">
+                        link-src="<?= esc_html($terms_and_conditions_link_src); ?>"
+                        link-condiction-text="<?= esc_html($personal_data_processing_link_text); ?>"
+                        and_the="<?= esc_html($and_the); ?>"
+                        link-condiction-src="<?= esc_html($personal_data_processing_link_src); ?>"
+                >
                 </terms-and-conditions>
+            </div>
+
+            <div style="display: flex;justify-content: center; align-items: center;padding: 15px;">
+                <p>Secure by</p>
+                <img width="65px" src="<?php echo esc_html($logo); ?>">
             </div>
 
         </div>
