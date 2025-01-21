@@ -67,21 +67,21 @@ if (!defined('ABSPATH')) {
             <div class='mp-checkout-custom-card-form'>
 
                 <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
-                    <input-name
+                    <input-card-name
                             labelMessage="<?= esc_html($card_holder_name_input_label); ?>"
                             helperMessage="<?= esc_html($card_holder_name_input_helper); ?>"
                             placeholder="Ex: John Doe"
                             inputName='epayco_subscription[name]'
                             flagError='epayco_subscription[nameError]'
                             validate=true
-                            hiddenId= "hidden-name-subscription"
+                            hiddenId= "hidden-name-custom"
                     >
-                    </input-name>
+                    </input-card-name>
                 </div>
 
                 <div class='mp-checkout-custom-card-row'>
 
-                    <input-number
+                    <input-card-number
                             labelMessage="<?= esc_html($card_number_input_label); ?>"
                             helperMessage="<?= esc_html($card_number_input_helper); ?>"
                             placeholder="0000 0000 0000 0000"
@@ -90,7 +90,7 @@ if (!defined('ABSPATH')) {
                             validate=true
                             hiddenId= "mp-card-number-helper"
                     >
-                    </input-number>
+                    </input-card-number>
 
                 </div>
 
@@ -178,7 +178,7 @@ if (!defined('ABSPATH')) {
                 </div>
 
                 <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
-                    <input-email
+                    <input-card-email
                             labelMessage="<?= esc_html($card_holder_email_input_label); ?>"
                             helperMessage="<?= esc_html($card_holder_email_input_helper); ?>"
                             placeholder="john@example.com"
@@ -187,7 +187,7 @@ if (!defined('ABSPATH')) {
                             validate=true
                             hiddenId= "hidden-email-subscription"
                     >
-                    </input-email>
+                    </input-card-email>
                 </div>
 
                 <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">

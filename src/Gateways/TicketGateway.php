@@ -537,8 +537,8 @@ class TicketGateway extends AbstractGateway
     public function renderThankYouPage($order_id): void
     {
         $order        = wc_get_order($order_id);
-        $transactionDetails  =  $this->epayco->orderMetadata->getTicketTransactionDetailsMeta($order);
-
+       // $transactionDetails  =  $this->epayco->orderMetadata->getTicketTransactionDetailsMeta($order);
+        $transactionDetails  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
         if (empty($transactionDetails)) {
             return;
         }

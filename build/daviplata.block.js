@@ -52,7 +52,8 @@
             return (0, a.useEffect)((() => {
                 const e = r((async () => {
                     var e;
-                    const daviplataContentName = document.getElementsByName('epayco_daviplata[name]')[0].value;
+                    const daviplataName = document.getElementsByName('epayco_daviplata[name]')[0]??document.getElementsByName('epayco_daviplata[nameError]')[0];
+                    const daviplataContentName = daviplataName.value;
                     const nameHelpers =  document.querySelector('input-helper').querySelector("div");
                     const verifyName = (nameElement) => {
                         if (nameElement === '') {
@@ -164,7 +165,7 @@
                     "" !== doc_number_value &&
                     "" !== daviplataContentCountry &&
                     "Type"||"Tipo" !== doc_type,{
-                        type: !termanAndContictionContent.checked  ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
+                        type: d(nameHelpers)|| d(addressHelpers)|| d(emailHelpers)|| d(cellphoneHelpers)||d(documentHelpers)||d(countryHelpers)||d(termanAndContictionContent)|| !termanAndContictionContent.checked  ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
                         meta: {paymentMethodData: nn}
                     }
                 }));

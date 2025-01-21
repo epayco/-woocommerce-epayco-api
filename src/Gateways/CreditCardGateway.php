@@ -140,7 +140,9 @@ class CreditCardGateway extends AbstractGateway
     public function registerCheckoutScripts(): void
     {
         parent::registerCheckoutScripts();
-
+        $lang = get_locale();
+        $lang = explode('_', $lang);
+        $lang = $lang[0];
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_creditcard_page',
             $this->epayco->helpers->url->getJsAsset('checkouts/creditcard/ep-creditcard-page')
@@ -156,7 +158,8 @@ class CreditCardGateway extends AbstractGateway
             $this->epayco->helpers->url->getJsAsset('checkouts/creditcard/ep-creditcard-checkout'),
             [
                 'site_id' => 'epayco',
-                'public_key_epayco'        => $this->epayco->sellerConfig->getCredentialsPublicKeyPayment()
+                'public_key_epayco'        => $this->epayco->sellerConfig->getCredentialsPublicKeyPayment(),
+                'lang' => $lang
             ]
         );
     }
@@ -249,7 +252,7 @@ class CreditCardGateway extends AbstractGateway
 
             parent::process_payment($order_id);
 
-            $checkout['token'] = $checkout['cardTokenId'] ?? $checkout['cardtokenid'];
+            $checkout['token'] = $checkout['cardTokenId'] ?? $checkout['cardtokenid'] ?? '';
             if (
                 !empty($checkout['token'])
             ) {
@@ -393,18 +396,18 @@ class CreditCardGateway extends AbstractGateway
             $card = $data['card'];
             switch ($status) {
                 case 'Aceptada': {
-                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('check');
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('check.png');
                     $iconColor = '#67C940';
                     $message = $this->storeTranslations['success_message'];
                 }break;
                 case 'Pendiente':
                 case 'Pending':{
-                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('warning');
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('warning.png');
                     $iconColor = '#FFD100';
                     $message = $this->storeTranslations['pending_message'];
                 }break;
                 default: {
-                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('error');
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('error.png');
                     $iconColor = '#E1251B';
                     $message = $this->storeTranslations['fail_message'];
                 }break;

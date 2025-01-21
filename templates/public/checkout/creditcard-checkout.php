@@ -188,7 +188,7 @@ if (!defined('ABSPATH')) {
                 </div>
 
                 <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
-                    <input-email
+                    <input-card-email
                             labelMessage="<?= esc_html($card_holder_email_input_label); ?>"
                             helperMessage="<?= esc_html($card_holder_email_input_helper); ?>"
                             placeholder="john@example.com"
@@ -197,7 +197,7 @@ if (!defined('ABSPATH')) {
                             validate=true
                             hiddenId= "hidden-email-custom"
                     >
-                    </input-email>
+                    </input-card-email>
                 </div>
 
                 <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">

@@ -181,9 +181,7 @@ if (!defined('ABSPATH')) {
                 <input type="hidden" id="daviplata_discount" name="epayco_daviplata[discount]" />
             </div>
         </div>
-        <div>
-            <hr>
-        </div>
+        <div style="margin-top: 15px;"></div>
 
         <div class="mp-checkout-daviplata-terms-and-conditions">
             <terms-and-conditions

@@ -147,7 +147,9 @@ class SubscriptionGateway extends AbstractGateway
     public function registerCheckoutScripts(): void
     {
         parent::registerCheckoutScripts();
-
+        $lang = get_locale();
+        $lang = explode('_', $lang);
+        $lang = $lang[0];
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_subscription_page',
             $this->epayco->helpers->url->getJsAsset('checkouts/subscription/ep-subscription-page')
@@ -163,7 +165,8 @@ class SubscriptionGateway extends AbstractGateway
             $this->epayco->helpers->url->getJsAsset('checkouts/subscription/ep-subscription-checkout'),
             [
                 'site_id' => 'epayco',
-                'public_key_epayco'        => $this->epayco->sellerConfig->getCredentialsPublicKeyPayment()
+                'public_key_epayco'        => $this->epayco->sellerConfig->getCredentialsPublicKeyPayment(),
+                'lang' => $lang
             ]
         );
     }
@@ -255,7 +258,7 @@ class SubscriptionGateway extends AbstractGateway
 
             parent::process_payment($order_id);
 
-            $checkout['token'] = $checkout['cardTokenId'] ?? $checkout['cardtokenid'];
+            $checkout['token'] = $checkout['cardTokenId'] ?? $checkout['cardtokenid'] ?? '';
             if (
                 !empty($checkout['token'])
             ) {
@@ -266,22 +269,21 @@ class SubscriptionGateway extends AbstractGateway
                 $confirm_url = $redirect_url.'&confirmation=1';
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
-                $response = $this->transaction->createTcPayment($order_id, $checkout);
+                $response = $this->transaction->createSubscriptionPayment($order_id, $checkout);
                 $response = json_decode(json_encode($response), true);
                 if (is_array($response) && $response['success']) {
-                    $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
+                    $ref_payco = $response['ref_payco'][0];
                     $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
-                    if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
+                    if (in_array(strtolower($response['estado'][0]),["pendiente","pending"])) {
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
-                        //$this->epayco->hooks->order->addOrderNote($order, $this->storeTranslations['customer_not_paid']);
                         $urlReceived = $order->get_checkout_order_received_url();
                         $return = [
                             'result'   => 'success',
                             'redirect' => $urlReceived,
                         ];
                     }
-                    if (in_array(strtolower($response['data']['estado']),["aceptada","acepted"])) {
+                    if (in_array(strtolower($response['estado'][0]),["aceptada","acepted","aprobada"])) {
                         $order->update_status("processing");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
@@ -289,11 +291,11 @@ class SubscriptionGateway extends AbstractGateway
                             'result'   => 'success',
                             'redirect' => $urlReceived,
                         ];
-                    }if (in_array(strtolower($response['data']['estado']),["rechazada","fallida","cancelada","abandonada"])) {
+                    }if (in_array(strtolower($response['estado'][0]),["rechazada","fallida","cancelada","abandonada"])) {
                         $urlReceived = wc_get_checkout_url();
                         $return = [
                             'result'   => 'fail',
-                            'message' => $response['data']['respuesta'],
+                            'message' => $response['message'][0],
                             'redirect' => $urlReceived,
                         ];
                     }
@@ -315,11 +317,9 @@ class SubscriptionGateway extends AbstractGateway
                     $processReturnFailMessage = $messageError. " " . $errorMessage;
                     return $this->returnFail($processReturnFailMessage, $order);
                 }
-            }else{
-                $processReturnFailMessage = "Token incorrect ";
-                return $this->returnFail($processReturnFailMessage, $order);
             }
 
+            throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
         } catch (\Exception $e) {
             return $this->processReturnFail(
                 $e,

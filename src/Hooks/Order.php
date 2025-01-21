@@ -223,8 +223,18 @@ class Order
             $bank= $data->bank;
             $authorization= $data->authorization;
         }
-
-        $paymentStatusType = PaymentStatus::getStatusType(strtolower($status));
+        switch ($status) {
+            case 'Aceptada':
+                $orderstatus = 'approved';
+                break;
+            case 'pending':
+                $orderstatus = 'pending';
+                break;
+            default:
+                $orderstatus = 'rejected';
+                break;
+        }
+        $paymentStatusType = PaymentStatus::getStatusType(strtolower($orderstatus));
 
         $cardContent = PaymentStatus::getCardDescription(
             $this->adminTranslations->statusSync,
@@ -249,7 +259,7 @@ class Order
                     'bank'              => $bank,
                     'authorization'     => $authorization
                 ];
-
+                break;
             case 'pending':
                 return [
                     'card_title'        => $this->adminTranslations->statusSync['card_title'],
@@ -266,7 +276,7 @@ class Order
                     'bank'              => $bank,
                     'authorization'     => $authorization
                 ];
-
+                break;
             case 'rejected':
             case 'refunded':
             case 'charged_back':
@@ -285,7 +295,7 @@ class Order
                     'bank'              => $bank,
                     'authorization'     => $authorization
                 ];
-
+            break;
             default:
                 return [];
         }

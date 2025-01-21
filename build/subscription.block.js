@@ -105,11 +105,11 @@
                         }
                     }
 
-                    const customContentEmail = current.querySelector('input-email').querySelector('input');
-                    const emailHelpers =  current.querySelector('input-email').querySelector("input-helper").querySelector("div");
+                    const customContentEmail = current.querySelector('input-card-email').querySelector('input');
+                    const emailHelpers =  current.querySelector('input-card-email').querySelector("input-helper").querySelector("div");
                     const verifyEmail = (emailElement) => {
                         if (emailElement.value === '') {
-                            current.querySelector('input-email').querySelector(".mp-input").classList.add("mp-error");
+                            current.querySelector('input-card-email').querySelector(".mp-input").classList.add("mp-error");
                             emailHelpers.style.display = 'flex';
                         }
                     }
@@ -156,9 +156,51 @@
                     "" === customContentCellphone.value && verifyCellphone(customContentCellphone);
                     "" === countryContentCountry.value && verifyCountry(countryContentCountry);
                     !termanAndContictionContent.checked && termanAndContictionHelpers.classList.add("mp-error");
-
+                    let validation = d(nameHelpers) || d(cardNumberHelpers) || d(cardExpirationHelpers) || d(cardSecurityHelpers) || d(documentHelpers) || d(addressHelpers) || d(emailHelpers) || d(cellphoneHelpers) || d(countryHelpers);
+                    try {
+                        var createTokenEpayco = async function  ($form) {
+                            return await new Promise(function(resolve, reject) {
+                                ePayco.token.create($form, function(data) {
+                                    if(data.status == 'error' || data.error){
+                                        reject(false)
+                                    }else{
+                                        if(data.status == 'success'){
+                                            document.querySelector('#cardTokenId').value = data.data.token;
+                                            resolve(data.data.token)
+                                        }else{
+                                            reject(false)
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                        if (!validation) {
+                            var publicKey = wc_epayco_subscription_checkout_params.public_key_epayco;
+                            var lang = wc_epayco_subscription_checkout_params.lang
+                            //var token;
+                            ePayco.setPublicKey(publicKey);
+                            ePayco.setLanguage("es");
+                            //var token = await createTokenEpayco(current);
+                            var token = "78feedd0a3078167c053d01";
+                            if(!token){
+                                validation = true;
+                            }
+                        }else{
+                            return {
+                                type: c.responseTypes.FAIL,
+                                messageContext: "PAYMENTS",
+                                message: "error"
+                            }
+                        }
+                    } catch (e) {
+                        console.warn("Token creation error: ", e)
+                        return {
+                            type: c.responseTypes.ERROR,
+                            messageContext: "PAYMENTS",
+                            message: "error"
+                        }
+                    }
                     const nn = {
-                        "epayco_subscription[cardTokenId]": "token",
                         "epayco_subscription[name]": customContentName.value,
                         "epayco_subscription[address]": customContentAddress.value,
                         "epayco_subscription[email]": customContentEmail.value,
@@ -168,7 +210,7 @@
                         "epayco_subscription[cellphoneType]": cellphoneType,
                         "epayco_subscription[cellphone]": customContentCellphone.value,
                         "epayco_subscription[country]": countryContentCountry.value,
-                        "epayco_subscription[token]": "token",
+                        "epayco_subscription[cardTokenId]": token,
                     };
 
                     function m(e, t) {
@@ -178,7 +220,7 @@
                     function d(e) {
                         return e && "flex" === e.style.display
                     }
-                    let validation = d(nameHelpers) || d(cardNumberHelpers) || d(cardExpirationHelpers) || d(cardSecurityHelpers) || d(documentHelpers) || d(addressHelpers) || d(emailHelpers) || d(cellphoneHelpers) || d(countryHelpers);
+
                     return "" !== customContentName.value &&
                     "" !== cardNumberContentName.value &&
                     "" !== cardExpirationContentName.value &&
