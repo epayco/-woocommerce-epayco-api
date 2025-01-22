@@ -61,14 +61,14 @@
                             nameHelpers.style.display = 'flex';
                         }
                     }
-                    const daviplataContentAddress = document.getElementsByName('epayco_daviplata[address]')[0].value;
+                    /*const daviplataContentAddress = document.getElementsByName('epayco_daviplata[address]')[0].value;
                     const addressHelpers =  document.querySelector('input-address').querySelector("input-helper").querySelector("div");
                     const verifyAddress = (addressElement) => {
                         if (addressElement === '') {
                             document.querySelector('input-address').querySelector(".mp-input").classList.add("mp-error");
                             addressHelpers.style.display = 'flex';
                         }
-                    }
+                    }*/
                     const daviplataContentEmail = document.getElementsByName('epayco_daviplata[email]')[0].value;
                     const emailHelpers =  document.querySelector('input-email').querySelector("input-helper").querySelector("div");
                     const verifyEmail = (emailElement) => {
@@ -89,7 +89,7 @@
                         }
                     }
 
-                    const person_type_value = document.getElementsByName('epayco_daviplata[person_type]')[1].value;
+                    //const person_type_value = document.getElementsByName('epayco_daviplata[person_type]')[1].value;
                     const doc_type = document.getElementsByName('epayco_daviplata[documentType]')[0].value;
                     const documentHelpers =  document.querySelector('input-document').querySelector("input-helper").querySelector("div");
                     const verifyDocument = (daviplataContentDocument) => {
@@ -101,7 +101,7 @@
                     }
                     const doc_number = document.getElementsByName('epayco_daviplata[document]').length>0?document.getElementsByName('epayco_daviplata[document]'):document.getElementsByName('documentTypeError');
                     const doc_number_value = doc_number[0].value;
-                    const countryType = document.getElementsByName('epayco_daviplata[countryType]')[0].value;
+                    /*const countryType = document.getElementsByName('epayco_daviplata[countryType]')[0].value;
                     const daviplataContentCountry = document.getElementsByName('epayco_daviplata[country]')[0].value;
                     const countryHelpers =  document.querySelector('input-country').querySelector("input-helper").querySelector("div");
                     const verifyCountry = (daviplataContentCountry) => {
@@ -110,14 +110,8 @@
                             document.querySelector('input-country').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
                             countryHelpers.style.display = 'flex';
                         }
-                    }
-                    var paymentOptionSelected;
+                    }*/
 
-                    document.querySelector(".mp-checkout-daviplata-container").querySelectorAll(".mp-input-radio-radio").forEach((e => {
-                        if (e.checked) {
-                            paymentOptionSelected = e.value;
-                        }
-                    }))
                     const termanAndContictionContent = document.querySelector('terms-and-conditions').querySelector('input');
                     const termanAndContictionHelpers = document.querySelector('terms-and-conditions').querySelector(".mp-terms-and-conditions-container");
                     termanAndContictionContent.addEventListener('click', function() {
@@ -129,26 +123,26 @@
 
                     const nn = {
                         "epayco_daviplata[name]": daviplataContentName,
-                        "epayco_daviplata[address]": daviplataContentAddress,
+                        //"epayco_daviplata[address]": daviplataContentAddress,
                         "epayco_daviplata[email]": daviplataContentEmail,
                         "epayco_daviplata[cellphoneType]": cellphoneType,
                         "epayco_daviplata[cellphone]": daviplataContentCellphone,
-                        "epayco_daviplata[person_type]": person_type_value,
+                        //"epayco_daviplata[person_type]": person_type_value,
                         "epayco_daviplata[identificationtype]": doc_type,
                         "epayco_daviplata[doc_number]": doc_number_value,
-                        "epayco_daviplata[countryType]": countryType,
-                        "epayco_daviplata[country]": daviplataContentCountry
+                        //"epayco_daviplata[countryType]": countryType,
+                        //"epayco_daviplata[country]": daviplataContentCountry
                     };
 
                     "" === daviplataContentName && verifyName(daviplataContentName);
                     "" === daviplataContentEmail && verifyEmail(daviplataContentEmail);
-                    "" === daviplataContentAddress && verifyAddress(daviplataContentAddress);
+                   // "" === daviplataContentAddress && verifyAddress(daviplataContentAddress);
                     "" === cellphoneType && verifyCellphone(cellphoneType);
                     "Type"||"Tipo" === doc_type && verifyDocument(doc_number_value);
                     "" === doc_number_value && verifyDocument(doc_number_value);
-                    "" === daviplataContentCountry && verifyCountry(daviplataContentCountry);
+                   // "" === daviplataContentCountry && verifyCountry(daviplataContentCountry);
                     !termanAndContictionContent.checked && termanAndContictionHelpers.classList.add("mp-error");
-
+                    let validation = d(nameHelpers)|| d(emailHelpers)|| d(cellphoneHelpers)||d(documentHelpers)||d(termanAndContictionContent)
                     function m(e, t) {
                         e && e.style && (e.style.display = t)
                     }
@@ -159,13 +153,13 @@
                     }
 
                     return "" !== daviplataContentName &&
-                    "" !== daviplataContentAddress &&
+                    //"" !== daviplataContentAddress &&
                     "" !==  daviplataContentEmail &&
                     "" !== daviplataContentCellphone &&
                     "" !== doc_number_value &&
-                    "" !== daviplataContentCountry &&
+                    //"" !== daviplataContentCountry &&
                     "Type"||"Tipo" !== doc_type,{
-                        type: d(nameHelpers)|| d(addressHelpers)|| d(emailHelpers)|| d(cellphoneHelpers)||d(documentHelpers)||d(countryHelpers)||d(termanAndContictionContent)|| !termanAndContictionContent.checked  ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
+                        type:validation || !termanAndContictionContent.checked  ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
                         meta: {paymentMethodData: nn}
                     }
                 }));

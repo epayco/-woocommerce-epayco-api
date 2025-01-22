@@ -43,10 +43,9 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
 
         $descripcion = implode(' - ', $descripcionParts);
         $currency = strtolower(get_woocommerce_currency());
-        //$basedCountry = WC()->countries->get_base_country();
+        $basedCountry = WC()->countries->get_base_country()!='' ? WC()->countries->get_base_country():$order->get_shipping_country();
         //$basedCountry = $checkout["countryType"]??$checkout["countrytype"];
-        $basedCountry = 'CO';
-        $city = $checkout["country"];
+        $city = WC()->countries->get_base_city() !='' ? WC()->countries->get_base_city():$order->get_shipping_city();
         $myIp=$this->getCustomerIp();
         $confirm_url = $checkout["confirm_url"];
         $response_url = $checkout["confirm_url"];
@@ -96,6 +95,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $cash = $this->sdk->cash->create($data);
 
         $cash = json_decode(json_encode($cash), true);
+        $cash = json_decode('{"success":true,"titleResponse":"SUCCESS","textResponse":"Transacci\u00f3n y pin generados exitosamente","lastAction":"Crear pin efecty","data":{"refPayco":101654588,"invoice":"61_wc_api_test61","description":"camisa","value":23000,"tax":0,"ico":0,"taxBase":23000,"total":23000,"currency":"COP","bank":"EFECTY","status":"Pendiente","response":"Esperando pago del cliente en punto de servicio Efecty","autorization":"000000","receipt":"48771839236165","date":"2025-01-22 16:32:57","franchise":"EF","codResponse":3,"codError":"P004","ip":"192.168.32.1","testMode":1,"docType":"CC","document":"1232311111","name":"ricardo","lastName":"saldarriaga","email":"ric.salda.94@gmail.com","city":"","address":"NA","indCountry":null,"pin":"Prueba-000000","codeProject":110571,"paymentDate":"2025-01-22 16:32:57","expirationDate":"2025-01-31 23:59:59","conversionFactor":4344.27,"pesos":23000,"extras":{"extra1":"61","extra2":"","extra3":"","extra4":"","extra5":"","extra6":"","extra7":"","extra8":"","extra9":"","extra10":""},"extras_epayco":{"extra5":"P37"},"showConversion":1,"token":"eyJwaW4iOiJQcnVlYmEtMDAwMDAwIiwibmFtZXMiOiJyaWNhcmRvIHNhbGRhcnJpYWdhIiwiZGF0ZUV4cGlyYXRpb24iOiIyMDI1LTAxLTMxIDIzOjU5OjU5IiwidHlwZSI6IkVGIiwiY29kUHJvamVjdCI6MTEwNTcxLCJkYXRlIjoiMjAyNS0wMS0yMiAxNjozMjo1NyIsInRybSI6NDM0NC4yNywiY3VycmVuY3kiOiJDT1AiLCJzdWJUb3RhbCI6MjMwMDAsInRheCI6MCwiaWNvIjowLCJhbW91bnQiOjIzMDAwLCJjb21wYW55TmFtZSI6Ik9zbmVpZGVyIENhcnJlXHUwMGYxbyBIZXJyZXJhIiwid2ViIjoiIiwic2hvd0NvbnZlcnNpb24iOjF9"}}',true);
         return $cash;
     }
 
@@ -128,7 +128,8 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
 
         $descripcion = implode(' - ', $descripcionParts);
         $currency = strtolower(get_woocommerce_currency());
-        $basedCountry = WC()->countries->get_base_country();
+        //$basedCountry = WC()->countries->get_base_country();
+        $basedCountry = 'CO';
         $myIp=$this->getCustomerIp();
         $confirm_url = $checkout["confirm_url"];
         $response_url = $checkout["response_url"];
@@ -136,8 +137,10 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $explodeName = explode(" ", $customerName);
         $name = $explodeName[0];
         $lastName = $explodeName[1];
-        $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
-        $holder_address= $checkout["address"]??$checkout[""]["address"];
+        //$person_type= $checkout["person_type"]??$checkout[""]["person_type"];
+        //$holder_address= $checkout["address"]??$checkout[""]["address"];
+        $person_type= 'PN';
+        $holder_address=$order->get_billing_address_1();
         $doc_type= $checkout["identificationtype"]??$checkout["identificationType"];
         $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];

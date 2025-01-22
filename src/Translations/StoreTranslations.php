@@ -83,6 +83,7 @@ class StoreTranslations
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
+            'code'                   => __('code', 'woo-epayco-api'),
         ];
     }
 

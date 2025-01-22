@@ -151,7 +151,6 @@ class Scripts
     {
         global $woocommerce;
 
-        $file      = $this->url->getJsAsset('notices/notices-client');
         $variables = [
             'site_id'          => 'epayco',
             'container'        => '#wpbody-content',
@@ -161,7 +160,7 @@ class Scripts
             'platform_version' => $woocommerce->version,
         ];
 
-        $this->registerAdminScript(self::NOTICES_SCRIPT_NAME, $file, $variables);
+        //$this->registerAdminScript(self::NOTICES_SCRIPT_NAME, null, $variables);
     }
 
     /**

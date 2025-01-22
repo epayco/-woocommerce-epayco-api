@@ -58,9 +58,26 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
     public function payment_scripts(string $gatewaySection): void
     {
 
+        if ($this->canAdminLoadScriptsAndStyles($gatewaySection)) {
+            $this->registerAdminScripts();
+        }
         if ($this->canCheckoutLoadScriptsAndStyles()) {
             $this->registerCheckoutScripts();
         }
+    }
+
+    /**
+     * Check if admin scripts and styles can be loaded
+     *
+     * @param string $gatewaySection
+     *
+     * @return bool
+     */
+    public function canAdminLoadScriptsAndStyles(string $gatewaySection): bool
+    {
+        return $this->epayco->hooks->admin->isAdmin() && ( $this->epayco->helpers->url->validatePage('wc-settings') &&
+                $this->epayco->helpers->url->validateSection($gatewaySection)
+            );
     }
 
     /**
@@ -72,6 +89,24 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
     {
         return $this->epayco->hooks->gateway->isEnabled($this) &&
             ! $this->epayco->helpers->url->validateQueryVar('order-received');
+    }
+
+    /**
+     * Register admin scripts
+     *
+     * @return void
+     */
+    public function registerAdminScripts()
+    {
+        $this->epayco->hooks->scripts->registerAdminScript(
+            'wc_epayco_admin_components',
+            $this->epayco->helpers->url->getJsAsset('admin/ep-admin-configs')
+        );
+
+        $this->epayco->hooks->scripts->registerAdminStyle(
+            'wc_epayco_admin_components',
+            $this->epayco->helpers->url->getCssAsset('admin/ep-admin-configs')
+        );
     }
 
     /**

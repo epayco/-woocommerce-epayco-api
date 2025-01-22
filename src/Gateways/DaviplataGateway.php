@@ -131,7 +131,7 @@ class DaviplataGateway extends AbstractGateway
                     'button_text' => $this->adminTranslations['card_settings_button_text'],
                     'button_url'  => admin_url('admin.php?page=epayco-settings'),
                     'icon'        => 'mp-icon-badge-info',
-                    'color_card'  => 'mp-alert-color-success',
+                    'color_card'  => '',
                     'size_card'   => 'mp-card-body-size',
                     'target'      => '_self',
                 ],
@@ -261,7 +261,7 @@ class DaviplataGateway extends AbstractGateway
             'site_id'                          => '',
             'city'                          => $city,
             'customer_title'              => $this->storeTranslations['customer_title'],
-            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png')
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
         ];
     }
 
@@ -290,7 +290,6 @@ class DaviplataGateway extends AbstractGateway
                 $confirm_url = $redirect_url.'&confirmation=1';
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
-                $checkout['date_expiration'] = $this->settings['date_expiration'];
                 $payment_method_id= $checkout["payment_method_id"]??$checkout[""]["payment_method_id"];
                 $key = array_search( $payment_method_id, array_column(self::CASH_ENTITIES, 'name'));
                 $checkout['paymentMethod'] = self::CASH_ENTITIES[$key]['id'];

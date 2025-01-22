@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Part of Woo Sdk Module
- * Author - Sdk
+ * Part of Woo Epayco Module
+ * Author - Epayco
  * Developer
- * Copyright - Copyright(c) Sdk [https://www.epayco.com]
+ * Copyright - Copyright(c) Epayco [https://www.epayco.com]
  * License - https://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  *
- * @package Sdk
+ * @package Epayco
  */
 
 if (!defined('ABSPATH')) {
@@ -17,14 +17,25 @@ if (!defined('ABSPATH')) {
 
 
 <?php if ($status) : ?>
-<div id="transactionBody" >
+<div style="height: 82px; background: black; display: flex; justify-content: center; align-items: center;">
+    <img src="<?php echo esc_attr($epayco_icon); ?>" alt="epayco" style="width: 115px; height: 30px;">
+</div>
+<div id="transactionBody" style="
+    height: 767px !important;
+    max-width: 550px !important;
+    margin: auto !important;
+    position: relative !important;
+">
+
     <div id="header" style="
     background: #000;
     position: static;
     height: 30px;
     border-radius: 20px;
 ">
-        <div style="max-width: 600px;m;top: 10px;margin: 25px;/* padding: 129px; */font-family: 'Poppins', Arial, sans-serif;border: 1px solid #e5e5e5;border-radius: 0px 0px 10px 10px;padding: 20px;box-shadow: 0 0 10px rgba(0,0,0,0.1);background-color: #f9f9f9;z-index: 9999999;position: relative;">
+        <div
+                style="max-width: 510px;m;max-height: 767px;top: 10px;margin: 25px;/* padding: 129px; */font-family: 'Poppins', Arial, sans-serif;border: 1px solid #e5e5e5;border-radius: 0px 0px 5px 5px;padding: 20px;box-shadow: 0 0 10px rgba(0,0,0,0.1);background-color: #f9f9f9;z-index: 9999999;position: relative;"
+        >
             <!-- Encabezado -->
             <div style="text-align: center; margin-bottom: 20px;">
                 <img src="<?php echo esc_attr($iconUrl); ?>" alt="Éxito" style="display: block; margin: auto; width: 70px; border-bottom: 25px;">
@@ -35,84 +46,55 @@ if (!defined('ABSPATH')) {
 
 
             <!-- Información de la transacción -->
-            <div style="margin: 30px 30px 0px 30px; overflow-x:auto;" >
-                <p style="font-weight: bold; margin: 0; font-size: 16px; color: #000;"><?php echo esc_html($paymentMethod); ?></p>
-                <table  style="width: 100%; table-layout: fixed;">
-                    <tr>
-                        <td>
-                            <div style="margin: 10px 0px;">
-                                <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin: 1px 0px;"><?php echo esc_html($paymentMethod); ?></h3>
-                                <p style="font-size: 15px;font-family: 'Poppins';margin: 2px 0px;"><?php echo esc_html($card); ?></p>
-                            </div>
-                        </td>
-                        <td style="padding-left: 20%;">
-                            <div style="margin: 10px 0px;">
-                                <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin: 1px 0px;"><?php echo esc_html($authorizations); ?></h3>
-                                <p style="font-size: 15px;font-family: 'Poppins';margin: 2px 0px;"><?php echo esc_html($authorization); ?></p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="margin: 10px 0px;">
-                                <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin: 1px 0px;"><?php echo esc_html($receipt); ?></h3>
-                                <p style="font-size: 15px;font-family: 'Poppins';margin: 2px 0px;"><?php echo esc_html($factura); ?></p>
-                            </div>
-                        </td>
-                        <td style="padding-left: 20%;">
-                            <div style="margin: 10px 0px;">
-                                <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin: 1px 0px;"><?php echo esc_html($iPaddress); ?></h3>
-                                <p style="font-size: 15px;font-family: 'Poppins';margin: 2px 0px;"><?php echo esc_html($ip); ?></p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="margin: 10px 0px;">
-                                <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin: 1px 0px;"><?php echo esc_html($response); ?></h3>
-                                <p style="font-size: 15px;font-family: 'Poppins';margin: 2px 0px;"><?php echo esc_html($respuesta); ?></p>
-                            </div>
-                        </td>
-                        <td style="padding-left: 20%;">
-                            <div style="margin: 10px 0px;">
-                                <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin: 1px 0px;"></h3>
-                                <p style="font-size: 15px;font-family: 'Poppins';margin: 2px 0px;"></p>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+            <div style="margin: auto;max-height:449px; max-width: 380px" >
+                <p style="font-weight: bold;margin-bottom: 19px;font-size: 16px;color: #000;"><?php echo esc_html($paymentMethod); ?></p>
+                <div style="display: grid;grid-template-columns: repeat(2, 1fr);grid-template-rows: repeat(3,1fr);gap: 19px; justify-content: space-between;">
+                    <div style="max-height: 46px;display: flex;flex-direction: column;">
+                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($paymentMethod); ?></h3>
+                        <p style="font-size: 15px;font-family: 'Poppins';"><?php echo esc_html($card); ?></p>
+                    </div>
+                    <div style="max-height: 46px;display: flex;flex-direction: column;">
+                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($authorizations); ?></h3>
+                        <p style="font-size: 15px;font-family: 'Poppins';"><?php echo esc_html($authorization); ?></p>
+                    </div>
+                    <div style="max-height: 46px;display: flex;flex-direction: column;">
+                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($receipt); ?></h3>
+                        <p style="font-size: 15px;font-family: 'Poppins';"><?php echo esc_html($factura); ?></p>
+                    </div>
+                    <div style="max-height: 46px;display: flex;flex-direction: column;">
+                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($iPaddress); ?></h3>
+                        <p style="font-size: 15px;font-family: 'Poppins';"><?php echo esc_html($ip); ?></p>
+                    </div>
+                    <div style="max-height: 46px;display: flex;flex-direction: column;">
+                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($response); ?></h3>
+                        <p style="font-size: 15px;font-family: 'Poppins';"><?php echo esc_html($respuesta); ?></p>
+                    </div>
+                    <div style="max-height: 46px;display: flex;flex-direction: column;">
+                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"></h3>
+                        <p style="font-size: 15px;font-family: 'Poppins';"></p>
+                    </div>
+                </div>
 
-                <p style="font-weight: bold; margin: 0; font-size: 16px; color: #000;"><?php echo esc_html($purchase); ?></p>
-                <table style="width: 100%; table-layout: fixed;">
-                    <tr>
-                        <td>
-                            <div style="margin: 10px 0px;">
-                                <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin: 1px 0px;"><?php echo esc_html($reference); ?></h3>
-                                <p style="font-size: 15px;font-family: 'Poppins';margin: 2px 0px;"><?php echo esc_html($refPayco); ?></p>
-                            </div>
-                        </td>
-                        <td style="padding-left: 20%;">
-                            <div style="margin: 10px 0px;">
-                                <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin: 1px 0px;"><?php echo esc_html($description); ?></h3>
-                                <p style="font-size: 15px;font-family: 'Poppins';margin: 2px 0px;"><?php echo esc_html($descripcion_order); ?></p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="margin: 10px 0px;">
-                                <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin: 1px 0px;"><?php echo esc_html($totalValue); ?></h3>
-                                <p style="font-size: 15px;font-family: 'Poppins';margin: 2px 0px;">$<?php echo esc_html($valor); ?> <?php echo esc_html($currency); ?></p>
-                            </div>
-                        </td>
-                        <td style="padding-left: 20%;">
-                            <div style="margin: 10px 0px;">
-                                <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin: 1px 0px;"></h3>
-                                <p style="font-size: 15px;font-family: 'Poppins';margin: 2px 0px;"></p>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+
+                <p style="font-weight: bold;margin: 19px 0px;font-size: 16px;color: #000;"><?php echo esc_html($purchase); ?></p>
+                <div style="display: grid;grid-template-columns: repeat(2, 1fr);grid-template-rows: repeat(3,1fr);gap: 19px; justify-content: space-between;">
+                    <div style="max-height: 46px;display: flex;flex-direction: column;">
+                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($reference); ?></h3>
+                        <p style="font-size: 15px;font-family: 'Poppins';"><?php echo esc_html($refPayco); ?></p>
+                    </div>
+                    <div style="max-height: 46px;display: flex;flex-direction: column;">
+                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($description); ?></h3>
+                        <p style="font-size: 15px;font-family: 'Poppins';margin: 2px 0px;"><?php echo esc_html($descripcion_order); ?></p>
+                    </div>
+                    <div style="max-height: 46px;display: flex;flex-direction: column;">
+                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($totalValue); ?></h3>
+                        <p style="font-size: 15px;font-family: 'Poppins';">$<?php echo esc_html($valor); ?> <?php echo esc_html($currency); ?></p>
+                    </div>
+                    <div style="max-height: 46px;display: flex;flex-direction: column;">
+                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"></h3>
+                        <p style="font-size: 15px;font-family: 'Poppins';"></p>
+                    </div>
+                </div>
             </div>
 
         </div>

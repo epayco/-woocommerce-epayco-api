@@ -86,10 +86,24 @@ class CreditCardGateway extends AbstractGateway
         parent::init_form_fields();
 
         $this->form_fields = array_merge($this->form_fields, [
-            'header' => [
+            'config_header' => [
                 'type'        => 'mp_config_title',
                 'title'       => $this->adminTranslations['header_title'],
                 'description' => $this->adminTranslations['header_description'],
+            ],
+            'card_homolog_validate' => $this->getHomologValidateNoticeOrHidden(),
+            'card_settings'  => [
+                'type'  => 'mp_card_info',
+                'value' => [
+                    'title'       => $this->adminTranslations['card_settings_title'],
+                    'subtitle'    => $this->adminTranslations['card_settings_subtitle'],
+                    'button_text' => $this->adminTranslations['card_settings_button_text'],
+                    'button_url'  => admin_url('admin.php?page=epayco-settings'),
+                    'icon'        => 'mp-icon-badge-info',
+                    'color_card'  => '',
+                    'size_card'   => 'mp-card-body-size',
+                    'target'      => '_self',
+                ],
             ],
             'enabled' => [
                 'type'         => 'mp_toggle_switch',
@@ -443,6 +457,7 @@ class CreditCardGateway extends AbstractGateway
             'authorization' => $authorization,
             'iconUrl' => $iconUrl,
             'iconColor' => $iconColor,
+            'epayco_icon' => $this->epayco->hooks->gateway->getGatewayIcon('logo_white.png'),
             'ip' => $this->transaction->getCustomerIp(),
             'totalValue' => $this->storeTranslations['totalValue'],
             'description' => $this->storeTranslations['description'],

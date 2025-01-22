@@ -450,8 +450,9 @@
     display: flex;
     align-items: flex-start;
     padding: 12px 24px 20px 0;
-    background: rgba(0, 0, 0, .04);
-    border-radius: 0 6px 6px 0
+    background: rgba(198, 229, 248, 0.7) !important;
+    border: 2px solid #40A8E6 !important;
+    border-radius: 7px !important;
 }
 
 .mp-card-body-size {
