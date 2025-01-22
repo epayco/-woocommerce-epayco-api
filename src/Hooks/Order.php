@@ -227,7 +227,7 @@ class Order
             case 'Aceptada':
                 $orderstatus = 'approved';
                 break;
-            case 'pending':
+            case 'Pendiente':
                 $orderstatus = 'pending';
                 break;
             default:

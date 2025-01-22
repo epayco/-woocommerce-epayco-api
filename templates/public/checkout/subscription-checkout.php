@@ -37,6 +37,7 @@
  * @var string $personal_data_processing_link_text
  * @var string $personal_data_processing_link_src
  * @var string $and_the
+ * @var string $icon_info
  * @see \Epayco\Woocommerce\Gateways\SubscriptionGateway
  */
 
@@ -59,6 +60,18 @@ if (!defined('ABSPATH')) {
                         link-src="<?= esc_html($test_mode_link_src) ?>"
                 >
                 </test-mode>
+                <div class="mp-test-mode-credit-card">
+                    <img style="height: 25px" src="<?php echo esc_html($icon_info); ?>">
+                    <div style="display: grid;grid-template-rows: repeat(2, 1fr);gap: 8px;">
+                        <p>Por favor, utiliza la siguiente información de tarjeta de prueba en modo de prueba:</p>
+                        <p style="font-weight: bold;">Número: 4575 6231 8229 0326</p>
+                        <div style="width: 50%;display: grid;grid-template-columns: repeat(3, 1fr);gap: 0px;padding: 0px">
+                            <p style="border-right: 1px solid #000 !important; padding: 0px 10px 0px 0px;"><strong>MM</strong>:12</p>
+                            <p style="border-right: 1px solid #000 !important; padding: 0px 10px 0px;"><strong>AA</strong>:2025</p>
+                            <p style="padding: 0px 10px 0px;"><strong>CVV</strong>:123</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         <?php endif; ?>
         <div style="margin-top: 10px; font-weight: bold; display: flex; align-items: center;">

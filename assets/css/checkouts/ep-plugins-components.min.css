@@ -60,12 +60,22 @@
 }
 
 .mp-test-mode-card {
-    background: rgb(0 0 0/4%) !important;
-    border-left: 4px solid #f73 !important;
-    border-radius: 6px !important;
+    background: rgb(247 110 5 / 15%) !important;
+    border: 2px solid #f73 !important;
+    border-radius: 7px !important;
     display: flex !important;
     flex-direction: column !important;
     padding: 16px !important;
+}
+
+.mp-test-mode-credit-card {
+    background: rgba(198, 229, 248, 0.7) !important;
+    border: 2px solid #40A8E6 !important;
+    border-radius: 7px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    padding: 16px !important;
+    margin-top: 10px !important;
 }
 
 div .mp-error {

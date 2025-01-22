@@ -301,6 +301,7 @@ class TicketGateway extends AbstractGateway
                 $payment_method_id= $checkout["payment_method_id"]??$checkout[""]["payment_method_id"];
                 $key = array_search( $payment_method_id, array_column(self::CASH_ENTITIES, 'name'));
                 $checkout['paymentMethod'] = self::CASH_ENTITIES[$key]['id'];
+                $checkout["date_expiration"] = '9';
                 $this->transaction = new TicketTransaction($this, $order, $checkout);
                 $response          = $this->transaction->createCashPayment($order, $checkout);
 

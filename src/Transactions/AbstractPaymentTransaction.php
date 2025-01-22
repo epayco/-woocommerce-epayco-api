@@ -44,7 +44,8 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $descripcion = implode(' - ', $descripcionParts);
         $currency = strtolower(get_woocommerce_currency());
         //$basedCountry = WC()->countries->get_base_country();
-        $basedCountry = $checkout["countryType"]??$checkout["countrytype"];
+        //$basedCountry = $checkout["countryType"]??$checkout["countrytype"];
+        $basedCountry = 'CO';
         $city = $checkout["country"];
         $myIp=$this->getCustomerIp();
         $confirm_url = $checkout["confirm_url"];
@@ -55,12 +56,15 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $explodeName = explode(" ", $customerName);
         $name = $explodeName[0];
         $lastName = $explodeName[1];
-        $person_type= $checkout["person_type"];
-        $holder_address= $checkout["address"];
+        //$person_type= $checkout["person_type"];
+        $person_type= 'PN';
+        //$holder_address= $checkout["address"];
+        $holder_address=$order->get_billing_address_1();
         $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout["documentType"];
         $doc_number= $checkout["doc_number"]??$checkout["document"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"];
         $cellphone= $checkout["cellphonetype"];
+        //$cellphone=@$order->billing_phone??'0';
         $data = array(
             "paymentMethod" => $checkout["paymentMethod"],
             "invoice" => (string)$order->get_id()."_wc_api_test".(string)$order->get_id(),

@@ -92,7 +92,7 @@ if (!defined('ABSPATH')) {
                         </input-email>
                     </div>
 
-                    <div class="mp-checkout-ticket-input-document">
+                    <!--<div class="mp-checkout-ticket-input-document">
                         <input-address
                                 labelMessage="<?= esc_html($input_address_label); ?>"
                                 helperMessage="<?= esc_html($input_address_helper); ?>"
@@ -103,7 +103,7 @@ if (!defined('ABSPATH')) {
                                 hiddenId= "hidden-address-ticket"
                         >
                         </input-address>
-                    </div>
+                    </div>-->
 
                     <div class="mp-checkout-ticket-input-document">
                         <input-cellphone
@@ -123,7 +123,7 @@ if (!defined('ABSPATH')) {
                         </input-cellphone>
                     </div>
 
-                    <div class="mp-checkout-ticket-input-document">
+                    <!--<div class="mp-checkout-ticket-input-document">
                         <input-select
                                 name="epayco_ticket[person_type]"
                                 label=<?= esc_html($person_type_label); ?>
@@ -131,7 +131,7 @@ if (!defined('ABSPATH')) {
                                 options='[{"id":"PN", "description": "Persona natural"},{"id":"PJ", "description": "Persona jurídica"}]'
                         >
                         </input-select>
-                    </div>
+                    </div>-->
 
                     <div class="mp-checkout-ticket-input-document">
                                 <input-document
@@ -162,7 +162,7 @@ if (!defined('ABSPATH')) {
                                 </input-document>
                             </div>
 
-                    <div class="mp-checkout-ticket-input-document">
+                    <!--<div class="mp-checkout-ticket-input-document">
                         <input-country
                                 label-message="<?= esc_html($input_country_label); ?>"
                                 helper-message="<?= esc_html($input_country_helper); ?>"
@@ -178,7 +178,7 @@ if (!defined('ABSPATH')) {
                                 placeholder="<?= esc_html($city); ?>"
                         >
                         </input-country>
-                    </div>
+                    </div>-->
 
                     <div class="mp-checkout-ticket-payment-method">
                         <p class="mp-checkout-ticket-text" data-cy="checkout-ticket-text">

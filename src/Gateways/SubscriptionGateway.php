@@ -244,7 +244,8 @@ class SubscriptionGateway extends AbstractGateway
             'site_id'                          => 'epayco',
             'city'                          => $city,
             'customer_title'              => $this->storeTranslations['customer_title'],
-            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png')
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'icon_info' =>       $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
         ];
     }
 

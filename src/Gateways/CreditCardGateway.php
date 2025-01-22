@@ -237,7 +237,8 @@ class CreditCardGateway extends AbstractGateway
             'personal_data_processing_link_src'    => 'https://epayco.com/tratamiento-de-datos/',
             'site_id'                          => 'epayco',
             'city'                          => $city,
-            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png')
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'icon_info' =>       $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
         ];
     }
 
