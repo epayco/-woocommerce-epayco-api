@@ -95,7 +95,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $cash = $this->sdk->cash->create($data);
 
         $cash = json_decode(json_encode($cash), true);
-        $cash = json_decode('{"success":true,"titleResponse":"SUCCESS","textResponse":"Transacci\u00f3n y pin generados exitosamente","lastAction":"Crear pin efecty","data":{"refPayco":101654588,"invoice":"61_wc_api_test61","description":"camisa","value":23000,"tax":0,"ico":0,"taxBase":23000,"total":23000,"currency":"COP","bank":"EFECTY","status":"Pendiente","response":"Esperando pago del cliente en punto de servicio Efecty","autorization":"000000","receipt":"48771839236165","date":"2025-01-22 16:32:57","franchise":"EF","codResponse":3,"codError":"P004","ip":"192.168.32.1","testMode":1,"docType":"CC","document":"1232311111","name":"ricardo","lastName":"saldarriaga","email":"ric.salda.94@gmail.com","city":"","address":"NA","indCountry":null,"pin":"Prueba-000000","codeProject":110571,"paymentDate":"2025-01-22 16:32:57","expirationDate":"2025-01-31 23:59:59","conversionFactor":4344.27,"pesos":23000,"extras":{"extra1":"61","extra2":"","extra3":"","extra4":"","extra5":"","extra6":"","extra7":"","extra8":"","extra9":"","extra10":""},"extras_epayco":{"extra5":"P37"},"showConversion":1,"token":"eyJwaW4iOiJQcnVlYmEtMDAwMDAwIiwibmFtZXMiOiJyaWNhcmRvIHNhbGRhcnJpYWdhIiwiZGF0ZUV4cGlyYXRpb24iOiIyMDI1LTAxLTMxIDIzOjU5OjU5IiwidHlwZSI6IkVGIiwiY29kUHJvamVjdCI6MTEwNTcxLCJkYXRlIjoiMjAyNS0wMS0yMiAxNjozMjo1NyIsInRybSI6NDM0NC4yNywiY3VycmVuY3kiOiJDT1AiLCJzdWJUb3RhbCI6MjMwMDAsInRheCI6MCwiaWNvIjowLCJhbW91bnQiOjIzMDAwLCJjb21wYW55TmFtZSI6Ik9zbmVpZGVyIENhcnJlXHUwMGYxbyBIZXJyZXJhIiwid2ViIjoiIiwic2hvd0NvbnZlcnNpb24iOjF9"}}',true);
+        //$cash = json_decode('{"success":true,"titleResponse":"SUCCESS","textResponse":"Transacci\u00f3n y pin generados exitosamente","lastAction":"Crear pin efecty","data":{"refPayco":101654588,"invoice":"61_wc_api_test61","description":"camisa","value":23000,"tax":0,"ico":0,"taxBase":23000,"total":23000,"currency":"COP","bank":"EFECTY","status":"Pendiente","response":"Esperando pago del cliente en punto de servicio Efecty","autorization":"000000","receipt":"48771839236165","date":"2025-01-22 16:32:57","franchise":"EF","codResponse":3,"codError":"P004","ip":"192.168.32.1","testMode":1,"docType":"CC","document":"1232311111","name":"ricardo","lastName":"saldarriaga","email":"ric.salda.94@gmail.com","city":"","address":"NA","indCountry":null,"pin":"Prueba-000000","codeProject":110571,"paymentDate":"2025-01-22 16:32:57","expirationDate":"2025-01-31 23:59:59","conversionFactor":4344.27,"pesos":23000,"extras":{"extra1":"61","extra2":"","extra3":"","extra4":"","extra5":"","extra6":"","extra7":"","extra8":"","extra9":"","extra10":""},"extras_epayco":{"extra5":"P37"},"showConversion":1,"token":"eyJwaW4iOiJQcnVlYmEtMDAwMDAwIiwibmFtZXMiOiJyaWNhcmRvIHNhbGRhcnJpYWdhIiwiZGF0ZUV4cGlyYXRpb24iOiIyMDI1LTAxLTMxIDIzOjU5OjU5IiwidHlwZSI6IkVGIiwiY29kUHJvamVjdCI6MTEwNTcxLCJkYXRlIjoiMjAyNS0wMS0yMiAxNjozMjo1NyIsInRybSI6NDM0NC4yNywiY3VycmVuY3kiOiJDT1AiLCJzdWJUb3RhbCI6MjMwMDAsInRheCI6MCwiaWNvIjowLCJhbW91bnQiOjIzMDAwLCJjb21wYW55TmFtZSI6Ik9zbmVpZGVyIENhcnJlXHUwMGYxbyBIZXJyZXJhIiwid2ViIjoiIiwic2hvd0NvbnZlcnNpb24iOjF9"}}',true);
         return $cash;
     }
 
@@ -368,13 +368,20 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         }
         $errorMessage = array();
         if(!$validatePlan['success']){
-            foreach ($validatePlan['message'] as $message) {
-                $errorMessage[] = $message;
+            if(is_array($validatePlan['message'])){
+                foreach ($validatePlan['message'] as $message) {
+                    $errorMessage[] = $message;
+                }
+                return [
+                    'success' => false,
+                    'message' => implode(' - ', $errorMessage)
+                ];
+            }else{
+                return [
+                    'success' => false,
+                    'message' => $validatePlan['message']
+                ];
             }
-            return [
-                'success' => false,
-                'message' => implode(' - ', $errorMessage)
-            ];
         }else{
             return $validatePlan;
         }
@@ -601,7 +608,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             } else {
                 $response_status = [
                     'status' => false,
-                    'message' => $newPLan->message
+                    'message' => $newPLan->message??$newPLan['message']
                 ];
                 return $response_status;
             }

@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
     <img src="<?php echo esc_attr($epayco_icon); ?>" alt="epayco" style="width: 115px; height: 30px;">
 </div>
 <div id="transactionBody" style="
-    height: 767px !important;
+    height: 747px !important;
     max-width: 550px !important;
     margin: auto !important;
     position: relative !important;
@@ -34,7 +34,7 @@ if (!defined('ABSPATH')) {
     border-radius: 20px;
 ">
         <div
-                style="max-width: 510px;m;max-height: 767px;top: 10px;margin: 25px;/* padding: 129px; */font-family: 'Poppins', Arial, sans-serif;border: 1px solid #e5e5e5;border-radius: 0px 0px 5px 5px;padding: 20px;box-shadow: 0 0 10px rgba(0,0,0,0.1);background-color: #f9f9f9;z-index: 9999999;position: relative;"
+                style="max-width: 510px;m;max-height: 747px;top: 10px;margin: 25px;/* padding: 129px; */font-family: 'Poppins', Arial, sans-serif;border: 1px solid #e5e5e5;border-radius: 0px 0px 5px 5px;padding: 20px;box-shadow: 0 0 10px rgba(0,0,0,0.1);background-color: #f9f9f9;z-index: 9999999;position: relative;"
         >
             <!-- Encabezado -->
             <div style="text-align: center; margin-bottom: 20px;">
@@ -46,53 +46,53 @@ if (!defined('ABSPATH')) {
 
 
             <!-- Información de la transacción -->
-            <div style="margin: auto;max-height:449px; max-width: 380px" >
+            <div style="margin: auto;max-height:429px; max-width: 380px" >
                 <p style="font-weight: bold;margin-bottom: 19px;font-size: 16px;color: #000;"><?php echo esc_html($paymentMethod); ?></p>
                 <div style="display: grid;grid-template-columns: repeat(2, 1fr);grid-template-rows: repeat(3,1fr);gap: 19px; justify-content: space-between;">
-                    <div style="max-height: 46px;display: flex;flex-direction: column;">
-                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($paymentMethod); ?></h3>
-                        <p style="font-size: 15px;font-family: 'Poppins';"><?php echo esc_html($card); ?></p>
+                    <div class="div-description">
+                        <h3 class="description-title"><?php echo esc_html($paymentMethod); ?></h3>
+                        <p class="descripcion-payment"><?php echo esc_html($card); ?></p>
                     </div>
-                    <div style="max-height: 46px;display: flex;flex-direction: column;">
-                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($authorizations); ?></h3>
-                        <p style="font-size: 15px;font-family: 'Poppins';"><?php echo esc_html($authorization); ?></p>
+                    <div class="div-description">
+                        <h3 class="description-title"><?php echo esc_html($authorizations); ?></h3>
+                        <p class="descripcion-payment"><?php echo esc_html($authorization); ?></p>
                     </div>
-                    <div style="max-height: 46px;display: flex;flex-direction: column;">
-                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($receipt); ?></h3>
-                        <p style="font-size: 15px;font-family: 'Poppins';"><?php echo esc_html($factura); ?></p>
+                    <div class="div-description">
+                        <h3 class="description-title"><?php echo esc_html($receipt); ?></h3>
+                        <p class="descripcion-payment"><?php echo esc_html($factura); ?></p>
                     </div>
-                    <div style="max-height: 46px;display: flex;flex-direction: column;">
-                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($iPaddress); ?></h3>
-                        <p style="font-size: 15px;font-family: 'Poppins';"><?php echo esc_html($ip); ?></p>
+                    <div class="div-description">
+                        <h3 class="description-title"><?php echo esc_html($iPaddress); ?></h3>
+                        <p class="descripcion-payment"><?php echo esc_html($ip); ?></p>
                     </div>
-                    <div style="max-height: 46px;display: flex;flex-direction: column;">
-                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($response); ?></h3>
-                        <p style="font-size: 15px;font-family: 'Poppins';"><?php echo esc_html($respuesta); ?></p>
+                    <div class="div-description">
+                        <h3 class="description-title"><?php echo esc_html($response); ?></h3>
+                        <p class="descripcion-payment"><?php echo esc_html($status); ?></p>
                     </div>
-                    <div style="max-height: 46px;display: flex;flex-direction: column;">
-                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"></h3>
-                        <p style="font-size: 15px;font-family: 'Poppins';"></p>
+                    <div class="div-description">
+                        <h3 class="description-title"></h3>
+                        <p class="descripcion-payment"></p>
                     </div>
                 </div>
 
 
                 <p style="font-weight: bold;margin: 19px 0px;font-size: 16px;color: #000;"><?php echo esc_html($purchase); ?></p>
                 <div style="display: grid;grid-template-columns: repeat(2, 1fr);grid-template-rows: repeat(3,1fr);gap: 19px; justify-content: space-between;">
-                    <div style="max-height: 46px;display: flex;flex-direction: column;">
-                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($reference); ?></h3>
-                        <p style="font-size: 15px;font-family: 'Poppins';"><?php echo esc_html($refPayco); ?></p>
+                    <div class="div-description">
+                        <h3 class="description-title"><?php echo esc_html($reference); ?></h3>
+                        <p class="descripcion-payment"><?php echo esc_html($refPayco); ?></p>
                     </div>
-                    <div style="max-height: 46px;display: flex;flex-direction: column;">
-                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($description); ?></h3>
+                    <div class="div-description">
+                        <h3 class="description-title"><?php echo esc_html($description); ?></h3>
                         <p style="font-size: 15px;font-family: 'Poppins';margin: 2px 0px;"><?php echo esc_html($descripcion_order); ?></p>
                     </div>
-                    <div style="max-height: 46px;display: flex;flex-direction: column;">
-                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"><?php echo esc_html($totalValue); ?></h3>
-                        <p style="font-size: 15px;font-family: 'Poppins';">$<?php echo esc_html($valor); ?> <?php echo esc_html($currency); ?></p>
+                    <div class="div-description">
+                        <h3 class="description-title"><?php echo esc_html($totalValue); ?></h3>
+                        <p class="descripcion-payment">$<?php echo esc_html($valor); ?> <?php echo esc_html($currency); ?></p>
                     </div>
-                    <div style="max-height: 46px;display: flex;flex-direction: column;">
-                        <h3 style="font-size: 16px;font-family: 'Poppins';color: darkgray;margin:0px;"></h3>
-                        <p style="font-size: 15px;font-family: 'Poppins';"></p>
+                    <div class="div-description">
+                        <h3 class="description-title"></h3>
+                        <p class="descripcion-payment"></p>
                     </div>
                 </div>
             </div>
@@ -111,6 +111,22 @@ if (!defined('ABSPATH')) {
         max-width: 550px;
         margin: auto;
         position: relative;
+    }
+    .div-description{
+        max-height: 46px;
+        display: flex;
+        flex-direction: column;
+    }
+    .description-title{
+        font-size: 16px;
+        font-family: 'Poppins';
+        color: darkgray;
+        margin: 0px;
+    }
+    .descripcion-payment{
+        font-size: 15px;
+        font-family: 'Poppins';
+        margin: 0px;
     }
     @media only screen and (max-width: 425px) {
         #transactionBody{

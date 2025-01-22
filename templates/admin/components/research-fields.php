@@ -5,7 +5,7 @@
  * @var string $field_value
  * @var array $settings
  *
- * @see \MercadoPago\Woocommerce\Gateways\AbstractGateway
+ * @see \Epayco\Woocommerce\Gateways\AbstractGateway
  */
 
 if (!defined('ABSPATH')) {

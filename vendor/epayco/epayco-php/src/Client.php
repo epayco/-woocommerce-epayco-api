@@ -159,8 +159,14 @@ class Client extends GraphqlClient
                 $message = "Bad request";
                 try {
                     $error = (array)json_decode($response->body)->errors[0];
-                    $code = key($error);
-                    $message = current($error);
+                    if(count($error) > 0){
+
+                        $code = key($error);
+                        $message = current($error);
+                    }else{
+                        $message = $response->body;
+                    }
+
                 } catch (\Exception $e) {
                     throw new ErrorException($e->getMessage(), $e->getCode());
                 }

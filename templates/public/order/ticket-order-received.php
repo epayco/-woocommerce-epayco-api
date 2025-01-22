@@ -67,15 +67,19 @@ if (!defined('ABSPATH')) {
                     </div>
                     <div class="div-description">
                         <h3 class="description-title"><?php echo esc_html($response); ?></h3>
-                        <p style="font-size: 15px;font-family: 'Poppins';"><?php echo esc_html($status); ?></p>
+                        <p class="descripcion-payment"><?php echo esc_html($status); ?></p>
                     </div>
                     <div class="div-description">
-                        <h3 class="description-title">pin</h3>
+                        <h3 class="description-title">Pin</h3>
                         <p class="descripcion-payment"><?php echo esc_html($pin); ?></p>
                     </div>
                     <div class="div-description">
                         <h3 class="description-title"class="description-title"><?php echo esc_html($code); ?></h3>
                         <p class="descripcion-payment"><?php echo esc_html($codeProject); ?></p>
+                    </div>
+                    <div class="div-description">
+                        <h3 class="description-title"class="description-title"><?php echo esc_html($expirationDateText); ?></h3>
+                        <p class="descripcion-payment"><?php echo esc_html($expirationDate); ?></p>
                     </div>
                 </div>
 

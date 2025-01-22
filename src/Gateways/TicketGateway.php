@@ -345,6 +345,7 @@ class TicketGateway extends AbstractGateway
                       'refPayco'  => $response['data']['refPayco'],
                       'pin'  => $response['data']['pin'],
                       'codeProject'  => $response['data']['codeProject'],
+                      'expirationDate' => $response['data']['expirationDate']
                     ];
                     $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,$epaycoOrder);
 
@@ -758,6 +759,8 @@ class TicketGateway extends AbstractGateway
             'authorization' => $authorization,
             'iconUrl' => $iconUrl,
             'iconColor' => $iconColor,
+            'expirationDate' => $paymentsIdArray[3],
+            'expirationDateText' => $this->storeTranslations['expirationDate'],
             'epayco_icon' => $this->epayco->hooks->gateway->getGatewayIcon('logo_white.png'),
             'ip' => $this->transaction->getCustomerIp(),
             'totalValue' => $this->storeTranslations['totalValue'],
