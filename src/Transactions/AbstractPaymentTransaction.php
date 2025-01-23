@@ -803,12 +803,8 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
     public function process_payment_epayco(array $plans, array $customerData, $subscriptions, $order, $checkout)
     {
         $subsCreated = $this->subscriptionCreate($plans, $customerData, $checkout);
-        //$subsCreated = json_decode(json_encode('{"status":true,"message":"Suscripci\u00f3n creada","created":"23-01-2025","id":"7926cddb4eba630250b1d22","success":true,"current_period_start":"01\/23\/2025","current_period_end":"23-01-2025","customer":{"_id":"7926cc70937a8111a04ffbd","name":"ricardo saldarriaga","email":"ric.salda.222494@gmail.com","doc_number":"1232323111","merchantId":"627236","indicative":"","country":"CO","city":"","address":"calle 109 # 67-112","break_card":false,"doc_type":"CC","updated_at":"2025-01-23T16:22:53.565000Z"},"status_subscription":"inactive","type":"Create Subscription","data":{"idClient":"coffe_suscription_015_10","name":"Plan coffe suscription","description":"Plan coffe suscription","amount":25000,"currency":"COP","interval":"month","interval_count":"1","trialDays":10,"createdAt":"2025-01-23T16:22:40.648000Z"},"object":"subscription"}'), true);
-        //$subsCreated = json_decode($subsCreated);
         if ($subsCreated->status) {
             $subs = $this->subscriptionCharge($plans, $customerData, $checkout);
-            //$subs = json_decode(json_encode('[{"idPlan":"coffe_suscription_015_10","data":{"idClient":"coffe_suscription_015_10","name":"Plan coffe suscription","description":"Plan coffe suscription","amount":25000,"currency":"COP","interval":"month","interval_count":"1","trialDays":10},"periodStart":"2025-01-23T11:22:53.000000Z","periodEnd":"02-02-2025","nextVerificationDate":"02-02-2025","status":"active","first":true,"idCustomer":"7926cc70937a8111a04ffbd","tokenCard":"7926ca45c8908f3e901bf80","ip":"192.168.32.4","paymentAttempts":[],"url_confirmation":"http:\/\/localhost:86\/wordpress\/?wc-api=WC_Epayco_Subscription_Gateway&order_id=129&confirmation=1","method_confirmation":"POST"}]'), true);
-            //$subs = json_decode($subs);
             foreach ($subs as $sub) {
                 $validation = !is_null($sub->status) ? $sub->status : $sub->success;
                 if ($validation) {
