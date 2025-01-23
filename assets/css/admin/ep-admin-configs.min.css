@@ -455,6 +455,15 @@
     border-radius: 7px !important;
 }
 
+.mp-card-body-payments-error {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px 24px 20px 0;
+    background: rgb(241 195 195 / 70%) !important;
+    border: 2px solid red !important;
+    border-radius: 7px !important;
+}
+
 .mp-card-body-size {
     width: 100%
 }

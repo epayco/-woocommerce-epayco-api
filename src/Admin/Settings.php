@@ -319,7 +319,7 @@ class Settings
                     'message'   => $this->translations->updateCredentials['invalid_credentials_title'],
                     'subtitle'  => $this->translations->updateCredentials['invalid_credentials_subtitle'] . ' ',
                     'linkMsg'   => $this->translations->updateCredentials['invalid_credentials_link_message'],
-                    'link'      => '',
+                    'link'      => 'https://dashboard.epayco.io/login',
                     'test_mode' => $this->store->getCheckboxCheckoutTestMode()
                 ];
                 wp_send_json_error($response);

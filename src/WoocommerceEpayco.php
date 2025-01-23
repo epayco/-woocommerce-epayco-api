@@ -71,7 +71,8 @@ class WoocommerceEpayco
         $textDomain = $this->pluginMetadata('text-domain');
         unload_textdomain($textDomain);
         $locale = explode('_', apply_filters('plugin_locale', get_locale(), $textDomain))[0];
-        load_textdomain($textDomain, Paths::basePath(Paths::join($this->pluginMetadata('domain-path'), "suscripciones_woocommerce-$locale.mo")));
+        $locale = apply_filters('plugin_locale', get_locale(), $textDomain);
+        load_textdomain($textDomain, Paths::basePath(Paths::join($this->pluginMetadata('domain-path'), "woo-epayco-api-$locale.mo")));
     }
 
     /**

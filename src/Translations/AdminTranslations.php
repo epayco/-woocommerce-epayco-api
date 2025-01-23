@@ -136,7 +136,7 @@ class AdminTranslations
             'placeholder_private_key'           => __('Paste your PRIVATE_KEY here', 'woo-epayco-api'),
             'placeholder_p_key'                 => __('Paste your P_KEY here', 'woo-epayco-api'),
             'button_credentials'                => __('Save and continue', 'woo-epayco-api'),
-            'card_info_subtitle'                => __('You have to enter your production credentials to start selling with Mercado Pago.', 'woo-epayco-api'),
+            'card_info_subtitle'                => __('You have to enter your production credentials to start selling with ePayco.', 'woo-epayco-api'),
             'card_info_button_text'             => __('Enter credentials', 'woo-epayco-api'),
             'card_homolog_title'                => __('Activate your credentials to be able to sell', 'woo-epayco-api'),
             'card_homolog_subtitle'             => __('Credentials are codes that you must enter to enable sales. Go below on Activate Credentials. On the next screen, use again the Activate Credentials button and fill in the fields with the requested information.', 'woo-epayco-api'),
