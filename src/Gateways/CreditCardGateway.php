@@ -286,8 +286,8 @@ class CreditCardGateway extends AbstractGateway
                 $response = json_decode(json_encode($response), true);
                 if (is_array($response) && $response['success']) {
                     $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
-                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                     if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
+                        $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
                         //$this->epayco->hooks->order->addOrderNote($order, $this->storeTranslations['customer_not_paid']);
@@ -298,6 +298,7 @@ class CreditCardGateway extends AbstractGateway
                         ];
                     }
                     if (in_array(strtolower($response['data']['estado']),["aceptada","acepted"])) {
+                        $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                         $order->update_status("processing");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();

@@ -206,8 +206,10 @@ class Seller
     private function validateCredentialsPayment( string $type = null, string $keys = null, bool $validate = false): array
     {
         try {
+            $publicKey = trim($type);
+            $private_key = trim($keys);
             if(!$validate){
-                $key   = sprintf('%s%s',$type, $keys);
+                $key   = sprintf('%s%s',$publicKey, $private_key);
                 $cache = $this->cache->getCache($key);
                 if ($cache) {
                     return $cache;
@@ -224,12 +226,12 @@ class Seller
                 ];
                 $headers = [];
                 $uri     = '/login';
-                $accessToken = base64_encode($type.":".$keys);
+                $accessToken = base64_encode($publicKey.":".$private_key);
                 $headers[] = 'Authorization: Basic ' . $accessToken;
                 $headers[] = 'Content-Type: application/json ';
                 $body = array(
-                    'public_key' => $type,
-                    'private_key' => $keys,
+                    'public_key' => $publicKey,
+                    'private_key' => $private_key,
                 );
                 $response           = $this->my_woocommerce_post_request($uri, $headers, $body);
                 if(isset($response) && $response['token']){

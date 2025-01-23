@@ -293,8 +293,8 @@ class SubscriptionGateway extends AbstractGateway
                 $response = json_decode(json_encode($response), true);
                 if (is_array($response) && $response['success']) {
                     $ref_payco = $response['ref_payco'][0];
-                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                     if (in_array(strtolower($response['estado'][0]),["pendiente","pending"])) {
+                        $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
@@ -304,6 +304,7 @@ class SubscriptionGateway extends AbstractGateway
                         ];
                     }
                     if (in_array(strtolower($response['estado'][0]),["aceptada","acepted","aprobada"])) {
+                        $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                         $order->update_status("processing");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
@@ -398,6 +399,9 @@ class SubscriptionGateway extends AbstractGateway
         if (empty($transactionInfo)) {
             return;
         }
+        if(!$transactionInfo['success']){
+            return;
+        }
 
         $status = 'pending';
         $alert_title = '';
@@ -419,18 +423,18 @@ class SubscriptionGateway extends AbstractGateway
             $card = $data['card'];
             switch ($status) {
                 case 'Aceptada': {
-                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('check');
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('check.png');
                     $iconColor = '#67C940';
                     $message = $this->storeTranslations['success_message'];
                 }break;
                 case 'Pendiente':
                 case 'Pending':{
-                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('warning');
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('warning.png');
                     $iconColor = '#FFD100';
                     $message = $this->storeTranslations['pending_message'];
                 }break;
                 default: {
-                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('error');
+                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('error.png');
                     $iconColor = '#E1251B';
                     $message = $this->storeTranslations['fail_message'];
                 }break;

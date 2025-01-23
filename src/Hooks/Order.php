@@ -139,6 +139,10 @@ class Order
             }*/
 
             $this->loadScripts($order);
+            $epayco_order = $this->getMetaboxData($order);
+            if(!$epayco_order){
+                return;
+            }
 
             $this->addMetaBox(
                 'ep_payment_status_sync',
@@ -206,12 +210,14 @@ class Order
      *
      * @param WC_Order $order
      *
-     * @return array
+     * @return array|bool
      */
-    private function getMetaboxData(WC_Order $order): array
+    private function getMetaboxData(WC_Order $order): array|bool
     {
         $paymentInfo  = $this->getLastPaymentInfo($order);
-
+        if(!$paymentInfo->success){
+            return false;
+        }
         $status = 'pending';
         $alert_title = '';
         foreach ($paymentInfo->data->data as $data) {

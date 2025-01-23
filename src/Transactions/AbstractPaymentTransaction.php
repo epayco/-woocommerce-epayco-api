@@ -237,7 +237,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "token_card" => $checkout["token"],
             //"customer_id" => $customerData['customer_id'],
             "customer_id" => 'customer_id',
-            "bill" => (string)$order->get_id()."_wc_api_test",
+            "bill" => (string)$order->get_id()."_wc_api_test_2",
             "dues" => $dues,
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
@@ -404,7 +404,6 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                     $table_name_customer,
                     [
                         'customer_id' => $customer['data']['customerId'],
-                        //'token_id' => trim($customerData['token']),
                         'email' => trim($customerData['email'])
                     ]
                 );
@@ -422,9 +421,28 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                     return $response_status;
                 }
             }else{
+                $messageError = $customer['message'];
+                $errorMessage = "";
+                if (isset($customer['data']['errors'])) {
+                    $errors = $customer['data']['errors'];
+                    if(is_array($errors)){
+                        foreach ($errors as $error) {
+                            $errorMessage = $error['errorMessage'] . "\n";
+                        }
+                    }
+                    if(is_string($errors)){
+                        $errorMessage = $errors . "\n";
+                    }
+                } elseif (isset($customer['data']['error']['errores'])) {
+                    $errores = $customer['data']['error']['errores'];
+                    foreach ($errores as $error) {
+                        $errorMessage = $error['errorMessage'] . "\n";
+                    }
+                }
+                $processReturnFailMessage = $messageError. " " . $errorMessage;
                 $response_status = [
                     'success' => false,
-                    'message' => $customer['message']
+                    'message' => $processReturnFailMessage
                 ];
                 return $response_status;
             }
@@ -448,7 +466,6 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                     $table_name_customer,
                     [
                         'customer_id' => $customer['data']['customerId'],
-                        //'token_id' => trim($customerData['token']),
                         'email' => trim($customerData['email'])
                     ]
                 );
@@ -480,9 +497,6 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                             $this->customerAddToken($customerGetData[$i]->customer_id, trim($customerData['token']));
                         }
                     }
-                    /*if ($customerGetData[$i]->email == trim($customerData['email']) && $customerGetData[$i]->token_id != trim($customerData['token'])) {
-                        $this->customerAddToken($customerGetData[$i]->customer_id, trim($customerData['token']));
-                    }*/
                     $customerData['customer_id'] = $customerGetData[$i]->customer_id;
                 }
                 $response_status = [
@@ -789,11 +803,11 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
     public function process_payment_epayco(array $plans, array $customerData, $subscriptions, $order, $checkout)
     {
         $subsCreated = $this->subscriptionCreate($plans, $customerData, $checkout);
-        //$subsCreated = json_decode(json_encode('{"status":true,"message":"Suscripci\u00f3n creada","created":"06-11-2024","id":"72b74c1bc789d28620a5196","success":true,"current_period_start":"11\/06\/2024","current_period_end":"06-11-2024","customer":{"_id":"72a6e60670f068ec00241b8","name":"ricardo saldarriaga","email":"ricardo.saldarriaga@payco.co","doc_number":"1232323111","merchantId":"627236","indicative":"","country":"CO","city":"","address":"calle 109 # 67-112","break_card":false,"doc_type":"CC","updated_at":"2024-11-06T13:53:25.556000Z"},"status_subscription":"inactive","type":"Create Subscription","data":{"idClient":"coffe_020_15000","name":"Plan coffe","description":"Plan coffe","amount":15000,"currency":"COP","interval":"month","interval_count":"1","trialDays":0,"createdAt":"2024-11-05T23:02:01.926000Z"},"object":"subscription"}'), true);
+        //$subsCreated = json_decode(json_encode('{"status":true,"message":"Suscripci\u00f3n creada","created":"23-01-2025","id":"7926cddb4eba630250b1d22","success":true,"current_period_start":"01\/23\/2025","current_period_end":"23-01-2025","customer":{"_id":"7926cc70937a8111a04ffbd","name":"ricardo saldarriaga","email":"ric.salda.222494@gmail.com","doc_number":"1232323111","merchantId":"627236","indicative":"","country":"CO","city":"","address":"calle 109 # 67-112","break_card":false,"doc_type":"CC","updated_at":"2025-01-23T16:22:53.565000Z"},"status_subscription":"inactive","type":"Create Subscription","data":{"idClient":"coffe_suscription_015_10","name":"Plan coffe suscription","description":"Plan coffe suscription","amount":25000,"currency":"COP","interval":"month","interval_count":"1","trialDays":10,"createdAt":"2025-01-23T16:22:40.648000Z"},"object":"subscription"}'), true);
         //$subsCreated = json_decode($subsCreated);
         if ($subsCreated->status) {
             $subs = $this->subscriptionCharge($plans, $customerData, $checkout);
-            //$subs = json_decode(json_encode('[{"success":true,"title_response":"Transacci\u00f3n realizada","text_response":"Transaccion realizada con tarjeta de pruebas","last_action":"Validar tarjeta de pruebas","data":{"ref_payco":101645839,"factura":"72b74c1bc789d28620a5196-1730902023","descripcion":"Plan coffe","valor":15000,"iva":0,"ico":0,"baseiva":15000,"valorneto":15000,"moneda":"COP","banco":"BANCO DE PRUEBAS","estado":"Aceptada","respuesta":"Aprobada","autorizacion":"000000","recibo":"101645839","fecha":"2024-11-06 09:07:05","franquicia":"VS","cod_respuesta":1,"cod_error":"00","ip":"192.168.32.1","enpruebas":1,"tipo_doc":"CC","documento":"1232323111","nombres":"ricardo","apellidos":"saldarriaga","email":"ricardo.saldarriaga@payco.co","ciudad":"SIN CIUDAD","direccion":"calle 109 # 67112","ind_pais":"PE","country_card":"PE","extras":{"extra1":"72b74c1bc789d28620a5196","extra2":"72a6e60670f068ec00241b8","extra3":"72aa3e96af64966850cc489","extra9":"627236","extra4":"","extra5":"","extra6":"","extra7":"","extra8":"","extra10":""},"cc_network_response":{"code":"00","message":"Aprobada"},"extras_epayco":{"extra5":"P10"}},"subscription":{"idPlan":"coffe_020_15000","data":{"idClient":"coffe_020_15000","name":"Plan coffe","description":"Plan coffe","amount":15000,"currency":"COP","interval":"month","interval_count":"1","trialDays":0},"periodStart":"2024-11-06T08:53:05.000000Z","periodEnd":"06-12-2024","nextVerificationDate":"06-12-2024","status":"active","first":true,"idCustomer":"72a6e60670f068ec00241b8","tokenCard":"72b71096c1e3afd5f035db6","ip":"192.168.32.1","paymentAttempts":[],"url_confirmation":"http:\/\/localhost:86\/wordpress\/?wc-api=WC_Epayco_Subscription_Gateway&order_id=73&confirmation=1","method_confirmation":"POST"}}]'), true);
+            //$subs = json_decode(json_encode('[{"idPlan":"coffe_suscription_015_10","data":{"idClient":"coffe_suscription_015_10","name":"Plan coffe suscription","description":"Plan coffe suscription","amount":25000,"currency":"COP","interval":"month","interval_count":"1","trialDays":10},"periodStart":"2025-01-23T11:22:53.000000Z","periodEnd":"02-02-2025","nextVerificationDate":"02-02-2025","status":"active","first":true,"idCustomer":"7926cc70937a8111a04ffbd","tokenCard":"7926ca45c8908f3e901bf80","ip":"192.168.32.4","paymentAttempts":[],"url_confirmation":"http:\/\/localhost:86\/wordpress\/?wc-api=WC_Epayco_Subscription_Gateway&order_id=129&confirmation=1","method_confirmation":"POST"}]'), true);
             //$subs = json_decode($subs);
             foreach ($subs as $sub) {
                 $validation = !is_null($sub->status) ? $sub->status : $sub->success;
@@ -891,16 +905,23 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $orederStatus = array("Aprobada", "Aceptada", "Pendiente");
         foreach ($subscriptions as $subscription) {
             $sub = $subscriptionsStatus[$count];
-            $messageStatus['ref_payco'] = array_merge($messageStatus['ref_payco'], [$sub->data->ref_payco]);
-            $messageStatus['message'] = array_merge($messageStatus['message'], ["estado: {$sub->data->respuesta}"]);
-            $messageStatus['estado'] = array_merge($messageStatus['estado'], [$sub->data->respuesta]);
-            if(in_array($sub->data->respuesta, $orederStatus)){
-                $messageStatus['success'] = true;
+            if($sub->status || $sub->success){
+                if(isset($sub->data->estado)){
+                    $messageStatus['ref_payco'] = array_merge($messageStatus['ref_payco'], [$sub->data->ref_payco]);
+                    $messageStatus['message'] = array_merge($messageStatus['message'], ["estado: {$sub->data->respuesta}"]);
+                    $messageStatus['estado'] = array_merge($messageStatus['estado'], [$sub->data->estado]);
+                    if(in_array($sub->data->estado, $orederStatus)){
+                        $messageStatus['success'] = true;
+                    }
+                }else{
+                    $messageStatus['ref_payco'] = array_merge($messageStatus['ref_payco'], ['Pendiente']);
+                    $messageStatus['message'] = array_merge($messageStatus['message'], ["estado: Pendiente"]);
+                    $messageStatus['estado'] = array_merge($messageStatus['estado'], ['Pendiente']);
+                    $messageStatus['success'] = true;
+                }
             }
-            $count++;
 
-            //if ($count === $quantitySubscriptions && count($messageStatus['message']) >= $count)
-            //$messageStatus['success'] = $subscriptionsStatus[$count]->success;
+            $count++;
         }
         return $messageStatus;
 
