@@ -58,40 +58,28 @@ class TicketGateway extends AbstractGateway
             "name" =>"sured"
         ],
         [
-            'id' => 'suchance',
-            'name'              => 'Suchance',
-            'status'            => 'active',
-            'secure_thumbnail'         => 'https://secure.epayco.co/img/suchance.jpg'
+            'id' => 'SR',
+            'name' => 'Suchance'
         ],
         [
-            'id' => 'laperla',
-            'name'              => 'Laperla',
-            'status'            => 'active',
-            'secure_thumbnail'         => 'https://secure.epayco.co/img/laperla.jpg'
+            'id' => 'SR',
+            'name' => 'Laperla'
         ],
         [
-            'id' => 'jer',
-            'name'              => 'Jer',
-            'status'            => 'active',
-            'secure_thumbnail'         => 'https://secure.epayco.co/img/jer.jpg'
+            'id' => 'SR',
+            'name' => 'jer'
         ],
         [
-            'id' => 'pagatodo',
-            'name'              => 'Pagatodo',
-            'status'            => 'active',
-            'secure_thumbnail'         => 'https://secure.epayco.co/img/pagatodo.jpg'
+            'id' => 'SR',
+            'name' => 'pagatodo'
         ],
         [
-            'id' => 'acertemos',
-            'name'              => 'Acertemos',
-            'status'            => 'active',
-            'secure_thumbnail'         => 'https://secure.epayco.co/img/acertemos.jpg'
+            'id' => 'SR',
+            'name' => 'acertemos'
         ],
         [
-            'id' => 'ganagana',
-            'name'              => 'Ganagana',
-            'status'            => 'active',
-            'secure_thumbnail'         => 'https://secure.epayco.co/img/ganagana.jpg'
+            'id' => 'SR',
+            'name'  => 'ganagana',
         ],
     ];
 
