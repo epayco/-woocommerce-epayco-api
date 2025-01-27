@@ -52,15 +52,15 @@ if (!class_exists('WoocommerceEpayco')) {
     $GLOBALS['epayco'] = new WoocommerceEpayco();
 }
 
-register_activation_hook(__FILE__, 'mp_register_activate');
-register_deactivation_hook(__FILE__, 'mp_disable_plugin');
+register_activation_hook(__FILE__, 'ep_register_activate');
+register_deactivation_hook(__FILE__, 'ep_disable_plugin');
 register_activation_hook(__FILE__, 'activate_epayco_customer');
-function mp_register_activate()
+function ep_register_activate()
 {
     update_option('_mp_execute_activate', 'yes');
 }
 
-function mp_disable_plugin(): void
+function ep_disable_plugin(): void
 {
     $GLOBALS['epayco']->disablePlugin();
 }
