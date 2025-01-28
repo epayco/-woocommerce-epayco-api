@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ePayco WooCommerce\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-23 17:36+0000\n"
-"PO-Revision-Date: 2025-01-28 17:32+0000\n"
+"PO-Revision-Date: 2025-01-23 18:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: Español de Colombia\n"
 "Language: es_CO\n"
@@ -555,13 +555,13 @@ msgstr "Descripción"
 
 #: src/Translations/AdminTranslations.php:201
 msgid "Disabled"
-msgstr "Inactivo"
+msgstr "Desactivado"
 
 #: src/Translations/AdminTranslations.php:163
 #: src/Translations/AdminTranslations.php:344
 #: src/Translations/AdminTranslations.php:413
 msgid "disabled"
-msgstr "Inactivo"
+msgstr "desactivado"
 
 #: src/Translations/StoreTranslations.php:162
 #: src/Translations/StoreTranslations.php:208

@@ -228,7 +228,14 @@ class Order
             $transactionDateTime= $data->transactionDateTime;
             $bank= $data->bank;
             $authorization= $data->authorization;
+            $order_id = $data->referenceClient;
         }
+        if(!$order_id){
+            return false;
+        }
+        $order = new WC_Order($order_id);
+        $WooOrderstatus = $order->get_status();
+
         switch ($status) {
             case 'Aceptada':
                 $orderstatus = 'approved';
@@ -241,6 +248,10 @@ class Order
                 break;
         }
         $paymentStatusType = PaymentStatus::getStatusType(strtolower($orderstatus));
+        $upload_order=false;
+        if($WooOrderstatus == 'on-hold'||$WooOrderstatus == 'cancelled'){
+            $upload_order=true;
+        }
 
         $cardContent = PaymentStatus::getCardDescription(
             $this->adminTranslations->statusSync,
@@ -249,7 +260,12 @@ class Order
         );
 
         switch ($paymentStatusType) {
-            case 'success':
+            case 'success':{
+                if($upload_order){
+                    if($WooOrderstatus !== 'processing'){
+                        $order->update_status("processing");
+                    }
+                }
                 return [
                     'card_title'        => $this->adminTranslations->statusSync['card_title'],
                     'img_src'           => $this->url->getImageAsset('icons/icon-success'),
@@ -265,7 +281,7 @@ class Order
                     'bank'              => $bank,
                     'authorization'     => $authorization
                 ];
-                break;
+            }break;
             case 'pending':
                 return [
                     'card_title'        => $this->adminTranslations->statusSync['card_title'],
@@ -285,7 +301,13 @@ class Order
                 break;
             case 'rejected':
             case 'refunded':
-            case 'charged_back':
+            case 'charged_back':{
+                if($upload_order){
+                    if($WooOrderstatus !== 'cancelled'){
+                        $order->update_status("cancelled");
+                    }
+                }
+
                 return [
                     'card_title'        => $this->adminTranslations->statusSync['card_title'],
                     'img_src'           => $this->url->getImageAsset('icons/icon-warning'),
@@ -301,7 +323,7 @@ class Order
                     'bank'              => $bank,
                     'authorization'     => $authorization
                 ];
-            break;
+            }break;
             default:
                 return [];
         }
@@ -324,7 +346,7 @@ class Order
                 return false;
             }
             $data = array(
-                "filter" => array("referencePayco" => $lastPaymentId),
+                "filter" => array("referencePayco" => $lastPaymentId[0]),
                 "success" =>true
             );
             return $this->sdk->transaction->get($data);
