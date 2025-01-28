@@ -378,7 +378,7 @@ msgid "Click to try again"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:86
-msgid "Code"
+msgid "Convention code"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:202

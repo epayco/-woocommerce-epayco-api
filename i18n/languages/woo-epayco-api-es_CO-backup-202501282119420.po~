@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ePayco WooCommerce\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-23 17:36+0000\n"
-"PO-Revision-Date: 2025-01-28 21:19+0000\n"
+"PO-Revision-Date: 2025-01-28 21:12+0000\n"
 "Last-Translator: \n"
 "Language-Team: Español de Colombia\n"
 "Language: es_CO\n"
@@ -438,6 +438,10 @@ msgstr "Elija los métodos de pago disponibles en su tienda."
 msgid "Click to try again"
 msgstr "Haga clic para volver a intentarlo"
 
+#: src/Translations/StoreTranslations.php:86
+msgid "Convention code"
+msgstr "Código de convenio"
+
 #: src/Translations/AdminTranslations.php:202
 msgid "Configure your credentials to enable ePayco payment methods."
 msgstr "Configure sus credenciales para habilitar los métodos de pago ePayco."
@@ -457,10 +461,6 @@ msgstr ""
 #: src/Translations/AdminTranslations.php:199
 msgid "Continue"
 msgstr "Continúe en"
-
-#: src/Translations/StoreTranslations.php:86
-msgid "Convention code"
-msgstr "Código de convenio"
 
 #: src/Translations/AdminTranslations.php:128
 msgid "copy and paste your credentials "
