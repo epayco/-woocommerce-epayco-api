@@ -59,7 +59,7 @@ class Settings
         AdminTranslations $translations,
         Url $url,
         CurrentUser $currentUser,
-        Funnel $funnel,
+        Funnel $funnel
     )
     {
         $this->admin        = $admin;

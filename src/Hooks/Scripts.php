@@ -19,7 +19,7 @@ class Scripts
      *
      * @param Url $url
      */
-    public function __construct(Url $url,)
+    public function __construct(Url $url)
     {
         $this->url    = $url;
     }

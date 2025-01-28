@@ -46,7 +46,7 @@ class Order
         Scripts $scripts,
         Url $url,
         Endpoints $endpoints,
-        CurrentUser $currentUser,
+        CurrentUser $currentUser
      ){
          $this->template          = $template;
          $this->orderMetadata     = $orderMetadata;
@@ -212,7 +212,7 @@ class Order
      *
      * @return array|bool
      */
-    private function getMetaboxData(WC_Order $order): array|bool
+    private function getMetaboxData(WC_Order $order): array
     {
         $paymentInfo  = $this->getLastPaymentInfo($order);
         if(!$paymentInfo->success){
