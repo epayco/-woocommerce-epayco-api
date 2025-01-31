@@ -50,7 +50,7 @@ if (!defined('ABSPATH')) {
     <div class="spinner-card-form"></div>
 </div>
 <div class='mp-checkout-container'>
-    <div class='mp-checkout-subscription-container'>
+    <div class='mp-checkout-subscription-container' style="max-width: 452px;margin: auto;">
         <?php if ($test_mode) : ?>
             <div class="mp-checkout-pro-test-mode">
                 <test-mode
@@ -81,7 +81,7 @@ if (!defined('ABSPATH')) {
             <p style="margin-left: 10px;"><?= esc_html($card_form_title) ?></p>
         </div>
 
-        <div id="mp-custom-checkout-form-container">
+        <div id="mp-custom-checkout-form-container" style="margin: 10px;">
             <div class='mp-checkout-custom-card-form'>
 
                 <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
@@ -142,6 +142,7 @@ if (!defined('ABSPATH')) {
                     </div>
                 </div>
             </div>
+        </div>
             <hr>
             <div style="margin-top: 10px; font-weight: bold; display: flex; align-items: center;">
                 <svg width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -150,7 +151,7 @@ if (!defined('ABSPATH')) {
 
                 <p style="margin-left: 10px;"><?= esc_html($card_customer_title) ?></p>
             </div>
-
+        <div id="mp-custom-checkout-form-container" style="margin: 10px;">
             <div id="mp-custom-checkout-form-container">
 
                 <div id="mp-doc-div" class="mp-checkout-custom-input-document">

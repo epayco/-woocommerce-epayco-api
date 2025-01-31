@@ -8,7 +8,7 @@
  * Plugin URI: https://github.com/epayco/Plugin_ePayco_WooCommerce
  * Version:           6.1.0
  * Author: ePayco
- * Author URI: http://epayco.co
+ * Author URI: https://epayco.com/
  * Text Domain:     woo-epayco-api
  * Author URI:
  * Licence

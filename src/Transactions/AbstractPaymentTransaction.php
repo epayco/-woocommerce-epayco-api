@@ -489,10 +489,10 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                         $cards = $customers['data']['cards'];
                         for ($j = 0; $j < count($cards); $j++) {
                             if ($cards[$j]['token'] == trim($customerData['token'])) {
-                                $count_customers += 1;
+                                $count_cards += 1;
                             }
                         }
-                        if($count_customers == 0){
+                        if($count_cards == 0){
                             $this->customerAddToken($customerGetData[$i]->customer_id, trim($customerData['token']));
                         }
                     }

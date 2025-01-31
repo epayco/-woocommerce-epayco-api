@@ -116,12 +116,17 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
      */
     public function registerCheckoutScripts(): void
     {
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_checkout_crypto',
+            $this->epayco->helpers->url->getJsAsset('checkouts/creditcard/crypto-v3.1.2')
+        );
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_token_sdk',
-            //$this->epayco->helpers->url->getJsAsset('checkouts/creditcard/library')
-            "https://cms.epayco.io/js/library.js"
+            $this->epayco->helpers->url->getJsAsset('checkouts/creditcard/library')
+            //"https://cms.epayco.io/js/library.js"
         );
+
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_checkout_components',
             $this->epayco->helpers->url->getJsAsset('checkouts/ep-plugins-components'),
@@ -327,8 +332,8 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
                 'button_text' => $this->epayco->adminTranslations->credentialsSettings['card_homolog_button_text'],
                 'button_url'  => admin_url('admin.php?page=epayco-settings'),
                 'icon'        => 'mp-icon-badge-warning',
-                'color_card'  => 'mp-alert-color-alert',
-                'size_card'   => 'mp-card-body-size-homolog',
+                'color_card'  => '',
+                'size_card'   => 'mp-card-body-payments-error',
                 'target'      => '_blank',
             ]
         ];

@@ -464,6 +464,10 @@
     border-radius: 7px !important;
 }
 
+.mp-card-body-payments-error button {
+     background: #e5002e !important;
+ }
+
 .mp-card-body-size {
     width: 100%
 }

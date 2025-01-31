@@ -307,6 +307,7 @@ class Settings
             $validateEpaycoCredentials =  $this->seller->validateEpaycoCredentials($publicKey, $private_key);
 
             if ($validateEpaycoCredentials['status']) {
+                $this->seller->setHomologValidate($validateEpaycoCredentials['status']);
                 $this->seller->setCredentialsPCustId($p_cust_id);
                 $this->seller->setCredentialsPkey($p_key);
                 $this->seller->setCredentialsPublicKeyPayment($publicKey);
