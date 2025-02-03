@@ -1,17 +1,17 @@
-.mp-settings {
+.ep-settings {
     margin: 0 55px 0 23px;
     font-size: 16px;
     min-width: 550px;
     font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif
 }
 
-.mp-settings-header {
+.ep-settings-header {
     height: 340px;
     margin: 30px 0 15px 0;
     position: relative
 }
 
-.mp-settings-header-img {
+.ep-settings-header-img {
     width: 100%;
     height: 100%;
     background: url("../../images/settings/header.jpg") no-repeat center;
@@ -20,7 +20,7 @@
     position: absolute
 }
 
-.mp-settings-header-logo {
+.ep-settings-header-logo {
     position: relative;
     background: url("../../images/logo2.svg") 98% 50% no-repeat transparent;
     width: 190px;
@@ -32,7 +32,7 @@
     margin: 16px 0 0 0px
 }
 
-.mp-settings-header-hr {
+.ep-settings-header-hr {
     position: relative;
     top: 65px;
     width: 75%;
@@ -42,7 +42,7 @@
     margin: 0px 0 0 45px;
 }
 
-.mp-settings-header p {
+.ep-settings-header p {
     position: relative;
     top: 70px;
     font-family: sans-serif;
@@ -54,71 +54,71 @@
     margin: 16px 0 0 50px
 }
 
-.mp-container {
+.ep-container {
     display: flex
 }
 
-.mp-settings-title-container {
+.ep-settings-title-container {
     display: flex
 }
 
-.mp-block {
+.ep-block {
     padding: 24px;
     background-color: #fff;
     box-shadow: 0 6px 16px rgb(0 0 0 / 10%);
     border-radius: 6px
 }
 
-.mp-block-requirements {
+.ep-block-requirements {
     background-color: unset;
     flex: 1;
     flex-direction: column;
     box-shadow: unset
 }
 
-.mp-align-items-center {
+.ep-align-items-center {
     display: flex;
     align-items: center
 }
 
-.mp-block-flex {
+.ep-block-flex {
     flex: 2
 }
 
-.mp-block-manual {
+.ep-block-manual {
     background: #f5f5f5
 }
 
-.mp-display-block {
+.ep-display-block {
     display: block !important
 }
 
-.mp-settings-font-color {
+.ep-settings-font-color {
     font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     color: rgba(0, 0, 0, .9)
 }
 
-.mp-settings-title-font-size {
+.ep-settings-title-font-size {
     font-size: 18px;
     line-height: 22px;
     font-weight: 500
 }
 
-.mp-settings-subtitle-font-size {
+.ep-settings-subtitle-font-size {
     font-size: 16px;
     line-height: 20px
 }
 
-.mp-settings-title-color {
+.ep-settings-title-color {
     color: rgba(0, 0, 0, .55)
 }
 
-.mp-inner-container {
+.ep-inner-container {
     display: flex;
     flex-direction: row
 }
 
-.mp-inner-container div:first-child {
+.ep-inner-container div:first-child {
     flex: 1;
     margin: 0;
     padding: 0;
@@ -126,7 +126,7 @@
     flex-direction: row
 }
 
-.mp-inner-container div:nth-child(2) {
+.ep-inner-container div:nth-child(2) {
     flex: 1;
     margin: 0;
     padding: 0;
@@ -134,22 +134,22 @@
     flex-direction: row-reverse
 }
 
-.mp-inner-container div p {
+.ep-inner-container div p {
     margin: 0 8px 0 0;
     padding: 0
 }
 
-.mp-inner-container div h4 {
+.ep-inner-container div h4 {
     margin: 0;
     padding-right: 5px
 }
 
-.mp-inner-container-settings {
+.ep-inner-container-settings {
     display: block;
     flex-direction: column
 }
 
-.mp-button {
+.ep-button {
     font-size: 14px;
     color: #fff;
     border: none;
@@ -163,18 +163,18 @@
     font-weight: 400
 }
 
-.mp-button-small {
+.ep-button-small {
     line-height: 16px
 }
 
-.mp-button-large {
+.ep-button-large {
     line-height: 48px;
     font-size: 16px;
     padding-top: 0;
     padding-bottom: 0
 }
 
-.mp-button:hover {
+.ep-button:hover {
     border-color: transparent;
     background-color: #007eb5;
     color: #fff;
@@ -182,26 +182,26 @@
     transition: background-color .2s ease-in
 }
 
-.mp-button:focus {
+.ep-button:focus {
     outline: 0;
     box-shadow: 0 0 0 .1875em rgb(27 135 201 / 30%);
     -webkit-transition: box-shadow .25s ease-in;
     transition: box-shadow .25s ease-in
 }
 
-.mp-button:active {
+.ep-button:active {
     border-color: transparent;
     background-color: #005e88;
     color: #fff
 }
 
-.mp-button-light-blue {
+.ep-button-light-blue {
     border-color: transparent;
     background: rgba(71, 154, 209, .15);
     color: #479ad1
 }
 
-.mp-button-light-blue:hover {
+.ep-button-light-blue:hover {
     border-color: transparent;
     background-color: rgba(65, 137, 230, .2);
     color: #009ee3;
@@ -209,44 +209,44 @@
     transition: background-color .2s
 }
 
-.mp-button-light-blue:focus {
+.ep-button-light-blue:focus {
     outline: 0;
     box-shadow: 0 0 0 .1875em rgb(27 135 201 / 30%);
     -webkit-transition: box-shadow .25s ease-in;
     transition: box-shadow .25s ease-in
 }
 
-.mp-button-light-blue:active {
+.ep-button-light-blue:active {
     border-color: transparent;
     background-color: rgba(65, 137, 230, .3);
     color: #009ee3
 }
 
-.mp-settings-icon-success {
+.ep-settings-icon-success {
     background: url("../../images/icons/icon-success.png") 100% 50% no-repeat transparent;
     background-size: 16px;
     padding-right: 16px !important
 }
 
-.mp-settings-icon-warning {
+.ep-settings-icon-warning {
     background: url("../../images/icons/icon-warning.png") 100% 50% no-repeat transparent;
     background-size: 16px;
     padding-right: 16px !important
 }
 
-.mp-settings-icon-open {
+.ep-settings-icon-open {
     background: url("../../images/icons/icon-open.png") 100% 50% no-repeat transparent;
     background-size: 16px;
     padding-right: 16px !important;
     transition: .3s
 }
 
-.mp-settings-icon-open.mp-arrow-up {
+.ep-settings-icon-open.ep-arrow-up {
     transform: rotate(180deg);
     transition: .3s
 }
 
-.mp-settings-icon {
+.ep-settings-icon {
     width: 70px;
     height: 70px;
     display: flex;
@@ -254,17 +254,17 @@
     justify-content: center
 }
 
-.mp-settings-icon-info {
+.ep-settings-icon-info {
     background: url("../../images/icons/icon-info.png") 98% 50% no-repeat transparent;
     padding-right: 16px !important
 }
 
-.mp-settings-icon-config {
+.ep-settings-icon-config {
     background: url("../../images/icons/icon-config.png") center center no-repeat transparent;
     padding-right: 16px !important
 }
 
-.mp-settings-hr {
+.ep-settings-hr {
     position: static;
     border: 1px solid #c6c6c6;
     flex: none;
@@ -274,13 +274,13 @@
     margin: 32px 0 32px
 }
 
-.mp-settings-title-blocks {
+.ep-settings-title-blocks {
     font-weight: 500;
     font-size: 20px;
     line-height: 25px
 }
 
-.mp-settings-input {
+.ep-settings-input {
     width: 100%;
     height: 48px;
     left: calc(50% - 544px / 2);
@@ -295,21 +295,21 @@
     margin: 4px 0
 }
 
-.mp-settings-margin-right {
+.ep-settings-margin-right {
     margin-right: 8px
 }
 
-.mp-settings-margin-left {
+.ep-settings-margin-left {
     margin-left: 8px
 }
 
-.mp-settings-label {
+.ep-settings-label {
     font-family: sans-serif;
     font-size: 14px;
     line-height: 18px
 }
 
-.mp-settings-helper {
+.ep-settings-helper {
     font-family: sans-serif;
     position: static;
     width: 532px;
@@ -321,21 +321,21 @@
     color: rgba(0, 0, 0, .55)
 }
 
-.mp-settings-standard-margin {
+.ep-settings-standard-margin {
     margin: 0 0 24px
 }
 
-.mp-settings-blue-text {
+.ep-settings-blue-text {
     cursor: pointer;
     color: #009ee3 !important;
     text-decoration: none
 }
 
-.mp-settings-blue-text:hover {
+.ep-settings-blue-text:hover {
     text-decoration: underline
 }
 
-.mp-settings-switch {
+.ep-settings-switch {
     position: relative;
     display: inline-block;
     width: 40px;
@@ -343,13 +343,13 @@
     margin: 0 12px 5px 0
 }
 
-.mp-settings-switch input {
+.ep-settings-switch input {
     opacity: 0;
     width: 0;
     height: 0
 }
 
-.mp-settings-slider {
+.ep-settings-slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -361,7 +361,7 @@
     transition: .4s
 }
 
-.mp-settings-slider:before {
+.ep-settings-slider:before {
     position: absolute;
     content: "";
     height: 20px;
@@ -373,40 +373,40 @@
     transition: .4s
 }
 
-input:checked + .mp-settings-slider {
+input:checked + .ep-settings-slider {
     background-color: #2196f3
 }
 
-input:focus + .mp-settings-slider {
+input:focus + .ep-settings-slider {
     box-shadow: 0 0 1px #2196f3
 }
 
-input:checked + .mp-settings-slider:before {
+input:checked + .ep-settings-slider:before {
     -webkit-transform: translateX(16px);
     -ms-transform: translateX(16px);
     transform: translateX(16px)
 }
 
-.mp-settings-slider.mp-settings-round {
+.ep-settings-slider.ep-settings-round {
     border-radius: 34px
 }
 
-.mp-settings-slider.mp-settings-round:before {
+.ep-settings-slider.ep-settings-round:before {
     border-radius: 50%
 }
 
-.mp-settings-debug {
+.ep-settings-debug {
     margin: 0
 }
 
-.mp-settings-payment-block {
+.ep-settings-payment-block {
     border-radius: unset;
     border-bottom: 1px solid #c6c6c6;
     display: flex;
     align-items: center
 }
 
-.mp-settings-badge-active {
+.ep-settings-badge-active {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -422,7 +422,7 @@ input:checked + .mp-settings-slider:before {
     color: #00a650
 }
 
-.mp-settings-badge-inactive {
+.ep-settings-badge-inactive {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -439,7 +439,7 @@ input:checked + .mp-settings-slider:before {
     color: rgba(0, 0, 0, .55)
 }
 
-.mp-settings-test-mode-alert {
+.ep-settings-test-mode-alert {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -459,7 +459,7 @@ input:checked + .mp-settings-slider:before {
     color: #f73
 }
 
-.mp-settings-prod-mode-alert {
+.ep-settings-prod-mode-alert {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -480,17 +480,17 @@ input:checked + .mp-settings-slider:before {
     border-radius: 12px
 }
 
-.mp-settings-fieldset {
+.ep-settings-fieldset {
     margin: 0 0 24px 0
 }
 
-.mp-settings-align-div {
+.ep-settings-align-div {
     display: flex;
     align-items: center;
     justify-content: space-between
 }
 
-.mp-settings-text-payment {
+.ep-settings-text-payment {
     font-family: sans-serif;
     font-size: 14px;
     line-height: 16px;
@@ -498,50 +498,50 @@ input:checked + .mp-settings-slider:before {
     margin: 0 10px
 }
 
-.mp-settings-margin-title-payment {
+.ep-settings-margin-title-payment {
     margin: 0 16px 0 16px
 }
 
-.mp-settings-border-bottom-payment {
+.ep-settings-border-bottom-payment {
     border-bottom: unset
 }
 
-.mp-settings-helper-payment-methods {
+.ep-settings-helper-payment-methods {
     padding: 0 16px 0 14px;
     margin: unset
 }
 
-.mp-settings-radio-button {
+.ep-settings-radio-button {
     max-width: 16px;
     max-height: 16px
 }
 
-.mp-settings-alert-payment-methods {
+.ep-settings-alert-payment-methods {
     display: flex;
     align-items: stretch;
     position: relative;
     margin-top: 12px
 }
 
-.mp-settings-alert-payment-methods-orange {
+.ep-settings-alert-payment-methods-orange {
     width: 6px;
     background-color: #f73;
     border-radius: 6px 0 0 6px
 }
 
-.mp-settings-alert-red {
+.ep-settings-alert-red {
     width: 6px;
     background-color: red;
     border-radius: 6px 0 0 6px
 }
 
-.mp-settings-alert-payment-methods-green {
+.ep-settings-alert-payment-methods-green {
     width: 6px;
     background-color: #00a650;
     border-radius: 6px 0 0 6px
 }
 
-.mp-settings-alert-payment-methods-gray {
+.ep-settings-alert-payment-methods-gray {
     border-radius: 0 6px 6px 0;
     width: 550px;
     background: rgba(0, 0, 0, .04);
@@ -550,14 +550,14 @@ input:checked + .mp-settings-slider:before {
     align-items: flex-start
 }
 
-.mp-settings-alert-mode-body {
+.ep-settings-alert-mode-body {
     font-family: sans-serif;
     font-size: 14px;
     line-height: 22px;
     margin-top: 4px
 }
 
-.mp-settings-alert-mode-title {
+.ep-settings-alert-mode-title {
     font-family: sans-serif;
     font-size: 16px;
     line-height: 20px;
@@ -565,49 +565,49 @@ input:checked + .mp-settings-slider:before {
     color: rgba(0, 0, 0, .9)
 }
 
-.mp-settings-mode-container {
+.ep-settings-mode-container {
     display: flex;
     align-items: center;
     margin: 20px 8px 0 0
 }
 
-.mp-settings-mode-spacing {
+.ep-settings-mode-spacing {
     margin-right: 12px
 }
 
-.mp-settings-title-align {
+.ep-settings-title-align {
     display: flex;
     justify-content: space-between;
     cursor: pointer
 }
 
-.mp-icon-align {
+.ep-icon-align {
     display: flex;
     align-items: center
 }
 
-.mp-settings-block-align-top {
+.ep-settings-block-align-top {
     padding-top: 8px
 }
 
-.mp-credential-feedback-positive {
+.ep-credential-feedback-positive {
     background: url("../../images/settings/feedback-positive.png") 98% 50% no-repeat transparent;
     background-size: 1rem;
     padding-right: 30px !important
 }
 
-.mp-credential-feedback-negative {
+.ep-credential-feedback-negative {
     background: url("../../images/settings/feedback-negative.png") 98% 50% no-repeat transparent;
     background-size: 1rem;
     padding-right: 30px !important
 }
 
-.mp-settings-tooltip {
+.ep-settings-tooltip {
     position: relative;
     display: flex
 }
 
-.mp-settings-tooltip .mp-settings-tooltip-text {
+.ep-settings-tooltip .ep-settings-tooltip-text {
     visibility: hidden;
     width: 200px;
     background: #fff;
@@ -627,11 +627,11 @@ input:checked + .mp-settings-slider:before {
     cursor: auto
 }
 
-.mp-settings-tooltip .mp-settings-tooltip-text p {
+.ep-settings-tooltip .ep-settings-tooltip-text p {
     padding-bottom: 10px
 }
 
-.mp-settings-tooltip .mp-settings-tooltip-text::after {
+.ep-settings-tooltip .ep-settings-tooltip-text::after {
     content: " ";
     position: absolute;
     bottom: 100%;
@@ -642,16 +642,16 @@ input:checked + .mp-settings-slider:before {
     border-color: transparent transparent #000 transparent
 }
 
-.mp-settings-tooltip:hover .mp-settings-tooltip-text {
+.ep-settings-tooltip:hover .ep-settings-tooltip-text {
     visibility: visible
 }
 
-.mp-settings-tooltip {
+.ep-settings-tooltip {
     position: relative;
     display: inline-block
 }
 
-.mp-settings-tooltip .mp-settings-tooltiptext {
+.ep-settings-tooltip .ep-settings-tooltiptext {
     visibility: hidden;
     width: 120px;
     background: #fff;
@@ -666,7 +666,7 @@ input:checked + .mp-settings-slider:before {
     padding: 16px
 }
 
-.mp-settings-tooltip .mp-settings-tooltip-text::after {
+.ep-settings-tooltip .ep-settings-tooltip-text::after {
     content: "";
     position: absolute;
     bottom: 100%;
@@ -677,27 +677,27 @@ input:checked + .mp-settings-slider:before {
     border-color: transparent transparent #fff transparent
 }
 
-.mp-settings-tooltip:hover .mp-settings-tooltip-text {
+.ep-settings-tooltip:hover .ep-settings-tooltip-text {
     visibility: visible
 }
 
-.mp-settings-choose-mode {
+.ep-settings-choose-mode {
     flex-direction: column;
     justify-content: space-between
 }
 
-.mp-settings-mode-style {
+.ep-settings-mode-style {
     width: 16px;
     height: 16px
 }
 
-.mp-settings-mode-warning {
+.ep-settings-mode-warning {
     display: flex;
     flex-direction: column;
     justify-content: flex-start
 }
 
-.mp-settings-select {
+.ep-settings-select {
     appearance: unset !important;
     -webkit-appearance: unset !important;
     -moz-appearance: unset !important;
@@ -721,29 +721,29 @@ input:checked + .mp-settings-slider:before {
     width: 100% !important
 }
 
-.mp-settings-flex-start {
+.ep-settings-flex-start {
     align-items: flex-start
 }
 
-.mp-settings-link {
+.ep-settings-link {
     width: 75%;
     display: flex;
     text-decoration: none
 }
 
-.mp-alert-danger {
+.ep-alert-danger {
     color: #842029;
     background-color: #f8d7da;
     border-color: #f5c2c7
 }
 
-.mp-alert-success {
+.ep-alert-success {
     color: #0f5132;
     background-color: #d1e7dd;
     border-color: #badbcc
 }
 
-.mp-alert {
+.ep-alert {
     position: relative;
     padding: 1rem 1rem;
     margin-bottom: 1rem;
@@ -751,11 +751,11 @@ input:checked + .mp-settings-slider:before {
     border-radius: .25rem
 }
 
-.mp-text-center {
+.ep-text-center {
     text-align: center !important
 }
 
-.mp-settings-checkbox-options {
+.ep-settings-checkbox-options {
     line-height: 1.4;
     margin: .25em 0 .5em !important;
     display: inline-block;
@@ -765,7 +765,7 @@ input:checked + .mp-settings-slider:before {
     user-select: none
 }
 
-.mp-settings-support-container {
+.ep-settings-support-container {
     margin-top: 50px;
     background: #fff;
     padding: 24px;
@@ -773,12 +773,12 @@ input:checked + .mp-settings-slider:before {
     border-radius: 6px
 }
 
-.mp-settings-hr-support {
+.ep-settings-hr-support {
     position: static;
     margin: 16px 0 16px
 }
 
-.mp-settings-support-title {
+.ep-settings-support-title {
     color: rgba(0, 0, 0, .9);
     font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 16px;
@@ -787,7 +787,7 @@ input:checked + .mp-settings-slider:before {
     line-height: 20px
 }
 
-.mp-settings-support-content p {
+.ep-settings-support-content p {
     color: rgba(0, 0, 0, .9);
     font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 14px;
@@ -796,17 +796,17 @@ input:checked + .mp-settings-slider:before {
     line-height: 10px
 }
 
-#mp-settings-support-how-to {
+#ep-settings-support-how-to {
     line-height: 32px !important
 }
 
-.mp-settings-support-content-table {
+.ep-settings-support-content-table {
     border-collapse: collapse;
     margin-top: 16px;
     margin-bottom: 16px
 }
 
-.mp-settings-support-content-table td, .mp-settings-support-content-table th {
+.ep-settings-support-content-table td, .ep-settings-support-content-table th {
     font-size: 12px;
     padding: 8px;
     padding-left: 5px;
@@ -815,19 +815,19 @@ input:checked + .mp-settings-slider:before {
     line-height: 10px
 }
 
-.mp-settings-support-content-table th {
+.ep-settings-support-content-table th {
     color: rgba(0, 0, 0, .45)
 }
 
-.mp-settings-support-content-table th:first-child {
+.ep-settings-support-content-table th:first-child {
     padding-left: 5px
 }
 
-.mp-settings-support-content-table th:last-child {
+.ep-settings-support-content-table th:last-child {
     padding-right: 32px
 }
 
-.mp-settings-support-modal {
+.ep-settings-support-modal {
     display: none;
     position: fixed;
     padding-top: 100px;
@@ -841,7 +841,7 @@ input:checked + .mp-settings-slider:before {
     background-color: rgba(0, 0, 0, .4)
 }
 
-.mp-settings-support-modal-content {
+.ep-settings-support-modal-content {
     position: relative;
     background-color: #fefefe;
     margin: auto;
@@ -851,32 +851,32 @@ input:checked + .mp-settings-slider:before {
     border-radius: 10px
 }
 
-.mp-settings-close {
+.ep-settings-close {
     color: #000;
     float: right;
     font-size: 28px;
     margin-top: 20px
 }
 
-.mp-settings-close:focus, .mp-settings-close:hover {
+.ep-settings-close:focus, .ep-settings-close:hover {
     color: #000;
     text-decoration: none;
     cursor: pointer
 }
 
-.mp-settings-modal-table {
+.ep-settings-modal-table {
     border-collapse: collapse;
     width: 100%
 }
 
-.mp-settings-modal-table-header {
+.ep-settings-modal-table-header {
     background-color: #ccc;
     font-weight: 700;
     border: 1px solid #d3d3d3;
     padding: 10px
 }
 
-.mp-settings-modal-table-cell {
+.ep-settings-modal-table-cell {
     border: 1px solid #d3d3d3;
     padding: 10px;
     text-align: center
@@ -887,7 +887,7 @@ input:checked + .mp-settings-slider:before {
     text-align: center !important
 }
 
-.mp-settings-modal-title {
+.ep-settings-modal-title {
     color: rgba(0, 0, 0, .9);
     font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 22px;
@@ -897,7 +897,7 @@ input:checked + .mp-settings-slider:before {
     margin-bottom: 16px
 }
 
-.mp-settings-modal-desc {
+.ep-settings-modal-desc {
     color: rgba(0, 0, 0, .9);
     font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 16px;
@@ -908,17 +908,17 @@ input:checked + .mp-settings-slider:before {
     margin-top: 24px
 }
 
-.mp-settings-modal-table-row {
+.ep-settings-modal-table-row {
     border: 1px solid #000
 }
 
-.mp-settings-modal-table-cell, .mp-settings-modal-table-header {
+.ep-settings-modal-table-cell, .ep-settings-modal-table-header {
     height: 50px;
     min-width: 60px;
     text-align: left
 }
 
-.mp-settings-pagination {
+.ep-settings-pagination {
     margin-bottom: 20px
 }
 
@@ -929,66 +929,66 @@ input:checked + .mp-settings-slider:before {
     padding: 16px
 }
 
-.mp-settings-button-group {
+.ep-settings-button-group {
     text-align: center;
     margin-top: 20px
 }
 
-.mp-page-span {
+.ep-page-span {
     margin-right: 10px;
     cursor: pointer
 }
 
-.mp-page-span.active {
+.ep-page-span.active {
     color: #000
 }
 
-.mp-page-span:not(.active) {
+.ep-page-span:not(.active) {
     color: #d3d3d3
 }
 
 @media screen and (max-width: 780px) {
-    .mp-settings {
+    .ep-settings {
         margin: 0 0 0 -10px
     }
 
-    .mp-settings-header-img {
+    .ep-settings-header-img {
         width: 100%;
         height: 100%
     }
 
-    .mp-block-requirements {
+    .ep-block-requirements {
         flex-direction: column;
         margin: 10px 0 10px 0
     }
 
-    .mp-container {
+    .ep-container {
         flex-direction: column;
         margin: 10px 0 10px 0
     }
 
-    .mp-block {
+    .ep-block {
         margin: 10px 0 10px 0
     }
 
-    .mp-settings-payment-block {
+    .ep-settings-payment-block {
         margin: unset
     }
 
-    .mp-settings-header {
+    .ep-settings-header {
         height: 250px
     }
 
-    .mp-settings-header p {
+    .ep-settings-header p {
         top: 55px;
         font-size: 1.25rem
     }
 
-    .mp-settings-title-blocks {
+    .ep-settings-title-blocks {
         font-size: 1.25rem
     }
 
-    .mp-settings-icon {
+    .ep-settings-icon {
         width: 60px;
         height: 40px;
         min-width: 60px;

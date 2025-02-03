@@ -42,11 +42,11 @@ if (! defined('ABSPATH')) {
 }
 ?>
 
-<div class='mp-checkout-container'>
-    <div class="mp-checkout-pse-container" style="max-width: 452px;margin: auto;">
-        <div class="mp-checkout-pse-content">
+<div class='ep-checkout-container'>
+    <div class="ep-checkout-pse-container" style="max-width: 452px;margin: auto;">
+        <div class="ep-checkout-pse-content">
             <?php if ($test_mode) : ?>
-                <div class="mp-checkout-pse-test-mode">
+                <div class="ep-checkout-pse-test-mode">
                     <test-mode
                         title="<?= esc_html($test_mode_title); ?>"
                         description="<?= esc_html($test_mode_description); ?>"
@@ -61,8 +61,8 @@ if (! defined('ABSPATH')) {
                 </svg>
                 <p style="margin-left: 10px;"><?= esc_html($customer_title) ?></p>
             </div>
-            <div id="mp-custom-checkout-form-container" style="margin: 10px;">
-                <div class='mp-checkout-pse-input-cellphone'>
+            <div id="ep-custom-checkout-form-container" style="margin: 10px;">
+                <div class='ep-checkout-pse-input-cellphone'>
                     <input-name
                             labelMessage="<?= esc_html($input_name_label); ?>"
                             helperMessage="<?= esc_html($input_name_helper); ?>"
@@ -74,7 +74,7 @@ if (! defined('ABSPATH')) {
                     >
                     </input-name>
                 </div>
-                <div class='mp-checkout-pse-input-cellphone'>
+                <div class='ep-checkout-pse-input-cellphone'>
                     <input-email
                             labelMessage="<?= esc_html($input_email_label); ?>"
                             helperMessage="<?= esc_html($input_email_helper); ?>"
@@ -86,7 +86,7 @@ if (! defined('ABSPATH')) {
                     >
                     </input-email>
                 </div>
-                <div class='mp-checkout-pse-input-cellphone'>
+                <div class='ep-checkout-pse-input-cellphone'>
                     <input-address
                             labelMessage="<?= esc_html($input_address_label); ?>"
                             helperMessage="<?= esc_html($input_address_helper); ?>"
@@ -98,7 +98,7 @@ if (! defined('ABSPATH')) {
                     >
                     </input-address>
                 </div>
-                <div class='mp-checkout-pse-input-cellphone'>
+                <div class='ep-checkout-pse-input-cellphone'>
                     <input-cellphone
                             label-message="<?= esc_html($input_ind_phone_label); ?>"
                             helper-message="<?= esc_html($input_ind_phone_helper); ?>"
@@ -115,7 +115,7 @@ if (! defined('ABSPATH')) {
                     >
                     </input-cellphone>
                 </div>
-                <div class="mp-checkout-pse-person">
+                <div class="ep-checkout-pse-person">
                     <input-select
                         name="epayco_pse[person_type]"
                         label=<?= esc_html($person_type_label); ?>
@@ -124,7 +124,7 @@ if (! defined('ABSPATH')) {
                     >
                     </input-select>
                 </div>
-                <div class="mp-checkout-pse-input-document">
+                <div class="ep-checkout-pse-input-document">
                     <input-document
                             label-message="<?= esc_html($input_document_label); ?>"
                             helper-message="<?= esc_html($input_document_helper); ?>"
@@ -152,7 +152,7 @@ if (! defined('ABSPATH')) {
                     >
                     </input-document>
                 </div>
-                <div class="mp-checkout-pse-input-document">
+                <div class="ep-checkout-pse-input-document">
                     <input-country
                             label-message="<?= esc_html($input_country_label); ?>"
                             helper-message="<?= esc_html($input_country_helper); ?>"
@@ -168,7 +168,7 @@ if (! defined('ABSPATH')) {
                             placeholder="<?= esc_html($city); ?>"
                     >
                 </div>
-                <div class="mp-checkout-pse-bank">
+                <div class="ep-checkout-pse-bank">
                     <input-banks
                         name="epayco_pse[bank]"
                         label="<?= esc_html($financial_institutions_label); ?>"
@@ -184,7 +184,7 @@ if (! defined('ABSPATH')) {
                 </div>
 
                 <!-- NOT DELETE LOADING-->
-                <div id="mp-box-loading"></div>
+                <div id="ep-box-loading"></div>
 
                 <!-- utilities -->
                 <div id="epayco-utilities" style="display:none;">
@@ -195,7 +195,7 @@ if (! defined('ABSPATH')) {
                     <input type="hidden" id="discountPse" name="epayco_pse[discount]" />
                 </div>
             </div>
-        <div class="mp-checkout-ticket-terms-and-conditions">
+        <div class="ep-checkout-ticket-terms-and-conditions">
             <terms-and-conditions
                     label="<?= esc_html($terms_and_conditions_label); ?>"
                     description="<?= esc_html($terms_and_conditions_description); ?>"

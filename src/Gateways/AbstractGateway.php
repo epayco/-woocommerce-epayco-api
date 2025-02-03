@@ -331,9 +331,9 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
                 'subtitle'    => $this->epayco->adminTranslations->credentialsSettings['card_homolog_subtitle'],
                 'button_text' => $this->epayco->adminTranslations->credentialsSettings['card_homolog_button_text'],
                 'button_url'  => admin_url('admin.php?page=epayco-settings'),
-                'icon'        => 'mp-icon-badge-warning',
+                'icon'        => 'ep-icon-badge-warning',
                 'color_card'  => '',
-                'size_card'   => 'mp-card-body-payments-error',
+                'size_card'   => 'ep-card-body-payments-error',
                 'target'      => '_blank',
             ]
         ];
@@ -357,9 +357,9 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
                         'subtitle'    => $this->epayco->adminTranslations->credentialsSettings['card_info_subtitle'],
                         'button_text' => $this->epayco->adminTranslations->credentialsSettings['card_info_button_text'],
                         'button_url'  => admin_url('admin.php?page=epayco-settings'),
-                        'icon'        => 'mp-icon-badge-warning',
-                        'color_card'  => 'mp-alert-color-error',
-                        'size_card'   => 'mp-card-body-size',
+                        'icon'        => 'ep-icon-badge-warning',
+                        'color_card'  => 'ep-alert-color-error',
+                        'size_card'   => 'ep-card-body-size',
                         'target'      => '_self',
                     ]
                 ]

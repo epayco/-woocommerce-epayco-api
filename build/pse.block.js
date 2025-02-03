@@ -56,7 +56,7 @@
                     const nameHelpers =  document.querySelector('input-helper').querySelector("div");
                     const verifyName = (nameElement) => {
                         if (nameElement === '') {
-                            document.querySelector('input-name').querySelector(".mp-input").classList.add("mp-error");
+                            document.querySelector('input-name').querySelector(".ep-input").classList.add("ep-error");
                             nameHelpers.style.display = 'flex';
                         }
                     }
@@ -64,7 +64,7 @@
                     const addressHelpers =  document.querySelector('input-address').querySelector("input-helper").querySelector("div");
                     const verifyAddress = (addressElement) => {
                         if (addressElement === '') {
-                            document.querySelector('input-address').querySelector(".mp-input").classList.add("mp-error");
+                            document.querySelector('input-address').querySelector(".ep-input").classList.add("ep-error");
                             addressHelpers.style.display = 'flex';
                         }
                     }
@@ -72,7 +72,7 @@
                     const emailHelpers =  document.querySelector('input-email').querySelector("input-helper").querySelector("div");
                     const verifyEmail = (emailElement) => {
                         if (emailElement === '') {
-                            document.querySelector('input-email').querySelector(".mp-input").classList.add("mp-error");
+                            document.querySelector('input-email').querySelector(".ep-input").classList.add("ep-error");
                             emailHelpers.style.display = 'flex';
                         }
                     }
@@ -82,8 +82,8 @@
                     const cellphoneHelpers =  document.querySelector('input-cellphone').querySelector("input-helper").querySelector("div");
                     const verifyCellphone = (cellphone) => {
                         if (cellphone === '') {
-                            document.querySelector('input-cellphone').querySelector(".mp-input").classList.add("mp-error");
-                            document.querySelector('input-cellphone').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
+                            document.querySelector('input-cellphone').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-cellphone').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             cellphoneHelpers.style.display = 'flex';
                         }
                     }
@@ -93,8 +93,8 @@
                     const documentHelpers =  document.querySelector('input-document').querySelector("input-helper").querySelector("div");
                     const verifyDocument = (pseContentDocument) => {
                         if (pseContentDocument === '') {
-                            document.querySelector('input-document').querySelector(".mp-input").classList.add("mp-error");
-                            document.querySelector('input-document').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
+                            document.querySelector('input-document').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-document').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             documentHelpers.style.display = 'flex';
                         }
                     }
@@ -105,23 +105,23 @@
                     const countryHelpers =  document.querySelector('input-country').querySelector("input-helper").querySelector("div");
                     const verifyCountry = (pseContentCountry) => {
                         if (pseContentCountry === '') {
-                            document.querySelector('input-country').querySelector(".mp-input").classList.add("mp-error");
-                            document.querySelector('input-country').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
+                            document.querySelector('input-country').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-country').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             countryHelpers.style.display = 'flex';
                         }
                     }
                     var paymentOptionSelected;
 
-                    document.querySelector(".mp-checkout-pse-container").querySelectorAll(".mp-input-radio-radio").forEach((e => {
+                    document.querySelector(".ep-checkout-pse-container").querySelectorAll(".ep-input-radio-radio").forEach((e => {
                         if (e.checked) {
                             paymentOptionSelected = e.value;
                         }
                     }))
                     const termanAndContictionContent = document.querySelector('terms-and-conditions').querySelector('input');
-                    const termanAndContictionHelpers = document.querySelector('terms-and-conditions').querySelector(".mp-terms-and-conditions-container");
+                    const termanAndContictionHelpers = document.querySelector('terms-and-conditions').querySelector(".ep-terms-and-conditions-container");
                     termanAndContictionContent.addEventListener('click', function() {
                         if (termanAndContictionContent.checked) {
-                            termanAndContictionHelpers.classList.remove("mp-error")
+                            termanAndContictionHelpers.classList.remove("ep-error")
                         }
                     });
                     const bank = document.getElementsByName('epayco_pse[bank]')[1].value;
@@ -153,7 +153,7 @@
                     "Type"||"Tipo" === doc_type && verifyDocument(doc_number_value);
                     "" === doc_number_value && verifyDocument(doc_number_value);
                     "" === pseContentCountry && verifyCountry(pseContentCountry);
-                    !termanAndContictionContent.checked && termanAndContictionHelpers.classList.add("mp-error");
+                    !termanAndContictionContent.checked && termanAndContictionHelpers.classList.add("ep-error");
 
                     function m(e, t) {
                         e && e.style && (e.style.display = t)

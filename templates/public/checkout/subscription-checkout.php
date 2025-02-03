@@ -46,13 +46,13 @@ if (!defined('ABSPATH')) {
 }
 
 ?>
-<div class="mp-checkout-custom-load">
+<div class="ep-checkout-custom-load">
     <div class="spinner-card-form"></div>
 </div>
-<div class='mp-checkout-container'>
-    <div class='mp-checkout-subscription-container' style="max-width: 452px;margin: auto;">
+<div class='ep-checkout-container'>
+    <div class='ep-checkout-subscription-container' style="max-width: 452px;margin: auto;">
         <?php if ($test_mode) : ?>
-            <div class="mp-checkout-pro-test-mode">
+            <div class="ep-checkout-pro-test-mode">
                 <test-mode
                         title="<?= esc_html($test_mode_title) ?>"
                         description="<?= esc_html($test_mode_description) ?>"
@@ -60,7 +60,7 @@ if (!defined('ABSPATH')) {
                         link-src="<?= esc_html($test_mode_link_src) ?>"
                 >
                 </test-mode>
-                <div class="mp-test-mode-credit-card">
+                <div class="ep-test-mode-credit-card">
                     <img style="height: 25px" src="<?php echo esc_html($icon_info); ?>">
                     <div style="display: grid;grid-template-rows: repeat(2, 1fr);gap: 8px;">
                         <p>Por favor, utiliza la siguiente información de tarjeta de prueba en modo de prueba:</p>
@@ -81,10 +81,10 @@ if (!defined('ABSPATH')) {
             <p style="margin-left: 10px;"><?= esc_html($card_form_title) ?></p>
         </div>
 
-        <div id="mp-custom-checkout-form-container" style="margin: 10px;">
-            <div class='mp-checkout-custom-card-form'>
+        <div id="ep-custom-checkout-form-container" style="margin: 10px;">
+            <div class='ep-checkout-custom-card-form'>
 
-                <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
+                <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
                     <input-card-name
                             labelMessage="<?= esc_html($card_holder_name_input_label); ?>"
                             helperMessage="<?= esc_html($card_holder_name_input_helper); ?>"
@@ -97,7 +97,7 @@ if (!defined('ABSPATH')) {
                     </input-card-name>
                 </div>
 
-                <div class='mp-checkout-custom-card-row'>
+                <div class='ep-checkout-custom-card-row'>
 
                     <input-card-number
                             labelMessage="<?= esc_html($card_number_input_label); ?>"
@@ -106,16 +106,16 @@ if (!defined('ABSPATH')) {
                             inputName='epayco_subscription[card]'
                             flagError='epayco_subscription[cardError]'
                             validate=true
-                            hiddenId= "mp-card-number-helper"
+                            hiddenId= "ep-card-number-helper"
                     >
                     </input-card-number>
 
                 </div>
 
-                <div class='mp-checkout-custom-card-row mp-checkout-custom-dual-column-row'>
-                    <div class='mp-checkout-custom-card-column'>
+                <div class='ep-checkout-custom-card-row ep-checkout-custom-dual-column-row'>
+                    <div class='ep-checkout-custom-card-column'>
                         <input-card-expiration-date
-                                class="mp-checkout-custom-left-card-input"
+                                class="ep-checkout-custom-left-card-input"
                                 labelMessage="<?= esc_html($card_expiration_input_label); ?>"
                                 helperMessage="<?= esc_html($card_expiration_input_helper); ?>"
                                 placeholder="mm/yy"
@@ -127,9 +127,9 @@ if (!defined('ABSPATH')) {
                         </input-card-expiration-date>
                     </div>
 
-                    <div class='mp-checkout-custom-card-column'>
+                    <div class='ep-checkout-custom-card-column'>
                         <input-card-security-code
-                                class="mp-checkout-custom-left-card-input"
+                                class="ep-checkout-custom-left-card-input"
                                 labelMessage="<?= esc_html($card_security_code_input_label); ?>"
                                 helperMessage="<?= esc_html($card_security_code_input_helper); ?>"
                                 placeholder="***"
@@ -151,10 +151,10 @@ if (!defined('ABSPATH')) {
 
                 <p style="margin-left: 10px;"><?= esc_html($card_customer_title) ?></p>
             </div>
-        <div id="mp-custom-checkout-form-container" style="margin: 10px;">
-            <div id="mp-custom-checkout-form-container">
+        <div id="ep-custom-checkout-form-container" style="margin: 10px;">
+            <div id="ep-custom-checkout-form-container">
 
-                <div id="mp-doc-div" class="mp-checkout-custom-input-document">
+                <div id="ep-doc-div" class="ep-checkout-custom-input-document">
                     <input-document
                             label-message="<?= esc_html($card_document_input_label); ?>"
                             helper-message="<?= esc_html($card_document_input_helper); ?>"
@@ -183,7 +183,7 @@ if (!defined('ABSPATH')) {
                     </input-document>
                 </div>
 
-                <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
+                <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
                     <input-address
                             labelMessage="<?= esc_html($card_holder_address_input_label); ?>"
                             helperMessage="<?= esc_html($card_holder_address_input_helper); ?>"
@@ -196,7 +196,7 @@ if (!defined('ABSPATH')) {
                     </input-address>
                 </div>
 
-                <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
+                <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
                     <input-card-email
                             labelMessage="<?= esc_html($card_holder_email_input_label); ?>"
                             helperMessage="<?= esc_html($card_holder_email_input_helper); ?>"
@@ -209,7 +209,7 @@ if (!defined('ABSPATH')) {
                     </input-card-email>
                 </div>
 
-                <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
+                <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
                     <input-cellphone
                             label-message="<?= esc_html($input_ind_phone_label); ?>"
                             helper-message="<?= esc_html($input_ind_phone_helper); ?>"
@@ -228,7 +228,7 @@ if (!defined('ABSPATH')) {
                     </input-cellphone>
                 </div>
 
-                <div class='mp-checkout-custom-card-row' id="mp-card-holder-div">
+                <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
                     <input-country
                             label-message="<?= esc_html($input_country_label); ?>"
                             helper-message="<?= esc_html($input_country_helper); ?>"
@@ -249,7 +249,7 @@ if (!defined('ABSPATH')) {
 
             </div>
 
-            <div class="mp-checkout-ticket-terms-and-conditions">
+            <div class="ep-checkout-ticket-terms-and-conditions">
                 <terms-and-conditions
                         label="<?= esc_html($terms_and_conditions_label); ?>"
                         description="<?= esc_html($terms_and_conditions_description); ?>"

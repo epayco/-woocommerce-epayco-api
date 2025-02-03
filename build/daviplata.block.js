@@ -57,7 +57,7 @@
                     const nameHelpers =  document.querySelector('input-helper').querySelector("div");
                     const verifyName = (nameElement) => {
                         if (nameElement === '') {
-                            document.querySelector('input-name').querySelector(".mp-input").classList.add("mp-error");
+                            document.querySelector('input-name').querySelector(".ep-input").classList.add("ep-error");
                             nameHelpers.style.display = 'flex';
                         }
                     }
@@ -65,7 +65,7 @@
                     const addressHelpers =  document.querySelector('input-address').querySelector("input-helper").querySelector("div");
                     const verifyAddress = (addressElement) => {
                         if (addressElement === '') {
-                            document.querySelector('input-address').querySelector(".mp-input").classList.add("mp-error");
+                            document.querySelector('input-address').querySelector(".ep-input").classList.add("ep-error");
                             addressHelpers.style.display = 'flex';
                         }
                     }*/
@@ -73,7 +73,7 @@
                     const emailHelpers =  document.querySelector('input-email').querySelector("input-helper").querySelector("div");
                     const verifyEmail = (emailElement) => {
                         if (emailElement === '') {
-                            document.querySelector('input-email').querySelector(".mp-input").classList.add("mp-error");
+                            document.querySelector('input-email').querySelector(".ep-input").classList.add("ep-error");
                             emailHelpers.style.display = 'flex';
                         }
                     }
@@ -83,8 +83,8 @@
                     const cellphoneHelpers =  document.querySelector('input-cellphone').querySelector("input-helper").querySelector("div");
                     const verifyCellphone = (cellphone) => {
                         if (cellphone === '') {
-                            document.querySelector('input-cellphone').querySelector(".mp-input").classList.add("mp-error");
-                            document.querySelector('input-cellphone').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
+                            document.querySelector('input-cellphone').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-cellphone').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             cellphoneHelpers.style.display = 'flex';
                         }
                     }
@@ -94,8 +94,8 @@
                     const documentHelpers =  document.querySelector('input-document').querySelector("input-helper").querySelector("div");
                     const verifyDocument = (daviplataContentDocument) => {
                         if (daviplataContentDocument === '') {
-                            document.querySelector('input-document').querySelector(".mp-input").classList.add("mp-error");
-                            document.querySelector('input-document').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
+                            document.querySelector('input-document').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-document').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             documentHelpers.style.display = 'flex';
                         }
                     }
@@ -106,17 +106,17 @@
                     const countryHelpers =  document.querySelector('input-country').querySelector("input-helper").querySelector("div");
                     const verifyCountry = (daviplataContentCountry) => {
                         if (daviplataContentCountry === '') {
-                            document.querySelector('input-country').querySelector(".mp-input").classList.add("mp-error");
-                            document.querySelector('input-country').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
+                            document.querySelector('input-country').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-country').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             countryHelpers.style.display = 'flex';
                         }
                     }*/
 
                     const termanAndContictionContent = document.querySelector('terms-and-conditions').querySelector('input');
-                    const termanAndContictionHelpers = document.querySelector('terms-and-conditions').querySelector(".mp-terms-and-conditions-container");
+                    const termanAndContictionHelpers = document.querySelector('terms-and-conditions').querySelector(".ep-terms-and-conditions-container");
                     termanAndContictionContent.addEventListener('click', function() {
                         if (termanAndContictionContent.checked) {
-                            termanAndContictionHelpers.classList.remove("mp-error")
+                            termanAndContictionHelpers.classList.remove("ep-error")
                         }
                     });
 
@@ -141,7 +141,7 @@
                     "Type"||"Tipo" === doc_type && verifyDocument(doc_number_value);
                     "" === doc_number_value && verifyDocument(doc_number_value);
                    // "" === daviplataContentCountry && verifyCountry(daviplataContentCountry);
-                    !termanAndContictionContent.checked && termanAndContictionHelpers.classList.add("mp-error");
+                    !termanAndContictionContent.checked && termanAndContictionHelpers.classList.add("ep-error");
                     let validation = d(nameHelpers)|| d(emailHelpers)|| d(cellphoneHelpers)||d(documentHelpers)||d(termanAndContictionContent)
                     function m(e, t) {
                         e && e.style && (e.style.display = t)

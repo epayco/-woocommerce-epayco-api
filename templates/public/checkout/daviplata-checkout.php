@@ -46,11 +46,11 @@ if (!defined('ABSPATH')) {
 }
 ?>
 
-<div class='mp-checkout-container'>
-    <div class="mp-checkout-daviplata-container" style="max-width: 452px;margin: auto;">
-        <div class="mp-checkout-daviplata-content">
+<div class='ep-checkout-container'>
+    <div class="ep-checkout-daviplata-container" style="max-width: 452px;margin: auto;">
+        <div class="ep-checkout-daviplata-content">
             <?php if ($test_mode) : ?>
-                <div class="mp-checkout-daviplata-test-mode">
+                <div class="ep-checkout-daviplata-test-mode">
                     <test-mode
                         title="<?= esc_html($test_mode_title); ?>"
                         description="<?= esc_html($test_mode_description); ?>"
@@ -65,8 +65,8 @@ if (!defined('ABSPATH')) {
                 </svg>
                 <p style="margin-left: 10px;"><?= esc_html($customer_title) ?></p>
             </div>
-            <div id="mp-custom-checkout-form-container" style="margin: 10px;">
-                <div class="mp-checkout-daviplata-input-document">
+            <div id="ep-custom-checkout-form-container" style="margin: 10px;">
+                <div class="ep-checkout-daviplata-input-document">
                     <input-name
                         labelMessage="<?= esc_html($input_name_label); ?>"
                         helperMessage="<?= esc_html($input_name_helper); ?>"
@@ -79,7 +79,7 @@ if (!defined('ABSPATH')) {
                     </input-name>
                 </div>
 
-                <div class="mp-checkout-daviplata-input-document">
+                <div class="ep-checkout-daviplata-input-document">
                     <input-email
                         labelMessage="<?= esc_html($input_email_label); ?>"
                         helperMessage="<?= esc_html($input_email_helper); ?>"
@@ -92,7 +92,7 @@ if (!defined('ABSPATH')) {
                     </input-email>
                 </div>
 
-                <!--<div class="mp-checkout-daviplata-input-document">
+                <!--<div class="ep-checkout-daviplata-input-document">
                     <input-address
                         labelMessage="<?= esc_html($input_address_label); ?>"
                         helperMessage="<?= esc_html($input_address_helper); ?>"
@@ -105,7 +105,7 @@ if (!defined('ABSPATH')) {
                     </input-address>
                 </div>-->
 
-                <div class="mp-checkout-daviplata-input-document">
+                <div class="ep-checkout-daviplata-input-document">
                     <input-cellphone
                         label-message="<?= esc_html($input_ind_phone_label); ?>"
                         helper-message="<?= esc_html($input_ind_phone_helper); ?>"
@@ -123,7 +123,7 @@ if (!defined('ABSPATH')) {
                     </input-cellphone>
                 </div>
 
-                <!--<div class="mp-checkout-daviplata-input-document">
+                <!--<div class="ep-checkout-daviplata-input-document">
                     <input-select
                         name="epayco_daviplata[person_type]"
                         label=<?= esc_html($person_type_label); ?>
@@ -133,7 +133,7 @@ if (!defined('ABSPATH')) {
                     </input-select>
                 </div>-->
 
-                <div class="mp-checkout-daviplata-input-document">
+                <div class="ep-checkout-daviplata-input-document">
                     <input-document
                         label-message="<?= esc_html($input_document_label); ?>"
                         helper-message="<?= esc_html($input_document_helper); ?>"
@@ -162,7 +162,7 @@ if (!defined('ABSPATH')) {
                     </input-document>
                 </div>
 
-                <!--<div class="mp-checkout-daviplata-input-document">
+                <!--<div class="ep-checkout-daviplata-input-document">
                     <input-country
                         label-message="<?= esc_html($input_country_label); ?>"
                         helper-message="<?= esc_html($input_country_helper); ?>"
@@ -182,7 +182,7 @@ if (!defined('ABSPATH')) {
 
 
                 <!-- NOT DELETE LOADING-->
-                <div id="mp-box-loading"></div>
+                <div id="ep-box-loading"></div>
 
                 <!-- utilities -->
                 <div id="epayco-utilities" style="display:none;">
@@ -196,7 +196,7 @@ if (!defined('ABSPATH')) {
         </div>
         <div style="margin-top: 15px;"></div>
 
-        <div class="mp-checkout-daviplata-terms-and-conditions">
+        <div class="ep-checkout-daviplata-terms-and-conditions">
             <terms-and-conditions
                     label="<?= esc_html($terms_and_conditions_label); ?>"
                     description="<?= esc_html($terms_and_conditions_description); ?>"

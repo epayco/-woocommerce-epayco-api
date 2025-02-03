@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 
 ?>
 
-<div class="mp-preview">
+<div class="ep-preview">
     <p class="description">
         <?= esc_html($settings['description']); ?>
     </p>

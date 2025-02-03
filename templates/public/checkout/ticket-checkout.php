@@ -46,11 +46,11 @@ if (!defined('ABSPATH')) {
 }
 ?>
 
-<div class='mp-checkout-container'>
-        <div class="mp-checkout-ticket-container" style="max-width: 452px;margin: auto;">
-            <div class="mp-checkout-ticket-content">
+<div class='ep-checkout-container'>
+        <div class="ep-checkout-ticket-container" style="max-width: 452px;margin: auto;">
+            <div class="ep-checkout-ticket-content">
                 <?php if ($test_mode) : ?>
-                    <div class="mp-checkout-ticket-test-mode">
+                    <div class="ep-checkout-ticket-test-mode">
                         <test-mode
                             title="<?= esc_html($test_mode_title); ?>"
                             description="<?= esc_html($test_mode_description); ?>"
@@ -65,8 +65,8 @@ if (!defined('ABSPATH')) {
                     </svg>
                     <p style="margin-left: 10px;"><?= esc_html($customer_title) ?></p>
                 </div>
-                <div id="mp-custom-checkout-form-container" style="margin: 10px;">
-                    <div class="mp-checkout-ticket-input-document">
+                <div id="ep-custom-checkout-form-container" style="margin: 10px;">
+                    <div class="ep-checkout-ticket-input-document">
                     <input-name
                             labelMessage="<?= esc_html($input_name_label); ?>"
                             helperMessage="<?= esc_html($input_name_helper); ?>"
@@ -79,7 +79,7 @@ if (!defined('ABSPATH')) {
                     </input-name>
                 </div>
 
-                    <div class="mp-checkout-ticket-input-document">
+                    <div class="ep-checkout-ticket-input-document">
                         <input-email
                                 labelMessage="<?= esc_html($input_email_label); ?>"
                                 helperMessage="<?= esc_html($input_email_helper); ?>"
@@ -92,7 +92,7 @@ if (!defined('ABSPATH')) {
                         </input-email>
                     </div>
 
-                    <!--<div class="mp-checkout-ticket-input-document">
+                    <!--<div class="ep-checkout-ticket-input-document">
                         <input-address
                                 labelMessage="<?= esc_html($input_address_label); ?>"
                                 helperMessage="<?= esc_html($input_address_helper); ?>"
@@ -105,7 +105,7 @@ if (!defined('ABSPATH')) {
                         </input-address>
                     </div>-->
 
-                    <div class="mp-checkout-ticket-input-document">
+                    <div class="ep-checkout-ticket-input-document">
                         <input-cellphone
                                 label-message="<?= esc_html($input_ind_phone_label); ?>"
                                 helper-message="<?= esc_html($input_ind_phone_helper); ?>"
@@ -123,7 +123,7 @@ if (!defined('ABSPATH')) {
                         </input-cellphone>
                     </div>
 
-                    <!--<div class="mp-checkout-ticket-input-document">
+                    <!--<div class="ep-checkout-ticket-input-document">
                         <input-select
                                 name="epayco_ticket[person_type]"
                                 label=<?= esc_html($person_type_label); ?>
@@ -133,7 +133,7 @@ if (!defined('ABSPATH')) {
                         </input-select>
                     </div>-->
 
-                    <div class="mp-checkout-ticket-input-document">
+                    <div class="ep-checkout-ticket-input-document">
                                 <input-document
                                 label-message="<?= esc_html($input_document_label); ?>"
                                 helper-message="<?= esc_html($input_document_helper); ?>"
@@ -162,7 +162,7 @@ if (!defined('ABSPATH')) {
                                 </input-document>
                             </div>
 
-                    <!--<div class="mp-checkout-ticket-input-document">
+                    <!--<div class="ep-checkout-ticket-input-document">
                         <input-country
                                 label-message="<?= esc_html($input_country_label); ?>"
                                 helper-message="<?= esc_html($input_country_helper); ?>"
@@ -180,8 +180,8 @@ if (!defined('ABSPATH')) {
                         </input-country>
                     </div>-->
 
-                    <div class="mp-checkout-ticket-payment-method">
-                        <p class="mp-checkout-ticket-text" data-cy="checkout-ticket-text">
+                    <div class="ep-checkout-ticket-payment-method">
+                        <p class="ep-checkout-ticket-text" data-cy="checkout-ticket-text">
                             <?= esc_html($ticket_text_label); ?>
                         </p>
 
@@ -194,12 +194,12 @@ if (!defined('ABSPATH')) {
                         <input-helper
                             isVisible=false
                             message="<?= esc_html($input_helper_label); ?>"
-                            input-id="mp-payment-method-helper"
+                            input-id="ep-payment-method-helper"
                             id="payment-method-helper">
                         </input-helper>
                         </div>
                     <!-- NOT DELETE LOADING-->
-                    <div id="mp-box-loading"></div>
+                    <div id="ep-box-loading"></div>
 
                     <!-- utilities -->
                     <div id="epayco-utilities" style="display:none;">
@@ -212,7 +212,7 @@ if (!defined('ABSPATH')) {
                   </div>
             </div>
 
-            <div class="mp-checkout-ticket-terms-and-conditions">
+            <div class="ep-checkout-ticket-terms-and-conditions">
                 <terms-and-conditions
                         label="<?= esc_html($terms_and_conditions_label); ?>"
                         description="<?= esc_html($terms_and_conditions_description); ?>"

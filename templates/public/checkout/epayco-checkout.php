@@ -19,11 +19,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 ?>
-<div class='mp-checkout-container'>
-    <div class="mp-checkout-epayco-container">
-        <div class="mp-checkout-epayco-content">
+<div class='ep-checkout-container'>
+    <div class="ep-checkout-epayco-container">
+        <div class="ep-checkout-epayco-content">
             <?php if ($test_mode) : ?>
-                <div class="mp-checkout-ticket-test-mode">
+                <div class="ep-checkout-ticket-test-mode">
                     <test-mode
                         title="<?= esc_html($test_mode_title); ?>"
                         description="<?= esc_html($test_mode_description); ?>"
@@ -31,7 +31,7 @@ if (!defined('ABSPATH')) {
                 </div>
             <?php endif; ?>
             <!-- NOT DELETE LOADING-->
-            <div id="mp-box-loading"></div>
+            <div id="ep-box-loading"></div>
         </div>
     </div>
 </div>

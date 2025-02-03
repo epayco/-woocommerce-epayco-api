@@ -52,12 +52,12 @@
                 const e = r((async () => {
                     var e;
 
-                    const current =  document.querySelector(".mp-checkout-subscription-container");
+                    const current =  document.querySelector(".ep-checkout-subscription-container");
                     const customContentName = current.querySelector('input-card-name').querySelector('input');
                     const nameHelpers =  current.querySelector('input-helper').querySelector("div");
                     const verifyName = (nameElement) => {
                         if (nameElement.value === '') {
-                            current.querySelector('input-card-name').querySelector(".mp-input").classList.add("mp-error");
+                            current.querySelector('input-card-name').querySelector(".ep-input").classList.add("ep-error");
                             nameHelpers.style.display = 'flex';
                         }
                     }
@@ -65,7 +65,7 @@
                     const cardNumberHelpers =  current.querySelector('input-card-number').querySelector("input-helper").querySelector("div");
                     const verifyCardNumber = (nameElement) => {
                         if (nameElement.value === '') {
-                            current.querySelector('input-card-number').querySelector(".mp-input").classList.add("mp-error");
+                            current.querySelector('input-card-number').querySelector(".ep-input").classList.add("ep-error");
                             cardNumberHelpers.style.display = 'flex';
                         }
                     }
@@ -73,7 +73,7 @@
                     const cardExpirationHelpers =  current.querySelector('input-card-expiration-date').querySelector("input-helper").querySelector("div");
                     const verifyCardExpiration = (nameElement) => {
                         if (nameElement.value === '') {
-                            current.querySelector('input-card-expiration-date').querySelector(".mp-input").classList.add("mp-error");
+                            current.querySelector('input-card-expiration-date').querySelector(".ep-input").classList.add("ep-error");
                             cardExpirationHelpers.style.display = 'flex';
                         }
                     }
@@ -81,7 +81,7 @@
                     const cardSecurityHelpers =  current.querySelector('input-card-security-code').querySelector("input-helper").querySelector("div");
                     const verifyCardSecurity = (nameElement) => {
                         if (nameElement.value === '') {
-                            current.querySelector('input-card-security-code').querySelector(".mp-input").classList.add("mp-error");
+                            current.querySelector('input-card-security-code').querySelector(".ep-input").classList.add("ep-error");
                             cardSecurityHelpers.style.display = 'flex';
                         }
                     }
@@ -90,8 +90,8 @@
                     const documentHelpers =  current.querySelector('input-document').querySelector("input-helper").querySelector("div");
                     const verifyDocument = (cardContentDocument) => {
                         if (cardContentDocument.value === '') {
-                            current.querySelector('input-document').querySelector(".mp-input").classList.add("mp-error");
-                            current.querySelector('input-document').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
+                            current.querySelector('input-document').querySelector(".ep-input").classList.add("ep-error");
+                            current.querySelector('input-document').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             documentHelpers.style.display = 'flex';
                         }
                     }
@@ -100,7 +100,7 @@
                     const addressHelpers =  current.querySelector('input-address').querySelector("input-helper").querySelector("div");
                     const verifyAddress = (addressElement) => {
                         if (addressElement.value === '') {
-                            current.querySelector('input-address').querySelector(".mp-input").classList.add("mp-error");
+                            current.querySelector('input-address').querySelector(".ep-input").classList.add("ep-error");
                             addressHelpers.style.display = 'flex';
                         }
                     }
@@ -109,7 +109,7 @@
                     const emailHelpers =  current.querySelector('input-card-email').querySelector("input-helper").querySelector("div");
                     const verifyEmail = (emailElement) => {
                         if (emailElement.value === '') {
-                            current.querySelector('input-card-email').querySelector(".mp-input").classList.add("mp-error");
+                            current.querySelector('input-card-email').querySelector(".ep-input").classList.add("ep-error");
                             emailHelpers.style.display = 'flex';
                         }
                     }
@@ -118,8 +118,8 @@
                     const cellphoneHelpers =  current.querySelector('input-cellphone').querySelector("input-helper").querySelector("div");
                     const verifyCellphone = (customContentCellphone) => {
                         if (customContentCellphone.value === '') {
-                            current.querySelector('input-cellphone').querySelector(".mp-input").classList.add("mp-error");
-                            current.querySelector('input-cellphone').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
+                            current.querySelector('input-cellphone').querySelector(".ep-input").classList.add("ep-error");
+                            current.querySelector('input-cellphone').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             cellphoneHelpers.style.display = 'flex';
                         }
                     }
@@ -128,21 +128,21 @@
                     const countryHelpers =  current.querySelector('input-country').querySelector("input-helper").querySelector("div");
                     const verifyCountry = (countryContentCountry) => {
                         if (countryContentCountry.value === '') {
-                            current.querySelector('input-country').querySelector(".mp-input").classList.add("mp-error");
-                            current.querySelector('input-country').querySelector(".mp-input").parentElement.lastChild.classList.add("mp-error");
+                            current.querySelector('input-country').querySelector(".ep-input").classList.add("ep-error");
+                            current.querySelector('input-country').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             countryHelpers.style.display = 'flex';
                         }
                     }
                     const termanAndContictionContent = document.querySelector('terms-and-conditions').querySelector('input');
-                    const termanAndContictionHelpers = document.querySelector('terms-and-conditions').querySelector(".mp-terms-and-conditions-container");
+                    const termanAndContictionHelpers = document.querySelector('terms-and-conditions').querySelector(".ep-terms-and-conditions-container");
                     termanAndContictionContent.addEventListener('click', function() {
                         if (termanAndContictionContent.checked) {
-                            termanAndContictionHelpers.classList.remove("mp-error")
+                            termanAndContictionHelpers.classList.remove("ep-error")
                         }
                     });
                     const doc_type =document.getElementById('epayco_subscription[identificationType]');
-                    const cellphoneType = customContentCellphone.parentElement.parentElement.querySelector(".mp-input-select-select").value;
-                    const countryType = countryContentCountry.parentElement.parentElement.querySelector(".mp-input-select-select").value;
+                    const cellphoneType = customContentCellphone.parentElement.parentElement.querySelector(".ep-input-select-select").value;
+                    const countryType = countryContentCountry.parentElement.parentElement.querySelector(".ep-input-select-select").value;
                     const doc_number_value =cardContentDocument.value;
 
                     "" === customContentName.value && verifyName(customContentName);
@@ -155,7 +155,7 @@
                     "" === customContentEmail.value && verifyEmail(customContentEmail);
                     "" === customContentCellphone.value && verifyCellphone(customContentCellphone);
                     "" === countryContentCountry.value && verifyCountry(countryContentCountry);
-                    !termanAndContictionContent.checked && termanAndContictionHelpers.classList.add("mp-error");
+                    !termanAndContictionContent.checked && termanAndContictionHelpers.classList.add("ep-error");
                     let validation = d(nameHelpers) || d(cardNumberHelpers) || d(cardExpirationHelpers) || d(cardSecurityHelpers) || d(documentHelpers) || d(addressHelpers) || d(emailHelpers) || d(cellphoneHelpers) || d(countryHelpers);
                     try {
                         var createTokenEpayco = async function  ($form) {
