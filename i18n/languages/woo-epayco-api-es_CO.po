@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ePayco WooCommerce\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-23 17:36+0000\n"
-"PO-Revision-Date: 2025-01-28 21:19+0000\n"
+"PO-Revision-Date: 2025-02-03 18:08+0000\n"
 "Last-Translator: \n"
 "Language-Team: Español de Colombia\n"
 "Language: es_CO\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:264
 #: src/Translations/StoreTranslations.php:330
 msgid " and the"
-msgstr " y el"
+msgstr " y la"
 
 #: src/Translations/AdminTranslations.php:245
 msgid " for test mode"
