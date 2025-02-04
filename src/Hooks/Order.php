@@ -212,7 +212,7 @@ class Order
      *
      * @return array|bool
      */
-    private function getMetaboxData(WC_Order $order): array
+    private function getMetaboxData(WC_Order $order)
     {
         $paymentInfo  = $this->getLastPaymentInfo($order);
         if(!$paymentInfo->success){
@@ -220,6 +220,7 @@ class Order
         }
         $status = 'pending';
         $alert_title = '';
+        $order_id=false;
         foreach ($paymentInfo->data->data as $data) {
             $status = $data->status;
             $alert_title = $data->response;
@@ -346,7 +347,7 @@ class Order
                 return false;
             }
             $data = array(
-                "filter" => array("referencePayco" => $lastPaymentId[0]),
+                "filter" => array("referencePayco" => $paymentsIds[0]),
                 "success" =>true
             );
             return $this->sdk->transaction->get($data);
