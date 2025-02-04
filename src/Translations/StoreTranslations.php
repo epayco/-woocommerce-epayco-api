@@ -41,7 +41,7 @@ class StoreTranslations
     {
         $this->ticketCheckout = [
             'message_error_amount'             => __('There was an error. Please try again in a few minutes.', 'woo-epayco-api'),
-            'test_mode_title'                  => __('Offline Methods in Test Mode', 'woo-epayco-api'),
+            'test_mode_title'                  => __('Test Mode', 'woo-epayco-api'),
             'test_mode_description'            => __('You can test the flow to generate an invoice, but you cannot finalize the payment.', 'woo-epayco-api'),
             'test_mode_link_text'              => __('See the rules for the test mode.', 'woo-epayco-api'),
             'input_name_label'                 => __('Holder name', 'woo-epayco-api'),
@@ -85,6 +85,9 @@ class StoreTranslations
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
             'code'                   => __('Convention code', 'woo-epayco-api'),
             'expirationDate'  => __('Expiration Date', 'woo-epayco-api'),
+            'ticket_header'  => __('Taking into account the payment date, go to the nearest earning point and indicate the following information:', 'woo-epayco-api'),
+            'ticket_footer'  => __('Collection in the name of EPAYCO.COM S.A.S.', 'woo-epayco-api'),
+            'donwload_text'  => __('Download ePyaco receipt', 'woo-epayco-api'),
         ];
     }
 
@@ -97,7 +100,7 @@ class StoreTranslations
     {
         $this->daviplataCheckout = [
             'message_error_amount'             => __('There was an error. Please try again in a few minutes.', 'woo-epayco-api'),
-            'test_mode_title'                  => __('Offline Methods in Test Mode', 'woo-epayco-api'),
+            'test_mode_title'                  => __('Test Mode', 'woo-epayco-api'),
             'test_mode_description'            => __('You can test the flow to generate an invoice, but you cannot finalize the payment.', 'woo-epayco-api'),
             'test_mode_link_text'              => __('See the rules for the test mode.', 'woo-epayco-api'),
             'input_name_label'                 => __('Holder name', 'woo-epayco-api'),
@@ -122,6 +125,7 @@ class StoreTranslations
             'and_the' => __(' and the', 'woo-epayco-api'),
             'personal_data_processing_link_text'                   => __(' personal data processing policy', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
+            'donwload_text'  => __('Download ePyaco receipt', 'woo-epayco-api'),
         ];
     }
 
@@ -188,6 +192,7 @@ class StoreTranslations
             'authorization'                   => __('Authorization', 'woo-epayco-api'),
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
+            'donwload_text'  => __('Download ePyaco receipt', 'woo-epayco-api'),
         ];
     }
 
@@ -242,6 +247,7 @@ class StoreTranslations
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
+            'donwload_text'  => __('Download ePyaco receipt', 'woo-epayco-api'),
         ];
     }
 
@@ -281,6 +287,7 @@ class StoreTranslations
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
+            'donwload_text'  => __('Download ePyaco receipt', 'woo-epayco-api'),
         ];
     }
 
@@ -347,6 +354,7 @@ class StoreTranslations
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
+            'donwload_text'  => __('Download ePyaco receipt', 'woo-epayco-api'),
         ];
     }
 

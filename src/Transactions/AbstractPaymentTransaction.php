@@ -66,7 +66,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         //$cellphone=@$order->billing_phone??'0';
         $data = array(
             "paymentMethod" => $checkout["paymentMethod"],
-            "invoice" => (string)$order->get_id(),
+            "invoice" => (string)$order->get_id()."_sa",
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,
@@ -236,7 +236,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "token_card" => $checkout["token"],
             //"customer_id" => $customerData['customer_id'],
             "customer_id" => 'customer_id',
-            "bill" => (string)$order->get_id(),
+            "bill" => (string)$order->get_id()."__test",
             "dues" => $dues,
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),

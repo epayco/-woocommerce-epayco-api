@@ -17,11 +17,11 @@ msgstr ""
 "X-Domain: woo-epayco-api"
 
 #: src/Translations/StoreTranslations.php:65
-#: src/Translations/StoreTranslations.php:122
-#: src/Translations/StoreTranslations.php:172
-#: src/Translations/StoreTranslations.php:225
-#: src/Translations/StoreTranslations.php:264
-#: src/Translations/StoreTranslations.php:330
+#: src/Translations/StoreTranslations.php:125
+#: src/Translations/StoreTranslations.php:176
+#: src/Translations/StoreTranslations.php:230
+#: src/Translations/StoreTranslations.php:270
+#: src/Translations/StoreTranslations.php:337
 msgid " and the"
 msgstr ""
 
@@ -39,11 +39,11 @@ msgid " of ePayco."
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:66
-#: src/Translations/StoreTranslations.php:123
-#: src/Translations/StoreTranslations.php:173
-#: src/Translations/StoreTranslations.php:226
-#: src/Translations/StoreTranslations.php:265
-#: src/Translations/StoreTranslations.php:331
+#: src/Translations/StoreTranslations.php:126
+#: src/Translations/StoreTranslations.php:177
+#: src/Translations/StoreTranslations.php:231
+#: src/Translations/StoreTranslations.php:271
+#: src/Translations/StoreTranslations.php:338
 msgid " personal data processing policy"
 msgstr ""
 
@@ -64,28 +64,28 @@ msgstr ""
 msgid "3. Test your store before you start to sell"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:377
+#: src/Translations/StoreTranslations.php:385
 msgid ""
 "<strong>For safety reasons, the card issuing bank declined the "
 "payment</strong><br>We recommended paying with your usual payment method and "
 "device for online purchases."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:362
-#: src/Translations/StoreTranslations.php:363
+#: src/Translations/StoreTranslations.php:370
+#: src/Translations/StoreTranslations.php:371
 msgid ""
 "<strong>For safety reasons, your payment was declined</strong><br>We "
 "recommended paying with your usual payment method and device for online "
 "purchases."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:412
+#: src/Translations/StoreTranslations.php:420
 msgid ""
 "<strong>Invalid transaction attempt</strong><br>It is not possible to pay "
 "with the email address entered. Please enter another e-mail address."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:411
+#: src/Translations/StoreTranslations.php:419
 msgid ""
 "<strong>Invalid transaction attempt</strong><br>You are trying to perform a "
 "productive transaction using test credentials, or test transaction using "
@@ -93,80 +93,80 @@ msgid ""
 "environment settings for the desired action."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:364
-#: src/Translations/StoreTranslations.php:365
-#: src/Translations/StoreTranslations.php:366
-#: src/Translations/StoreTranslations.php:367
+#: src/Translations/StoreTranslations.php:372
+#: src/Translations/StoreTranslations.php:373
+#: src/Translations/StoreTranslations.php:374
+#: src/Translations/StoreTranslations.php:375
 msgid ""
 "<strong>One or more card details were entered incorrecctly</strong><br>"
 "Please enter them again as they appear on the card to complete the payment."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:374
-#: src/Translations/StoreTranslations.php:375
-#: src/Translations/StoreTranslations.php:376
+#: src/Translations/StoreTranslations.php:382
+#: src/Translations/StoreTranslations.php:383
+#: src/Translations/StoreTranslations.php:384
 msgid ""
 "<strong>The card issuing bank declined the payment</strong><br>We "
 "recommended paying with another payment method or contact your bank."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:371
+#: src/Translations/StoreTranslations.php:379
 msgid ""
 "<strong>You need to activate your card</strong><br>Please contact your bank "
 "by calling the number on the back of your card or choose another payment "
 "method."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:372
+#: src/Translations/StoreTranslations.php:380
 msgid ""
 "<strong>You reached the limit of payment attempts with this card</strong><br>"
 "Please pay using another card or choose another payment method."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:361
+#: src/Translations/StoreTranslations.php:369
 msgid ""
 "<strong>Your bank needs you to authorize the payment</strong><br>Please call "
 "the telephone number on your card or pay with another method."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:370
+#: src/Translations/StoreTranslations.php:378
 msgid ""
 "<strong>Your card does not accept the number of installments "
 "selected</strong><br>Please choose a different number of installments or use "
 "a different payment method ."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:368
+#: src/Translations/StoreTranslations.php:376
 msgid ""
 "<strong>Your credit card has no available limit</strong><br>Please pay using "
 "another card or choose another payment method."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:369
+#: src/Translations/StoreTranslations.php:377
 msgid ""
 "<strong>Your debit card has insufficient founds</strong><br>Please pay using "
 "another card or choose another payment method."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:378
+#: src/Translations/StoreTranslations.php:386
 msgid ""
 "<strong>Your payment was declined because something went wrong</strong><br>"
 "We recommended trying again or paying with another method."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:373
+#: src/Translations/StoreTranslations.php:381
 msgid ""
 "<strong>Your payment was declined because you already paid for this "
 "purchase</strong><br>Check your card transactions to verify it."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:391
+#: src/Translations/StoreTranslations.php:399
 msgid ""
 "A problem was occurred when processing your payment. Are you sure you have "
 "correctly filled all information in the checkout form?"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:390
+#: src/Translations/StoreTranslations.php:398
 msgid "A problem was occurred when processing your payment. Please, try again."
 msgstr ""
 
@@ -216,12 +216,12 @@ msgid ""
 "redirects."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:210
+#: src/Translations/StoreTranslations.php:215
 msgid "Address"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:160
-#: src/Translations/StoreTranslations.php:318
+#: src/Translations/StoreTranslations.php:164
+#: src/Translations/StoreTranslations.php:325
 msgid "Address "
 msgstr ""
 
@@ -241,10 +241,10 @@ msgid "Any questions?"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:68
-#: src/Translations/StoreTranslations.php:174
-#: src/Translations/StoreTranslations.php:227
-#: src/Translations/StoreTranslations.php:266
-#: src/Translations/StoreTranslations.php:332
+#: src/Translations/StoreTranslations.php:178
+#: src/Translations/StoreTranslations.php:232
+#: src/Translations/StoreTranslations.php:272
+#: src/Translations/StoreTranslations.php:339
 msgid "Approved transaction"
 msgstr ""
 
@@ -253,14 +253,14 @@ msgid "At least one payment method is enabled"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:82
-#: src/Translations/StoreTranslations.php:188
-#: src/Translations/StoreTranslations.php:241
-#: src/Translations/StoreTranslations.php:280
-#: src/Translations/StoreTranslations.php:346
+#: src/Translations/StoreTranslations.php:192
+#: src/Translations/StoreTranslations.php:246
+#: src/Translations/StoreTranslations.php:286
+#: src/Translations/StoreTranslations.php:353
 msgid "Authorization"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:219
+#: src/Translations/StoreTranslations.php:224
 msgid "Bank"
 msgstr ""
 
@@ -293,14 +293,14 @@ msgstr ""
 msgid "By disabling it, you will disable subscriptions payments from ePayco."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:140
-#: src/Translations/StoreTranslations.php:141
-#: src/Translations/StoreTranslations.php:299
+#: src/Translations/StoreTranslations.php:144
+#: src/Translations/StoreTranslations.php:145
+#: src/Translations/StoreTranslations.php:306
 msgid "Card details"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:144
-#: src/Translations/StoreTranslations.php:303
+#: src/Translations/StoreTranslations.php:148
+#: src/Translations/StoreTranslations.php:310
 msgid "Card number"
 msgstr ""
 
@@ -320,7 +320,7 @@ msgstr ""
 msgid "Cash is <b>enabled</b>."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:214
+#: src/Translations/StoreTranslations.php:219
 msgid "Cellphone"
 msgstr ""
 
@@ -333,19 +333,19 @@ msgstr ""
 msgid "Change the display text in Checkout, maximum characters: 85"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:398
+#: src/Translations/StoreTranslations.php:406
 msgid "Check the card number."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:399
+#: src/Translations/StoreTranslations.php:407
 msgid "Check the expiration date."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:400
+#: src/Translations/StoreTranslations.php:408
 msgid "Check the information provided."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:401
+#: src/Translations/StoreTranslations.php:409
 msgid "Check the informed security code."
 msgstr ""
 
@@ -373,7 +373,7 @@ msgstr ""
 msgid "Choose the available payment methods in your store."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:394
+#: src/Translations/StoreTranslations.php:402
 msgid "Click to try again"
 msgstr ""
 
@@ -389,7 +389,7 @@ msgstr ""
 msgid "Consult the reasons for refusal"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:405
+#: src/Translations/StoreTranslations.php:413
 msgid ""
 "Contact your card issuer to activate it. The phone is on the back of your "
 "card."
@@ -455,10 +455,10 @@ msgid "Customer data"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:74
-#: src/Translations/StoreTranslations.php:180
-#: src/Translations/StoreTranslations.php:233
-#: src/Translations/StoreTranslations.php:272
-#: src/Translations/StoreTranslations.php:338
+#: src/Translations/StoreTranslations.php:184
+#: src/Translations/StoreTranslations.php:238
+#: src/Translations/StoreTranslations.php:278
+#: src/Translations/StoreTranslations.php:345
 msgid "Date and time"
 msgstr ""
 
@@ -479,10 +479,10 @@ msgid "Daviplata is <b>enabled</b>."
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:77
-#: src/Translations/StoreTranslations.php:183
-#: src/Translations/StoreTranslations.php:236
-#: src/Translations/StoreTranslations.php:275
-#: src/Translations/StoreTranslations.php:341
+#: src/Translations/StoreTranslations.php:187
+#: src/Translations/StoreTranslations.php:241
+#: src/Translations/StoreTranslations.php:281
+#: src/Translations/StoreTranslations.php:348
 msgid "Description"
 msgstr ""
 
@@ -496,9 +496,9 @@ msgstr ""
 msgid "disabled"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:162
-#: src/Translations/StoreTranslations.php:208
-#: src/Translations/StoreTranslations.php:320
+#: src/Translations/StoreTranslations.php:166
+#: src/Translations/StoreTranslations.php:213
+#: src/Translations/StoreTranslations.php:327
 msgid "Email"
 msgstr ""
 
@@ -615,10 +615,10 @@ msgid "ePayco plugin general settings"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:84
-#: src/Translations/StoreTranslations.php:190
-#: src/Translations/StoreTranslations.php:243
-#: src/Translations/StoreTranslations.php:282
-#: src/Translations/StoreTranslations.php:348
+#: src/Translations/StoreTranslations.php:194
+#: src/Translations/StoreTranslations.php:248
+#: src/Translations/StoreTranslations.php:288
+#: src/Translations/StoreTranslations.php:355
 msgid "ePayco Reference"
 msgstr ""
 
@@ -626,8 +626,8 @@ msgstr ""
 msgid "ePayco WooCommerce"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:146
-#: src/Translations/StoreTranslations.php:305
+#: src/Translations/StoreTranslations.php:150
+#: src/Translations/StoreTranslations.php:312
 msgid "Expiration"
 msgstr ""
 
@@ -635,15 +635,15 @@ msgstr ""
 msgid "Expiration Date"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:150
-#: src/Translations/StoreTranslations.php:309
+#: src/Translations/StoreTranslations.php:154
+#: src/Translations/StoreTranslations.php:316
 msgid "Expiration date incomplete"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:149
-#: src/Translations/StoreTranslations.php:151
-#: src/Translations/StoreTranslations.php:308
-#: src/Translations/StoreTranslations.php:310
+#: src/Translations/StoreTranslations.php:153
+#: src/Translations/StoreTranslations.php:155
+#: src/Translations/StoreTranslations.php:315
+#: src/Translations/StoreTranslations.php:317
 msgid "Expiration date invalid"
 msgstr ""
 
@@ -670,76 +670,76 @@ msgstr ""
 msgid "Go to Settings"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:259
+#: src/Translations/StoreTranslations.php:265
 msgid ""
 "Great, we processed your purchase order. Complete the payment with ticket so "
 "that we finish approving it."
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:51
-#: src/Translations/StoreTranslations.php:107
+#: src/Translations/StoreTranslations.php:110
 msgid "Holder address"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:161
-#: src/Translations/StoreTranslations.php:319
+#: src/Translations/StoreTranslations.php:165
+#: src/Translations/StoreTranslations.php:326
 msgid "Holder address is required"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:53
-#: src/Translations/StoreTranslations.php:109
+#: src/Translations/StoreTranslations.php:112
 msgid "Holder cellphone"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:58
-#: src/Translations/StoreTranslations.php:114
-#: src/Translations/StoreTranslations.php:167
-#: src/Translations/StoreTranslations.php:216
-#: src/Translations/StoreTranslations.php:325
+#: src/Translations/StoreTranslations.php:117
+#: src/Translations/StoreTranslations.php:171
+#: src/Translations/StoreTranslations.php:221
+#: src/Translations/StoreTranslations.php:332
 msgid "Holder Country"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:56
-#: src/Translations/StoreTranslations.php:112
-#: src/Translations/StoreTranslations.php:158
-#: src/Translations/StoreTranslations.php:212
-#: src/Translations/StoreTranslations.php:316
+#: src/Translations/StoreTranslations.php:115
+#: src/Translations/StoreTranslations.php:162
+#: src/Translations/StoreTranslations.php:217
+#: src/Translations/StoreTranslations.php:323
 msgid "Holder document"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:49
-#: src/Translations/StoreTranslations.php:105
+#: src/Translations/StoreTranslations.php:108
 msgid "Holder email"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:164
-#: src/Translations/StoreTranslations.php:322
+#: src/Translations/StoreTranslations.php:168
+#: src/Translations/StoreTranslations.php:329
 msgid "Holder email invalid"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:163
-#: src/Translations/StoreTranslations.php:321
+#: src/Translations/StoreTranslations.php:167
+#: src/Translations/StoreTranslations.php:328
 msgid "Holder email is required"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:47
-#: src/Translations/StoreTranslations.php:103
-#: src/Translations/StoreTranslations.php:206
+#: src/Translations/StoreTranslations.php:106
+#: src/Translations/StoreTranslations.php:211
 msgid "Holder name"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:142
-#: src/Translations/StoreTranslations.php:301
+#: src/Translations/StoreTranslations.php:146
+#: src/Translations/StoreTranslations.php:308
 msgid "Holder name as it appears on the card"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:143
-#: src/Translations/StoreTranslations.php:302
+#: src/Translations/StoreTranslations.php:147
+#: src/Translations/StoreTranslations.php:309
 msgid "Holder name is required"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:165
-#: src/Translations/StoreTranslations.php:323
+#: src/Translations/StoreTranslations.php:169
+#: src/Translations/StoreTranslations.php:330
 msgid "Holder Phone"
 msgstr ""
 
@@ -756,11 +756,11 @@ msgid "https://github.com/epayco/Plugin_ePayco_WooCommerce"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:63
-#: src/Translations/StoreTranslations.php:119
-#: src/Translations/StoreTranslations.php:169
-#: src/Translations/StoreTranslations.php:222
-#: src/Translations/StoreTranslations.php:261
-#: src/Translations/StoreTranslations.php:327
+#: src/Translations/StoreTranslations.php:122
+#: src/Translations/StoreTranslations.php:173
+#: src/Translations/StoreTranslations.php:227
+#: src/Translations/StoreTranslations.php:267
+#: src/Translations/StoreTranslations.php:334
 msgid "I confirm and accept the"
 msgstr ""
 
@@ -778,26 +778,26 @@ msgstr ""
 msgid "Install WooCommerce"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:211
+#: src/Translations/StoreTranslations.php:216
 msgid "Invalid address"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:52
-#: src/Translations/StoreTranslations.php:108
+#: src/Translations/StoreTranslations.php:111
 msgid "Invalid adress"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:54
-#: src/Translations/StoreTranslations.php:110
-#: src/Translations/StoreTranslations.php:215
+#: src/Translations/StoreTranslations.php:113
+#: src/Translations/StoreTranslations.php:220
 msgid "Invalid cellphone"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:59
-#: src/Translations/StoreTranslations.php:115
-#: src/Translations/StoreTranslations.php:168
-#: src/Translations/StoreTranslations.php:217
-#: src/Translations/StoreTranslations.php:326
+#: src/Translations/StoreTranslations.php:118
+#: src/Translations/StoreTranslations.php:172
+#: src/Translations/StoreTranslations.php:222
+#: src/Translations/StoreTranslations.php:333
 msgid "Invalid City"
 msgstr ""
 
@@ -806,27 +806,27 @@ msgid "Invalid credentials"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:57
-#: src/Translations/StoreTranslations.php:113
-#: src/Translations/StoreTranslations.php:159
-#: src/Translations/StoreTranslations.php:213
-#: src/Translations/StoreTranslations.php:317
+#: src/Translations/StoreTranslations.php:116
+#: src/Translations/StoreTranslations.php:163
+#: src/Translations/StoreTranslations.php:218
+#: src/Translations/StoreTranslations.php:324
 msgid "Invalid document"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:50
-#: src/Translations/StoreTranslations.php:106
-#: src/Translations/StoreTranslations.php:209
+#: src/Translations/StoreTranslations.php:109
+#: src/Translations/StoreTranslations.php:214
 msgid "Invalid email"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:48
-#: src/Translations/StoreTranslations.php:104
-#: src/Translations/StoreTranslations.php:207
+#: src/Translations/StoreTranslations.php:107
+#: src/Translations/StoreTranslations.php:212
 msgid "Invalid name"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:166
-#: src/Translations/StoreTranslations.php:324
+#: src/Translations/StoreTranslations.php:170
+#: src/Translations/StoreTranslations.php:331
 msgid "Invalid Phone"
 msgstr ""
 
@@ -836,10 +836,10 @@ msgid "Invoice"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:80
-#: src/Translations/StoreTranslations.php:186
-#: src/Translations/StoreTranslations.php:239
-#: src/Translations/StoreTranslations.php:278
-#: src/Translations/StoreTranslations.php:344
+#: src/Translations/StoreTranslations.php:190
+#: src/Translations/StoreTranslations.php:244
+#: src/Translations/StoreTranslations.php:284
+#: src/Translations/StoreTranslations.php:351
 msgid "IP address"
 msgstr ""
 
@@ -850,7 +850,7 @@ msgid ""
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:61
-#: src/Translations/StoreTranslations.php:117
+#: src/Translations/StoreTranslations.php:120
 msgid "more options"
 msgstr ""
 
@@ -866,7 +866,7 @@ msgid ""
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:44
-#: src/Translations/StoreTranslations.php:100
+#: src/Translations/StoreTranslations.php:103
 msgid "Offline Methods in Test Mode"
 msgstr ""
 
@@ -910,7 +910,7 @@ msgstr ""
 msgid "Paste your PUBLIC_KEY here"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:409
+#: src/Translations/StoreTranslations.php:417
 msgid "Payment cannot process the selected fee."
 msgstr ""
 
@@ -919,26 +919,26 @@ msgid "Payment Due"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:71
-#: src/Translations/StoreTranslations.php:177
-#: src/Translations/StoreTranslations.php:230
-#: src/Translations/StoreTranslations.php:269
-#: src/Translations/StoreTranslations.php:335
+#: src/Translations/StoreTranslations.php:181
+#: src/Translations/StoreTranslations.php:235
+#: src/Translations/StoreTranslations.php:275
+#: src/Translations/StoreTranslations.php:342
 msgid "Payment has failed"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:83
-#: src/Translations/StoreTranslations.php:179
-#: src/Translations/StoreTranslations.php:189
-#: src/Translations/StoreTranslations.php:232
-#: src/Translations/StoreTranslations.php:242
-#: src/Translations/StoreTranslations.php:281
-#: src/Translations/StoreTranslations.php:347
+#: src/Translations/StoreTranslations.php:183
+#: src/Translations/StoreTranslations.php:193
+#: src/Translations/StoreTranslations.php:237
+#: src/Translations/StoreTranslations.php:247
+#: src/Translations/StoreTranslations.php:287
+#: src/Translations/StoreTranslations.php:354
 msgid "Payment method"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:73
-#: src/Translations/StoreTranslations.php:271
-#: src/Translations/StoreTranslations.php:337
+#: src/Translations/StoreTranslations.php:277
+#: src/Translations/StoreTranslations.php:344
 msgid "payment method"
 msgstr ""
 
@@ -961,19 +961,19 @@ msgid "Payments without leaving your store with our customizable checkout"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:69
-#: src/Translations/StoreTranslations.php:175
-#: src/Translations/StoreTranslations.php:228
-#: src/Translations/StoreTranslations.php:267
-#: src/Translations/StoreTranslations.php:333
+#: src/Translations/StoreTranslations.php:179
+#: src/Translations/StoreTranslations.php:233
+#: src/Translations/StoreTranslations.php:273
+#: src/Translations/StoreTranslations.php:340
 msgid "Pending transaction"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:55
-#: src/Translations/StoreTranslations.php:111
+#: src/Translations/StoreTranslations.php:114
 msgid "Person type"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:218
+#: src/Translations/StoreTranslations.php:223
 msgid "Person type "
 msgstr ""
 
@@ -988,10 +988,10 @@ msgid ""
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:72
-#: src/Translations/StoreTranslations.php:178
-#: src/Translations/StoreTranslations.php:231
-#: src/Translations/StoreTranslations.php:270
-#: src/Translations/StoreTranslations.php:336
+#: src/Translations/StoreTranslations.php:182
+#: src/Translations/StoreTranslations.php:236
+#: src/Translations/StoreTranslations.php:276
+#: src/Translations/StoreTranslations.php:343
 msgid "Please try again later."
 msgstr ""
 
@@ -1045,38 +1045,38 @@ msgid "Rate the plugin"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:81
-#: src/Translations/StoreTranslations.php:187
-#: src/Translations/StoreTranslations.php:240
-#: src/Translations/StoreTranslations.php:279
-#: src/Translations/StoreTranslations.php:345
+#: src/Translations/StoreTranslations.php:191
+#: src/Translations/StoreTranslations.php:245
+#: src/Translations/StoreTranslations.php:285
+#: src/Translations/StoreTranslations.php:352
 msgid "Receipt"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:78
-#: src/Translations/StoreTranslations.php:184
-#: src/Translations/StoreTranslations.php:237
-#: src/Translations/StoreTranslations.php:276
-#: src/Translations/StoreTranslations.php:342
+#: src/Translations/StoreTranslations.php:188
+#: src/Translations/StoreTranslations.php:242
+#: src/Translations/StoreTranslations.php:282
+#: src/Translations/StoreTranslations.php:349
 msgid "Reference"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:145
-#: src/Translations/StoreTranslations.php:304
+#: src/Translations/StoreTranslations.php:149
+#: src/Translations/StoreTranslations.php:311
 msgid "Required Card number"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:147
-#: src/Translations/StoreTranslations.php:153
-#: src/Translations/StoreTranslations.php:306
-#: src/Translations/StoreTranslations.php:312
+#: src/Translations/StoreTranslations.php:151
+#: src/Translations/StoreTranslations.php:157
+#: src/Translations/StoreTranslations.php:313
+#: src/Translations/StoreTranslations.php:319
 msgid "Required data"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:75
-#: src/Translations/StoreTranslations.php:181
-#: src/Translations/StoreTranslations.php:234
-#: src/Translations/StoreTranslations.php:273
-#: src/Translations/StoreTranslations.php:339
+#: src/Translations/StoreTranslations.php:185
+#: src/Translations/StoreTranslations.php:239
+#: src/Translations/StoreTranslations.php:279
+#: src/Translations/StoreTranslations.php:346
 msgid "Response"
 msgstr ""
 
@@ -1097,13 +1097,13 @@ msgstr ""
 msgid "Security Code"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:155
-#: src/Translations/StoreTranslations.php:314
+#: src/Translations/StoreTranslations.php:159
+#: src/Translations/StoreTranslations.php:321
 msgid "Security code incomplete"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:154
-#: src/Translations/StoreTranslations.php:313
+#: src/Translations/StoreTranslations.php:158
+#: src/Translations/StoreTranslations.php:320
 msgid "Security code is required"
 msgstr ""
 
@@ -1112,11 +1112,11 @@ msgid "See our manual to learn"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:46
-#: src/Translations/StoreTranslations.php:102
-#: src/Translations/StoreTranslations.php:139
-#: src/Translations/StoreTranslations.php:205
-#: src/Translations/StoreTranslations.php:258
-#: src/Translations/StoreTranslations.php:298
+#: src/Translations/StoreTranslations.php:105
+#: src/Translations/StoreTranslations.php:143
+#: src/Translations/StoreTranslations.php:210
+#: src/Translations/StoreTranslations.php:264
+#: src/Translations/StoreTranslations.php:305
 msgid "See the rules for the test mode."
 msgstr ""
 
@@ -1124,17 +1124,17 @@ msgstr ""
 msgid "See WooCommerce"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:392
+#: src/Translations/StoreTranslations.php:400
 msgid "See your order form"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:62
-#: src/Translations/StoreTranslations.php:118
+#: src/Translations/StoreTranslations.php:121
 msgid "Select a payment method"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:220
-#: src/Translations/StoreTranslations.php:221
+#: src/Translations/StoreTranslations.php:225
+#: src/Translations/StoreTranslations.php:226
 msgid "Select the Bank"
 msgstr ""
 
@@ -1145,7 +1145,7 @@ msgid ""
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:60
-#: src/Translations/StoreTranslations.php:116
+#: src/Translations/StoreTranslations.php:119
 msgid "Select where you want to pay"
 msgstr ""
 
@@ -1173,6 +1173,23 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+#: src/Translations/AdminTranslations.php:88
+msgid "Taking into account the payment date, go to the nearest earning point and indicate the following information:"
+msgstr ""
+
+#: src/Translations/AdminTranslations.php:89
+#: src/Translations/AdminTranslations.php:128
+#: src/Translations/AdminTranslations.php:195
+#: src/Translations/AdminTranslations.php:250
+#: src/Translations/AdminTranslations.php:290
+#: src/Translations/AdminTranslations.php:357
+msgid "Collection in the name of EPAYCO.COM S.A.S."
+msgstr ""
+
+#: src/Translations/AdminTranslations.php:90
+msgid "Download ePyaco receipt"
+msgstr ""
+
 #: src/Translations/AdminTranslations.php:73
 msgid ""
 "Share your opinion with us so that we improve our product and offer the best "
@@ -1194,7 +1211,7 @@ msgstr ""
 #: src/Translations/AdminTranslations.php:170
 #: src/Translations/AdminTranslations.php:174
 #: src/Translations/AdminTranslations.php:182
-#: src/Translations/StoreTranslations.php:300
+#: src/Translations/StoreTranslations.php:307
 msgid "Subscription"
 msgstr ""
 
@@ -1217,11 +1234,10 @@ msgstr ""
 msgid "test"
 msgstr ""
 
-#: src/Translations/AdminTranslations.php:219
-#: src/Translations/StoreTranslations.php:137
-#: src/Translations/StoreTranslations.php:203
-#: src/Translations/StoreTranslations.php:256
-#: src/Translations/StoreTranslations.php:296
+#: src/Translations/AdminTranslations.php:208
+#: src/Translations/StoreTranslations.php:141
+#: src/Translations/StoreTranslations.php:262
+#: src/Translations/StoreTranslations.php:303
 msgid "Test Mode"
 msgstr ""
 
@@ -1229,7 +1245,7 @@ msgstr ""
 msgid "Test Mode rules."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:395
+#: src/Translations/StoreTranslations.php:403
 msgid "That's it, payment accepted!"
 msgstr ""
 
@@ -1252,11 +1268,11 @@ msgid "The text inserted here will not be translated to other languages"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:43
-#: src/Translations/StoreTranslations.php:99
-#: src/Translations/StoreTranslations.php:136
-#: src/Translations/StoreTranslations.php:202
-#: src/Translations/StoreTranslations.php:260
-#: src/Translations/StoreTranslations.php:295
+#: src/Translations/StoreTranslations.php:102
+#: src/Translations/StoreTranslations.php:140
+#: src/Translations/StoreTranslations.php:207
+#: src/Translations/StoreTranslations.php:266
+#: src/Translations/StoreTranslations.php:302
 msgid "There was an error. Please try again in a few minutes."
 msgstr ""
 
@@ -1266,7 +1282,7 @@ msgid ""
 "status, please refer to Order details."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:413
+#: src/Translations/StoreTranslations.php:421
 msgid "This payment method cannot process your payment."
 msgstr ""
 
@@ -1288,23 +1304,23 @@ msgid "To test the store, re-enter both test credentials."
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:76
-#: src/Translations/StoreTranslations.php:182
-#: src/Translations/StoreTranslations.php:235
-#: src/Translations/StoreTranslations.php:274
-#: src/Translations/StoreTranslations.php:340
+#: src/Translations/StoreTranslations.php:186
+#: src/Translations/StoreTranslations.php:240
+#: src/Translations/StoreTranslations.php:280
+#: src/Translations/StoreTranslations.php:347
 msgid "Total value"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:70
-#: src/Translations/StoreTranslations.php:176
-#: src/Translations/StoreTranslations.php:229
-#: src/Translations/StoreTranslations.php:268
-#: src/Translations/StoreTranslations.php:334
+#: src/Translations/StoreTranslations.php:180
+#: src/Translations/StoreTranslations.php:234
+#: src/Translations/StoreTranslations.php:274
+#: src/Translations/StoreTranslations.php:341
 msgid "Transaction rejected"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:138
-#: src/Translations/StoreTranslations.php:297
+#: src/Translations/StoreTranslations.php:142
+#: src/Translations/StoreTranslations.php:304
 msgid "Use ePayco's payment methods without real charges. "
 msgstr ""
 
@@ -1313,14 +1329,14 @@ msgstr ""
 msgid "View purchase details at ePayco"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:397
+#: src/Translations/StoreTranslations.php:405
 msgid ""
 "We are processing your payment. In less than 2 days we will send you by "
 "email if the payment has been approved or if additional information is "
 "needed."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:396
+#: src/Translations/StoreTranslations.php:404
 msgid ""
 "We are processing your payment. In less than an hour we will send you the "
 "result by email."
@@ -1376,24 +1392,24 @@ msgstr ""
 msgid "You can test the flow to generate a payment with ePayco"
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:204
+#: src/Translations/StoreTranslations.php:209
 msgid "You can test the flow to generate a payment with PSE"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:45
-#: src/Translations/StoreTranslations.php:101
+#: src/Translations/StoreTranslations.php:104
 msgid ""
 "You can test the flow to generate an invoice, but you cannot finalize the "
 "payment."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:406
+#: src/Translations/StoreTranslations.php:414
 msgid ""
 "You have already made a payment of this amount. If you have to pay again, "
 "use another card or other method of payment."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:410
+#: src/Translations/StoreTranslations.php:418
 msgid ""
 "You have reached the limit of allowed attempts. Choose another card or other "
 "payment method."
@@ -1404,26 +1420,26 @@ msgid ""
 "You have to enter your production credentials to start selling with ePayco."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:404
+#: src/Translations/StoreTranslations.php:412
 msgid "You must authorize payments for your orders."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:402
-#: src/Translations/StoreTranslations.php:403
+#: src/Translations/StoreTranslations.php:410
+#: src/Translations/StoreTranslations.php:411
 msgid "Your payment cannot be processed."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:408
+#: src/Translations/StoreTranslations.php:416
 msgid "Your payment does not have sufficient funds."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:407
+#: src/Translations/StoreTranslations.php:415
 msgid ""
 "Your payment was declined. Please select another payment method. It is "
 "recommended in cash."
 msgstr ""
 
-#: src/Translations/StoreTranslations.php:393
+#: src/Translations/StoreTranslations.php:401
 msgid "Your payment was declined. You can try again."
 msgstr ""
 

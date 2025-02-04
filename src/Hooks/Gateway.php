@@ -276,4 +276,16 @@ class Gateway
         $path = $this->url->getPluginFileUrl("assets/images/icons/$iconName", '.png', true);
         return apply_filters(self::GATEWAY_ICON_FILTER, $path);
     }
+
+    /**
+     * Register gateway receipt
+     *
+     * @param string $id
+     * @param mixed $callback
+     * @return void
+     */
+    public function registerGatewayDownloadPurchase(string $id, $callback): void
+    {
+        add_action('ePayco_init_validation' . $id, $callback);
+    }
 }

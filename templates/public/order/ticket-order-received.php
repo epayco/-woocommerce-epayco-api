@@ -21,21 +21,14 @@ if (!defined('ABSPATH')) {
     <img src="<?php echo esc_attr($epayco_icon); ?>" alt="epayco" style="width: 115px; height: 30px;">
 </div>
 <div id="transactionBody" style="
-    height: 787px !important;
+    height: 810px !important;
     max-width: 550px !important;
     margin: auto !important;
     position: relative !important;
 ">
 
-    <div id="header" style="
-    background: #000;
-    position: static;
-    height: 30px;
-    border-radius: 20px;
-">
-        <div
-                style="max-width: 510px;m;max-height: 777px;top: 10px;margin: 25px;/* padding: 129px; */font-family: 'Poppins', Arial, sans-serif;border: 1px solid #e5e5e5;border-radius: 0px 0px 5px 5px;padding: 20px;box-shadow: 0 0 10px rgba(0,0,0,0.1);background-color: #f9f9f9;z-index: 9999999;position: relative;"
-        >
+    <div id="header" style="background: #000; position: static;height: 30px;border-radius: 20px;">
+        <div style="max-width: 510px;m;max-height: 810px;top: 10px;margin: 25px;/* padding: 129px; */font-family: 'Poppins', Arial, sans-serif;border: 1px solid #e5e5e5;border-radius: 0px 0px 5px 5px;padding: 20px;box-shadow: 0 0 10px rgba(0,0,0,0.1);background-color: #f9f9f9;z-index: 9999999;position: relative;">
             <!-- Encabezado -->
             <div style="text-align: center; margin-bottom: 20px;">
                 <img src="<?php echo esc_attr($iconUrl); ?>" alt="Éxito" style="display: block; margin: auto; width: 70px; border-bottom: 25px;">
@@ -46,9 +39,9 @@ if (!defined('ABSPATH')) {
 
 
             <!-- Información de la transacción -->
-            <div style="margin: auto;max-height:455px; max-width: 380px" >
+            <div style="margin: auto;max-height:730px; max-width: 380px" >
                 <p style="font-weight: bold;margin-bottom: 19px;font-size: 16px;color: #000;"><?php echo esc_html($paymentMethod); ?></p>
-                <div style="display: grid;grid-template-columns: repeat(2, 1fr);grid-template-rows: repeat(4,1fr);gap: 19px; justify-content: space-between;">
+                <div style="display: grid;grid-template-columns: repeat(2, 1fr);grid-template-rows: repeat(3,1fr);gap: 19px; justify-content: space-between;">
                     <div class="div-description">
                         <h3 class="description-title"><?php echo esc_html($paymentMethod); ?></h3>
                         <p class="descripcion-payment"><?php echo esc_html($card); ?></p>
@@ -70,16 +63,23 @@ if (!defined('ABSPATH')) {
                         <p class="descripcion-payment"><?php echo esc_html($status); ?></p>
                     </div>
                     <div class="div-description">
+                        <h3 class="description-title" class="description-title"><?php echo esc_html($expirationDateText); ?></h3>
+                        <p class="descripcion-payment"><?php echo esc_html($expirationDate); ?></p>
+                    </div>
+                </div>
+                <div style="text-align: center;justify-content: center;margin: 10px;">
+                    <div>
+                        <p style="font-size: 15px;font-family: 'Poppins';margin: 0px 0px 3px;"><?php echo esc_html($ticket_header); ?></p>
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: repeat(2, 1fr);grid-template-rows: repeat(1,1fr);gap: 19px; justify-content: space-between;">
+                    <div class="div-description">
                         <h3 class="description-title">Pin</h3>
                         <p class="descripcion-payment"><?php echo esc_html($pin); ?></p>
                     </div>
                     <div class="div-description">
                         <h3 class="description-title"class="description-title"><?php echo esc_html($code); ?></h3>
                         <p class="descripcion-payment"><?php echo esc_html($codeProject); ?></p>
-                    </div>
-                    <div class="div-description">
-                        <h3 class="description-title"class="description-title"><?php echo esc_html($expirationDateText); ?></h3>
-                        <p class="descripcion-payment"><?php echo esc_html($expirationDate); ?></p>
                     </div>
                 </div>
 
@@ -98,12 +98,30 @@ if (!defined('ABSPATH')) {
                         <h3 class="description-title"><?php echo esc_html($totalValue); ?></h3>
                         <p class="descripcion-payment">$<?php echo esc_html($valor); ?> <?php echo esc_html($currency); ?></p>
                     </div>
-                    <div class="div-description">
-                        <h3 class="description-title"></h3>
-                        <p class="descripcion-payment"></p>
+                    <div class="div-description" style="grid-column: span 2 / span 2;max-height: 63px;">
+                        <p class="descripcion-payment" style="text-align: center;"><?php echo esc_html($ticket_footer); ?></p>
                     </div>
                 </div>
+
             </div>
+            <p style="text-align: center;margin: 0px;">
+                <a href="<?php echo esc_html($donwload_url); ?>" target="_blank" class="btn btn-primary" style="
+                       color: #fff;
+                       background-color: #212121;
+                       border-color: transparent;
+                       max-width: 100%;
+                       width: 300px;
+                       padding: 10px 20px;
+                       display: inline-block;
+                       margin: 0 auto;
+                       text-align: center;
+                       text-decoration: none;
+                       text-transform: uppercase;
+                       font-weight: bold;
+                   ">
+                    <?php echo esc_html($donwload_text); ?>
+                </a>
+            </p>
 
         </div>
         <?php endif; ?>
@@ -122,6 +140,7 @@ if (!defined('ABSPATH')) {
     }
     .div-description{
         max-height: 46px;
+        height: 40px;
         display: flex;
         flex-direction: column;
     }
@@ -133,6 +152,7 @@ if (!defined('ABSPATH')) {
     }
     .descripcion-payment{
         font-size: 15px;
+        height: 100%;
         font-family: 'Poppins';
         margin: 0px;
     }

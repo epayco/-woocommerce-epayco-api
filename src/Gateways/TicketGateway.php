@@ -34,6 +34,11 @@ class TicketGateway extends AbstractGateway
     /**
      * @const
      */
+    public const WEBHOOK_DONWLOAD = 'Donwload';
+
+    /**
+     * @const
+     */
     public const LOG_SOURCE = 'Epayco_TicketGateway';
 
     const CASH_ENTITIES = [
@@ -112,6 +117,7 @@ class TicketGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
         $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
 
+        $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
         //$this->epayco->hooks->cart->registerCartCalculateFees([$this, 'registerDiscountAndCommissionFeesOnCart']);
 
@@ -719,6 +725,18 @@ class TicketGateway extends AbstractGateway
             }
         }
 
+        $donwload_url =get_site_url() . "/";
+        $donwload_url = add_query_arg( 'wc-api', self::WEBHOOK_DONWLOAD, $donwload_url );
+        $donwload_url = add_query_arg( 'refPayco', $ref_payco, $donwload_url );
+        $donwload_url = add_query_arg( 'fecha', $this->storeTranslations['dateandtime'], $donwload_url );
+        $donwload_url = add_query_arg( 'franquicia', $bank, $donwload_url );
+        $donwload_url = add_query_arg( 'descuento', '0', $donwload_url );
+        $donwload_url = add_query_arg( 'autorizacion', $authorization, $donwload_url );
+        $donwload_url = add_query_arg( 'valor', $valor, $donwload_url );
+        $donwload_url = add_query_arg( 'estado', $estado, $donwload_url );
+        $donwload_url = add_query_arg( 'descripcion', $descripcion, $donwload_url );
+        $donwload_url = add_query_arg( 'respuesta', $alert_title, $donwload_url );
+        $donwload_url = add_query_arg( 'ip', $this->transaction->getCustomerIp(), $donwload_url );
         $key = array_search( $card, array_column(self::CASH_ENTITIES, 'id'));
         $card = self::CASH_ENTITIES[$key]['name'];
         $transaction = [
@@ -757,9 +775,13 @@ class TicketGateway extends AbstractGateway
             'purchase' => $this->storeTranslations['purchase'],
             'iPaddress' => $this->storeTranslations['iPaddress'],
             'receipt' => $this->storeTranslations['receipt'],
+            'epayco_refecence' => $this->storeTranslations['epayco_refecence'],
             'authorizations' => $this->storeTranslations['authorization'],
             'paymentMethod'  => $this->storeTranslations['paymentMethod'],
-            'epayco_refecence'  => $this->storeTranslations['epayco_refecence'],
+            'ticket_header'  => $this->storeTranslations['ticket_header'],
+            'ticket_footer'  => $this->storeTranslations['ticket_footer'],
+            'donwload_url' => $donwload_url,
+            'donwload_text' => $this->storeTranslations['donwload_text']
         ];
 
         if (empty($transaction)) {

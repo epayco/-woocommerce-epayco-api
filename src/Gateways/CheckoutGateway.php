@@ -30,6 +30,11 @@ class CheckoutGateway extends AbstractGateway
     /**
      * @const
      */
+    public const WEBHOOK_DONWLOAD = 'Donwload';
+
+    /**
+     * @const
+     */
 
     /**
      * TicketGateway constructor
@@ -56,6 +61,7 @@ class CheckoutGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
         $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
         $this->epayco->hooks->gateway->registerGatewayReceiptPage($this->id, [$this, 'receiptPage']);
+        $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
         $lang = get_locale();
         $lang = explode('_', $lang);
@@ -537,6 +543,18 @@ class CheckoutGateway extends AbstractGateway
                     $message = $this->storeTranslations['fail_message'];
                 }break;
             }
+            $donwload_url =get_site_url() . "/";
+            $donwload_url = add_query_arg( 'wc-api', self::WEBHOOK_DONWLOAD, $donwload_url );
+            $donwload_url = add_query_arg( 'refPayco', $ref_payco, $donwload_url );
+            $donwload_url = add_query_arg( 'fecha', $this->storeTranslations['dateandtime'], $donwload_url );
+            $donwload_url = add_query_arg( 'franquicia', $bank, $donwload_url );
+            $donwload_url = add_query_arg( 'descuento', '0', $donwload_url );
+            $donwload_url = add_query_arg( 'autorizacion', $authorization, $donwload_url );
+            $donwload_url = add_query_arg( 'valor', $valor, $donwload_url );
+            $donwload_url = add_query_arg( 'estado', $estado, $donwload_url );
+            $donwload_url = add_query_arg( 'descripcion', $descripcion, $donwload_url );
+            $donwload_url = add_query_arg( 'respuesta', $alert_title, $donwload_url );
+            $donwload_url = add_query_arg( 'ip',$ip, $donwload_url );
             $transaction = [
                 'status' => $status,
                 'type' => "",
@@ -571,6 +589,8 @@ class CheckoutGateway extends AbstractGateway
                 'authorizations' => $this->storeTranslations['authorization'],
                 'paymentMethod'  => $this->storeTranslations['paymentMethod'],
                 'epayco_refecence'  => $this->storeTranslations['epayco_refecence'],
+                'donwload_url' => $donwload_url,
+                'donwload_text' => $this->storeTranslations['donwload_text']
             ];
 
             if (empty($transaction)) {

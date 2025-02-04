@@ -96,7 +96,24 @@ if (!defined('ABSPATH')) {
                     </div>
                 </div>
             </div>
-
+            <p style="text-align: center;margin: 0px;">
+                <a href="<?php echo esc_html($donwload_url); ?>" target="_blank" class="btn btn-primary" style="
+                       color: #fff;
+                       background-color: #212121;
+                       border-color: transparent;
+                       max-width: 100%;
+                       width: 300px;
+                       padding: 10px 20px;
+                       display: inline-block;
+                       margin: 0 auto;
+                       text-align: center;
+                       text-decoration: none;
+                       text-transform: uppercase;
+                       font-weight: bold;
+                   ">
+                    <?php echo esc_html($donwload_text); ?>
+                </a>
+            </p>
         </div>
         <?php endif; ?>
     </div>

@@ -31,6 +31,11 @@ class CreditCardGateway extends AbstractGateway
     /**
      * @const
      */
+    public const WEBHOOK_DONWLOAD = 'Donwload';
+
+    /**
+     * @const
+     */
     public const LOG_SOURCE = 'Epayco_CreditcardGateway';
 
     /**
@@ -58,6 +63,7 @@ class CreditCardGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
         $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
+        $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
 
     }
@@ -434,6 +440,18 @@ class CreditCardGateway extends AbstractGateway
             }
         }
         $paymentStatusType = PaymentStatus::getStatusType(strtolower($status));
+        $donwload_url =get_site_url() . "/";
+        $donwload_url = add_query_arg( 'wc-api', self::WEBHOOK_DONWLOAD, $donwload_url );
+        $donwload_url = add_query_arg( 'refPayco', $ref_payco, $donwload_url );
+        $donwload_url = add_query_arg( 'fecha', $this->storeTranslations['dateandtime'], $donwload_url );
+        $donwload_url = add_query_arg( 'franquicia', $bank, $donwload_url );
+        $donwload_url = add_query_arg( 'descuento', '0', $donwload_url );
+        $donwload_url = add_query_arg( 'autorizacion', $authorization, $donwload_url );
+        $donwload_url = add_query_arg( 'valor', $valor, $donwload_url );
+        $donwload_url = add_query_arg( 'estado', $estado, $donwload_url );
+        $donwload_url = add_query_arg( 'descripcion', $descripcion, $donwload_url );
+        $donwload_url = add_query_arg( 'respuesta', $alert_title, $donwload_url );
+        $donwload_url = add_query_arg( 'ip', $this->transaction->getCustomerIp(), $donwload_url );
 
         $transaction = [
             'status' => $status,
@@ -469,6 +487,8 @@ class CreditCardGateway extends AbstractGateway
             'authorizations' => $this->storeTranslations['authorization'],
             'paymentMethod'  => $this->storeTranslations['paymentMethod'],
             'epayco_refecence'  => $this->storeTranslations['epayco_refecence'],
+            'donwload_url' => $donwload_url,
+            'donwload_text' => $this->storeTranslations['donwload_text']
         ];
 
         if (empty($transaction)) {
