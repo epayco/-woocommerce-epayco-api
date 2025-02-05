@@ -397,54 +397,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             )
         );
         if (count($customerGetData) == 0) {
-            $customer = $this->customerCreate($customerData);
-            if (is_array($customer) && $customer['success']) {
-                $inserCustomer = $wpdb->insert(
-                    $table_name_customer,
-                    [
-                        'customer_id' => $customer['data']['customerId'],
-                        'email' => trim($customerData['email'])
-                    ]
-                );
-                if (!$inserCustomer) {
-                    $response_status = [
-                        'success' => false,
-                        'message' => 'internar error, tray again'
-                    ];
-                    return $response_status;
-                }{
-                    $response_status = [
-                        'success' => true,
-                        'customer_id' => $customer['data']['customerId']
-                    ];
-                    return $response_status;
-                }
-            }else{
-                $messageError = $customer['message'];
-                $errorMessage = "";
-                if (isset($customer['data']['errors'])) {
-                    $errors = $customer['data']['errors'];
-                    if(is_array($errors)){
-                        foreach ($errors as $error) {
-                            $errorMessage = $error['errorMessage'] . "\n";
-                        }
-                    }
-                    if(is_string($errors)){
-                        $errorMessage = $errors . "\n";
-                    }
-                } elseif (isset($customer['data']['error']['errores'])) {
-                    $errores = $customer['data']['error']['errores'];
-                    foreach ($errores as $error) {
-                        $errorMessage = $error['errorMessage'] . "\n";
-                    }
-                }
-                $processReturnFailMessage = $messageError. " " . $errorMessage;
-                $response_status = [
-                    'success' => false,
-                    'message' => $processReturnFailMessage
-                ];
-                return $response_status;
-            }
+            return $this->getCreateNewCustomer($customerData);
         }else{
             $count_customers = 0;
             for ($i = 0; $i < count($customerGetData); $i++) {
@@ -495,6 +448,8 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                         if($count_cards == 0){
                             $this->customerAddToken($customerGetData[$i]->customer_id, trim($customerData['token']));
                         }
+                    }else{
+                        return $this->getCreateNewCustomer($customerData);
                     }
                     $customerData['customer_id'] = $customerGetData[$i]->customer_id;
                 }
@@ -504,6 +459,60 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                 ];
                 return $response_status;
             }
+        }
+    }
+
+    public function getCreateNewCustomer($customerData)
+    {
+        global $wpdb;
+        $table_name_customer = $wpdb->prefix . 'epayco_customer';
+        $customer = $this->customerCreate($customerData);
+        if (is_array($customer) && $customer['success']) {
+            $inserCustomer = $wpdb->insert(
+                $table_name_customer,
+                [
+                    'customer_id' => $customer['data']['customerId'],
+                    'email' => trim($customerData['email'])
+                ]
+            );
+            if (!$inserCustomer) {
+                $response_status = [
+                    'success' => false,
+                    'message' => 'internar error, tray again'
+                ];
+                return $response_status;
+            }{
+                $response_status = [
+                    'success' => true,
+                    'customer_id' => $customer['data']['customerId']
+                ];
+                return $response_status;
+            }
+        }else{
+            $messageError = $customer['message'];
+            $errorMessage = "";
+            if (isset($customer['data']['errors'])) {
+                $errors = $customer['data']['errors'];
+                if(is_array($errors)){
+                    foreach ($errors as $error) {
+                        $errorMessage = $error['errorMessage'] . "\n";
+                    }
+                }
+                if(is_string($errors)){
+                    $errorMessage = $errors . "\n";
+                }
+            } elseif (isset($customer['data']['error']['errores'])) {
+                $errores = $customer['data']['error']['errores'];
+                foreach ($errores as $error) {
+                    $errorMessage = $error['errorMessage'] . "\n";
+                }
+            }
+            $processReturnFailMessage = $messageError. " " . $errorMessage;
+            $response_status = [
+                'success' => false,
+                'message' => $processReturnFailMessage
+            ];
+            return $response_status;
         }
     }
 
