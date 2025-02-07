@@ -481,7 +481,7 @@ class TicketGateway extends AbstractGateway
                 'status'            => 'active',
                 'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Sured.png')
             ],
-            [
+            /*[
                 'id' => 'sured',
                 'name'              => 'Punto red',
                 'status'            => 'active',
@@ -498,7 +498,7 @@ class TicketGateway extends AbstractGateway
                 'name'              => 'Apuestas cucuta',
                 'status'            => 'active',
                 'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Apuestascucuta.png')
-            ],
+            ],*/
             [
                 'id' => 'suchance',
                 'name'              => 'Suchance',
@@ -616,7 +616,7 @@ class TicketGateway extends AbstractGateway
                 'status'            => 'active',
                 'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Sured.png')
             ],
-            [
+            /*[
                 'id' => 'sured',
                 'name'              => 'Punto red',
                 'status'            => 'active',
@@ -633,7 +633,7 @@ class TicketGateway extends AbstractGateway
                 'name'              => 'Apuestas cucuta',
                 'status'            => 'active',
                 'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Apuestascucuta.png')
-            ],
+            ],*/
             [
                 'id' => 'suchance',
                 'name'              => 'Suchance',
