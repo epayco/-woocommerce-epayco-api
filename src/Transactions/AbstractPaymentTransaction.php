@@ -66,7 +66,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         //$cellphone=@$order->billing_phone??'0';
         $data = array(
             "paymentMethod" => $checkout["paymentMethod"],
-            "invoice" => (string)$order->get_id()."sdd_od",
+            "invoice" => (string)$order->get_id(),
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,
@@ -157,7 +157,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,
             "taxBase" => (string)$base_tax,
-            "currency" => $currency,
+            "currency" => strtoupper($currency),
             "type_person" => $person_type=='PN'?"0":"1",
             "address" => $holder_address,
             "docType" => $doc_type,
@@ -242,7 +242,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "token_card" => $checkout["token"],
             //"customer_id" => $customerData['customer_id'],
             "customer_id" => 'customer_id',
-            "bill" => (string)$order->get_id()."wwww",
+            "bill" => (string)$order->get_id(),
             "dues" => $dues,
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
@@ -322,7 +322,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $cellphone= $checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
         $data = array(
             "bank" => $bank,
-            "invoice" => (string)$order->get_id()."wdf",
+            "invoice" => (string)$order->get_id(),
             "description" => $descripcion,
             "value" =>$order->get_total(),
             "tax" => $iva,

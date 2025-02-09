@@ -278,8 +278,7 @@ class CheckoutGateway extends AbstractGateway
         $currency = strtolower(get_woocommerce_currency());
         $basedCountry = WC()->countries->get_base_country();
         $external=$this->get_option('epayco_type_checkout') != 'yes' ? 'true':'false';
-        //$redirect_url =get_site_url() . "/";
-        $redirect_url =get_site_url() . "https://ff6c-2800-e2-580-118e-ae0a-1b8a-3e71-6c29.ngrok-free.app/";
+        $redirect_url =get_site_url() . "/";
         $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
         $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
         $confirm_url = $redirect_url.'&confirmation=1';
@@ -395,7 +394,7 @@ class CheckoutGateway extends AbstractGateway
             $testMode,
             $descripcion,
             $descripcion,
-            $order->get_id()."_wc_".$order->get_id(),
+            $order->get_id(),
             $currency,
             $order->get_total(),
             $base_tax,
@@ -512,23 +511,23 @@ class CheckoutGateway extends AbstractGateway
             $body = wp_remote_retrieve_body( $response );
             $jsonData = @json_decode($body, true);
             $validationData = $jsonData['data'];
-            $status = trim($validationData['x_response']);
-            $alert_title = trim($validationData['x_response']);
-            $ref_payco =trim($validationData['x_ref_payco']);
-            $test = trim($validationData['x_test_request']) == 'TRUE' ? 'Pruebas' : 'Producción';
-            $transactionDateTime=trim($validationData['x_transaction_date']);
-            $bank= trim($validationData['x_franchise']);
-            $authorization= trim($validationData['x_approval_code']);
-            $factura = trim($validationData['x_id_factura']);
-            $descripcion = trim($validationData['x_description']);
-            $valor = trim($validationData['x_amount']);
-            $iva = trim($validationData['x_tax']);
-            $estado = trim($validationData['x_respuesta']);
-            $currency = trim($validationData['x_currency_code']);
-            $name =  trim($validationData['x_customer_name'])." ".trim($validationData['x_customer_lastname']);
-            $card = trim($validationData['x_franchise']);
-            $ip = trim($validationData['x_customer_ip']);
-            switch ($status) {
+            $x_amount = trim($validationData['x_amount']);
+            $x_amount_base = trim($validationData['x_amount_base']);
+            $x_cardnumber = trim($validationData['x_cardnumber']);
+            $x_id_invoice = trim($validationData['x_id_invoice']);
+            $x_franchise = trim($validationData['x_franchise']);
+            $x_transaction_id = trim($validationData['x_transaction_id']);
+            $x_transaction_date = trim($validationData['x_transaction_date']);
+            $x_transaction_state = trim($validationData['x_transaction_state']);
+            $x_customer_ip = trim($validationData['x_customer_ip']);
+            $x_description = trim($validationData['x_description']);
+            $x_response= trim($validationData['x_response']);
+            $x_response_reason_text= trim($validationData['x_response_reason_text']);
+            $x_approval_code= trim($validationData['x_approval_code']);
+            $x_ref_payco= trim($validationData['x_ref_payco']);
+            $x_tax= trim($validationData['x_tax']);
+            $x_currency_code= trim($validationData['x_currency_code']);
+            switch ($x_response) {
                 case 'Aceptada': {
                     $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('check.png');
                     $iconColor = '#67C940';
@@ -548,41 +547,61 @@ class CheckoutGateway extends AbstractGateway
             }
             $donwload_url =get_site_url() . "/";
             $donwload_url = add_query_arg( 'wc-api', self::WEBHOOK_DONWLOAD, $donwload_url );
-            $donwload_url = add_query_arg( 'refPayco', $ref_payco, $donwload_url );
-            $donwload_url = add_query_arg( 'fecha', $this->storeTranslations['dateandtime'], $donwload_url );
-            $donwload_url = add_query_arg( 'franquicia', $bank, $donwload_url );
+            $donwload_url = add_query_arg( 'refPayco', $x_ref_payco, $donwload_url );
+            $donwload_url = add_query_arg( 'fecha', $x_transaction_date, $donwload_url );
+            $donwload_url = add_query_arg( 'franquicia', $x_franchise, $donwload_url );
             $donwload_url = add_query_arg( 'descuento', '0', $donwload_url );
-            $donwload_url = add_query_arg( 'autorizacion', $authorization, $donwload_url );
-            $donwload_url = add_query_arg( 'valor', $valor, $donwload_url );
-            $donwload_url = add_query_arg( 'estado', $estado, $donwload_url );
-            $donwload_url = add_query_arg( 'descripcion', $descripcion, $donwload_url );
-            $donwload_url = add_query_arg( 'respuesta', $alert_title, $donwload_url );
-            $donwload_url = add_query_arg( 'ip',$ip, $donwload_url );
+            $donwload_url = add_query_arg( 'autorizacion', $x_approval_code, $donwload_url );
+            $donwload_url = add_query_arg( 'valor', $x_amount, $donwload_url );
+            $donwload_url = add_query_arg( 'estado', $x_response, $donwload_url );
+            $donwload_url = add_query_arg( 'descripcion', $x_description, $donwload_url );
+            $donwload_url = add_query_arg( 'respuesta', $x_response, $donwload_url );
+            $donwload_url = add_query_arg( 'ip', $x_customer_ip, $donwload_url );
+            $is_cash = false;
+            if($x_franchise == 'EF'||
+                $x_franchise == 'GA'||
+                $x_franchise == 'PR'||
+                $x_franchise == 'RS'||
+                $x_franchise == 'SR'
+            ){
+                $x_cardnumber_ = null;
+            }else{
+                if($x_franchise == 'PSE'){
+                    $x_cardnumber_ = null;
+                }else{
+                    $x_cardnumber_ = isset($x_cardnumber)?substr($x_cardnumber, -8):null;
+                }
+
+            }
             $transaction = [
-                'status' => $status,
+                'franchise_logo' => 'https://secure.epayco.co/img/methods/'.$x_franchise.'.svg',
+                'x_amount_base' => $x_amount_base,
+                'x_cardnumber' => $x_cardnumber_,
+                'status' => $x_response,
                 'type' => "",
-                'refPayco' => $ref_payco,
-                'factura' => $factura,
-                'descripcion_order' => $descripcion,
-                'valor' => $valor,
-                'iva' => $iva,
-                'estado' => $estado,
-                'respuesta' => $alert_title,
-                'fecha' => $transactionDateTime,
-                'currency' => $currency,
-                'name' => $name,
-                'card' => $card,
+                'refPayco' => $x_ref_payco,
+                'factura' => $x_id_invoice,
+                'descripcion_order' => $x_description,
+                'valor' => $x_amount,
+                'iva' => $x_tax,
+                'estado' => $x_transaction_state,
+                'response_reason_text' => $x_response_reason_text,
+                'respuesta' => $x_response,
+                'fecha' => $x_transaction_date,
+                'currency' => $x_currency_code,
+                'name' => '',
+                'card' => '',
                 'message' => $message,
                 'error_message' => $this->storeTranslations['error_message'],
                 'error_description' => $this->storeTranslations['error_description'],
                 'payment_method'  => $this->storeTranslations['payment_method'],
                 'response'=> $this->storeTranslations['response'],
                 'dateandtime' => $this->storeTranslations['dateandtime'],
-                'authorization' => $authorization,
+                'authorization' => $x_approval_code,
                 'iconUrl' => $iconUrl,
                 'iconColor' => $iconColor,
                 'epayco_icon' => $this->epayco->hooks->gateway->getGatewayIcon('logo_white.png'),
-                'ip' => $ip,
+                'ip' => $x_customer_ip,
                 'totalValue' => $this->storeTranslations['totalValue'],
                 'description' => $this->storeTranslations['description'],
                 'reference' => $this->storeTranslations['reference'],
@@ -593,7 +612,9 @@ class CheckoutGateway extends AbstractGateway
                 'paymentMethod'  => $this->storeTranslations['paymentMethod'],
                 'epayco_refecence'  => $this->storeTranslations['epayco_refecence'],
                 'donwload_url' => $donwload_url,
-                'donwload_text' => $this->storeTranslations['donwload_text']
+                'donwload_text' => $this->storeTranslations['donwload_text'],
+                'code' => $this->storeTranslations['code']??null,
+                'is_cash' => $is_cash
             ];
 
             if (empty($transaction)) {
