@@ -38,6 +38,7 @@
  * @var string $personal_data_processing_link_src
  * @var string $and_the
  * @var string $icon_info
+ * @var string $icon_warning
  * @see \Epayco\Woocommerce\Gateways\CreditcardGateway
  */
 
@@ -58,6 +59,7 @@ if (!defined('ABSPATH')) {
                         description="<?= esc_html($test_mode_description) ?>"
                         link-text="<?= esc_html($test_mode_link_text) ?>"
                         link-src="<?= esc_html($test_mode_link_src) ?>"
+                        icon-src="<?php echo esc_html($icon_warning); ?>"
                 >
                 </test-mode>
                 <div class="ep-test-mode-credit-card">

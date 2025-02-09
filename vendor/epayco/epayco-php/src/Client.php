@@ -83,12 +83,12 @@ class Client extends GraphqlClient
                   }
                   throw new ErrorException($msj, 422);
               }
-            /*  $cookie_name = $api_key;
+              $cookie_name = $api_key;
               $cookie_value = $bearer_token;
               setcookie($cookie_name, $cookie_value, time() + (60 * 14), "/");
-            }else{
-                $bearer_token = $_COOKIE[$api_key];
-            }*/
+            //}else{
+            //    $bearer_token = $_COOKIE[$api_key];
+            //}
 
         } catch (\Exception $e) {
             $data = [

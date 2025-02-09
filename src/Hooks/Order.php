@@ -221,16 +221,17 @@ class Order
         $status = 'pending';
         $alert_title = '';
         $order_id=false;
-        foreach ($paymentInfo->data->data as $data) {
-            $status = $data->status;
-            $alert_title = $data->response;
-            $ref_payco = $data->referencePayco;
-            $test = $data->test ? 'Pruebas' : 'Producción';
-            $transactionDateTime= $data->transactionDateTime;
-            $bank= $data->bank;
-            $authorization= $data->authorization;
-            $order_id = $data->referenceClient;
-        }
+
+        $status = $paymentInfo->data->x_response;
+        $alert_title = $paymentInfo->data->x_response;
+        $alert_description = $paymentInfo->data->x_response_reason_text;
+        $ref_payco = $paymentInfo->data->x_ref_payco;
+        $test = $paymentInfo->data->x_test_request == 'TRUE' ? 'Pruebas' : 'Producción';
+        $transactionDateTime= $paymentInfo->data->x_transaction_date;
+        $bank= $paymentInfo->data->x_bank_name;
+        $authorization= $paymentInfo->data->x_approval_code;
+        $order_id = $paymentInfo->data->x_id_invoice;
+
         if(!$order_id){
             return false;
         }
@@ -271,7 +272,7 @@ class Order
                     'card_title'        => $this->adminTranslations->statusSync['card_title'],
                     'img_src'           => $this->url->getImageAsset('icons/icon-success'),
                     'alert_title'       => $alert_title,
-                    'alert_description' => $alert_title,
+                    'alert_description' => $alert_description,
                     'link'              => 'https://epayco.com',
                     'border_left_color' => '#00A650',
                     'link_description'  => $this->adminTranslations->statusSync['link_description_success'],
@@ -288,7 +289,7 @@ class Order
                     'card_title'        => $this->adminTranslations->statusSync['card_title'],
                     'img_src'           => $this->url->getImageAsset('icons/icon-alert'),
                     'alert_title'       => $alert_title,
-                    'alert_description' => $alert_title,
+                    'alert_description' => $alert_description,
                     'link'              => 'https://epayco.com',
                     'border_left_color' => '#f73',
                     'link_description'  => $this->adminTranslations->statusSync['link_description_pending'],
@@ -313,7 +314,7 @@ class Order
                     'card_title'        => $this->adminTranslations->statusSync['card_title'],
                     'img_src'           => $this->url->getImageAsset('icons/icon-warning'),
                     'alert_title'       => $alert_title,
-                    'alert_description' => $alert_title,
+                    'alert_description' => $alert_description,
                     'link'              => 'reasons_refusals',
                     'border_left_color' => '#F23D4F',
                     'link_description'  => $this->adminTranslations->statusSync['link_description_failure'],
@@ -347,10 +348,12 @@ class Order
                 return false;
             }
             $data = array(
-                "filter" => array("referencePayco" => $paymentsIds[0]),
-                "success" =>true
+                "filter" => array(
+                    "referencePayco" =>(string) $paymentsIds[0]),
+                    "pagination" => ["page"=>1],
+                    "success" =>true
             );
-            return $this->sdk->transaction->get($data);
+            return $this->sdk->transaction->get($paymentsIds[0]);
             //return false;
         } catch (Exception $e) {
             return false;

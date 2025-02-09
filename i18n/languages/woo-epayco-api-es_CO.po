@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ePayco WooCommerce\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-23 17:36+0000\n"
-"PO-Revision-Date: 2025-02-04 14:57+0000\n"
+"PO-Revision-Date: 2025-02-09 13:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: Español de Colombia\n"
 "Language: es_CO\n"
@@ -573,7 +573,8 @@ msgid "disabled"
 msgstr "Inactivo"
 
 #: src/Translations/AdminTranslations.php:90
-msgid "Download ePyaco receipt"
+#| msgid "Download ePyaco receipt"
+msgid "Download ePayco receipt"
 msgstr "Descargar Recibo ePayco"
 
 #: src/Translations/StoreTranslations.php:166
@@ -610,7 +611,7 @@ msgstr "Activar el pago"
 
 #: src/Translations/AdminTranslations.php:200
 msgid "Enabled"
-msgstr "Activado"
+msgstr "Activo"
 
 #: src/Translations/AdminTranslations.php:157
 #: src/Translations/AdminTranslations.php:338
@@ -705,7 +706,7 @@ msgstr "configuración general del plugin ePayco"
 #: src/Translations/StoreTranslations.php:288
 #: src/Translations/StoreTranslations.php:355
 msgid "ePayco Reference"
-msgstr "referencia ePayco"
+msgstr "Referencia ePayco"
 
 #. Name of the plugin
 msgid "ePayco WooCommerce"
@@ -1333,7 +1334,7 @@ msgstr "Condiciones generales"
 
 #: src/Translations/AdminTranslations.php:215
 msgid "test"
-msgstr "prueba"
+msgstr "Prueba"
 
 #: src/Translations/AdminTranslations.php:208
 #: src/Translations/StoreTranslations.php:141

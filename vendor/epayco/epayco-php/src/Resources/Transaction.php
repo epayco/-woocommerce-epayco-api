@@ -12,23 +12,30 @@ use Epayco\Resource;
 Class Transaction extends Resource{
     /**
      * Return data payment cash
-     * @param  array $options data transaction
+     * @param  string $options data transaction
      * @return object
      */
-    public function get($options = null)
+    public function get($option, $apify=false)
     {
+        if(!$apify){
+            $url = "/transaction/response.json?ref_payco=".$option."&&public_key=".$this->epayco->api_key;
+            $options = [];
+        }else{
+            $url = "/transaction";
+            $options = $option;
+        }
         return $this->request(
-            "POST",
-            "/transaction",
+            "GET",
+            $url,
             $this->epayco->api_key,
             $options,
             $this->epayco->private_key,
             $this->epayco->test,
-            false,
+            true,
             $this->epayco->lang,
             true,
             false,
-            true
+            $apify
         );
     }
 }

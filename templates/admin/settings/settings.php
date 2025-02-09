@@ -234,8 +234,8 @@ if (!defined('ABSPATH')) {
                     </div>
 
                     <div class="ep-settings-alert-payment-methods">
-                        <div id="ep-orange-badge" class="<?= $testMode ? 'ep-settings-alert-payment-methods-orange' : 'ep-settings-alert-payment-methods-green' ?>"></div>
-                        <div class="ep-settings-alert-payment-methods-gray">
+                        <div ></div>
+                        <div  id="ep-orange-badge" class="<?= $testMode ? 'ep-settings-alert-payment-methods-yellow' : 'ep-settings-alert-payment-methods-green' ?>">
                             <div class="ep-settings-margin-right ep-settings-mode-style">
                                 <span id="ep-icon-badge" class="<?= $testMode ? 'ep-settings-icon-warning' : 'ep-settings-icon-success' ?>"></span>
                             </div>

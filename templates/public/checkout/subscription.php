@@ -24,6 +24,7 @@
  * @var string $indexjs
  * @var string $appjs
  * @var string $cardsjs
+ * @var string $icon_warning
  * @see \EpaycoSubscription\Woocommerce\Gateways\EpaycoSuscription
  */
 

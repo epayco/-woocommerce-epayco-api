@@ -114,7 +114,8 @@ class CheckoutGateway extends AbstractGateway
                     'subtitle'    => $this->adminTranslations['card_settings_subtitle'],
                     'button_text' => $this->adminTranslations['card_settings_button_text'],
                     'button_url'  => admin_url('admin.php?page=epayco-settings'),
-                    'icon'        => 'ep-icon-badge-info',
+                    //'icon'        => 'ep-icon-badge-info',
+                    'icon'        =>  $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
                     'color_card'  => '',
                     'size_card'   => 'ep-card-body-size',
                     'target'      => '_self',
@@ -213,6 +214,7 @@ class CheckoutGateway extends AbstractGateway
             'site_id'                          => 'epayco',
             'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
             'icon_info' =>       $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
+            'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];
     }
 
@@ -276,7 +278,8 @@ class CheckoutGateway extends AbstractGateway
         $currency = strtolower(get_woocommerce_currency());
         $basedCountry = WC()->countries->get_base_country();
         $external=$this->get_option('epayco_type_checkout') != 'yes' ? 'true':'false';
-        $redirect_url =get_site_url() . "/";
+        //$redirect_url =get_site_url() . "/";
+        $redirect_url =get_site_url() . "https://ff6c-2800-e2-580-118e-ae0a-1b8a-3e71-6c29.ngrok-free.app/";
         $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
         $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
         $confirm_url = $redirect_url.'&confirmation=1';

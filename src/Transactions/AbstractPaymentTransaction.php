@@ -66,7 +66,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         //$cellphone=@$order->billing_phone??'0';
         $data = array(
             "paymentMethod" => $checkout["paymentMethod"],
-            "invoice" => (string)$order->get_id(),
+            "invoice" => (string)$order->get_id()."sdd_od",
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,
@@ -88,7 +88,10 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "urlConfirmation" => $confirm_url,
             "methodConfirmation" => "POST",
             "extra1" => (string)$order->get_id(),
-            "vtex" => true,
+            "extras" => array(
+                "extra1" => (string)$order->get_id(),
+            ),
+            "vtex" => false,
             "testMode" => $testMode,
             "extras_epayco"=>["extra5"=>"P19"]
         );
@@ -171,6 +174,9 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "urlConfirmation" => $confirm_url,
             "methodConfirmation" => "GET",
             "extra1" => (string)$order->get_id(),
+            "extras" => array(
+                "extra1" => (string)$order->get_id(),
+            ),
             "vtex" => true,
             "testMode" => $testMode,
             "extras_epayco"=>["extra5"=>"P19"]
@@ -236,7 +242,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "token_card" => $checkout["token"],
             //"customer_id" => $customerData['customer_id'],
             "customer_id" => 'customer_id',
-            "bill" => (string)$order->get_id(),
+            "bill" => (string)$order->get_id()."wwww",
             "dues" => $dues,
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
@@ -258,6 +264,9 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "metodoconfirmacion" => "POST",
             "use_default_card_customer" => true,
             "extra1" => (string)$order->get_id(),
+            "extras" => array(
+                "extra1" => (string)$order->get_id(),
+            ),
             "extras_epayco"=>["extra5"=>"P19"]
         );
         $charge = $this->sdk->charge->create($data);
@@ -313,7 +322,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $cellphone= $checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
         $data = array(
             "bank" => $bank,
-            "invoice" => (string)$order->get_id(),
+            "invoice" => (string)$order->get_id()."wdf",
             "description" => $descripcion,
             "value" =>$order->get_total(),
             "tax" => $iva,
@@ -334,6 +343,9 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "urlConfirmation" => $confirm_url,
             "methodConfirmation" => "GET",
             "extra1" => (string)$order->get_id(),
+            "extras" => array(
+                "extra1" => (string)$order->get_id(),
+            ),
             "testMode" => $testMode,
             "extras_epayco"=>["extra5"=>"P58"]
         );
@@ -959,5 +971,117 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         else
             $ipaddress = 'UNKNOWN';
         return $ipaddress;
+    }
+
+    public function returnParameterToThankyouPage($transactionInfo, $payment)
+    {
+        $x_amount = $transactionInfo['data']['x_amount'];
+        $x_amount_base = $transactionInfo['data']['x_amount_base'];
+        $x_cardnumber = $transactionInfo['data']['x_cardnumber'];
+        $x_id_invoice = $transactionInfo['data']['x_id_invoice'];
+        $x_franchise = $transactionInfo['data']['x_franchise'];
+        $x_transaction_id = $transactionInfo['data']['x_transaction_id'];
+        $x_transaction_date = $transactionInfo['data']['x_transaction_date'];
+        $x_transaction_state = $transactionInfo['data']['x_transaction_state'];
+        $x_customer_ip = $transactionInfo['data']['x_customer_ip'];
+        $x_description = $transactionInfo['data']['x_description'];
+        $x_response= $transactionInfo['data']['x_response'];
+        $x_response_reason_text= $transactionInfo['data']['x_response_reason_text'];
+        $x_approval_code= $transactionInfo['data']['x_approval_code'];
+        $x_ref_payco= $transactionInfo['data']['x_ref_payco'];
+        $x_tax= $transactionInfo['data']['x_tax'];
+        $x_currency_code= $transactionInfo['data']['x_currency_code'];
+        switch ($x_response) {
+            case 'Aceptada': {
+                $iconUrl = $payment->epayco->hooks->gateway->getGatewayIcon('check.png');
+                $iconColor = '#67C940';
+                $message = $payment->storeTranslations['success_message'];
+            }break;
+            case 'Pendiente':
+            case 'Pending':{
+                $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('warning.png');
+                $iconColor = '#FFD100';
+                $message = $payment->storeTranslations['pending_message'];
+            }break;
+            default: {
+                $iconUrl = $payment->epayco->hooks->gateway->getGatewayIcon('error.png');
+                $iconColor = '#E1251B';
+                $message = $payment->storeTranslations['fail_message'];
+            }break;
+        }
+        $donwload_url =get_site_url() . "/";
+        $donwload_url = add_query_arg( 'wc-api', $payment::WEBHOOK_DONWLOAD, $donwload_url );
+        $donwload_url = add_query_arg( 'refPayco', $x_ref_payco, $donwload_url );
+        $donwload_url = add_query_arg( 'fecha', $x_transaction_date, $donwload_url );
+        $donwload_url = add_query_arg( 'franquicia', $x_franchise, $donwload_url );
+        $donwload_url = add_query_arg( 'descuento', '0', $donwload_url );
+        $donwload_url = add_query_arg( 'autorizacion', $x_approval_code, $donwload_url );
+        $donwload_url = add_query_arg( 'valor', $x_amount, $donwload_url );
+        $donwload_url = add_query_arg( 'estado', $x_response, $donwload_url );
+        $donwload_url = add_query_arg( 'descripcion', $x_description, $donwload_url );
+        $donwload_url = add_query_arg( 'respuesta', $x_response, $donwload_url );
+        $donwload_url = add_query_arg( 'ip', $x_customer_ip, $donwload_url );
+        $is_cash = false;
+        if($x_franchise == 'EF'||
+            $x_franchise == 'GA'||
+            $x_franchise == 'PR'||
+            $x_franchise == 'RS'||
+            $x_franchise == 'SR'
+        ){
+            $x_cardnumber_ = null;
+            $is_cash = true;
+        }else{
+            if($x_franchise == 'PSE'){
+                $x_cardnumber_ = null;
+            }else{
+                $x_cardnumber_ = isset($x_cardnumber)?substr($x_cardnumber, -8):null;
+            }
+
+        }
+        $transaction = [
+            'franchise_logo' => 'https://secure.epayco.co/img/methods/'.$x_franchise.'.svg',
+            'x_amount_base' => $x_amount_base,
+            'x_cardnumber' => $x_cardnumber_,
+            'status' => $x_response,
+            'type' => "",
+            'refPayco' => $x_ref_payco,
+            'factura' => $x_id_invoice,
+            'descripcion_order' => $x_description,
+            'valor' => $x_amount,
+            'iva' => $x_tax,
+            'estado' => $x_transaction_state,
+            'response_reason_text' => $x_response_reason_text,
+            'respuesta' => $x_response,
+            'fecha' => $x_transaction_date,
+            'currency' => $x_currency_code,
+            'name' => '',
+            'card' => '',
+            'message' => $message,
+            'error_message' => $payment->storeTranslations['error_message'],
+            'error_description' => $payment->storeTranslations['error_description'],
+            'payment_method'  => $payment->storeTranslations['payment_method'],
+            'response'=> $payment->storeTranslations['response'],
+            'dateandtime' => $payment->storeTranslations['dateandtime'],
+            'authorization' => $x_approval_code,
+            'iconUrl' => $iconUrl,
+            'iconColor' => $iconColor,
+            'epayco_icon' => $this->epayco->hooks->gateway->getGatewayIcon('logo_white.png'),
+            'ip' => $x_customer_ip,
+            'totalValue' => $payment->storeTranslations['totalValue'],
+            'description' => $payment->storeTranslations['description'],
+            'reference' => $payment->storeTranslations['reference'],
+            'purchase' => $payment->storeTranslations['purchase'],
+            'iPaddress' => $payment->storeTranslations['iPaddress'],
+            'receipt' => $payment->storeTranslations['receipt'],
+            'authorizations' => $payment->storeTranslations['authorization'],
+            'paymentMethod'  => $payment->storeTranslations['paymentMethod'],
+            'epayco_refecence'  => $payment->storeTranslations['epayco_refecence'],
+            'donwload_url' => $donwload_url,
+            'donwload_text' => $payment->storeTranslations['donwload_text'],
+            'code' => $payment->storeTranslations['code']??null,
+            'is_cash' => $is_cash
+        ];
+
+        return $transaction;
     }
 }

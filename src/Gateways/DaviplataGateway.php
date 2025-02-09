@@ -130,7 +130,7 @@ class DaviplataGateway extends AbstractGateway
                     'subtitle'    => $this->adminTranslations['card_settings_subtitle'],
                     'button_text' => $this->adminTranslations['card_settings_button_text'],
                     'button_url'  => admin_url('admin.php?page=epayco-settings'),
-                    'icon'        => 'ep-icon-badge-info',
+                    'icon'        =>  $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
                     'color_card'  => '',
                     'size_card'   => 'ep-card-body-size',
                     'target'      => '_self',
@@ -262,6 +262,7 @@ class DaviplataGateway extends AbstractGateway
             'city'                          => $city,
             'customer_title'              => $this->storeTranslations['customer_title'],
             'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];
     }
 

@@ -60,8 +60,8 @@
 }
 
 .ep-test-mode-card {
-    background: rgb(247 110 5 / 15%) !important;
-    border: 2px solid #f73 !important;
+    background: rgba(255, 250, 224, 1) !important;
+    border: 2px solid #FFD100 !important;
     border-radius: 7px !important;
     display: flex !important;
     flex-direction: column !important;
@@ -69,13 +69,14 @@
 }
 
 .ep-test-mode-credit-card {
-    background: rgba(198, 229, 248, 0.7) !important;
+    background: rgba(198, 229, 248, 1);!important;
     border: 2px solid #40A8E6 !important;
     border-radius: 7px !important;
     display: flex !important;
     flex-direction: row !important;
     padding: 16px !important;
     margin-top: 10px !important;
+    align-items: center;
 }
 
 div .ep-error {
@@ -146,12 +147,6 @@ div .ep-error {
 .payment_method_woo-epayco-checkout{
     padding-left: 0rem !important;
 }
-.ep-test-mode-card-content {
-    align-items: baseline !important;
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: flex-start !important;
-}
 
 .ep-test-mode-badge {
     align-items: center !important;
@@ -184,14 +179,14 @@ div .ep-error {
     color: rgba(0, 0, 0, .9) !important;
     font-weight: 700 !important;
     margin-left: 16px !important;
-    padding: 0 !important;
+    padding: 5px !important;
 }
 .ep-checkout-custom-dual-column-row {
     align-items: flex-start !important;
     flex-direction: row !important;
 }
 .ep-test-mode-card-content {
-    align-items: baseline !important;
+    align-items: center !important;
     display: flex !important;
     flex-direction: row !important;
     justify-content: flex-start !important;

@@ -172,7 +172,7 @@ class TicketGateway extends AbstractGateway
                     'subtitle'    => $this->adminTranslations['card_settings_subtitle'],
                     'button_text' => $this->adminTranslations['card_settings_button_text'],
                     'button_url'  => admin_url('admin.php?page=epayco-settings'),
-                    'icon'        => 'ep-icon-badge-info',
+                    'icon'        =>  $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
                     'color_card'  => '',
                     'size_card'   => 'ep-card-body-size',
                     'target'      => '_self',
@@ -310,7 +310,8 @@ class TicketGateway extends AbstractGateway
             'site_id'                          => '',
             'city'                          => $city,
             'customer_title'              => $this->storeTranslations['customer_title'],
-            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png')
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];
     }
 
@@ -727,7 +728,7 @@ class TicketGateway extends AbstractGateway
             "success" =>true
         );
         $this->transaction = new TicketTransaction($this, $order, []);
-        $transactionDetails = $this->transaction->sdk->transaction->get($data);
+        $transactionDetails = $this->transaction->sdk->transaction->get($paymentsIdArray[0]);
        // $sdk = $this->sdk->transaction->get($data);
         $transactionInfo = json_decode(json_encode($transactionDetails), true);
 
@@ -735,109 +736,20 @@ class TicketGateway extends AbstractGateway
             return;
         }
 
-        $status = 'pending';
-        $alert_title = '';
-        foreach ($transactionInfo['data']['data'] as $data) {
-            $status = $data['status'];
-            $alert_title = $data['response'];
-            $ref_payco = $data['referencePayco'];
-            $test = $data['test'] ? 'Pruebas' : 'Producción';
-            $transactionDateTime= $data['transactionDateTime'];
-            $bank= $data['bank'];
-            $authorization= $data['authorization'];
-            $factura = $data['referenceClient'];
-            $descripcion = $data['description'];
-            $valor = $data['amount'];
-            $iva = $data['iva'];
-            $estado = $data['status'];
-            $currency = $data['currency'];
-            $name =  $data['names']." ". $data['lastnames'];
-            $card = $data['card'];
-            switch ($status) {
-                case 'Aceptada': {
-                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('check.png');
-                    $iconColor = '#67C940';
-                    $message = $this->storeTranslations['success_message'];
-                }break;
-                case 'Pendiente':
-                case 'Pending':{
-                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('warning.png');
-                    $iconColor = '#FFD100';
-                    $message = $this->storeTranslations['pending_message'];
-                }break;
-                default: {
-                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('error.png');
-                    $iconColor = '#E1251B';
-                    $message = $this->storeTranslations['fail_message'];
-                }break;
-            }
-        }
-
-        $donwload_url =get_site_url() . "/";
-        $donwload_url = add_query_arg( 'wc-api', self::WEBHOOK_DONWLOAD, $donwload_url );
-        $donwload_url = add_query_arg( 'refPayco', $ref_payco, $donwload_url );
-        $donwload_url = add_query_arg( 'fecha', $this->storeTranslations['dateandtime'], $donwload_url );
-        $donwload_url = add_query_arg( 'franquicia', $bank, $donwload_url );
-        $donwload_url = add_query_arg( 'descuento', '0', $donwload_url );
-        $donwload_url = add_query_arg( 'autorizacion', $authorization, $donwload_url );
-        $donwload_url = add_query_arg( 'valor', $valor, $donwload_url );
-        $donwload_url = add_query_arg( 'estado', $estado, $donwload_url );
-        $donwload_url = add_query_arg( 'descripcion', $descripcion, $donwload_url );
-        $donwload_url = add_query_arg( 'respuesta', $alert_title, $donwload_url );
-        $donwload_url = add_query_arg( 'ip', $this->transaction->getCustomerIp(), $donwload_url );
-        $key = array_search( $card, array_column(self::CASH_ENTITIES, 'id'));
-        $card = self::CASH_ENTITIES[$key]['name'];
-        $transaction = [
-            'status' => $status,
-            'type' => "",
-            'refPayco' => $ref_payco,
-            'factura' => $factura,
-            'descripcion_order' => $descripcion,
-            'valor' => $valor,
-            'iva' => $iva,
-            'estado' => $estado,
-            'respuesta' => $alert_title,
-            'fecha' => $transactionDateTime,
-            'currency' => $currency,
-            'name' => $name,
-            'card' => $card,
-            'pin' => $paymentsIdArray[1],
-            'codeProject' => $paymentsIdArray[2],
-            'code' => $this->storeTranslations['code'],
-            'message' => $message,
-            'error_message' => $this->storeTranslations['error_message'],
-            'error_description' => $this->storeTranslations['error_description'],
-            'payment_method'  => $this->storeTranslations['payment_method'],
-            'response'=> $this->storeTranslations['response'],
-            'dateandtime' => $this->storeTranslations['dateandtime'],
-            'authorization' => $authorization,
-            'iconUrl' => $iconUrl,
-            'iconColor' => $iconColor,
-            'expirationDate' => $paymentsIdArray[3],
-            'expirationDateText' => $this->storeTranslations['expirationDate'],
-            'epayco_icon' => $this->epayco->hooks->gateway->getGatewayIcon('logo_white.png'),
-            'ip' => $this->transaction->getCustomerIp(),
-            'totalValue' => $this->storeTranslations['totalValue'],
-            'description' => $this->storeTranslations['description'],
-            'reference' => $this->storeTranslations['reference'],
-            'purchase' => $this->storeTranslations['purchase'],
-            'iPaddress' => $this->storeTranslations['iPaddress'],
-            'receipt' => $this->storeTranslations['receipt'],
-            'epayco_refecence' => $this->storeTranslations['epayco_refecence'],
-            'authorizations' => $this->storeTranslations['authorization'],
-            'paymentMethod'  => $this->storeTranslations['paymentMethod'],
-            'ticket_header'  => $this->storeTranslations['ticket_header'],
-            'ticket_footer'  => $this->storeTranslations['ticket_footer'],
-            'donwload_url' => $donwload_url,
-            'donwload_text' => $this->storeTranslations['donwload_text']
-        ];
+        $transaction = $this->transaction->returnParameterToThankyouPage($transactionInfo, $this);
 
         if (empty($transaction)) {
             return;
         }
+        $transaction['pin'] = $paymentsIdArray[1];
+        $transaction['codeProject'] = $paymentsIdArray[2];
+        $transaction['ticket_header'] = $this->storeTranslations['ticket_header'];
+        $transaction['ticket_footer'] = $this->storeTranslations['ticket_footer'];
+        $transaction['expirationDate'] = $paymentsIdArray[3];
+        $transaction['expirationDateText'] = $this->storeTranslations['expirationDate'];
 
         $this->epayco->hooks->template->getWoocommerceTemplate(
-            'public/order/ticket-order-received.php',
+            'public/order/order-received.php',
             $transaction
         );
     }

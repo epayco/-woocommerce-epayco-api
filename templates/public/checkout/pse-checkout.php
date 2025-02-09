@@ -34,6 +34,7 @@
  * @var string $personal_data_processing_link_text
  * @var string $personal_data_processing_link_src
  * @var string $and_the
+ * @var string $icon_warning
  * @see \Epayco\Woocommerce\Gateways\PseGateway
  */
 
@@ -51,7 +52,9 @@ if (! defined('ABSPATH')) {
                         title="<?= esc_html($test_mode_title); ?>"
                         description="<?= esc_html($test_mode_description); ?>"
                         link-text="<?= esc_html($test_mode_link_text); ?>"
-                        link-src="<?= esc_html($test_mode_link_src); ?>">
+                        link-src="<?= esc_html($test_mode_link_src); ?>"
+                        icon-src="<?php echo esc_html($icon_warning); ?>"
+                    >
                     </test-mode>
                 </div>
             <?php endif; ?>

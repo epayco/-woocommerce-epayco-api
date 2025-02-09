@@ -17,108 +17,140 @@ if (!defined('ABSPATH')) {
 
 
 <?php if ($status) : ?>
-<div style="height: 82px; background: black; display: flex; justify-content: center; align-items: center;">
+<!--<div style="height: 82px; background: black; display: flex; justify-content: center; align-items: center;">
     <img src="<?php echo esc_attr($epayco_icon); ?>" alt="epayco" style="width: 115px; height: 30px;">
-</div>
-<div id="transactionBody" style="
-    height: 747px !important;
-    max-width: 550px !important;
-    margin: auto !important;
-    position: relative !important;
-">
-
-    <div id="header" style="
-    background: #000;
-    position: static;
-    height: 30px;
-    border-radius: 20px;
-">
-        <div
-                style="max-width: 510px;m;max-height: 747px;top: 10px;margin: 25px;/* padding: 129px; */font-family: 'Poppins', Arial, sans-serif;border: 1px solid #e5e5e5;border-radius: 0px 0px 5px 5px;padding: 20px;box-shadow: 0 0 10px rgba(0,0,0,0.1);background-color: #f9f9f9;z-index: 9999999;position: relative;"
-        >
-            <!-- Encabezado -->
-            <div style="text-align: center; margin-bottom: 20px;">
-                <img src="<?php echo esc_attr($iconUrl); ?>" alt="Éxito" style="display: block; margin: auto; width: 70px; border-bottom: 25px;">
-                <h2 style="color: <?php echo esc_attr($iconColor); ?>; font-size: 22px; font-family: 'Poppins'; font-weight: bold"><?php echo esc_html($message); ?></h2>
-                <h2 style="font-size: 22px; font-family: 'Poppins';font-weight: bold"><?php echo esc_html($epayco_refecence); ?> #<?php echo esc_html($refPayco); ?></h2>
-                <p><?php echo esc_html($fecha); ?></p>
-            </div>
+</div>-->
 
 
-            <!-- Información de la transacción -->
-            <div style="margin: auto;max-height:429px; max-width: 380px" >
-                <p style="font-weight: bold;margin-bottom: 19px;font-size: 16px;color: #000;"><?php echo esc_html($paymentMethod); ?></p>
-                <div style="display: grid;grid-template-columns: repeat(2, 1fr);grid-template-rows: repeat(3,1fr);gap: 19px; justify-content: space-between;">
-                    <div class="div-description">
-                        <h3 class="description-title"><?php echo esc_html($paymentMethod); ?></h3>
-                        <p class="descripcion-payment"><?php echo esc_html($card); ?></p>
+<div class="landingResumen">
+    <nav class="navEpayco">
+        <img src="https://secure.epayco.co/img/new-logo.svg" alt="logo" >
+    </nav>
+    <div class="containerResumen">
+        <div class="hole"></div>
+        <div class="containerFacture">
+            <div class="transaction">
+                <img src="<?php echo esc_attr($iconUrl); ?>" alt="check" style="display: block; margin: auto; border-bottom: 25px;">
+                <div class="transactionText">
+                    <div class="h1Facture h1Bold" style="color: <?php echo esc_attr($iconColor); ?>;">
+                        <?php echo esc_html($message); ?>
                     </div>
-                    <div class="div-description">
-                        <h3 class="description-title"><?php echo esc_html($authorizations); ?></h3>
-                        <p class="descripcion-payment"><?php echo esc_html($authorization); ?></p>
+                    <div class="h1Facture">
+                        <h2 style="font-size: 22px; font-family: 'Poppins';font-weight: bold"><?php echo esc_html($epayco_refecence); ?> #<?php echo esc_html($refPayco); ?></h2>
                     </div>
-                    <div class="div-description">
-                        <h3 class="description-title"><?php echo esc_html($receipt); ?></h3>
-                        <p class="descripcion-payment"><?php echo esc_html($factura); ?></p>
-                    </div>
-                    <div class="div-description">
-                        <h3 class="description-title"><?php echo esc_html($iPaddress); ?></h3>
-                        <p class="descripcion-payment"><?php echo esc_html($ip); ?></p>
-                    </div>
-                    <div class="div-description">
-                        <h3 class="description-title"><?php echo esc_html($response); ?></h3>
-                        <p class="descripcion-payment"><?php echo esc_html($status); ?></p>
-                    </div>
-                    <div class="div-description">
-                        <h3 class="description-title"></h3>
-                        <p class="descripcion-payment"></p>
-                    </div>
-                </div>
-
-
-                <p style="font-weight: bold;margin: 19px 0px;font-size: 16px;color: #000;"><?php echo esc_html($purchase); ?></p>
-                <div style="display: grid;grid-template-columns: repeat(2, 1fr);grid-template-rows: repeat(3,1fr);gap: 19px; justify-content: space-between;">
-                    <div class="div-description">
-                        <h3 class="description-title"><?php echo esc_html($reference); ?></h3>
-                        <p class="descripcion-payment"><?php echo esc_html($refPayco); ?></p>
-                    </div>
-                    <div class="div-description">
-                        <h3 class="description-title"><?php echo esc_html($description); ?></h3>
-                        <p style="font-size: 15px;font-family: 'Poppins';margin: 2px 0px;"><?php echo esc_html($descripcion_order); ?></p>
-                    </div>
-                    <div class="div-description">
-                        <h3 class="description-title"><?php echo esc_html($totalValue); ?></h3>
-                        <p class="descripcion-payment">$<?php echo esc_html($valor); ?> <?php echo esc_html($currency); ?></p>
-                    </div>
-                    <div class="div-description">
-                        <h3 class="description-title"></h3>
-                        <p class="descripcion-payment"></p>
+                    <div class="pFacture">
+                        <?php echo esc_html($fecha); ?>
                     </div>
                 </div>
             </div>
-            <p style="text-align: center;margin: 0px;">
-                <a href="<?php echo esc_html($donwload_url); ?>" target="_blank" class="btn btn-primary" style="
-                       color: #fff;
-                       background-color: #212121;
-                       border-color: transparent;
-                       max-width: 100%;
-                       width: 300px;
-                       padding: 10px 20px;
-                       display: inline-block;
-                       margin: 0 auto;
-                       text-align: center;
-                       text-decoration: none;
-                       text-transform: uppercase;
-                       font-weight: bold;
-                   ">
-                    <?php echo esc_html($donwload_text); ?>
-                </a>
-            </p>
+            <div class="medioPago">
+                <div class="medios">
+                    <div class="h2Facture"> <?php echo esc_html($paymentMethod); ?></div>
+                    <div class="parDescription">
+                        <div class="titleAndText">
+                            <div class="h3Facture"> <?php echo esc_html($paymentMethod); ?> </div>
+                            <div class="pageAndImage">
+                                <img class="metodoPago" src="<?php echo esc_attr($franchise_logo); ?>" id="metodoPagoId" alt="logoTransacción">
+                                <div class="pFacture"><?php echo esc_attr($x_cardnumber); ?></div>
+                            </div>
+                        </div>
+                        <div class="titleAndTextRight">
+                            <div class="h3Facture"><?php echo esc_html($authorizations); ?>
+                            </div>
+                            <div class="pFacture">
+                                <?php echo esc_html($authorization); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="parDescription">
+                        <div class="titleAndText">
+                            <div class="h3Facture"><?php echo esc_html($receipt); ?></div>
+                            <div class="pFacture"><?php echo esc_html($factura); ?></div>
+                        </div>
+                        <div class="titleAndTextRight">
+                            <div class="h3Facture"><?php echo esc_html($iPaddress); ?></div>
+                            <div class="pFacture"><?php echo esc_html($ip); ?></div>
+                        </div>
+                    </div>
+                    <?php if ($is_cash) : ?>
+                        <div class="parDescription">
+                            <div class="titleAndText">
+                                <div class="h3Facture"><?php echo esc_html($response); ?></div>
+                                <div class="pFacture"><?php echo esc_html($response_reason_text); ?></div>
+                            </div>
+                            <div class="titleAndTextRight">
+                                <div class="h3Facture"><?php echo esc_html($expirationDateText); ?></div>
+                                <div class="pFacture"><?php echo esc_html($expirationDate); ?></div>
+                            </div>
+                        </div>
+                        <div class="parDescription">
+                            <div class="pFacture"><?php echo esc_html($ticket_header); ?></div>
+                        </div>
+                        <div class="parDescription">
+                            <div class="titleAndText">
+                                <div class="h3Facture"><?php echo esc_html($code); ?></div>
+                                <div class="pFacture"><?php echo esc_html($codeProject); ?></div>
+                            </div>
+                            <div class="titleAndTextRight">
+                                <div class="h3Facture">Pin</div>
+                                <div class="pFacture"><?php echo esc_html($pin); ?></div>
+                            </div>
+                        </div>
+
+                    <?php else : ?>
+                        <div class="parDescription">
+                            <div class="titleAndTextComplete">
+                                <div class="h3Facture"><?php echo esc_html($response); ?></div>
+                                <div class="pFacture"><?php echo esc_html($response_reason_text); ?></div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="medios">
+                    <div class="h2Facture"> <?php echo esc_html($purchase); ?></div>
+                    <div class="parDescription">
+                        <div class="titleAndText">
+                            <div class="h3Facture"><?php echo esc_html($reference); ?></div>
+                            <div class="pFacture"><?php echo esc_html($refPayco); ?></div>
+                        </div>
+                        <div class="titleAndTextRight">
+                            <div class="h3Facture"><?php echo esc_html($description); ?></div>
+                            <div class="pFacture"><?php echo esc_html($descripcion_order); ?></div>
+                        </div>
+                    </div>
+                    <div class="parDescription">
+                        <div class="titleAndText">
+                            <div class="h3Facture"><?php echo esc_html($totalValue); ?></div>
+                            <div class="pFacture">$<?php echo esc_html($valor); ?> <?php echo esc_html($currency); ?></div>
+                        </div>
+                        <div class="titleAndTextRight">
+                            <div class="h3Facture">Subtotal</div>
+                            <div class="pFacture">$<?php echo esc_html($x_amount_base); ?> <?php echo esc_html($currency); ?></div>
+                        </div>
+                    </div>
+                    <?php if ($is_cash) : ?>
+                        <div class="parDescription">
+                            <div class="titleAndTextComplete">
+                                <div class="pFacture"><?php echo esc_html($ticket_footer); ?></div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+            </div>
         </div>
-        <?php endif; ?>
+        <button class="buttonPrint hidden-print" style="color: white">
+            <a href="<?php echo esc_html($donwload_url); ?>" target="_blank" style="color: white; font-family: 'Poppins';">
+                <?php echo esc_html($donwload_text); ?>
+            </a>
+        </button>
+
     </div>
+
 </div>
 
+
+<?php endif; ?>
 
 <!-- Fuente personalizada -->
 <style>
@@ -149,6 +181,228 @@ if (!defined('ABSPATH')) {
         #transactionBody{
             padding-bottom: 200px;
         }
+    }
+
+
+    .landingResumen {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Poppins, sans-serif;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+    .navEpayco {
+        justify-content: center;
+        height: 6.5rem;
+        background: #1d1d1d;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+    .containerResumen {
+        flex-direction: column;
+        justify-content: flex-start;
+        height: fit-content;
+        gap: 1rem;
+        padding-top: 3rem;
+        padding-bottom: 4.8rem;
+    }
+    .containerResumen, .navEpayco {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        /*height: 82px;*/
+    }
+
+    .hole {
+        padding-top: 1.6rem;
+        overflow: visible;
+        width: 557px;
+        height: 0px;
+        border-radius: 1.6rem;
+        background: #1d1d1d;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+    .containerFacture, .hole {
+        display: flex;
+        justify-content: center;
+    }
+    @media (max-width: 570px) {
+        .hole {
+            width: 95vw;
+        }
+    }
+
+    .containerFacture {
+        position: relative;
+        align-items: center;
+        transform: translateY(-1.95rem);
+        flex-direction: column;
+        background: #f9f9f9;
+        height: fit-content;
+        width: 490px;
+        padding: 32px 24px 40px;
+        gap: 18px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
+        border-radius: 0 0 10px 10px;
+        border-right: 1px solid var(--grey-grey-80, #cacaca);
+        border-bottom: 1px solid var(--grey-grey-80, #cacaca);
+        border-left: 1px solid var(--grey-grey-80, #cacaca);
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, .08);
+        top: 5px;
+    }
+
+    @media (max-width: 570px) {
+        .containerFacture {
+            width: 76vw;
+        }
+    }
+    .containerFacture, .hole {
+        display: flex;
+        justify-content: center;
+    }
+    .transaction {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #1d1d1d;
+        gap: 1.6rem;
+    }
+    .transactionText {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .5rem;
+    }
+    @media (max-width: 570px) {
+        .h1Facture {
+            font-size: 20px;
+        }
+    }
+    .h1Bold {
+        font-weight: 600;
+    }
+    .h1Facture {
+        font-size: 24px;
+        display: block;
+        font-style: normal;
+        font-weight: bold;
+        line-height: normal;
+    }
+    .pFacture {
+        font-size: 16px;
+        color: #000;
+    }
+    .h3Facture, .pFacture {
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    @media (max-width: 570px) {
+        .buttonContact, .buttonPrint {
+            margin-top: 1rem;
+            width: 90vw;
+        }
+    }
+    .buttonContact, .buttonPrint {
+        background: #1d1d1d;
+        color: #fff;
+        height: 2.8rem;
+        width: 599px;
+        cursor: pointer;
+        border-radius: 6px;
+        border: none;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .buttonContact, .buttonPrint:hover{
+        background: #1d1d1dc7;
+    }
+    .buttonContact, .buttonPrint a {
+        text-decoration: none;
+    }
+    .medioPago, .medios {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .medioPago {
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+    .medioPago, .medios {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .medios {
+        width: 380px;
+        align-items: self-start;
+    }
+    @media (max-width: 570px) {
+        .medios {
+            width: 65vw;
+        }
+    }
+    .h2Facture {
+        font-size: 16px;
+        display: block;
+        font-weight: 700;
+    }
+    .parDescription {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .titleAndText, .titleAndTextRight {
+        display: flex;
+        flex-direction: column;
+        width: 150px;
+    }
+    @media (max-width: 570px) {
+        .titleAndText {
+            margin-right: -10vw;
+            width: 10.8rem;
+        }
+    }
+
+    .h3Facture {
+        font-size: 14px;
+        color: #747474;
+    }
+    .pageAndImage {
+        gap: 1rem;
+        width: fit-content;
+    }
+    .metodoPago, .pageAndImage {
+        display: flex;
+        justify-content: center;
+    }
+    .metodoPago {
+        align-items: center;
+        height: 1.5rem !important;
+    }
+    .titleAndTextRight {
+        margin: 0 -5px;
+    }
+    .titleAndText, .titleAndTextRight {
+        display: flex;
+        flex-direction: column;
+        width: 150px;
+    }
+    .titleAndTextComplete {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
     }
 </style>
 
