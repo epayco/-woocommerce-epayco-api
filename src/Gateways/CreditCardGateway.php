@@ -50,7 +50,7 @@ class CreditCardGateway extends AbstractGateway
 
         $this->id        = self::ID;
         $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card-admin.png');
+        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('credit-card-botton.png');
         $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
 
         $this->init_form_fields();

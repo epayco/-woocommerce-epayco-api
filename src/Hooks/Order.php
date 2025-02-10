@@ -11,6 +11,7 @@ use Epayco\Woocommerce\Configs\Store;
 use Epayco\Woocommerce\Helpers\Url;
 use Epayco\Woocommerce\Translations\AdminTranslations;
 use Epayco\Woocommerce\Translations\StoreTranslations;
+use Epayco\Woocommerce\Helpers\Cron;
 use WC_Order;
 use WP_Post;
 use Epayco as EpaycoSdk;
@@ -34,6 +35,7 @@ class Order
      * @param Scripts $scripts
      * @param Url $url
      * @param Endpoints $endpoints
+     * @param Cron $cron
      * @param CurrentUser $currentUser
      */
      public function __construct(
@@ -46,6 +48,7 @@ class Order
         Scripts $scripts,
         Url $url,
         Endpoints $endpoints,
+        Cron $cron,
         CurrentUser $currentUser
      ){
          $this->template          = $template;
@@ -57,9 +60,11 @@ class Order
          $this->scripts           = $scripts;
          $this->url               = $url;
          $this->endpoints         = $endpoints;
+         $this->cron              = $cron;
          $this->currentUser       = $currentUser;
 
          $this->sdk         = $this->getSdkInstance();
+         $this->registerSyncPendingStatusOrdersAction();
 
          $this->registerStatusSyncMetaBox();
      }
@@ -391,5 +396,192 @@ class Order
         }
 
         return $nonce;
+    }
+
+    /**
+     * Register action that sync orders with pending status with corresponding status in epayco
+     *
+     * @return void
+     */
+    public function registerSyncPendingStatusOrdersAction(): void
+    {
+        add_action('epayco_sync_pending_status_order_action', function () {
+            try {
+                $orders = wc_get_orders(array(
+                    'limit'    => -1,
+                    'status'   => 'on-hold',
+                    'meta_query' => array(
+                        'key' => $this->orderMetadata::PAYMENTS_IDS
+                    )
+                ));
+                $ref_payco_list = [];
+                foreach ($orders as $order) {
+                    $ref_payco = $this->syncOrderStatus($order);
+                    if($ref_payco){
+                        $ref_payco_list[] = $ref_payco;
+                    }
+                }
+
+                if (is_array($ref_payco_list) && !empty($ref_payco_list))
+                {
+                    $token = $this->epyacoBerarToken();
+                    if($token){
+                        foreach ($ref_payco_list as $ref_payco) {
+                            $this->getEpaycoStatusOrder($ref_payco, $token);
+                        }
+                    }
+                }
+
+
+            } catch (\Exception $ex) {
+                $error_message = "Unable to update batch of orders on action got error: {$ex->getMessage()}";
+
+                if ( class_exists( 'WC_Logger' ) ) {
+                    $logger = new \WC_Logger();
+                    $logger->add( 'ePayco',$error_message);
+                }
+
+            }
+        });
+    }
+
+    public function getEpaycoStatusOrder($ref_payco,$token)
+    {
+        if($token){
+            $headers = array(
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer ".$token['token']
+            );
+            $public_key = $this->seller->getCredentialsPublicKeyPayment();
+            $path = "transaction/response.json?ref_payco=".$ref_payco."&&public_key=".$public_key;
+            $epayco_status = $this->epayco_realizar_llamada_api($path,[],$headers,false, 'GET');
+            if($epayco_status['success']){
+                if (isset($epayco_status['data']) && is_array($epayco_status['data'])) {
+                    $this->epaycoUploadOrderStatus($epayco_status);
+                }
+            }
+
+        }
+    }
+
+    public function epaycoUploadOrderStatus($epayco_status)
+    {
+        $order_id = isset($epayco_status['data']['x_extra1']) ? $epayco_status['data']['x_extra1'] : null;
+        $x_cod_transaction_state = isset($epayco_status['data']['x_cod_transaction_state']) ? $epayco_status['data']['x_cod_transaction_state'] : null;
+        $x_ref_payco = isset($epayco_status['data']['x_ref_payco']) ? $epayco_status['data']['x_ref_payco'] : null;
+        if ($order_id) {
+            $order = wc_get_order($order_id);
+            if ($order) {
+                $orderStatus = $order->get_status();
+                switch ($x_cod_transaction_state) {
+                    case 1: {
+                        $order->payment_complete($x_ref_payco);
+                        $order->update_status('processing', 'La orden se ha completado automáticamente por la integración con ePayco.');
+                        $order->add_order_note('ePayco.');
+                    } break;
+                    case 3:
+                    case 7:
+                        {
+                            $orderStatus = "on-hold";
+                            if($orderStatus !== $orderStatus){
+                                $order->update_status($orderStatus,'La orden se ha completado automáticamente por la integración con ePayco.');
+                                $order->add_order_note('ePayco.');
+                            }
+                        } break;
+                    case 2:
+                    case 4:
+                    case 10:
+                    case 11:{
+                        if($orderStatus == 'pending' || $orderStatus == 'on-hold'){
+                            $order->update_status('cancelled','La orden se ha completado automáticamente por la integración con ePayco.');
+                            $order->add_order_note('ePayco.');
+                        }
+                    }break;
+                }
+
+            }
+        }
+    }
+
+    public function syncOrderStatus(\WC_Order $order): string
+    {
+        $paymentsIds   = explode(',', $order->get_meta($this->orderMetadata::PAYMENTS_IDS));
+        $lastPaymentId = trim(end($paymentsIds));
+        if ($lastPaymentId) {
+            return $lastPaymentId;
+        }else{
+            return false;
+        }
+    }
+
+    public function epyacoBerarToken()
+    {
+
+        $publicKey = $this->seller->getCredentialsPublicKeyPayment();
+        $privateKey = $this->seller->getCredentialsPrivateKeyPayment();
+
+        if(!isset($_COOKIE[$publicKey])) {
+            $token = base64_encode($publicKey.":".$privateKey);
+            $bearer_token = $token;
+            $cookie_value = $bearer_token;
+            setcookie($publicKey, $cookie_value, time() + (60 * 14), "/");
+        }else{
+            $bearer_token = $_COOKIE[$publicKey];
+        }
+
+        $headers = array(
+            'Content-Type' => 'application/json',
+            'Authorization' => "Basic ".$bearer_token
+        );
+        return $this->epayco_realizar_llamada_api("login",[],$headers);
+    }
+
+    public function epayco_realizar_llamada_api($path, $data, $headers, $afify = true, $method = 'POST') {
+        if($afify){
+            $url = 'https://apify.epayco.io/'.$path;
+        }else{
+            $url = 'https://secure2.epayco.io/restpagos/'.$path;
+        }
+
+        $response = wp_remote_post($url, array(
+            'method'    => $method,
+            'headers' => $headers,
+            'data' => json_encode($data),
+            'timeout'   => 120,
+        ));
+
+        if (is_wp_error($response)) {
+            $error_message = $response->get_error_message();
+            error_log("Error al hacer la llamada a la API de ePayco: " . $error_message);
+            return false;
+        } else {
+            $response_body = wp_remote_retrieve_body($response);
+            $status_code = wp_remote_retrieve_response_code($response);
+
+            if ($status_code == 200) {
+                $data = json_decode($response_body, true);
+                return $data;
+            } else {
+                error_log("Error en la respuesta de la API de ePayco, código de estado: " . $status_code);
+                return false;
+            }
+        }
+    }
+
+    /**
+     * Register/Unregister cron job that sync pending orders
+     *
+     * @return void
+     */
+    public function toggleSyncPendingStatusOrdersCron(string $enabled): void
+    {
+        $action = 'epayco_sync_pending_status_order_action';
+
+        if ($enabled == 'yes') {
+            $this->cron->registerScheduledEvent('hourly', $action);
+        } else {
+            $this->cron->unregisterScheduledEvent($action);
+        }
+
     }
 }

@@ -51,7 +51,7 @@ class PseGateway extends AbstractGateway
 
         $this->id    = self::ID;
         $this->icon  = $this->epayco->hooks->gateway->getGatewayIcon('icon-pse.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('icon-pse.png');
+        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('pse-botton.png');
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
 
         $this->init_form_fields();

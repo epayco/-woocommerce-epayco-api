@@ -2,6 +2,7 @@
 
 namespace Epayco\Woocommerce\Admin;
 
+use Epayco\Woocommerce\Hooks\Order;
 use Exception;
 use Epayco\Woocommerce\Configs\Seller;
 use Epayco\Woocommerce\Configs\Store;
@@ -26,6 +27,7 @@ class Settings
     private const NONCE_ID = 'ep_settings_nonce';
     private Admin $admin;
     private Endpoints $endpoints;
+    private Order $order;
     private Plugin $plugin;
     private Scripts $scripts;
     private Seller $seller;
@@ -52,6 +54,7 @@ class Settings
     public function __construct(
         Admin $admin,
         Endpoints $endpoints,
+        Order $order,
         Plugin $plugin,
         Scripts $scripts,
         Seller $seller,
@@ -64,6 +67,7 @@ class Settings
     {
         $this->admin        = $admin;
         $this->endpoints    = $endpoints;
+        $this->order        = $order;
         $this->plugin       = $plugin;
         $this->scripts      = $scripts;
         $this->seller       = $seller;
@@ -84,6 +88,10 @@ class Settings
         $this->plugin->registerOnPluginTestModeUpdate(function () {
             $this->funnel->updateStepPluginMode();
         });
+
+        //$this->plugin->registerOnPluginStoreInfoUpdate(function () {
+            $this->order->toggleSyncPendingStatusOrdersCron($this->store->getCronSyncMode());
+        //});
     }
 
     /**

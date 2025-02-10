@@ -30,6 +30,7 @@ return array(
     'Epayco\\Woocommerce\\Gateways\\DaviplataGateway' => $baseDir . '/src/Gateways/DaviplataGateway.php',
     'Epayco\\Woocommerce\\Helpers' => $baseDir . '/src/Helpers.php',
     'Epayco\\Woocommerce\\Helpers\\Cache' => $baseDir . '/src/Helpers/Cache.php',
+    'Epayco\\Woocommerce\\Helpers\\Cron' => $baseDir . '/src/Helpers/Cron.php',
     'Epayco\\Woocommerce\\Helpers\\CurrentUser' => $baseDir . '/src/Helpers/CurrentUser.php',
     'Epayco\\Woocommerce\\Helpers\\Form' => $baseDir . '/src/Helpers/Form.php',
     'Epayco\\Woocommerce\\Helpers\\Paths' => $baseDir . '/src/Helpers/Paths.php',

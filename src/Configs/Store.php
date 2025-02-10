@@ -20,6 +20,8 @@ class Store
 
     private const CHECKBOX_CHECKOUT_TEST_MODE = 'checkbox_checkout_test_mode';
 
+    private const CRON_SYNC_MODE = '_ep_cron_sync_mode';
+
     private array $availablePaymentGateways = [];
 
     private Options $options;
@@ -112,6 +114,22 @@ class Store
     public function isTestMode(): bool
     {
         return $this->getCheckboxCheckoutTestMode() === 'yes';
+    }
+
+    /**
+     * @return string
+     */
+    public function getCronSyncMode(): string
+    {
+        return $this->options->get(self::CRON_SYNC_MODE, 'no');
+    }
+
+    /**
+     * @param string $cronSyncMode
+     */
+    public function setCronSyncMode(string $cronSyncMode): void
+    {
+        $this->options->set(self::CRON_SYNC_MODE, $cronSyncMode);
     }
 
 

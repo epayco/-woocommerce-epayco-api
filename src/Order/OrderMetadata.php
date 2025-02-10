@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 
 class OrderMetadata
 {
-    private const PAYMENTS_IDS = '_Epayco_Payment_IDs';
+    public const PAYMENTS_IDS = '_Epayco_Payment_IDs';
     private const BLOCKS_PAYMENT = 'blocks_payment';
     private const USED_GATEWAY = '_used_gateway';
     private const TICKET_TRANSACTION_DETAILS = '_transaction_details_ticket';

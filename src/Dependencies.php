@@ -20,6 +20,7 @@ use Epayco\Woocommerce\Helpers\Session;
 use Epayco\Woocommerce\Helpers\Strings;
 use Epayco\Woocommerce\Hooks\Template;
 use Epayco\Woocommerce\Helpers\Cache;
+use Epayco\Woocommerce\Helpers\Cron;
 use Epayco\Woocommerce\Helpers\CurrentUser;
 use Epayco\Woocommerce\Helpers\Gateways;
 use Epayco\Woocommerce\Helpers\Url;
@@ -49,6 +50,8 @@ class Dependencies
     public Scripts $scriptsHook;
     public Template $templateHook;
     public Cache $cacheHelper;
+
+    public Cron $cronHelper;
     public Gateway $gatewayHook;
 
     public Order $orderHook;
@@ -102,6 +105,7 @@ class Dependencies
         $this->gatewaysHelper          = $this->setGatewaysHelper();
         $this->funnel                  = $this->setFunnel();
         $this->gatewayHook             = $this->setGateway();
+        $this->cronHelper              = new Cron();
         $this->currentUserHelper       = new CurrentUser();
         $this->orderHook               = $this->setOrder();
         $this->settings                = $this->setSettings();
@@ -124,6 +128,7 @@ class Dependencies
             $this->scriptsHook,
             $this->urlHelper,
             $this->endpointsHook,
+            $this->cronHelper,
             $this->currentUserHelper,
         );
     }
@@ -136,6 +141,7 @@ class Dependencies
         return new Settings(
             $this->adminHook,
             $this->endpointsHook,
+            $this->orderHook,
             $this->pluginHook,
             $this->scriptsHook,
             $this->sellerConfig,
