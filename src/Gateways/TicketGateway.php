@@ -115,7 +115,7 @@ class TicketGateway extends AbstractGateway
         //$this->icon      = $this->getCheckoutIcon();
         //$this->iconAdmin = $this->getCheckoutIcon(true);
         $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-ticket.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('pse-botton.png');
+        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('ticket-botton.png');
         $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, 'efecty');
 
         $this->init_form_fields();

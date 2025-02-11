@@ -456,7 +456,7 @@ input:checked + .ep-settings-slider:before {
     line-height: 12px;
     text-align: center;
     color: white;
-    background: #FFD100;
+    background: #8b8b89;
 }
 
 .ep-settings-test-mode-alert {
