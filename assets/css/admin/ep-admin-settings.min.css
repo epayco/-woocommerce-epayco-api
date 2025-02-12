@@ -18,7 +18,7 @@
 .ep-settings {
     margin: 0 55px 0 23px;
     font-size: 16px;
-    min-width: 550px;
+    /*min-width: 550px;*/
     font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif
 }
 
@@ -81,10 +81,13 @@
 }
 
 .ep-block {
-    padding: 24px;
+    padding: 24px 24px 0px;
     background-color: #fff;
     box-shadow: 0 6px 16px rgb(0 0 0 / 10%);
-    border-radius: 6px
+    border-radius: 0px 0px 6px 6px;
+    border: 1px solid #D3D3D4;
+    box-shadow: 1px 1px 4px 0px #16161D4D;
+
 }
 
 .ep-block-requirements {
@@ -133,7 +136,7 @@
 
 .ep-inner-container {
     display: flex;
-    flex-direction: row
+    flex-direction: row:hover
 }
 
 .ep-inner-container div:first-child {
@@ -172,13 +175,14 @@
     color: #fff;
     border: none;
     padding: 9px 12px 7px;
-    background: #009ee3;
+    background: #373737;
     border-radius: 5px;
     margin: 15px 0 15px 0;
     cursor: pointer;
     transition: box-shadow .25s ease-out, background-color .2s ease-out;
     box-shadow: 0 0 0 0 #fff;
-    font-weight: 400
+    font-weight: 400;
+    float: inline-end;
 }
 
 .ep-button-small {
@@ -194,22 +198,23 @@
 
 .ep-button:hover {
     border-color: transparent;
-    background-color: #007eb5;
+    background-color: #373737ad !important;
     color: #fff;
-    -webkit-transition: background-color .2s ease-in;
-    transition: background-color .2s ease-in
+    -webkit-transition: background-color .1s ease-in;
+    transition: background-color .1s ease-in
 }
 
 .ep-button:focus {
+    border: 1px solid #373737ad !important;
     outline: 0;
     box-shadow: 0 0 0 .1875em rgb(27 135 201 / 30%);
     -webkit-transition: box-shadow .25s ease-in;
-    transition: box-shadow .25s ease-in
+    transition: box-shadow .25s ease-in;
 }
 
 .ep-button:active {
     border-color: transparent;
-    background-color: #005e88;
+    background-color: #ebebeb;
     color: #fff
 }
 
@@ -223,8 +228,8 @@
     border-color: transparent;
     background-color: rgba(65, 137, 230, .2);
     color: #009ee3;
-    -webkit-transition: background-color .2s ease-in;
-    transition: background-color .2s
+    -webkit-transition: background-color .1s ease-in;
+    transition: background-color .1s
 }
 
 .ep-button-light-blue:focus {
@@ -264,6 +269,31 @@
     transition: .3s
 }
 
+.ep-settings-block-align-top {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.dropdown-visible {
+    max-height: 1400px; /* Ajusta según el contenido */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-hidden {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .ep-settings-icon {
     width: 70px;
     height: 70px;
@@ -295,7 +325,8 @@
 .ep-settings-title-blocks {
     font-weight: 500;
     font-size: 20px;
-    line-height: 25px
+    line-height: 25px;
+    margin: auto;
 }
 
 .ep-settings-input {
@@ -313,9 +344,17 @@
     margin: 4px 0
 }
 
-.ep-settings-margin-right {
-    margin-right: 8px
+.ep-settings-input:hover {
+    border-color: transparent;
+    border: 1px solid #FF6720 !important;
+    /*color: #fff;*/
+    -webkit-transition: background-color .2s ease-in;
+    transition: background-color .2s ease-in
 }
+
+
+
+
 
 .ep-settings-margin-left {
     margin-left: 8px
@@ -421,42 +460,56 @@ input:checked + .ep-settings-slider:before {
     border-radius: unset;
     border-bottom: 1px solid #c6c6c6;
     display: flex;
-    align-items: center
+    align-items: center;
+    padding-bottom: 24px;
 }
 
+.ep-settings-payment-block:hover {
+    border-color: transparent;
+    color: #FF6720;
+    -webkit-transition: background-color .1s ease-in;
+    transition: background-color .1s ease-in
+}
+
+
 .ep-settings-badge-active {
-    flex-direction: column;
+    width: 83px;
+    height: 32px;
+    padding: auto;
+    padding-top: 4px;
+    padding-right: 10px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    display: flex;
+    gap: 6px;
+    border-radius: 4px;
     justify-content: center;
-    align-items: center;
-    padding: 7px 8px 5px;
-    width: 45px;
-    height: 15px;
-    left: calc(50% - 57px / 2);
-    background: rgba(0, 166, 80, .1);
-    border-radius: 12px;
-    font-size: 12px;
-    line-height: 12px;
     text-align: center;
-    color: white;
-    background: #67C940;
+    color: #FF6720;
+    background: #EEEEEE;
+    font-size: 14px;
+    font-weight: 400;
+    align-items: center;
 }
 
 .ep-settings-badge-inactive {
-    flex-direction: column;
+    width: 83px;
+    height: 32px;
+    padding: auto;
+    padding-top: 4px;
+    padding-right: 10px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    display: flex;
+    gap: 6px;
+    border-radius: 4px;
     justify-content: center;
-    align-items: center;
-    padding: 7px 8px 5px;
-    width: 45px;
-    height: 15px;
-    left: calc(50% - 52px / 2);
-    background: rgba(0, 0, 0, .07);
-    border-radius: 12px;
-    margin: 0 0;
-    font-size: 12px;
-    line-height: 12px;
     text-align: center;
-    color: white;
-    background: #8b8b89;
+    color: #737377;
+    background: #EEEEEE;
+    font-size: 14px;
+    font-weight: 400;
+    align-items: center;
 }
 
 .ep-settings-test-mode-alert {
@@ -523,7 +576,8 @@ input:checked + .ep-settings-slider:before {
 }
 
 .ep-settings-margin-title-payment {
-    margin: 0 16px 0 16px
+    margin: 0 16px 0 16px;
+    max-width: 1000px;
 }
 
 .ep-settings-border-bottom-payment {
@@ -610,7 +664,17 @@ input:checked + .ep-settings-slider:before {
 .ep-settings-title-align {
     display: flex;
     justify-content: space-between;
-    cursor: pointer
+    cursor: pointer;
+    box-shadow: 1px 1px 4px 0px #16161D4D;
+    height: 60px;
+    padding-top: 6px;
+    padding-right: 12px;
+    padding-bottom: 6px;
+    padding-left: 12px;
+    border-radius: 4px;
+    border-width: 1px;
+    font-size: 16px;
+    align-items: normal;
 }
 
 .ep-icon-align {
@@ -618,14 +682,29 @@ input:checked + .ep-settings-slider:before {
     align-items: center
 }
 
-.ep-settings-block-align-top {
-    padding-top: 8px
-}
 
 .ep-credential-feedback-positive {
     background: url("../../images/settings/feedback-positive.png") 98% 50% no-repeat transparent;
     background-size: 1rem;
     padding-right: 30px !important
+}
+
+.ep-credential-show-password{
+    background: url("../../images/settings/visibility.png") 98% 50% no-repeat transparent;
+    background-size: 1rem;
+    padding-right: 30px !important;
+    cursor: pointer;
+    position: relative;
+    margin-left: -45px !important;
+}
+
+.ep-credential-hide-password{
+    background: url("../../images/settings/visibility_off.png") 98% 50% no-repeat transparent;
+    background-size: 1rem;
+    padding-right: 30px !important;
+    cursor: pointer;
+    position: relative;
+    margin-left: -45px !important;
 }
 
 .ep-credential-feedback-negative {
@@ -718,6 +797,27 @@ input:checked + .ep-settings-slider:before {
     justify-content: space-between
 }
 
+.ep-settings-credentials:hover {
+    border-color: red;
+    color: #FF6720;
+    -webkit-transition: background-color .1s ease-in;
+    transition: background-color .1s ease-in;
+    box-shadow: 2px 2px 4px 0px #16161D4D;
+}
+.ep-settings-payment:hover {
+    border-color: red;
+    color: #FF6720;
+    -webkit-transition: background-color .1s ease-in;
+    transition: background-color .1s ease-in;
+    box-shadow: 2px 2px 4px 0px #16161D4D;
+}
+.ep-settings-mode:hover {
+    border-color: red;
+    color: #FF6720;
+    -webkit-transition: background-color .1s ease-in;
+    transition: background-color .1s ease-in;
+    box-shadow: 2px 2px 4px 0px #16161D4D;
+}
 .ep-settings-mode-style {
     width: 16px;
     height: 16px
@@ -758,7 +858,7 @@ input:checked + .ep-settings-slider:before {
 }
 
 .ep-settings-link {
-    width: 75%;
+    /*width: 75%;*/
     display: flex;
     text-decoration: none
 }
@@ -996,12 +1096,8 @@ input:checked + .ep-settings-slider:before {
 
     .ep-container {
         flex-direction: column;
-        margin: 10px 0 10px 0
     }
 
-    .ep-block {
-        margin: 10px 0 10px 0
-    }
 
     .ep-settings-payment-block {
         margin: unset

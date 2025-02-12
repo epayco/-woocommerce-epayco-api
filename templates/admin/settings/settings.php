@@ -40,9 +40,7 @@ if (!defined('ABSPATH')) {
         </div>
     </div>
 
-    <hr class="ep-settings-hr" />
-
-    <div class="ep-settings-credentials">
+    <div class="ep-settings-credentials" style="margin: 10px 0px">
         <div id="ep-settings-step-one" class="ep-settings-title-align">
             <div class="ep-settings-title-container">
                 <span class="ep-settings-font-color ep-settings-title-blocks ep-settings-margin-right">
@@ -55,8 +53,8 @@ if (!defined('ABSPATH')) {
             </div>
         </div>
 
-        <div id="ep-step-1" class="ep-settings-block-align-top" style="display: none;">
-            <div>
+        <div id="ep-step-1" class="ep-settings-block-align-top dropdown-hidden" >
+            <div style="display: none">
                 <p class="ep-settings-subtitle-font-size ep-settings-title-color">
                     <?= wp_kses($credentialsTranslations['first_text_subtitle_credentials'], $allowedHtmlTags) ?>
                     <a id="ep-get-credentials-link" class="ep-settings-blue-text" target="_blank" href="<?= wp_kses($links['epayco_credentials'], $allowedHtmlTags) ?>">
@@ -90,9 +88,9 @@ if (!defined('ABSPATH')) {
                 </div>
 
                 <div id="credentials-setup" class="ep-block ep-block-flex ep-settings-margin-right">
-                    <p class="ep-settings-title-font-size">
+                    <!--<p class="ep-settings-title-font-size">
                         <b><?= wp_kses($credentialsTranslations['title_credential'], $allowedHtmlTags) ?></b>
-                    </p>
+                    </p>-->
                     <fieldset class="ep-settings-fieldset">
                         <label for="ep-p_cust_id" class="ep-settings-label ep-settings-font-color">
                             <?= wp_kses($credentialsTranslations['p_cust_id'], $allowedHtmlTags) ?> <span style="color: red;">&nbsp;*</span>
@@ -111,14 +109,19 @@ if (!defined('ABSPATH')) {
                         <label for="ep-publicKey" class="ep-settings-label ep-settings-font-color">
                             <?= wp_kses($credentialsTranslations['publicKey'], $allowedHtmlTags) ?> <span style="color: red;">&nbsp;*</span>
                         </label>
-                        <input type="text" id="ep-publicKey" class="ep-settings-input" value="<?= wp_kses($publicKey, $allowedHtmlTags) ?>" placeholder="<?= wp_kses($credentialsTranslations['placeholder_publicKey'], $allowedHtmlTags) ?>" />
+                        <input type="password" id="ep-publicKey" class="ep-settings-input" value="<?= wp_kses($publicKey, $allowedHtmlTags) ?>" placeholder="<?= wp_kses($credentialsTranslations['placeholder_publicKey'], $allowedHtmlTags) ?>" />
+                        <span class="ep-credential-show-password show-password-1"></span>
+                        <div>
+
+                        </div>
                     </fieldset class="ep-settings-fieldset">
 
                     <fieldset class="ep-settings-fieldset">
                         <label for="ep-private_key" class="ep-settings-label ep-settings-font-color">
                             <?= wp_kses($credentialsTranslations['private_key'], $allowedHtmlTags) ?> <span style="color: red;">&nbsp;*</span>
                         </label>
-                        <input type="text" id="ep-private_key" class="ep-settings-input" value="<?= wp_kses($privateKey, $allowedHtmlTags) ?>" placeholder="<?= wp_kses($credentialsTranslations['placeholder_private_key'], $allowedHtmlTags) ?>" />
+                        <input type="password" id="ep-private_key" class="ep-settings-input" value="<?= wp_kses($privateKey, $allowedHtmlTags) ?>" placeholder="<?= wp_kses($credentialsTranslations['placeholder_private_key'], $allowedHtmlTags) ?>" />
+                        <span class="ep-credential-show-password show-password-2"></span>
                     </fieldset>
 
                 </div>
@@ -131,10 +134,7 @@ if (!defined('ABSPATH')) {
         </div>
     </div>
 
-    <hr class="ep-settings-hr" />
-
-
-    <div class="ep-settings-payment">
+    <div class="ep-settings-payment" style="margin: 10px 0px">
         <div id="ep-settings-step-three" class="ep-settings-title-align">
             <div class="ep-settings-title-container">
                 <span class="ep-settings-font-color ep-settings-title-blocks ep-settings-margin-right">
@@ -147,9 +147,9 @@ if (!defined('ABSPATH')) {
                 <img class="ep-settings-icon-open" id="ep-payments-arrow-up" />
             </div>
         </div>
-        <div id="ep-step-3" class="ep-settings-block-align-top" style="display: none;">
-            <p id="ep-payment" class="ep-settings-subtitle-font-size ep-settings-title-color">
-                <?= wp_kses($gatewaysTranslations['subtitle_payments'], $allowedHtmlTags) ?>
+        <div id="ep-step-3" class="ep-settings-block-align-top dropdown-hidden">
+            <p  id="ep-payment" class="ep-settings-subtitle-font-size ep-settings-title-color" hidden="hidden">
+                <?php /* wp_kses($gatewaysTranslations['subtitle_payments'], $allowedHtmlTags)*/ ?>
             </p>
             <button id="ep-payment-method-continue" class="ep-button ep-button-large">
                 <?= wp_kses($gatewaysTranslations['button_payment'], $allowedHtmlTags) ?>
@@ -157,9 +157,7 @@ if (!defined('ABSPATH')) {
         </div>
     </div>
 
-    <hr class="ep-settings-hr" />
-
-    <div class="ep-settings-mode">
+    <div class="ep-settings-mode" style="margin: 10px 0px">
         <div id="ep-settings-step-four" class="ep-settings-title-align">
             <div class="ep-settings-title-container">
                 <div class="ep-align-items-center">
@@ -182,7 +180,7 @@ if (!defined('ABSPATH')) {
             </div>
         </div>
 
-        <div id="ep-step-4" class="ep-message-test-mode ep-settings-block-align-top" style="display: none;">
+        <div id="ep-step-4" class="ep-message-test-mode ep-settings-block-align-top dropdown-hidden">
             <p class="ep-heading-test-mode ep-settings-subtitle-font-size ep-settings-title-color">
                 <!--<?= wp_kses($testModeTranslations['subtitle_test_mode'], $allowedHtmlTags) ?>-->
             </p>

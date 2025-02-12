@@ -66,7 +66,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         //$cellphone=@$order->billing_phone??'0';
         $data = array(
             "paymentMethod" => $checkout["paymentMethod"],
-            "invoice" => (string)$order->get_id(),
+            "invoice" => (string)$order->get_id()."prueba".(string)$order->get_id(),
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,
