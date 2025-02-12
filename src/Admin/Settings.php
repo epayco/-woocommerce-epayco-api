@@ -251,7 +251,15 @@ class Settings
                 'id'      => array(),
                 'class'   => array(),
                 'onclick' => array()
-            )
+            ),
+            'div' => array(
+                'id'      => array(),
+                'class'   => array(),
+            ),
+            'p' => array(
+                'id'      => array(),
+                'class'   => array(),
+            ),
         );
 
         include dirname(__FILE__) . '/../../templates/admin/settings/settings.php';

@@ -23,30 +23,33 @@
 }
 
 .ep-settings-header {
-    height: 340px;
-    margin: 30px 0 15px 0;
-    position: relative
+    height: 380px !important;
+    position: relative;
+    background: url("../../images/settings/frame.png") no-repeat center;
+    background-size: cover;
+    border-radius: 10px;
 }
 
 .ep-settings-header-img {
-    width: 100%;
-    height: 100%;
-    background: url("../../images/settings/header.jpg") no-repeat center;
+    margin: 30px;
+    width: 92%;
+    height: 85%;
+    background: url("../../images/settings/header.png") no-repeat center;
     background-size: cover;
-    border-radius: 140px 170px 170px 0;
-    position: absolute
+    position: absolute;
+    border-radius: 10px;
 }
 
 .ep-settings-header-logo {
     position: relative;
-    background: url("../../images/logo2.svg") 98% 50% no-repeat transparent;
-    width: 190px;
-    height: 70px;
+    background: url("../../images/logo2.png") 100% 50% no-repeat transparent;
+    width: 295px;
+    height: 100px;
     top: 60px;
     line-height: 36px;
     flex: none;
     flex-grow: 0;
-    margin: 16px 0 0 0px
+    margin: 0px
 }
 
 .ep-settings-header-hr {
@@ -198,7 +201,7 @@
 
 .ep-button:hover {
     border-color: transparent;
-    background-color: #373737ad !important;
+    background-color: #373737e3 !important;
     color: #fff;
     -webkit-transition: background-color .1s ease-in;
     transition: background-color .1s ease-in
@@ -258,8 +261,8 @@
 }
 
 .ep-settings-icon-open {
-    background: url("../../images/icons/icon-open.png") 100% 50% no-repeat transparent;
-    background-size: 16px;
+    background: url("../../images/icons/CaretDownFill.png") 100% 50% no-repeat transparent;
+    background-size: 12px;
     padding-right: 16px !important;
     transition: .3s
 }
@@ -278,7 +281,7 @@
 }
 
 .dropdown-visible {
-    max-height: 1400px; /* Ajusta según el contenido */
+    max-height: 2200px; /* Ajusta según el contenido */
     opacity: 1;
     transform: translateY(0);
 }
@@ -309,9 +312,34 @@
 
 .ep-settings-icon-config {
     background: url("../../images/icons/icon-config.png") center center no-repeat transparent;
-    padding-right: 16px !important
+    padding-right: 16px !important;
+    width: 32px;
+    height: 32px;
+}
+.ep-settings-icon-body{
+    display: flex
+;
+    /* justify-content: space-between; */
+    cursor: pointer;
+    /* box-shadow: 1px 1px 4px 0px #16161D4D; */
+    height: 26px;
+    border: 1px solid #eeeeee00;
+    background: #EEEEEE;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 4px;
+    border-width: 1px;
+    font-size: 16px;
+    align-items: center;
+    margin-left: 10px;
 }
 
+.ep-settings-icon-body:hover {
+    color: #FF6720;
+    -webkit-transition: background-color .1s ease-in;
+    transition: background-color .1s ease-in;
+    box-shadow: 2px 2px 4px 0px #16161D4D;
+}
 .ep-settings-hr {
     position: static;
     border: 1px solid #c6c6c6;
@@ -519,7 +547,7 @@ input:checked + .ep-settings-slider:before {
     padding: 7px 8px 5px;
     height: 24px;
     position: static;
-    width: 124px;
+    width: 85px;
     left: calc(50% - 124px / 2);
     top: 0;
     bottom: 0;
@@ -539,7 +567,7 @@ input:checked + .ep-settings-slider:before {
     justify-content: center;
     align-items: center;
     padding: 7px 8px 5px;
-    width: 196px;
+    width: 85px;
     height: 24px;
     position: static;
     left: 4.08%;
@@ -608,12 +636,13 @@ input:checked + .ep-settings-slider:before {
     display: flex;
     padding: 16px 20px 16px 14px;
     align-items: center;
-    border: 1px solid #FFD100
+    border: 1px solid #FFD100;
+    margin-bottom: 15px;
 }
 .ep-settings-alert-red {
     width: 6px;
     background-color: red;
-    border-radius: 6px 0 0 6px
+    border-radius: 6px 0 0 6px;
 }
 
 .ep-settings-alert-payment-methods-green {
@@ -623,7 +652,8 @@ input:checked + .ep-settings-slider:before {
     display: flex;
     padding: 16px 20px 16px 14px;
     align-items: center;
-    border: 1px solid #67C940
+    border: 1px solid #67C940;
+    margin-bottom: 15px;
 }
 
 .ep-settings-alert-payment-methods-gray {
@@ -797,27 +827,21 @@ input:checked + .ep-settings-slider:before {
     justify-content: space-between
 }
 
-.ep-settings-credentials:hover {
+.ep-settings-step-one:hover {
     border-color: red;
     color: #FF6720;
     -webkit-transition: background-color .1s ease-in;
     transition: background-color .1s ease-in;
     box-shadow: 2px 2px 4px 0px #16161D4D;
 }
-.ep-settings-payment:hover {
+.ep-settings-title-align:hover {
     border-color: red;
     color: #FF6720;
     -webkit-transition: background-color .1s ease-in;
     transition: background-color .1s ease-in;
     box-shadow: 2px 2px 4px 0px #16161D4D;
 }
-.ep-settings-mode:hover {
-    border-color: red;
-    color: #FF6720;
-    -webkit-transition: background-color .1s ease-in;
-    transition: background-color .1s ease-in;
-    box-shadow: 2px 2px 4px 0px #16161D4D;
-}
+
 .ep-settings-mode-style {
     width: 16px;
     height: 16px
@@ -1084,9 +1108,8 @@ input:checked + .ep-settings-slider:before {
         margin: 0 0 0 -10px
     }
 
-    .ep-settings-header-img {
-        width: 100%;
-        height: 100%
+    .ep-settings-title-align{
+        height: 70px;
     }
 
     .ep-block-requirements {
@@ -1123,5 +1146,32 @@ input:checked + .ep-settings-slider:before {
         display: flex;
         align-items: center;
         justify-content: center
+    }
+    .ep-settings-align-div{
+        flex-direction: column;
+        gap:10px;
+    }
+}
+
+
+@media screen and (min-width: 425px) {
+    .ep-settings-header-img {
+        width: 86%;
+    }
+}
+@media screen and (min-width: 768px) {
+    .ep-settings-header-img {
+        width: 92%;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .ep-settings-header-img {
+        width: 92%;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .ep-settings-header-img {
+        width: 94%;
     }
 }

@@ -33,10 +33,11 @@ if (!defined('ABSPATH')) {
 <div class="ep-settings">
     <div class="ep-settings-header">
         <div class="ep-settings-header-img"></div>
-        <div style="float: right">
+        <div>
             <div class="ep-settings-header-logo"></div>
-            <hr class="ep-settings-header-hr" />
-            <p class="ep-settings-header-title"><?= wp_kses($headerTranslations['title_header'], $allowedHtmlTags) ?></p>
+
+                <?= wp_kses($headerTranslations['title_header'], $allowedHtmlTags) ?>
+
         </div>
     </div>
 
