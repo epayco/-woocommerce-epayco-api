@@ -851,7 +851,7 @@ msgstr "https://github.com/epayco/Plugin_ePayco_WooCommerce"
 #: src/Translations/StoreTranslations.php:267
 #: src/Translations/StoreTranslations.php:334
 msgid "I confirm and accept the"
-msgstr "Confirmo y acepto la"
+msgstr "Confirmo y acepto las"
 
 #: src/Translations/AdminTranslations.php:291
 msgid "In how many days will cash payments expire."
@@ -1329,7 +1329,7 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:263
 #: src/Translations/StoreTranslations.php:329
 msgid "Terms and conditions"
-msgstr "Condiciones generales"
+msgstr "condiciones generales"
 
 #: src/Translations/AdminTranslations.php:215
 msgid "test"
