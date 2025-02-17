@@ -76,7 +76,7 @@
 }
 
 .ep-container {
-    display: flex
+    /*display: flex*/
 }
 
 .ep-settings-title-container {
@@ -850,7 +850,7 @@ input:checked + .ep-settings-slider:before {
 .ep-settings-mode-warning {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start
+    margin-top: 4px;
 }
 
 .ep-settings-select {
@@ -1173,5 +1173,61 @@ input:checked + .ep-settings-slider:before {
 @media screen and (min-width: 1440px) {
     .ep-settings-header-img {
         width: 94%;
+    }
+}
+
+.ep-settings-header-title{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+@media screen and (min-width: 1440px) {
+    .ep-settings-header-title {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .ep-settings-header-title {
+        width: 70%;
+    }
+}
+
+
+@media screen and (max-width: 475px) {
+    .ep-settings-header-title {
+        width: 80%;
+    }
+}
+
+.ep-settings-context{
+    font-weight: 500 !important;
+    color: black !important;
+    font-size: 14px !important;
+    margin:0px 50px !important;
+    line-height: 18px !important;
+}
+
+@media screen and (min-width: 780px) {
+    .ep-settings-context {
+        margin-top: 30px !important;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .ep-settings-context {
+        margin-top: 20px !important;
+    }
+}
+
+
+@media screen and (max-width: 475px) {
+    .ep-settings-context {
+        margin-top: 10px !important;
+    }
+}
+@media screen and (max-width: 412px) {
+    .ep-settings-context {
+        display:none !important;
     }
 }

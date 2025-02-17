@@ -41,6 +41,9 @@ if (!defined('ABSPATH')) {
         </div>
     </div>
 
+
+    <p style="font-size: 24px;margin: 10px 0px 10px;font-weight: 900;"> <?= wp_kses($headerTranslations['configuration'], $allowedHtmlTags) ?></p>
+
     <div class="ep-settings-credentials" style="margin: 10px 0px">
         <div id="ep-settings-step-one" class="ep-settings-title-align">
             <div class="ep-settings-title-container">
@@ -182,7 +185,7 @@ if (!defined('ABSPATH')) {
         </div>
 
         <div id="ep-step-4" class="ep-message-test-mode ep-settings-block-align-top dropdown-hidden">
-            <p class="ep-heading-test-mode ep-settings-subtitle-font-size ep-settings-title-color">
+            <p class="ep-heading-test-mode ep-settings-subtitle-font-size ep-settings-title-color" style="display: none">
                 <!--<?= wp_kses($testModeTranslations['subtitle_test_mode'], $allowedHtmlTags) ?>-->
             </p>
 

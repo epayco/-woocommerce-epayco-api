@@ -259,6 +259,7 @@ class Settings
             'p' => array(
                 'id'      => array(),
                 'class'   => array(),
+                'style' => array()
             ),
         );
 
@@ -321,6 +322,8 @@ class Settings
             $this->seller->validatePublicKeyPayment('private_key', $private_key);
 
             $validateEpaycoCredentials =  $this->seller->validateEpaycoCredentials($publicKey, $private_key);
+
+            //$this->store->setCronSyncMode('no');
 
             if ($validateEpaycoCredentials['status']) {
                 $this->seller->setHomologValidate($validateEpaycoCredentials['status']);

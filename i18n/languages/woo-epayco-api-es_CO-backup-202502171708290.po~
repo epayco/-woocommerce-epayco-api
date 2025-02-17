@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: ePayco WooCommerce\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-23 17:36+0000\n"
-"PO-Revision-Date: 2025-02-09 12:44+0000\n"
+"PO-Revision-Date: 2025-02-17 17:08+0000\n"
 "Last-Translator: \n"
-"Language-Team: Español\n"
-"Language: es_ES\n"
+"Language-Team: Español de Colombia\n"
+"Language: es_CO\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -160,8 +160,8 @@ msgid ""
 "selected</strong><br>Please choose a different number of installments or use "
 "a different payment method ."
 msgstr ""
-"<strong>Su tarjeta no acepta el número de cuotas seleccionado</strong><br>"
-"Por favor, elija un número de cuotas diferente o utilice otro método de pago "
+"<strong>Su tarjeta no acepta el número de plazos seleccionado</strong><br>"
+"Por favor, elija un número de plazos diferente o utilice otro método de pago "
 "."
 
 #: src/Translations/StoreTranslations.php:376
@@ -447,6 +447,10 @@ msgstr "Haga clic para volver a intentarlo"
 msgid "Collection in the name of EPAYCO.COM S.A.S."
 msgstr "Recaudo a nombre de EPAYCO.COM S.A.S."
 
+#: src/Translations/AdminTranslations.php:113
+msgid "Configuration"
+msgstr "Configuración"
+
 #: src/Translations/AdminTranslations.php:202
 msgid "Configure your credentials to enable ePayco payment methods."
 msgstr "Configure sus credenciales para habilitar los métodos de pago ePayco."
@@ -469,7 +473,7 @@ msgstr "Continúe en"
 
 #: src/Translations/StoreTranslations.php:86
 msgid "Convention code"
-msgstr "Código del convenio"
+msgstr "Código de convenio"
 
 #: src/Translations/AdminTranslations.php:128
 msgid "copy and paste your credentials "
@@ -570,11 +574,12 @@ msgstr "Inactivo"
 #: src/Translations/AdminTranslations.php:344
 #: src/Translations/AdminTranslations.php:413
 msgid "disabled"
-msgstr "inactivo"
+msgstr "Inactivo"
 
 #: src/Translations/AdminTranslations.php:90
+#| msgid "Download ePyaco receipt"
 msgid "Download ePayco receipt"
-msgstr "Descargar recibo ePayco"
+msgstr "Descargar Recibo ePayco"
 
 #: src/Translations/StoreTranslations.php:166
 #: src/Translations/StoreTranslations.php:213
@@ -610,7 +615,7 @@ msgstr "Activar el pago"
 
 #: src/Translations/AdminTranslations.php:200
 msgid "Enabled"
-msgstr "Activado"
+msgstr "Activo"
 
 #: src/Translations/AdminTranslations.php:157
 #: src/Translations/AdminTranslations.php:338
@@ -650,11 +655,11 @@ msgstr "ePayco - Suscripción de pago"
 
 #: src/Translations/AdminTranslations.php:223
 msgid "ePayco Checkouts Production."
-msgstr "Producción de Checkouts ePayco."
+msgstr "Producción de ePayco Checkouts."
 
 #: src/Translations/AdminTranslations.php:220
 msgid "ePayco Checkouts Test."
-msgstr "prueba de ePayco Checkouts."
+msgstr "Prueba de ePayco Checkouts."
 
 #: src/Translations/AdminTranslations.php:67
 msgid "ePayco Error: PHP Extension CURL is not installed."
@@ -689,6 +694,10 @@ msgid ""
 msgstr ""
 "pagos ePayco para WooCommerce requiere la versión PHP 7.4 o posterior. Por "
 "favor, actualice su versión de PHP."
+
+#: src/Translations/AdminTranslations.php:107
+msgid "ePayco PLUGIN"
+msgstr "PLUGIN DE ePayco"
 
 #: src/Translations/AdminTranslations.php:167
 #: src/Translations/AdminTranslations.php:279
@@ -731,6 +740,13 @@ msgstr "Fecha de caducidad incompleta"
 #: src/Translations/StoreTranslations.php:317
 msgid "Expiration date invalid"
 msgstr "Fecha de caducidad no válida"
+
+#: src/Translations/AdminTranslations.php:108
+msgid ""
+"Facilitate payments in your online store with the ePayco plugin. With this "
+"integration, you will be able to offer your customers a fast, secure and "
+"frictionless payment experience."
+msgstr ""
 
 #: src/Translations/AdminTranslations.php:471
 msgid "FAQs"
@@ -778,7 +794,7 @@ msgstr "Se requiere la dirección del titular"
 #: src/Translations/StoreTranslations.php:53
 #: src/Translations/StoreTranslations.php:112
 msgid "Holder cellphone"
-msgstr "Teléfono móvil con soporte"
+msgstr "Teléfono móvil"
 
 #: src/Translations/StoreTranslations.php:58
 #: src/Translations/StoreTranslations.php:117
@@ -965,7 +981,7 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:44
 #: src/Translations/StoreTranslations.php:103
 msgid "Offline Methods in Test Mode"
-msgstr "Métodos fuera de línea en modo de prueba"
+msgstr "Métodos offline en modo test"
 
 #: src/Translations/AdminTranslations.php:472
 msgid "on the dev website."
@@ -975,6 +991,10 @@ msgstr "en el sitio web de desarrollo."
 #: src/Translations/AdminTranslations.php:412
 msgid "One Page Checkout is"
 msgstr "One Page Checkout es"
+
+#: src/Translations/AdminTranslations.php:106
+msgid "OPTIMIZE YOUR STORE WITH THE"
+msgstr "OPTIMIZA TU TIENDA CON EL"
 
 #: src/Translations/AdminTranslations.php:78
 msgid ""
@@ -1034,7 +1054,7 @@ msgstr "El pago ha fallado"
 #: src/Translations/StoreTranslations.php:287
 #: src/Translations/StoreTranslations.php:354
 msgid "Payment method"
-msgstr "Forma de pago"
+msgstr "Método de pago"
 
 #: src/Translations/StoreTranslations.php:73
 #: src/Translations/StoreTranslations.php:277
@@ -1045,7 +1065,7 @@ msgstr "método de pago"
 #: src/Translations/AdminTranslations.php:93
 #: src/Translations/AdminTranslations.php:292
 msgid "Payment methods"
-msgstr "Formas de pago"
+msgstr "Métodos de pago"
 
 #: src/Translations/AdminTranslations.php:448
 msgid "Payment status on ePayco"
@@ -1058,7 +1078,7 @@ msgstr "pagos"
 #: src/Translations/AdminTranslations.php:173
 #: src/Translations/AdminTranslations.php:354
 msgid "Payments without leaving your store with our customizable checkout"
-msgstr "Pagos sin salir de su tienda con nuestro Checkout personalizable"
+msgstr "Pagos sin salir de su tienda con nuestra caja personalizable"
 
 #: src/Translations/StoreTranslations.php:69
 #: src/Translations/StoreTranslations.php:179
@@ -1103,7 +1123,7 @@ msgstr "Plugin ePayco WooCommerce."
 
 #: src/Translations/AdminTranslations.php:132
 msgid "PRIVATE_KEY"
-msgstr "CLAVE_PRIVADA"
+msgstr "PRIVATE_KEY"
 
 #: src/Translations/AdminTranslations.php:216
 msgid "Production"
@@ -1132,7 +1152,7 @@ msgstr "PSE está <b>activado</b>."
 
 #: src/Translations/AdminTranslations.php:131
 msgid "PUBLIC_KEY"
-msgstr "CLAVE_PÚBLICA"
+msgstr "PUBLIC_KEY"
 
 #: src/Translations/StoreTranslations.php:79
 #: src/Translations/StoreTranslations.php:185
@@ -1333,7 +1353,7 @@ msgstr "Condiciones generales"
 
 #: src/Translations/AdminTranslations.php:215
 msgid "test"
-msgstr "prueba"
+msgstr "Prueba"
 
 #: src/Translations/AdminTranslations.php:208
 #: src/Translations/StoreTranslations.php:141
@@ -1375,7 +1395,8 @@ msgstr "El texto aquí insertado no se traducirá a otras lenguas"
 #: src/Translations/StoreTranslations.php:266
 #: src/Translations/StoreTranslations.php:302
 msgid "There was an error. Please try again in a few minutes."
-msgstr "Se ha producido un error. Vuelva a intentarlo dentro de unos minutos."
+msgstr ""
+"Se ha producido un error. Por favor, inténtelo de nuevo en unos minutos."
 
 #: src/Translations/AdminTranslations.php:449
 msgid ""
@@ -1463,8 +1484,8 @@ msgid ""
 "higher compared to other payment methods."
 msgstr ""
 "Cuando habilitas esta función, tus clientes pagan más rápido usando sus "
-"cuentas Sdk.</br>La tasa de aprobación de estos pagos en tu tienda puede ser "
-"un 25% mayor en comparación con otros métodos de pago."
+"cuentas ePayco.</br>La tasa de aprobación de estos pagos en tu tienda puede "
+"ser un 25% mayor en comparación con otros métodos de pago."
 
 #: src/Translations/AdminTranslations.php:109
 msgid "with"
@@ -1492,12 +1513,12 @@ msgid ""
 "With the Transparent Checkout, you can sell inside your store environment, "
 "without redirection and all the safety from ePayco."
 msgstr ""
-"Con el Checkout Transparente, podrá vender dentro del entorno de su tienda, "
-"sin redireccionamientos y con toda la seguridad de ePayco."
+"Con Checkout Transparente, podrá vender dentro del entorno de su tienda, sin "
+"redireccionamientos y con toda la seguridad de ePayco."
 
 #: src/Translations/AdminTranslations.php:79
 msgid "You activated Sdk’s plug-in"
-msgstr "Has activado el plug-in de Sdk"
+msgstr "Has activado el plug-in de ePayco"
 
 #: src/Translations/AdminTranslations.php:384
 #: src/Translations/AdminTranslations.php:423

@@ -399,6 +399,22 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
+#: src/Translations/AdminTranslations.php:106
+msgid "OPTIMIZE YOUR STORE WITH THE"
+msgstr ""
+
+#: src/Translations/AdminTranslations.php:107
+msgid "ePayco PLUGIN"
+msgstr ""
+
+#: src/Translations/AdminTranslations.php:108
+msgid "Facilitate payments in your online store with the ePayco plugin. With this integration, you will be able to offer your customers a fast, secure and frictionless payment experience."
+msgstr ""
+
+#: src/Translations/AdminTranslations.php:113
+msgid "Configuration"
+msgstr ""
+
 #: src/Translations/AdminTranslations.php:128
 msgid "copy and paste your credentials "
 msgstr ""

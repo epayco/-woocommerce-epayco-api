@@ -102,14 +102,15 @@ class AdminTranslations
     private function setHeaderSettingsTranslations(): void
     {
         $titleHeader = sprintf(
-            '<div class="ep-settings-header-title"><p>%s</p><p>%s</p><p>%s</p></div>',
+            '<div class="ep-settings-header-title"><p style="font-weight: 900;color: black;margin:0px 50px;font-size: 19px;line-height: 20px;">%s</p><p style="font-weight: 900;color: #DF5C1F;margin:0px 50px;font-size: 29px;">%s</p><p class="ep-settings-context">%s</p></div>',
             __('OPTIMIZE YOUR STORE WITH THE', 'woo-epayco-api'),
             __('ePayco PLUGIN', 'woo-epayco-api'),
             __('Facilitate payments in your online store with the ePayco plugin. With this integration, you will be able to offer your customers a fast, secure and frictionless payment experience.', 'woo-epayco-api'),
         );
 
         $this->headerSettings = [
-            'title_header'             => $titleHeader
+            'title_header'             => $titleHeader,
+            'configuration'   => __('Configuration', 'woo-epayco-api'),
         ];
     }
     /**

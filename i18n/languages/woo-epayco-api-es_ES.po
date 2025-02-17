@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ePayco WooCommerce\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-23 17:36+0000\n"
-"PO-Revision-Date: 2025-02-09 13:58+0000\n"
+"PO-Revision-Date: 2025-02-17 17:09+0000\n"
 "Last-Translator: \n"
 "Language-Team: Español\n"
 "Language: es_ES\n"
@@ -447,6 +447,10 @@ msgstr "Haga clic para volver a intentarlo"
 msgid "Collection in the name of EPAYCO.COM S.A.S."
 msgstr "Recaudo a nombre de EPAYCO.COM S.A.S."
 
+#: src/Translations/AdminTranslations.php:113
+msgid "Configuration"
+msgstr "Configuración"
+
 #: src/Translations/AdminTranslations.php:202
 msgid "Configure your credentials to enable ePayco payment methods."
 msgstr "Configure sus credenciales para habilitar los métodos de pago ePayco."
@@ -690,6 +694,10 @@ msgstr ""
 "pagos ePayco para WooCommerce requiere la versión PHP 7.4 o posterior. Por "
 "favor, actualice su versión de PHP."
 
+#: src/Translations/AdminTranslations.php:107
+msgid "ePayco PLUGIN"
+msgstr "PLUGIN DE ePayco"
+
 #: src/Translations/AdminTranslations.php:167
 #: src/Translations/AdminTranslations.php:279
 #: src/Translations/AdminTranslations.php:313
@@ -731,6 +739,16 @@ msgstr "Fecha de caducidad incompleta"
 #: src/Translations/StoreTranslations.php:317
 msgid "Expiration date invalid"
 msgstr "Fecha de caducidad no válida"
+
+#: src/Translations/AdminTranslations.php:108
+msgid ""
+"Facilitate payments in your online store with the ePayco plugin. With this "
+"integration, you will be able to offer your customers a fast, secure and "
+"frictionless payment experience."
+msgstr ""
+"Facilita los pagos en tu tienda online con el plugin de ePayco. \n"
+"Con esta integración, podrás ofrecer a tus clientes una experiencia de pago "
+"rápida, segura y sin fricciones."
 
 #: src/Translations/AdminTranslations.php:471
 msgid "FAQs"
@@ -975,6 +993,10 @@ msgstr "en el sitio web de desarrollo."
 #: src/Translations/AdminTranslations.php:412
 msgid "One Page Checkout is"
 msgstr "One Page Checkout es"
+
+#: src/Translations/AdminTranslations.php:106
+msgid "OPTIMIZE YOUR STORE WITH THE"
+msgstr "OPTIMIZA TU TIENDA CON EL"
 
 #: src/Translations/AdminTranslations.php:78
 msgid ""
