@@ -199,7 +199,7 @@ if (!defined('ABSPATH')) {
         </div>
         <div style="margin-top: 15px;"></div>
 
-        <div class="ep-checkout-daviplata-terms-and-conditions">
+        <div  style="margin-left:21px" class="ep-checkout-daviplata-terms-and-conditions">
             <terms-and-conditions
                     label="<?= esc_html($terms_and_conditions_label); ?>"
                     description="<?= esc_html($terms_and_conditions_description); ?>"

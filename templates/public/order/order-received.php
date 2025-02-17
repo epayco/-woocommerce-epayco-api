@@ -214,6 +214,13 @@ if (!defined('ABSPATH')) {
         /*height: 82px;*/
     }
 
+     .navEpayco {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 55px !important;
+    }
+
     .hole {
         padding-top: 1.6rem;
         overflow: visible;
@@ -405,5 +412,3 @@ if (!defined('ABSPATH')) {
         width: 100%;
     }
 </style>
-
-

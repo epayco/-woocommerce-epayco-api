@@ -220,7 +220,7 @@ if (!defined('ABSPATH')) {
                     </input-card-email>
                 </div>
 
-                <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
+                <div class='ep-checkout-custom-card-row' id="ep-card-holder-div" >
 
                     <input-cellphone
                             label-message="<?= esc_html($input_ind_phone_label); ?>"
@@ -239,7 +239,7 @@ if (!defined('ABSPATH')) {
                     </input-cellphone>
                 </div>
 
-                <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
+                <div class='ep-checkout-custom-card-row' id="ep-card-holder-div" >
                     <input-country
                             label-message="<?= esc_html($input_country_label); ?>"
                             helper-message="<?= esc_html($input_country_helper); ?>"
@@ -286,5 +286,3 @@ if (!defined('ABSPATH')) {
 <div id="epayco-utilities" style="display:none;">
     <input type="hidden" id="cardTokenId" name="epayco_creditcard[cardTokenId]" />
 </div>
-
-
