@@ -37,8 +37,9 @@
     vertical-align: baseline !important;
 }
 
-.ep-checkout-container a, .ep-checkout-container abbr, .ep-checkout-container acronym, .ep-checkout-container address, .ep-checkout-container applet, .ep-checkout-container article, .ep-checkout-container aside, .ep-checkout-container audio, .ep-checkout-container b, .ep-checkout-container big, .ep-checkout-container blockquote, .ep-checkout-container canvas, .ep-checkout-container caption, .ep-checkout-container center, .ep-checkout-container cite, .ep-checkout-container code, .ep-checkout-container dd, .ep-checkout-container del, .ep-checkout-container details, .ep-checkout-container dfn, .ep-checkout-container div, .ep-checkout-container dl, .ep-checkout-container dt, .ep-checkout-container em, .ep-checkout-container embed, .ep-checkout-container fieldset, .ep-checkout-container figcaption, .ep-checkout-container figure, .ep-checkout-container footer, .ep-checkout-container form, .ep-checkout-container h1, .ep-checkout-container h2, .ep-checkout-container h3, .ep-checkout-container h4, .ep-checkout-container h5, .ep-checkout-container h6, .ep-checkout-container header, .ep-checkout-container hgroup, .ep-checkout-container i, .ep-checkout-container iframe, .ep-checkout-container img, .ep-checkout-container input, .ep-checkout-container ins, .ep-checkout-container kbd, .ep-checkout-container label, .ep-checkout-container legend, .ep-checkout-container li, .ep-checkout-container li input, .ep-checkout-container mark, .ep-checkout-container menu, .ep-checkout-container nav, .ep-checkout-container object, .ep-checkout-container ol, .ep-checkout-container output, .ep-checkout-container p, .ep-checkout-container pre, .ep-checkout-container q, .ep-checkout-container ruby, .ep-checkout-container s, .ep-checkout-container samp, .ep-checkout-container section, .ep-checkout-container select, .ep-checkout-container small, .ep-checkout-container span, .ep-checkout-container strike, .ep-checkout-container strong, .ep-checkout-container sub, .ep-checkout-container summary, .ep-checkout-container sup, .ep-checkout-container table, .ep-checkout-container tbody, .ep-checkout-container td, .ep-checkout-container tfoot, .ep-checkout-container th, .ep-checkout-container thead, .ep-checkout-container time, .ep-checkout-container tr, .ep-checkout-container tt, .ep-checkout-container u, .ep-checkout-container ul, .ep-checkout-container var, .ep-checkout-container video {
-    font-family: Poppins, Electrolize !important;
+.ep-checkout-container a, .ep-checkout-container abbr, .ep-checkout-container acronym, .ep-checkout-container address, .ep-checkout-container applet, .ep-checkout-container article, .ep-checkout-container aside, .ep-checkout-container audio, .ep-checkout-container b, .ep-checkout-container big, .ep-checkout-container blockquote, .ep-checkout-container canvas, .ep-checkout-container caption, .ep-checkout-container center, .ep-checkout-container cite, .ep-checkout-container code, .ep-checkout-container dd, .ep-checkout-container del, .ep-checkout-container details, .ep-checkout-container dfn, .ep-checkout-container div, .ep-checkout-container dl, .ep-checkout-container dt, .ep-checkout-container em, .ep-checkout-container embed, .ep-checkout-container fieldset, .ep-checkout-container figcaption, .ep-checkout-container figure, .ep-checkout-container footer, .ep-checkout-container form, .ep-checkout-container h1, .ep-checkout-container h2, .ep-checkout-container h3, .ep-checkout-container h4, .ep-checkout-container h5, .ep-checkout-container h6, .ep-checkout-container header, .ep-checkout-container hgroup, .ep-checkout-container i, .ep-checkout-container iframe, .ep-checkout-container img, .ep-checkout-container ins, .ep-checkout-container kbd, .ep-checkout-container label, .ep-checkout-container legend, .ep-checkout-container li, .ep-checkout-container li input, .ep-checkout-container mark, .ep-checkout-container menu, .ep-checkout-container nav, .ep-checkout-container object, .ep-checkout-container ol, .ep-checkout-container output, .ep-checkout-container pre, .ep-checkout-container q, .ep-checkout-container ruby, .ep-checkout-container s, .ep-checkout-container samp, .ep-checkout-container section, .ep-checkout-container select, .ep-checkout-container small, .ep-checkout-container span, .ep-checkout-container strike, .ep-checkout-container strong, .ep-checkout-container sub, .ep-checkout-container summary, .ep-checkout-container sup, .ep-checkout-container table, .ep-checkout-container tbody, .ep-checkout-container td, .ep-checkout-container tfoot, .ep-checkout-container th, .ep-checkout-container thead, .ep-checkout-container time, .ep-checkout-container tr, .ep-checkout-container tt, .ep-checkout-container u, .ep-checkout-container ul, .ep-checkout-container var, .ep-checkout-container video {
+
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
     font-size: 14px;
     font-style: normal;
     line-height: 16px;
@@ -46,6 +47,60 @@
     padding: 0 3px;
     vertical-align: baseline;
 }
+
+.ep-checkout-container a{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 16px;
+    margin: 0;
+    padding: 0 3px;
+    vertical-align: baseline;
+}
+
+.ep-checkout-container p{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 16px;
+    margin: 0;
+    padding: 0 3px;
+    vertical-align: baseline;
+   
+}
+
+ #ep-daviplata .ep-checkout-container a{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 16px;
+    margin: 0;
+    padding: 0 3px;
+    vertical-align: baseline;
+}
+
+#ep-daviplata .ep-checkout-container p{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 16px;
+    margin: 0;
+    padding: 0 3px;
+    vertical-align: baseline;
+   
+}
+.ep-checkout-container input{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 16px;
+    margin: 0;
+    padding: 0 3px;
+    vertical-align: baseline;
+   
+}
+
+
 .ep-checkout-custom-load {
     align-items: center;
     display: none;
@@ -69,7 +124,7 @@
 }
 
 .ep-test-mode-credit-card {
-    background: rgba(198, 229, 248, 1);!important;
+    background: rgba(198, 229, 248, 1) !important;
     border: 2px solid #40A8E6 !important;
     border-radius: 7px !important;
     display: flex !important;
@@ -88,23 +143,23 @@ div .ep-error {
 .ep-helper .ep-helper-icon {
     border-radius: 19px !important;
     color: rgb(167, 10, 10);
-    display: flex;
-    height: 13px;
-    align-content: center;
-    justify-content: center;
+    display: table;
+    height: 22px;
+    /* align-content: center;
+    justify-content: center; */
     align-items: center;
     /* font-size: 15px; */
     font-weight: bold;
-    /* width: 17px; */
-    /* border-width: 5px; */
+    width: 11px;
+    border-width: 2px !important;
     border-style: solid;
     border-color: rgb(219 11 32);
     border-image: initial;
 
     background: #fff;
-    border: 2px solid #f23d4f;
+    border: 3px solid #f23d4f;
     margin: 0 4px;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: bold;
 }
 
@@ -112,8 +167,9 @@ div .ep-error {
     align-items: center;
     color: #f23d4f;
     display: none;
-    font-family: Poppins, Electrolize !important;
-    font-size: 13px !important;
+    /* font-family: apple-system, BlinkMacSystemFont !important; */
+    font-family:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;   
+      font-size: 13px !important;
     font-weight: bold !important;
     margin-bottom: 10px !important;
     margin-top: 4px !important;
@@ -225,7 +281,7 @@ div .ep-error {
 }
 .ep-input-label {
     align-items: flex-end !important;
-    color: rgba(0, 0, 0, .9) !important;
+    color: #2D3748 !important;
     display: flex;
     font-size: 14px !important;
     font-style: normal !important;
@@ -305,7 +361,7 @@ div .ep-error {
     border-radius: 8px !important;
     display: flex !important;
     height: 48px !important;
-    width: 97%;
+    width: 100% !important;
 }
 
 .with-country{
@@ -474,14 +530,13 @@ option {
 .ep-terms-and-conditions-container{
     display: flex !important;
     flex-direction: column;
-    gap: 10px;
 }
 
 .ep-terms-and-conditions-container label {
     display: flex;
     align-items: center;
     font-size: 14px;
-    gap: 10px
+    gap: 10px;
 }
 
 .svg-logo{

@@ -118,7 +118,7 @@ if (! defined('ABSPATH')) {
                     >
                     </input-cellphone>
                 </div>
-                <div class="ep-checkout-pse-person">
+                <div class="ep-checkout-pse-person"  style="width: 412px;">
                     <input-select
                         name="epayco_pse[person_type]"
                         label=<?= esc_html($person_type_label); ?>
