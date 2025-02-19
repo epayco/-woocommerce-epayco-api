@@ -34,6 +34,11 @@ class DaviplataGateway extends AbstractGateway
     /**
      * @const
      */
+    public const WEBHOOK_DONWLOAD = 'Donwload';
+
+    /**
+     * @const
+     */
     public const LOG_SOURCE = 'Epayco_DaviplataGateway';
 
     const CASH_ENTITIES = [
@@ -87,7 +92,7 @@ class DaviplataGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
         $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
-
+        $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
 
 
@@ -317,10 +322,10 @@ class DaviplataGateway extends AbstractGateway
                     if (in_array(strtolower($response['data']['estatus']),["pendiente","pending"])) {
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
-                        $urlReceived = $order->get_checkout_order_received_url();
+                        //$urlReceived = $order->get_checkout_order_received_url();
                         $return = [
                             'result'   => 'success',
-                            'redirect' => $urlReceived,
+                            'redirect' =>  $response['urlPayment'],
                         ];
                         return $return;
                     }
@@ -414,19 +419,40 @@ class DaviplataGateway extends AbstractGateway
     public function renderThankYouPage($order_id): void
     {
         $order        = wc_get_order($order_id);
-        $transactionDetails  =  $this->epayco->orderMetadata->getDaviplataTransactionDetailsMeta($order);
+        //$transactionDetails  =  $this->epayco->orderMetadata->getDaviplataTransactionDetailsMeta($order);
+        $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
+        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+        if (empty($paymentInfo)) {
+            return;
+        }
 
-        if (empty($transactionDetails)) {
+        $this->transaction = new  DaviplataTransaction($this, $order, []);
+
+        $transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
+        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+
+        if (empty($transactionInfo)) {
+            return;
+        }
+
+        $transaction = $this->transaction->returnParameterToThankyouPage($transactionInfo, $this);
+
+        if (empty($transaction)) {
             return;
         }
 
         $this->epayco->hooks->template->getWoocommerceTemplate(
+            'public/order/order-received.php',
+            $transaction
+        );
+
+        /*$this->epayco->hooks->template->getWoocommerceTemplate(
             'public/order/epayco-order-received.php',
             [
                 'print_daviplata_label'  => '',
                 'print_daviplata_link'  => '',
                 'transaction_details' => $transactionDetails,
             ]
-        );
+        );*/
     }
 }

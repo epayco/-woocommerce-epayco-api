@@ -1033,7 +1033,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:380
 #: src/Translations/AdminTranslations.php:383
-msgid "PSE by ePayco"
+msgid "PSE"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:388

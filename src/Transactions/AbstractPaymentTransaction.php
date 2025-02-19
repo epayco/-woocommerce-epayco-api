@@ -66,7 +66,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         //$cellphone=@$order->billing_phone??'0';
         $data = array(
             "paymentMethod" => $checkout["paymentMethod"],
-            "invoice" => (string)$order->get_id()."prueba".(string)$order->get_id(),
+            "invoice" => (string)$order->get_id(),
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,
@@ -170,9 +170,9 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "city" => $city,
             "phone" => $cellphone,
             "ip" => $myIp,
-            //"urlResponse" => $response_url,
+            "urlResponse" => $response_url,
             "urlConfirmation" => $confirm_url,
-            "methodConfirmation" => "GET",
+            "methodConfirmation" => "POST",
             "extra1" => (string)$order->get_id(),
             "extras" => array(
                 "extra1" => (string)$order->get_id(),
@@ -341,7 +341,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "ip" => $myIp,
             "urlResponse" => $response_url,
             "urlConfirmation" => $confirm_url,
-            "methodConfirmation" => "GET",
+            "methodConfirmation" => "POST",
             "extra1" => (string)$order->get_id(),
             "extras" => array(
                 "extra1" => (string)$order->get_id(),
@@ -1031,7 +1031,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             $x_cardnumber_ = null;
             $is_cash = true;
         }else{
-            if($x_franchise == 'PSE'){
+            if($x_franchise == 'PSE' || $x_franchise == 'DP'){
                 $x_cardnumber_ = null;
             }else{
                 $x_cardnumber_ = isset($x_cardnumber)?substr($x_cardnumber, -8):null;

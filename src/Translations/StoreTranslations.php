@@ -124,8 +124,26 @@ class StoreTranslations
             'terms_and_conditions_link_text'   => __('Terms and conditions', 'woo-epayco-api'),
             'and_the' => __(' and the', 'woo-epayco-api'),
             'personal_data_processing_link_text'                   => __(' personal data processing policy', 'woo-epayco-api'),
+            'success_message'                  => __('Approved transaction', 'woo-epayco-api'),
+            'pending_message'                  => __('Pending transaction', 'woo-epayco-api'),
+            'fail_message'                     => __('Transaction rejected', 'woo-epayco-api'),
+            'error_message'                    => __('Payment has failed', 'woo-epayco-api'),
+            'error_description'                => __('Please try again later.', 'woo-epayco-api'),
+            'payment_method'                   => __('Payment method', 'woo-epayco-api'),
+            'dateandtime'                      => __('Date and time', 'woo-epayco-api'),
+            'response'                         => __('Response', 'woo-epayco-api'),
+            'totalValue'                       => __('Total value', 'woo-epayco-api'),
+            'description'                       => __('Description', 'woo-epayco-api'),
+            'reference'                       => __('Reference', 'woo-epayco-api'),
+            'purchase'                        => __('Purchase details', 'woo-epayco-api'),
+            'iPaddress'                       => __('IP address', 'woo-epayco-api'),
+            'receipt'                         => __('Receipt', 'woo-epayco-api'),
+            'authorization'                   => __('Authorization', 'woo-epayco-api'),
+            'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
+            'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
             'donwload_text'  => __('Download ePayco receipt', 'woo-epayco-api'),
+
         ];
     }
 
