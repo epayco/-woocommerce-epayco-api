@@ -86,7 +86,7 @@ if (!defined('ABSPATH')) {
                         <input-email
                                 labelMessage="<?= esc_html($input_email_label); ?>"
                                 helperMessage="<?= esc_html($input_email_helper); ?>"
-                                placeholder="jonhdoe@example.com"
+                                placeholder="Johndoe@example.com"
                                 inputName='epayco_ticket[email]'
                                 flagError='epayco_ticket[emailError]'
                                 validate=true

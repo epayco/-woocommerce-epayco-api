@@ -32,11 +32,11 @@ if (!defined('ABSPATH')) {
         </div>
 
         <div class="ep-status-sync-metabox-text">
-            <h2 class="ep-status-sync-metabox-title" style="font-weight: 700; padding: 12px 0 0 0; font-family: 'Lato', sans-serif; font-size: 16px">
+            <h2 class="ep-status-sync-metabox-title" style="font-weight: 700; padding: 12px 0 0 0; : 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px">
                 <?php echo esc_html($alert_title); ?>
             </h2>
 
-            <p class="ep-status-sync-metabox-description" style="font-family: 'Lato', sans-serif;">
+            <p class="ep-status-sync-metabox-description" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
                 <?php echo esc_html($alert_description); ?>
             </p>
 

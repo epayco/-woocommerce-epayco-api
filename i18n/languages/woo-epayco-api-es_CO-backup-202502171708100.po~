@@ -681,11 +681,11 @@ msgstr "El módulo Epayco necesita una versión activa de %s para funcionar"
 
 #: src/Translations/AdminTranslations.php:224
 msgid "ePayco payment methods in Production Mode"
-msgstr "métodos de pago ePayco en modo de producción"
+msgstr "Métodos de pago ePayco en modo de producción"
 
 #: src/Translations/AdminTranslations.php:225
 msgid "ePayco payment methods in Test Mode"
-msgstr "métodos de pago ePayco en modo de prueba"
+msgstr "Métodos de pago ePayco en modo de prueba"
 
 #: src/Translations/AdminTranslations.php:66
 msgid ""

@@ -120,7 +120,7 @@ if (!defined('ABSPATH')) {
                                 class="ep-checkout-custom-left-card-input"
                                 labelMessage="<?= esc_html($card_expiration_input_label); ?>"
                                 helperMessage="<?= esc_html($card_expiration_input_helper); ?>"
-                                placeholder="mm/yy"
+                                placeholder="MM/YY"
                                 inputName='epayco_subscription[expirationDate]'
                                 flagError='epayco_subscription[expirationDateError]'
                                 validate=true
@@ -202,7 +202,7 @@ if (!defined('ABSPATH')) {
                     <input-card-email
                             labelMessage="<?= esc_html($card_holder_email_input_label); ?>"
                             helperMessage="<?= esc_html($card_holder_email_input_helper); ?>"
-                            placeholder="john@example.com"
+                            placeholder="John@example.com"
                             inputName='epayco_subscription[email]'
                             flagError='epayco_subscription[emailError]'
                             validate=true

@@ -49,7 +49,7 @@
 }
 
 .ep-text-title {
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 16px;
     line-height: 20px;
     display: flex;
@@ -60,7 +60,7 @@
 }
 
 .ep-text-subtitle {
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 16px;
     line-height: 18px;
     display: flex;
@@ -197,7 +197,7 @@
 
 .ep-feedback-info-title {
     color: var(--Text-andes-text-color-inverted, #fff);
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
@@ -207,7 +207,7 @@
 
 .ep-feedback-info-subtitle {
     color: var(--Text-andes-text-color-inverted, #fff);
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
