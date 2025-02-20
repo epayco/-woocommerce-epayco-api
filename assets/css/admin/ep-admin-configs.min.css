@@ -1,5 +1,5 @@
 @font-face {
-    font-family: 'Poppins';
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-style: normal;
     font-weight: 400;
     font-display: swap;
@@ -8,7 +8,7 @@
 }
 /* latin */
 @font-face {
-    font-family: 'Poppins';
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-style: normal;
     font-weight: 400;
     font-display: swap;
@@ -247,14 +247,14 @@
 .form-table th {
     width: 100% !important;
     display: block;
-    font-family: 'Poppins' !important;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 .form-table td {
     margin-bottom: 30px;
     display: block;
     padding: 0;
-    font-family: 'Poppins' !important;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 .ep-mw-100 {
@@ -268,7 +268,7 @@
     box-shadow: 0 6px 16px rgb(0 0 0 / 10%);
     border-radius: 6px;
     user-select: none;
-    font-family: 'Poppins';
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 .ep-field-text-title {
@@ -282,7 +282,7 @@
 }
 
 .ep-subtitle-header {
-    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 28px !important;
     font-weight: 600 !important;
     line-height: 35px;
@@ -305,7 +305,7 @@
     font-stretch: normal;
     letter-spacing: normal;
     color: rgba(0, 0, 0, .8);
-    font-family: 'Poppins';
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 .ep-subtitle-body {
@@ -515,7 +515,7 @@
 }
 
 .ep-text-title {
-    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 16px;
     line-height: 20px;
     display: flex;
@@ -526,7 +526,7 @@
 }
 
 .ep-text-subtitle {
-    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 16px;
     line-height: 18px;
     display: flex;
@@ -641,7 +641,7 @@
 
 .ep-support-link-text {
     display: inline-block;
-    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     color: rgba(0, 0, 0, .9);
     font-size: 14px;
     font-style: normal;

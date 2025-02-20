@@ -1718,7 +1718,7 @@ class TCPDF {
 		'flood-color' => 'black',
 		'flood-opacity' => 1,
 		'font' => '',
-		'font-family' => 'helvetica',
+		'font-family' => 'Segoe UI',
 		'font-size' => 'medium',
 		'font-size-adjust' => 'none',
 		'font-stretch' => 'normal',

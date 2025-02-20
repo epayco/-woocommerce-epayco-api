@@ -102,7 +102,7 @@ class AdminTranslations
     private function setHeaderSettingsTranslations(): void
     {
         $titleHeader = sprintf(
-            '<div class="ep-settings-header-title"><p style="font-weight: 900;color: black;margin:0px 50px;font-size: 19px;line-height: 20px;">%s</p><p style="font-weight: 900;color: #DF5C1F;margin:0px 50px;font-size: 29px;">%s</p><p class="ep-settings-context">%s</p></div>',
+            '<div class="ep-settings-header-title"><p style="font-weight: 900;color: #16161D ;margin:0px 50px;font-size: 19px;line-height: 20px;">%s</p><p style="font-weight: 900;color: #DF5C1F;margin:0px 50px;font-size: 29px;">%s</p><p class="ep-settings-context">%s</p></div>',
             __('OPTIMIZE YOUR STORE WITH THE', 'woo-epayco-api'),
             __('ePayco PLUGIN', 'woo-epayco-api'),
             __('Facilitate payments in your online store with the ePayco plugin. With this integration, you will be able to offer your customers a fast, secure and frictionless payment experience.', 'woo-epayco-api'),
@@ -376,10 +376,10 @@ class AdminTranslations
             'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
             'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
             'card_settings_button_text'                 => __('Go to Settings', 'woo-epayco-api'),
-            'gateway_title'                => __('PSE', 'woo-epayco-api'),
+            'gateway_title'                => __('PSE by ePayco', 'woo-epayco-api'),
             'gateway_description'          => __('Let your customers pay with direct bank transfers from any Colombian bank, all without leaving your online store. Secure, fast, and interruption-free.', 'woo-epayco-api'),
             'method_title'                 => __('ePayco - Checkout Pse', 'woo-epayco-api'),
-            'header_title'                 => __('PSE', 'woo-epayco-api'),
+            'header_title'                 => __('PSE by ePayco', 'woo-epayco-api'),
             'header_description'           => __('you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woo-epayco-api'),
             'enabled_title'                => __('Enable PSE', 'woo-epayco-api'),
             'enabled_subtitle'             => __('By deactivating it, you will disable PSE payments from ePayco', 'woo-epayco-api'),

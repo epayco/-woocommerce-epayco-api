@@ -1,25 +1,27 @@
 @font-face {
-    font-family: 'Poppins';
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-style: normal;
     font-weight: 400;
     font-display: swap;
     src: url(https://fonts.gstatic.com/s/poppins/v21/pxiEyp8kv8JHgFVrJJnecmNE.woff2) format('woff2');
     unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
+
 /* latin */
 @font-face {
-    font-family: 'Poppins';
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-style: normal;
     font-weight: 400;
     font-display: swap;
     src: url(https://fonts.gstatic.com/s/poppins/v21/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2');
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
 .ep-settings {
     margin: 0 55px 0 23px;
     font-size: 16px;
     /*min-width: 550px;*/
-    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 .ep-settings-header {
@@ -65,14 +67,14 @@
 .ep-settings-header p {
     position: relative;
     top: 70px;
-    font-family: sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 2rem;
     line-height: 36px;
     color: #fff;
     flex: none;
     flex-grow: 0;
     margin: 16px 16px 0 50px;
-    font-family: 'Poppins';
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 .ep-container {
@@ -118,8 +120,8 @@
 }
 
 .ep-settings-font-color {
-    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    color: rgba(0, 0, 0, .9)
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+    color: #16161D;
 }
 
 .ep-settings-title-font-size {
@@ -134,12 +136,13 @@
 }
 
 .ep-settings-title-color {
-    color: rgba(0, 0, 0, .55)
+    color: #373737;
 }
 
 .ep-inner-container {
     display: flex;
-    flex-direction: row:hover
+    flex-direction: row;
+    
 }
 
 .ep-inner-container div:first-child {
@@ -281,7 +284,8 @@
 }
 
 .dropdown-visible {
-    max-height: 2200px; /* Ajusta según el contenido */
+    max-height: 2200px;
+    /* Ajusta según el contenido */
     opacity: 1;
     transform: translateY(0);
 }
@@ -293,8 +297,15 @@
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .ep-settings-icon {
@@ -316,9 +327,9 @@
     width: 32px;
     height: 32px;
 }
-.ep-settings-icon-body{
-    display: flex
-;
+
+.ep-settings-icon-body {
+    display: flex;
     /* justify-content: space-between; */
     cursor: pointer;
     /* box-shadow: 1px 1px 4px 0px #16161D4D; */
@@ -340,6 +351,7 @@
     transition: background-color .1s ease-in;
     box-shadow: 2px 2px 4px 0px #16161D4D;
 }
+
 .ep-settings-hr {
     position: static;
     border: 1px solid #c6c6c6;
@@ -351,10 +363,11 @@
 }
 
 .ep-settings-title-blocks {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 20px;
     line-height: 25px;
     margin: auto;
+    color: #16161D;
 }
 
 .ep-settings-input {
@@ -369,7 +382,8 @@
     order: 1;
     align-self: stretch;
     flex-grow: 0;
-    margin: 4px 0
+    margin: 4px 0;
+    color: #373737 !important;
 }
 
 .ep-settings-input:hover {
@@ -389,13 +403,13 @@
 }
 
 .ep-settings-label {
-    font-family: sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 14px;
     line-height: 18px
 }
 
 .ep-settings-helper {
-    font-family: sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     position: static;
     width: 532px;
     height: 18px;
@@ -458,15 +472,15 @@
     transition: .4s
 }
 
-input:checked + .ep-settings-slider {
+input:checked+.ep-settings-slider {
     background-color: #2196f3
 }
 
-input:focus + .ep-settings-slider {
+input:focus+.ep-settings-slider {
     box-shadow: 0 0 1px #2196f3
 }
 
-input:checked + .ep-settings-slider:before {
+input:checked+.ep-settings-slider:before {
     -webkit-transform: translateX(16px);
     -ms-transform: translateX(16px);
     transform: translateX(16px)
@@ -554,12 +568,12 @@ input:checked + .ep-settings-slider:before {
     color: #FFD100;
     background: rgba(255, 250, 224, 1);
     border-radius: 12px;
-    font-family: sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 12px;
     line-height: 12px;
     text-align: center;
     border: 1px solid #FFD100;
-    font-family: 'Poppins';
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 .ep-settings-prod-mode-alert {
@@ -574,7 +588,7 @@ input:checked + .ep-settings-slider:before {
     right: 4.08%;
     top: 29.17%;
     bottom: 20.83%;
-    font-family: sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 12px;
     line-height: 12px;
     text-align: center;
@@ -582,7 +596,7 @@ input:checked + .ep-settings-slider:before {
     background: rgba(210, 239, 198, 1);
     border-radius: 12px;
     color: #67C940;
-    font-family: 'Poppins';
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 .ep-settings-fieldset {
@@ -596,7 +610,7 @@ input:checked + .ep-settings-slider:before {
 }
 
 .ep-settings-text-payment {
-    font-family: sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 14px;
     line-height: 16px;
     color: #009ee3;
@@ -639,6 +653,7 @@ input:checked + .ep-settings-slider:before {
     border: 1px solid #FFD100;
     margin-bottom: 15px;
 }
+
 .ep-settings-alert-red {
     width: 6px;
     background-color: red;
@@ -667,14 +682,14 @@ input:checked + .ep-settings-slider:before {
 }
 
 .ep-settings-alert-mode-body {
-    font-family: sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 14px;
     line-height: 22px;
     margin-top: 4px
 }
 
 .ep-settings-alert-mode-title {
-    font-family: sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 16px;
     line-height: 20px;
     margin-top: 0;
@@ -719,7 +734,7 @@ input:checked + .ep-settings-slider:before {
     padding-right: 30px !important
 }
 
-.ep-credential-show-password{
+.ep-credential-show-password {
     background: url("../../images/settings/visibility.png") 98% 50% no-repeat transparent;
     background-size: 1rem;
     padding-right: 30px !important;
@@ -728,7 +743,7 @@ input:checked + .ep-settings-slider:before {
     margin-left: -45px !important;
 }
 
-.ep-credential-hide-password{
+.ep-credential-hide-password {
     background: url("../../images/settings/visibility_off.png") 98% 50% no-repeat transparent;
     background-size: 1rem;
     padding-right: 30px !important;
@@ -761,7 +776,7 @@ input:checked + .ep-settings-slider:before {
     z-index: 3;
     top: 30px;
     left: -550%;
-    font-family: sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 16px;
     line-height: 20px;
     word-wrap: break-word;
@@ -834,6 +849,7 @@ input:checked + .ep-settings-slider:before {
     transition: background-color .1s ease-in;
     box-shadow: 2px 2px 4px 0px #16161D4D;
 }
+
 .ep-settings-title-align:hover {
     border-color: red;
     color: #FF6720;
@@ -936,7 +952,7 @@ input:checked + .ep-settings-slider:before {
 
 .ep-settings-support-title {
     color: rgba(0, 0, 0, .9);
-    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -945,7 +961,7 @@ input:checked + .ep-settings-slider:before {
 
 .ep-settings-support-content p {
     color: rgba(0, 0, 0, .9);
-    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -962,7 +978,8 @@ input:checked + .ep-settings-slider:before {
     margin-bottom: 16px
 }
 
-.ep-settings-support-content-table td, .ep-settings-support-content-table th {
+.ep-settings-support-content-table td,
+.ep-settings-support-content-table th {
     font-size: 12px;
     padding: 8px;
     padding-left: 5px;
@@ -1014,7 +1031,8 @@ input:checked + .ep-settings-slider:before {
     margin-top: 20px
 }
 
-.ep-settings-close:focus, .ep-settings-close:hover {
+.ep-settings-close:focus,
+.ep-settings-close:hover {
     color: #000;
     text-decoration: none;
     cursor: pointer
@@ -1045,7 +1063,7 @@ input:checked + .ep-settings-slider:before {
 
 .ep-settings-modal-title {
     color: rgba(0, 0, 0, .9);
-    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;;
     font-size: 22px;
     font-style: normal;
     font-weight: 500;
@@ -1055,7 +1073,7 @@ input:checked + .ep-settings-slider:before {
 
 .ep-settings-modal-desc {
     color: rgba(0, 0, 0, .9);
-    font-family: "Poppins", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -1068,7 +1086,8 @@ input:checked + .ep-settings-slider:before {
     border: 1px solid #000
 }
 
-.ep-settings-modal-table-cell, .ep-settings-modal-table-header {
+.ep-settings-modal-table-cell,
+.ep-settings-modal-table-header {
     height: 50px;
     min-width: 60px;
     text-align: left
@@ -1108,7 +1127,7 @@ input:checked + .ep-settings-slider:before {
         margin: 0 0 0 -10px
     }
 
-    .ep-settings-title-align{
+    .ep-settings-title-align {
         height: 70px;
     }
 
@@ -1136,7 +1155,8 @@ input:checked + .ep-settings-slider:before {
     }
 
     .ep-settings-title-blocks {
-        font-size: 1.25rem
+        font-size: 1.25rem;
+        color: #16161D;
     }
 
     .ep-settings-icon {
@@ -1147,9 +1167,10 @@ input:checked + .ep-settings-slider:before {
         align-items: center;
         justify-content: center
     }
-    .ep-settings-align-div{
+
+    .ep-settings-align-div {
         flex-direction: column;
-        gap:10px;
+        gap: 10px;
     }
 }
 
@@ -1159,11 +1180,13 @@ input:checked + .ep-settings-slider:before {
         width: 86%;
     }
 }
+
 @media screen and (min-width: 768px) {
     .ep-settings-header-img {
         width: 92%;
     }
 }
+
 @media screen and (min-width: 1024px) {
     .ep-settings-header-img {
         width: 92%;
@@ -1176,11 +1199,12 @@ input:checked + .ep-settings-slider:before {
     }
 }
 
-.ep-settings-header-title{
+.ep-settings-header-title {
     display: flex;
     flex-direction: column;
     width: 70%;
 }
+
 @media screen and (min-width: 1440px) {
     .ep-settings-header-title {
         width: 50%;
@@ -1200,11 +1224,11 @@ input:checked + .ep-settings-slider:before {
     }
 }
 
-.ep-settings-context{
+.ep-settings-context {
     font-weight: 500 !important;
-    color: black !important;
+    color:  #373737 !important;
     font-size: 14px !important;
-    margin:0px 50px !important;
+    margin: 0px 50px !important;
     line-height: 18px !important;
 }
 
@@ -1226,8 +1250,9 @@ input:checked + .ep-settings-slider:before {
         margin-top: 10px !important;
     }
 }
+
 @media screen and (max-width: 412px) {
     .ep-settings-context {
-        display:none !important;
+        display: none !important;
     }
 }
