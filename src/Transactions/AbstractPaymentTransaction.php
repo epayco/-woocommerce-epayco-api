@@ -28,13 +28,17 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $ico=0;
         $base_tax=$order->get_subtotal()-$order->get_total_discount();
         foreach($order->get_items('tax') as $item_id => $item ) {
-            if( strtolower( $item->get_label() ) == 'iva' ){
-                $iva += round($item->get_tax_total(),2);
+            $tax_label = trim(strtolower($item->get_label()));
+
+            if ($tax_label == 'iva') {
+                $iva += round($item->get_tax_total(), 2);
             }
-            if( strtolower( $item->get_label() ) == 'ico'){
-                $ico += round($item->get_tax_total(),2);
+
+            if ($tax_label == 'ico') {
+                $ico += round($item->get_tax_total(), 2);
             }
         }
+        $iva = $iva !== 0 ? $iva : $order->get_total() - $base_tax;
 
         foreach ($order->get_items() as $product) {
             $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
@@ -115,14 +119,17 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $ico=0;
         $base_tax=$order->get_subtotal()-$order->get_total_discount();
         foreach($order->get_items('tax') as $item_id => $item ) {
-            if( strtolower( $item->get_label() ) == 'iva' ){
-                $iva += round($item->get_tax_total(),2);
+            $tax_label = trim(strtolower($item->get_label()));
+
+            if ($tax_label == 'iva') {
+                $iva += round($item->get_tax_total(), 2);
             }
-            if( strtolower( $item->get_label() ) == 'ico'){
-                $ico += round($item->get_tax_total(),2);
+
+            if ($tax_label == 'ico') {
+                $ico += round($item->get_tax_total(), 2);
             }
         }
-
+        $iva = $iva !== 0 ? $iva : $order->get_total() - $base_tax;
         foreach ($order->get_items() as $product) {
             $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
             $descripcionParts[] = $clearData;
@@ -200,13 +207,17 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $ico=0;
         $base_tax=$order->get_subtotal()-$order->get_total_discount();
         foreach($order->get_items('tax') as $item_id => $item ) {
-            if( strtolower( $item->get_label() ) == 'iva' ){
-                $iva += round($item->get_tax_total(),2);
+            $tax_label = trim(strtolower($item->get_label()));
+
+            if ($tax_label == 'iva') {
+                $iva += round($item->get_tax_total(), 2);
             }
-            if( strtolower( $item->get_label() ) == 'ico'){
-                $ico += round($item->get_tax_total(),2);
+
+            if ($tax_label == 'ico') {
+                $ico += round($item->get_tax_total(), 2);
             }
         }
+        $iva = $iva !== 0 ? $iva : $order->get_total() - $base_tax;
 
         foreach ($order->get_items() as $product) {
             $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
@@ -287,13 +298,18 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $ico=0;
         $base_tax=$order->get_subtotal()-$order->get_total_discount();
         foreach($order->get_items('tax') as $item_id => $item ) {
-            if( strtolower( $item->get_label() ) == 'iva' ){
-                $iva += round($item->get_tax_total(),2);
+            $tax_label = trim(strtolower($item->get_label()));
+
+            if ($tax_label == 'iva') {
+                $iva += round($item->get_tax_total(), 2);
             }
-            if( strtolower( $item->get_label() ) == 'ico'){
-                $ico += round($item->get_tax_total(),2);
+
+            if ($tax_label == 'ico') {
+                $ico += round($item->get_tax_total(), 2);
             }
         }
+        
+        $iva = $iva !== 0 ? $iva : $order->get_total() - $base_tax;
 
         foreach ($order->get_items() as $product) {
             $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
