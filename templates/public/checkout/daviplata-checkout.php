@@ -51,15 +51,15 @@ if (!defined('ABSPATH')) {
     <div class="ep-checkout-daviplata-container" style="max-width: 452px;margin: auto;">
         <div class="ep-checkout-daviplata-content">
             <?php if ($test_mode) : ?>
-                <div class="ep-checkout-daviplata-test-mode">
-                    <test-mode
+                <div class="ep-checkout-daviplata-test-mode-epayco">
+                    <test-mode-epayco
                         title="<?= esc_html($test_mode_title); ?>"
                         description="<?= esc_html($test_mode_description); ?>"
                         link-text="<?= esc_html($test_mode_link_text); ?>"
                         link-src="<?= esc_html($test_mode_link_src); ?>"
                         icon-src="<?php echo esc_html($icon_warning); ?>"
                     >
-                    </test-mode>
+                    </test-mode-epayco>
                 </div>
             <?php endif; ?>
             <div style="margin-top: 10px; font-weight: bold; display: flex; align-items: center;">
@@ -70,7 +70,7 @@ if (!defined('ABSPATH')) {
             </div>
             <div id="ep-custom-checkout-form-container" style="margin: 10px;">
                 <div class="ep-checkout-daviplata-input-document">
-                    <input-name
+                    <input-name-epayco
                         labelMessage="<?= esc_html($input_name_label); ?>"
                         helperMessage="<?= esc_html($input_name_helper); ?>"
                         placeholder="Ex: John Doe"
@@ -79,11 +79,11 @@ if (!defined('ABSPATH')) {
                         validate=true
                         hiddenId="hidden-name-daviplata"
                     >
-                    </input-name>
+                    </input-name-epayco>
                 </div>
 
                 <div class="ep-checkout-daviplata-input-document">
-                    <input-email
+                    <input-email-epayco
                         labelMessage="<?= esc_html($input_email_label); ?>"
                         helperMessage="<?= esc_html($input_email_helper); ?>"
                         placeholder="Johndoe@example.com"
@@ -92,7 +92,7 @@ if (!defined('ABSPATH')) {
                         validate=true
                         hiddenId= "hidden-email-daviplata"
                     >
-                    </input-email>
+                    </input-email-epayco>
                 </div>
 
                 <!--<div class="ep-checkout-daviplata-input-document">
@@ -109,10 +109,10 @@ if (!defined('ABSPATH')) {
                 </div>-->
 
                 <div class="ep-checkout-daviplata-input-document">
-                    <input-cellphone
+                    <input-cellphone-epayco
                         label-message="<?= esc_html($input_ind_phone_label); ?>"
                         helper-message="<?= esc_html($input_ind_phone_helper); ?>"
-                        input-name='epayco_daviplata[cellphone]'
+                        input-name-epayco='epayco_daviplata[cellphone]'
                         hidden-id="cellphoneType"
                         input-data-checkout="cellphone_number"
                         select-id="cellphoneType"
@@ -123,7 +123,7 @@ if (!defined('ABSPATH')) {
                         validate=true
                         placeholder="0000000000"
                     >
-                    </input-cellphone>
+                    </input-cellphone-epayco>
                 </div>
 
                 <!--<div class="ep-checkout-daviplata-input-document">
@@ -137,10 +137,10 @@ if (!defined('ABSPATH')) {
                 </div>-->
 
                 <div class="ep-checkout-daviplata-input-document">
-                    <input-document
+                    <input-document-epayco
                         label-message="<?= esc_html($input_document_label); ?>"
                         helper-message="<?= esc_html($input_document_helper); ?>"
-                        input-name='epayco_daviplata[document]'
+                        input-name-epayco='epayco_daviplata[document]'
                         hidden-id="documentType"
                         input-data-checkout="document_number"
                         select-id="documentType"
@@ -162,14 +162,14 @@ if (!defined('ABSPATH')) {
                         validate=true
                         placeholder="0000000000"
                     >
-                    </input-document>
+                    </input-document-epayco>
                 </div>
 
                 <!--<div class="ep-checkout-daviplata-input-document">
                     <input-country
                         label-message="<?= esc_html($input_country_label); ?>"
                         helper-message="<?= esc_html($input_country_helper); ?>"
-                        input-name='epayco_daviplata[country]'
+                        input-name-epayco='epayco_daviplata[country]'
                         hidden-id="countryType"
                         input-data-checkout="country_number"
                         select-id="countryType"

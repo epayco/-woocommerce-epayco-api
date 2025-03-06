@@ -54,15 +54,15 @@
                     var e;
                     const daviplataName = document.getElementsByName('epayco_daviplata[name]')[0]??document.getElementsByName('epayco_daviplata[nameError]')[0];
                     const daviplataContentName = daviplataName.value;
-                    const nameHelpers =  document.querySelector('input-helper').querySelector("div");
+                    const nameHelpers =  document.querySelector('input-helper-epayco').querySelector("div");
                     const verifyName = (nameElement) => {
                         if (nameElement === '') {
-                            document.querySelector('input-name').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-name-epayco').querySelector(".ep-input").classList.add("ep-error");
                             nameHelpers.style.display = 'flex';
                         }
                     }
                     /*const daviplataContentAddress = document.getElementsByName('epayco_daviplata[address]')[0].value;
-                    const addressHelpers =  document.querySelector('input-address').querySelector("input-helper").querySelector("div");
+                    const addressHelpers =  document.querySelector('input-address').querySelector("input-helper-epayco").querySelector("div");
                     const verifyAddress = (addressElement) => {
                         if (addressElement === '') {
                             document.querySelector('input-address').querySelector(".ep-input").classList.add("ep-error");
@@ -70,32 +70,32 @@
                         }
                     }*/
                     const daviplataContentEmail = document.getElementsByName('epayco_daviplata[email]')[0].value;
-                    const emailHelpers =  document.querySelector('input-email').querySelector("input-helper").querySelector("div");
+                    const emailHelpers =  document.querySelector('input-email-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyEmail = (emailElement) => {
                         if (emailElement === '') {
-                            document.querySelector('input-email').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-email-epayco').querySelector(".ep-input").classList.add("ep-error");
                             emailHelpers.style.display = 'flex';
                         }
                     }
 
                     const cellphoneType = document.getElementsByName('epayco_daviplata[cellphone]')[0].value;
                     const daviplataContentCellphone = document.getElementsByName('epayco_daviplata[cellphoneType]')[0].value;
-                    const cellphoneHelpers =  document.querySelector('input-cellphone').querySelector("input-helper").querySelector("div");
+                    const cellphoneHelpers =  document.querySelector('input-cellphone-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCellphone = (cellphone) => {
                         if (cellphone === '') {
-                            document.querySelector('input-cellphone').querySelector(".ep-input").classList.add("ep-error");
-                            document.querySelector('input-cellphone').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
+                            document.querySelector('input-cellphone-epayco').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-cellphone-epayco').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             cellphoneHelpers.style.display = 'flex';
                         }
                     }
 
                     //const person_type_value = document.getElementsByName('epayco_daviplata[person_type]')[1].value;
                     const doc_type = document.getElementsByName('epayco_daviplata[documentType]')[0].value;
-                    const documentHelpers =  document.querySelector('input-document').querySelector("input-helper").querySelector("div");
+                    const documentHelpers =  document.querySelector('input-document-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyDocument = (daviplataContentDocument) => {
                         if (daviplataContentDocument === '') {
-                            document.querySelector('input-document').querySelector(".ep-input").classList.add("ep-error");
-                            document.querySelector('input-document').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
+                            document.querySelector('input-document-epayco').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-document-epayco').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             documentHelpers.style.display = 'flex';
                         }
                     }
@@ -103,7 +103,7 @@
                     const doc_number_value = doc_number[0].value;
                     /*const countryType = document.getElementsByName('epayco_daviplata[countryType]')[0].value;
                     const daviplataContentCountry = document.getElementsByName('epayco_daviplata[country]')[0].value;
-                    const countryHelpers =  document.querySelector('input-country').querySelector("input-helper").querySelector("div");
+                    const countryHelpers =  document.querySelector('input-country').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCountry = (daviplataContentCountry) => {
                         if (daviplataContentCountry === '') {
                             document.querySelector('input-country').querySelector(".ep-input").classList.add("ep-error");

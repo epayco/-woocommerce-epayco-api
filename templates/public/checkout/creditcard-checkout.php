@@ -53,16 +53,16 @@ if (!defined('ABSPATH')) {
 <div class='ep-checkout-container'>
     <div class='ep-checkout-creditcard-container' style="max-width: 452px;margin: auto;">
         <?php if ($test_mode) : ?>
-            <div class="ep-checkout-pro-test-mode">
-                <test-mode
+            <div class="ep-checkout-pro-test-mode-epayco">
+                <test-mode-epayco
                         title="<?= esc_html($test_mode_title) ?>"
                         description="<?= esc_html($test_mode_description) ?>"
                         link-text="<?= esc_html($test_mode_link_text) ?>"
                         link-src="<?= esc_html($test_mode_link_src) ?>"
                         icon-src="<?php echo esc_html($icon_warning); ?>"
                 >
-                </test-mode>
-                <div class="ep-test-mode-credit-card">
+                </test-mode-epayco>
+                <div class="ep-test-mode-epayco-credit-card">
                     <img style="height: 25px" src="<?php echo esc_html($icon_info); ?>">
                     <div style="display: grid;grid-template-rows: repeat(2, 1fr);gap: 8px;">
                         <p>Por favor, utiliza la siguiente información de tarjeta de prueba en modo de prueba:</p>
@@ -143,18 +143,18 @@ if (!defined('ABSPATH')) {
                         </input-card-security-code>
                     </div>
                     <div class='ep-checkout-custom-card-column'>
-                        <input-installment
+                        <input-installment-epayco
                                 name="epayco_creditcard[installmet]"
                                 label="<?=esc_html($card_fees_input_label); ?>"
                                 optional="false"
                                 options='[{"id":"", "description": "fees"},{"id":"1", "description": "1"}]'
                         >
-                        </input-installment>
+                        </input-installment-epayco>
                     </div>
                 </div>
             </div>
         </div>
-            <hr>
+            <hr style="margin-bottom: 24px;">
             <div style="margin-top: 10px; font-weight: bold; display: flex; align-items: center;">
                 <svg width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M13.013 8.528H17.7695V7.38514H13.013V8.528ZM13.013 5.36229H17.7695V4.21943H13.013V5.36229ZM3.2305 11.7806H10.9492V11.5909C10.9492 10.9242 10.6069 10.408 9.9225 10.0423C9.23806 9.67657 8.29383 9.49371 7.08983 9.49371C5.88583 9.49371 4.94122 9.67657 4.256 10.0423C3.57078 10.408 3.22894 10.9242 3.2305 11.5909V11.7806ZM7.08983 7.648C7.58217 7.648 7.99672 7.48305 8.3335 7.15314C8.67105 6.82247 8.83983 6.416 8.83983 5.93371C8.83983 5.45143 8.67105 5.04533 8.3335 4.71543C7.99594 4.38552 7.58139 4.22019 7.08983 4.21943C6.59828 4.21867 6.18372 4.384 5.84617 4.71543C5.50861 5.04686 5.33983 5.45295 5.33983 5.93371C5.33983 6.41448 5.50861 6.82095 5.84617 7.15314C6.18372 7.48533 6.59828 7.65028 7.08983 7.648ZM1.88533 16C1.34789 16 0.8995 15.824 0.540167 15.472C0.180833 15.12 0.000777778 14.6804 0 14.1531V1.84686C0 1.32038 0.180056 0.881142 0.540167 0.529143C0.900278 0.177143 1.34828 0.000761905 1.88417 0H19.1158C19.6525 0 20.1005 0.176381 20.4598 0.529143C20.8192 0.881904 20.9992 1.32114 21 1.84686V14.1543C21 14.68 20.8199 15.1192 20.4598 15.472C20.0997 15.8248 19.6517 16.0008 19.1158 16H1.88533ZM1.88533 14.8571H19.1158C19.2947 14.8571 19.4592 14.784 19.6093 14.6377C19.7594 14.4914 19.8341 14.3299 19.8333 14.1531V1.84686C19.8333 1.67086 19.7587 1.50933 19.6093 1.36229C19.46 1.21524 19.2955 1.1421 19.1158 1.14286H1.88417C1.70528 1.14286 1.54078 1.216 1.39067 1.36229C1.24056 1.50857 1.16589 1.6701 1.16667 1.84686V14.1543C1.16667 14.3295 1.24133 14.4907 1.39067 14.6377C1.54 14.7848 1.7045 14.8579 1.88417 14.8571" fill="black"/>
@@ -166,10 +166,10 @@ if (!defined('ABSPATH')) {
             <div id="ep-custom-checkout-form-container">
 
                 <div id="ep-doc-div" class="ep-checkout-custom-input-document">
-                    <input-document
+                    <input-document-epayco
                             label-message="<?= esc_html($card_document_input_label); ?>"
                             helper-message="<?= esc_html($card_document_input_helper); ?>"
-                            input-name='epayco_creditcard[doc_number]'
+                            input-name-epayco='epayco_creditcard[doc_number]'
                             hidden-id="identificationType"
                             input-data-checkout="doc_number"
                             select-id="identificationType"
@@ -191,11 +191,11 @@ if (!defined('ABSPATH')) {
                             validate=true
                             placeholder="0000000000"
                     >
-                    </input-document>
+                    </input-document-epayco>
                 </div>
 
                 <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
-                    <input-address
+                    <input-address-epayco
                             labelMessage="<?= esc_html($card_holder_address_input_label); ?>"
                             helperMessage="<?= esc_html($card_holder_address_input_helper); ?>"
                             placeholder="Street 123"
@@ -204,7 +204,7 @@ if (!defined('ABSPATH')) {
                             validate=true
                             hiddenId= "hidden-adress-custom"
                     >
-                    </input-address>
+                    </input-address-epayco>
                 </div>
 
                 <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
@@ -222,10 +222,10 @@ if (!defined('ABSPATH')) {
 
                 <div class='ep-checkout-custom-card-row' id="ep-card-holder-div" >
 
-                    <input-cellphone
+                    <input-cellphone-epayco
                             label-message="<?= esc_html($input_ind_phone_label); ?>"
                             helper-message="<?= esc_html($input_ind_phone_helper); ?>"
-                            input-name='epayco_creditcard[cellphone]'
+                            input-name-epayco='epayco_creditcard[cellphone]'
                             hidden-id="cellphoneType"
                             input-data-checkout="cellphone_number"
                             select-id="cellphoneType"
@@ -236,14 +236,14 @@ if (!defined('ABSPATH')) {
                             validate=true
                             placeholder="0000000000"
                     >
-                    </input-cellphone>
+                    </input-cellphone-epayco>
                 </div>
 
                 <div class='ep-checkout-custom-card-row' id="ep-card-holder-div" >
-                    <input-country
+                    <input-country-epayco
                             label-message="<?= esc_html($input_country_label); ?>"
                             helper-message="<?= esc_html($input_country_helper); ?>"
-                            input-name='epayco_creditcard[country]'
+                            input-name-epayco='epayco_creditcard[country]'
                             hidden-id="countryType"
                             input-data-checkout="country_number"
                             select-id="countryType"
@@ -254,7 +254,7 @@ if (!defined('ABSPATH')) {
                             validate=true
                             placeholder="<?= esc_html($city); ?>"
                     >
-                    </input-country>
+                    </input-country-epayco>
                 </div>
 
 

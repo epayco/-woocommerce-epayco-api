@@ -168,7 +168,7 @@ if (!defined('ABSPATH')) {
                     <span class="ep-settings-font-color ep-settings-title-blocks ep-settings-margin-right">
                         <?= wp_kses($testModeTranslations['title_test_mode'], $allowedHtmlTags) ?>
                     </span>
-                    <div id="ep-mode-badge" class="ep-settings-margin-left ep-settings-margin-right <?= $testMode ? 'ep-settings-test-mode-alert' : 'ep-settings-prod-mode-alert' ?>">
+                    <div id="ep-mode-badge" class="ep-settings-margin-left ep-settings-margin-right <?= $testMode ? 'ep-settings-test-mode-epayco-alert' : 'ep-settings-prod-mode-alert' ?>">
                         <span id="ep-mode-badge-test" style="display: <?= $testMode ? 'block' : 'none' ?>">
                             <?= wp_kses($testModeTranslations['badge_test'], $allowedHtmlTags) ?>
                         </span>
@@ -184,8 +184,8 @@ if (!defined('ABSPATH')) {
             </div>
         </div>
 
-        <div id="ep-step-4" class="ep-message-test-mode ep-settings-block-align-top dropdown-hidden">
-            <p class="ep-heading-test-mode ep-settings-subtitle-font-size ep-settings-title-color" style="display: none">
+        <div id="ep-step-4" class="ep-message-test-mode-epayco ep-settings-block-align-top dropdown-hidden">
+            <p class="ep-heading-test-mode-epayco ep-settings-subtitle-font-size ep-settings-title-color" style="display: none">
                 <!--<?= wp_kses($testModeTranslations['subtitle_test_mode'], $allowedHtmlTags) ?>-->
             </p>
 
@@ -209,7 +209,7 @@ if (!defined('ABSPATH')) {
                             <span class="ep-settings-subtitle-font-size ep-settings-title-color">
                                 <?= wp_kses($testModeTranslations['subtitle_test'], $allowedHtmlTags) ?>
                                 <span>
-                                    <!--<a id="ep-test-mode-rules-link" class="ep-settings-blue-text" target="_blank" href="<?= wp_kses($links['docs_integration_test'], $allowedHtmlTags) ?>">
+                                    <!--<a id="ep-test-mode-epayco-rules-link" class="ep-settings-blue-text" target="_blank" href="<?= wp_kses($links['docs_integration_test'], $allowedHtmlTags) ?>">
                                         <?= wp_kses($testModeTranslations['subtitle_test_link'], $allowedHtmlTags) ?>
                                     </a>-->
                         </label>

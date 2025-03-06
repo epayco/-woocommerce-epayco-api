@@ -47,15 +47,15 @@ if (! defined('ABSPATH')) {
     <div class="ep-checkout-pse-container" style="max-width: 452px;margin: auto;">
         <div class="ep-checkout-pse-content">
             <?php if ($test_mode) : ?>
-                <div class="ep-checkout-pse-test-mode">
-                    <test-mode
+                <div class="ep-checkout-pse-test-mode-epayco">
+                    <test-mode-epayco
                         title="<?= esc_html($test_mode_title); ?>"
                         description="<?= esc_html($test_mode_description); ?>"
                         link-text="<?= esc_html($test_mode_link_text); ?>"
                         link-src="<?= esc_html($test_mode_link_src); ?>"
                         icon-src="<?php echo esc_html($icon_warning); ?>"
                     >
-                    </test-mode>
+                    </test-mode-epayco>
                 </div>
             <?php endif; ?>
             <div style="margin-top: 10px; font-weight: bold; display: flex; align-items: center;">
@@ -65,8 +65,8 @@ if (! defined('ABSPATH')) {
                 <p style="margin-left: 10px;"><?= esc_html($customer_title) ?></p>
             </div>
             <div id="ep-custom-checkout-form-container" style="margin: 10px;">
-                <div class='ep-checkout-pse-input-cellphone'>
-                    <input-name
+                <div class='ep-checkout-pse-input-cellphone-epayco'>
+                    <input-name-epayco
                             labelMessage="<?= esc_html($input_name_label); ?>"
                             helperMessage="<?= esc_html($input_name_helper); ?>"
                             placeholder="Ex: John Doe"
@@ -75,10 +75,10 @@ if (! defined('ABSPATH')) {
                             validate=true
                             hiddenId= "hidden-name-pse"
                     >
-                    </input-name>
+                    </input-name-epayco>
                 </div>
-                <div class='ep-checkout-pse-input-cellphone'>
-                    <input-email
+                <div class='ep-checkout-pse-input-cellphone-epayco'>
+                    <input-email-epayco
                             labelMessage="<?= esc_html($input_email_label); ?>"
                             helperMessage="<?= esc_html($input_email_helper); ?>"
                             placeholder="Johndoe@example.com"
@@ -87,10 +87,10 @@ if (! defined('ABSPATH')) {
                             validate=true
                             hiddenId= "hidden-email-pse"
                     >
-                    </input-email>
+                    </input-email-epayco>
                 </div>
-                <div class='ep-checkout-pse-input-cellphone'>
-                    <input-address
+                <div class='ep-checkout-pse-input-cellphone-epayco'>
+                    <input-address-epayco
                             labelMessage="<?= esc_html($input_address_label); ?>"
                             helperMessage="<?= esc_html($input_address_helper); ?>"
                             placeholder="Street 123"
@@ -99,13 +99,13 @@ if (! defined('ABSPATH')) {
                             validate=true
                             hiddenId= "hidden-adress-pse"
                     >
-                    </input-address>
+                    </input-address-epayco>
                 </div>
-                <div class='ep-checkout-pse-input-cellphone'>
-                    <input-cellphone
+                <div class='ep-checkout-pse-input-cellphone-epayco'>
+                    <input-cellphone-epayco
                             label-message="<?= esc_html($input_ind_phone_label); ?>"
                             helper-message="<?= esc_html($input_ind_phone_helper); ?>"
-                            input-name='epayco_pse[cellphone]'
+                            input-name-epayco='epayco_pse[cellphone]'
                             hidden-id="cellphoneType"
                             input-data-checkout="cellphone_number"
                             select-id="cellphoneType"
@@ -116,22 +116,22 @@ if (! defined('ABSPATH')) {
                             validate=true
                             placeholder="0000000000"
                     >
-                    </input-cellphone>
+                    </input-cellphone-epayco>
                 </div>
                 <div class="ep-checkout-pse-person"  style="width: 412px;">
-                    <input-select
+                    <input-select-epayco
                         name="epayco_pse[person_type]"
                         label=<?= esc_html($person_type_label); ?>
                         optional="false"
                         options='[{"id":"PN", "description": "Persona natural"},{"id":"PJ", "description": "Persona jurídica"}]'
                     >
-                    </input-select>
+                    </input-select-epayco>
                 </div>
                 <div class="ep-checkout-pse-input-document">
-                    <input-document
+                    <input-document-epayco
                             label-message="<?= esc_html($input_document_label); ?>"
                             helper-message="<?= esc_html($input_document_helper); ?>"
-                            input-name='epayco_pse[document]'
+                            input-name-epayco='epayco_pse[document]'
                             hidden-id="documentType"
                             input-data-checkout="document_number"
                             select-id="documentType"
@@ -153,13 +153,13 @@ if (! defined('ABSPATH')) {
                             validate=true
                             placeholder="0000000000"
                     >
-                    </input-document>
+                    </input-document-epayco>
                 </div>
                 <div class="ep-checkout-pse-input-document">
-                    <input-country
+                    <input-country-epayco
                             label-message="<?= esc_html($input_country_label); ?>"
                             helper-message="<?= esc_html($input_country_helper); ?>"
-                            input-name='epayco_pse[country]'
+                            input-name-epayco='epayco_pse[country]'
                             hidden-id="countryType"
                             input-data-checkout="country_number"
                             select-id="countryType"
@@ -170,9 +170,10 @@ if (! defined('ABSPATH')) {
                             validate=true
                             placeholder="<?= esc_html($city); ?>"
                     >
+                    </input-country-epayco>
                 </div>
                 <div class="ep-checkout-pse-bank">
-                    <input-banks
+                    <input-banks-epayco
                         name="epayco_pse[bank]"
                         label="<?= esc_html($financial_institutions_label); ?>"
                         optional="false"
@@ -180,7 +181,7 @@ if (! defined('ABSPATH')) {
                         hidden-id= "hidden-financial-pse"
                         helper-message="<?= esc_html($financial_institutions_helper); ?>"
                         default-option="">
-                    </input-banks>
+                    </input-banks-epayco>
                 </div>
 
 

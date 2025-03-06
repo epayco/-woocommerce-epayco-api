@@ -51,15 +51,15 @@ if (!defined('ABSPATH')) {
         <div class="ep-checkout-ticket-container" style="max-width: 452px;margin: auto;">
             <div class="ep-checkout-ticket-content">
                 <?php if ($test_mode) : ?>
-                    <div class="ep-checkout-ticket-test-mode">
-                        <test-mode
+                    <div class="ep-checkout-ticket-test-mode-epayco">
+                        <test-mode-epayco
                             title="<?= esc_html($test_mode_title); ?>"
                             description="<?= esc_html($test_mode_description); ?>"
                             link-text="<?= esc_html($test_mode_link_text); ?>"
                             link-src="<?= esc_html($test_mode_link_src); ?>"
                             icon-src="<?php echo esc_html($icon_warning); ?>"
                         >
-                        </test-mode>
+                        </test-mode-epayco>
                     </div>
                 <?php endif; ?>
                 <div style="margin-top: 10px; font-weight: bold; display: flex; align-items: center;">
@@ -70,20 +70,20 @@ if (!defined('ABSPATH')) {
                 </div>
                 <div id="ep-custom-checkout-form-container" style="margin: 10px;">
                     <div class="ep-checkout-ticket-input-document">
-                    <input-name
-                            labelMessage="<?= esc_html($input_name_label); ?>"
-                            helperMessage="<?= esc_html($input_name_helper); ?>"
-                            placeholder="Ex: John Doe"
-                            inputName='epayco_ticket[name]'
-                            flagError='epayco_ticket[nameError]'
-                            validate=true
-                            hiddenId="hidden-name-ticket"
-                    >
-                    </input-name>
-                </div>
+                        <input-name-epayco
+                                labelMessage="<?= esc_html($input_name_label); ?>"
+                                helperMessage="<?= esc_html($input_name_helper); ?>"
+                                placeholder="Ex: John Doe"
+                                inputName='epayco_ticket[name]'
+                                flagError='epayco_ticket[nameError]'
+                                validate=true
+                                hiddenId="hidden-name-ticket"
+                        >
+                        </input-name-epayco>
+                    </div>
 
                     <div class="ep-checkout-ticket-input-document">
-                        <input-email
+                        <input-email-epayco
                                 labelMessage="<?= esc_html($input_email_label); ?>"
                                 helperMessage="<?= esc_html($input_email_helper); ?>"
                                 placeholder="Johndoe@example.com"
@@ -92,7 +92,7 @@ if (!defined('ABSPATH')) {
                                 validate=true
                                 hiddenId= "hidden-email-ticket"
                         >
-                        </input-email>
+                        </input-email-epayco>
                     </div>
 
                     <!--<div class="ep-checkout-ticket-input-document">
@@ -109,10 +109,10 @@ if (!defined('ABSPATH')) {
                     </div>-->
 
                     <div class="ep-checkout-ticket-input-document">
-                        <input-cellphone
+                        <input-cellphone-epayco
                                 label-message="<?= esc_html($input_ind_phone_label); ?>"
                                 helper-message="<?= esc_html($input_ind_phone_helper); ?>"
-                                input-name='epayco_ticket[cellphone]'
+                                input-name-epayco='epayco_ticket[cellphone]'
                                 hidden-id="cellphoneType"
                                 input-data-checkout="cellphone_number"
                                 select-id="cellphoneType"
@@ -123,7 +123,7 @@ if (!defined('ABSPATH')) {
                                 validate=true
                                 placeholder="0000000000"
                         >
-                        </input-cellphone>
+                        </input-cellphone-epayco>
                     </div>
 
                     <!--<div class="ep-checkout-ticket-input-document">
@@ -137,39 +137,39 @@ if (!defined('ABSPATH')) {
                     </div>-->
 
                     <div class="ep-checkout-ticket-input-document">
-                                <input-document
-                                label-message="<?= esc_html($input_document_label); ?>"
-                                helper-message="<?= esc_html($input_document_helper); ?>"
-                                input-name='epayco_ticket[document]'
-                                hidden-id="documentType"
-                                input-data-checkout="document_number"
-                                select-id="documentType"
-                                input-id="documentTypeNumber"
-                                select-name="epayco_ticket[documentType]"
-                                select-data-checkout=document_type"
-                                flag-error="documentTypeError"
-                                documents='[
-                                        {"id":"Type"},
-                                        {"id":"CC"},
-                                        {"id":"CE"},
-                                        {"id":"NIT"},
-                                        {"id":"TI"},
-                                        {"id":"PPN"},
-                                        {"id":"SSN"},
-                                        {"id":"LIC"},
-                                        {"id":"DNI"}
-                                        ]'
-                                validate=true
-                                placeholder="0000000000"
-                                    >
-                                </input-document>
-                            </div>
+                        <input-document-epayco
+                        label-message="<?= esc_html($input_document_label); ?>"
+                        helper-message="<?= esc_html($input_document_helper); ?>"
+                        input-name-epayco='epayco_ticket[document]'
+                        hidden-id="documentType"
+                        input-data-checkout="document_number"
+                        select-id="documentType"
+                        input-id="documentTypeNumber"
+                        select-name="epayco_ticket[documentType]"
+                        select-data-checkout=document_type"
+                        flag-error="documentTypeError"
+                        documents='[
+                                {"id":"Type"},
+                                {"id":"CC"},
+                                {"id":"CE"},
+                                {"id":"NIT"},
+                                {"id":"TI"},
+                                {"id":"PPN"},
+                                {"id":"SSN"},
+                                {"id":"LIC"},
+                                {"id":"DNI"}
+                                ]'
+                        validate=true
+                        placeholder="0000000000"
+                            >
+                        </input-document-epayco>
+                    </div>
 
                     <!--<div class="ep-checkout-ticket-input-document">
                         <input-country
                                 label-message="<?= esc_html($input_country_label); ?>"
                                 helper-message="<?= esc_html($input_country_helper); ?>"
-                                input-name='epayco_ticket[country]'
+                                input-name-epayco='epayco_ticket[country]'
                                 hidden-id="countryType"
                                 input-data-checkout="country_number"
                                 select-id="countryType"
@@ -182,25 +182,34 @@ if (!defined('ABSPATH')) {
                         >
                         </input-country>
                     </div>-->
-
+                </div>
+                <hr style="margin: 24px auto;"/>
+                <div style="margin-top: 10px; font-weight: bold; display: flex; align-items: center;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 17V7C2 6.46957 2.21071 5.96086 2.58579 5.58579C2.96086 5.21071 3.46957 5 4 5H20C20.5304 5 21.0391 5.21071 21.4142 5.58579C21.7893 5.96086 22 6.46957 22 7V17C22 17.5304 21.7893 18.0391 21.4142 18.4142C21.0391 18.7893 20.5304 19 20 19H4C3.46957 19 2.96086 18.7893 2.58579 18.4142C2.21071 18.0391 2 17.5304 2 17Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M18.5 12.01L18.51 11.999M5.5 12.01L5.51 11.999M12 15C11.2044 15 10.4413 14.6839 9.87868 14.1213C9.31607 13.5587 9 12.7956 9 12C9 11.2044 9.31607 10.4413 9.87868 9.87868C10.4413 9.31607 11.2044 9 12 9C12.7956 9 13.5587 9.31607 14.1213 9.87868C14.6839 10.4413 15 11.2044 15 12C15 12.7956 14.6839 13.5587 14.1213 14.1213C13.5587 14.6839 12.7956 15 12 15Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <p style="margin-left: 10px;"><?= esc_html($ticket_text_label) ?></p>
+                </div>
+                <div id="ep-custom-checkout-form-container" style="margin: 10px;">
                     <div class="ep-checkout-ticket-payment-method">
-                        <p class="ep-checkout-ticket-text" data-cy="checkout-ticket-text">
+                        <!--<p class="ep-checkout-ticket-text" data-cy="checkout-ticket-text">
                             <?= esc_html($ticket_text_label); ?>
-                        </p>
+                        </p>-->
 
-                        <input-table
+                        <input-table-epayco
                             name="epayco_ticket[payment_method_id]"
                             button-name=<?= esc_html($input_table_button); ?>
                             columns='<?= esc_attr(wp_json_encode($payment_methods)); ?>'>
-                        </input-table>
+                        </input-table-epayco>
 
-                        <input-helper
+                        <input-helper-epayco
                             isVisible=false
                             message="<?= esc_html($input_helper_label); ?>"
                             input-id="ep-payment-method-helper"
                             id="payment-method-helper">
-                        </input-helper>
-                        </div>
+                        </input-helper-epayco>
+                    </div>
                     <!-- NOT DELETE LOADING-->
                     <div id="ep-box-loading"></div>
 
@@ -212,7 +221,7 @@ if (!defined('ABSPATH')) {
                         <input type="hidden" id="ticket_campaign" name="epayco_ticket[campaign]" />
                         <input type="hidden" id="ticket_discount" name="epayco_ticket[discount]" />
                     </div>
-                  </div>
+                </div>
             </div>
 
             <div class="ep-checkout-ticket-terms-and-conditions">

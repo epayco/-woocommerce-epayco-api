@@ -53,16 +53,16 @@ if (!defined('ABSPATH')) {
 <div class='ep-checkout-container'>
     <div class='ep-checkout-subscription-container' style="max-width: 452px;margin: auto;">
         <?php if ($test_mode) : ?>
-            <div class="ep-checkout-pro-test-mode">
-                <test-mode
+            <div class="ep-checkout-pro-test-mode-epayco">
+                <test-mode-epayco
                         title="<?= esc_html($test_mode_title) ?>"
                         description="<?= esc_html($test_mode_description) ?>"
                         link-text="<?= esc_html($test_mode_link_text) ?>"
                         link-src="<?= esc_html($test_mode_link_src) ?>"
                         icon-src="<?php echo esc_html($icon_warning); ?>"
                 >
-                </test-mode>
-                <div class="ep-test-mode-credit-card">
+                </test-mode-epayco>
+                <div class="ep-test-mode-epayco-credit-card">
                     <img style="height: 25px" src="<?php echo esc_html($icon_info); ?>">
                     <div style="display: grid;grid-template-rows: repeat(2, 1fr);gap: 8px;">
                         <p>Por favor, utiliza la siguiente información de tarjeta de prueba en modo de prueba:</p>
@@ -160,7 +160,7 @@ if (!defined('ABSPATH')) {
                     <input-document
                             label-message="<?= esc_html($card_document_input_label); ?>"
                             helper-message="<?= esc_html($card_document_input_helper); ?>"
-                            input-name='epayco_subscription[doc_number]'
+                            input-name-epayco='epayco_subscription[doc_number]'
                             hidden-id="identificationType"
                             input-data-checkout="doc_number"
                             select-id="identificationType"
@@ -212,10 +212,10 @@ if (!defined('ABSPATH')) {
                 </div>
 
                 <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
-                    <input-cellphone
+                    <input-cellphone-epayco
                             label-message="<?= esc_html($input_ind_phone_label); ?>"
                             helper-message="<?= esc_html($input_ind_phone_helper); ?>"
-                            input-name='epayco_subscription[cellphone]'
+                            input-name-epayco='epayco_subscription[cellphone]'
                             hidden-id="cellphoneType"
                             input-data-checkout="doc_number"
                             select-id="cellphoneType"
@@ -227,14 +227,14 @@ if (!defined('ABSPATH')) {
                             validate=true
                             placeholder="0000000000"
                     >
-                    </input-cellphone>
+                    </input-cellphone-epayco>
                 </div>
 
                 <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
                     <input-country
                             label-message="<?= esc_html($input_country_label); ?>"
                             helper-message="<?= esc_html($input_country_helper); ?>"
-                            input-name='epayco_subscription[country]'
+                            input-name-epayco='epayco_subscription[country]'
                             hidden-id="countryType"
                             input-data-checkout="country_number"
                             select-id="countryType"

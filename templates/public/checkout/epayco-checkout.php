@@ -24,12 +24,13 @@ if (!defined('ABSPATH')) {
     <div class="ep-checkout-epayco-container">
         <div class="ep-checkout-epayco-content">
             <?php if ($test_mode) : ?>
-                <div class="ep-checkout-ticket-test-mode">
-                    <test-mode
+                <div class="ep-checkout-ticket-test-mode-epayco">
+                    <test-mode-epayco
                         title="<?= esc_html($test_mode_title); ?>"
                         description="<?= esc_html($test_mode_description); ?>"
                         icon-src="<?php echo esc_html($icon_warning); ?>"
-                    </test-mode>
+                        >
+                    </test-mode-epayco>
                 </div>
             <?php endif; ?>
             <!-- NOT DELETE LOADING-->

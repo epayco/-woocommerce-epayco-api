@@ -54,15 +54,15 @@
                     var e;
                     const ticketName = document.getElementsByName('epayco_ticket[name]')[0]??document.getElementsByName('epayco_ticket[nameError]')[0];
                     const ticketContentName = ticketName.value;
-                    const nameHelpers =  document.querySelector('input-helper').querySelector("div");
+                    const nameHelpers =  document.querySelector('input-helper-epayco').querySelector("div");
                     const verifyName = (nameElement) => {
                         if (nameElement === '' || nameElement.length < 2) {
-                            document.querySelector('input-name').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-name-epayco').querySelector(".ep-input").classList.add("ep-error");
                             nameHelpers.style.display = 'flex';
                         }
                     }
                    /* const ticketContentAddress = document.getElementsByName('epayco_ticket[address]')[0].value;
-                    const addressHelpers =  document.querySelector('input-address').querySelector("input-helper").querySelector("div");
+                    const addressHelpers =  document.querySelector('input-address').querySelector("input-helper-epayco").querySelector("div");
                     const verifyAddress = (addressElement) => {
                     if (addressElement === '') {
                         document.querySelector('input-address').querySelector(".ep-input").classList.add("ep-error");
@@ -70,32 +70,32 @@
                     }
                 }*/
                     const ticketContentEmail = document.getElementsByName('epayco_ticket[email]')[0].value; 
-                    const emailHelpers =  document.querySelector('input-email').querySelector("input-helper").querySelector("div");
+                    const emailHelpers =  document.querySelector('input-email-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyEmail = (emailElement) => {
                         if (emailElement === '') {
-                            document.querySelector('input-email').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-email-epayco').querySelector(".ep-input").classList.add("ep-error");
                             emailHelpers.style.display = 'flex';
                         }
                     }
 
                     const cellphoneType = document.getElementsByName('epayco_ticket[cellphone]')[0].value;
                     const ticketContentCellphone = document.getElementsByName('epayco_ticket[cellphoneType]')[0].value; 
-                    const cellphoneHelpers =  document.querySelector('input-cellphone').querySelector("input-helper").querySelector("div");
+                    const cellphoneHelpers =  document.querySelector('input-cellphone-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCellphone = (cellphone) => {
                         if (cellphone === '') {
-                            document.querySelector('input-cellphone').querySelector(".ep-input").classList.add("ep-error");
-                            document.querySelector('input-cellphone').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
+                            document.querySelector('input-cellphone-epayco').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-cellphone-epayco').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             cellphoneHelpers.style.display = 'flex';
                         }
                     }
                    
                     //const person_type_value = document.getElementsByName('epayco_ticket[person_type]')[1].value;
                     const doc_type = document.getElementsByName('epayco_ticket[documentType]')[0].value;
-                    const documentHelpers =  document.querySelector('input-document').querySelector("input-helper").querySelector("div");
+                    const documentHelpers =  document.querySelector('input-document-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyDocument = (ticketContentDocument) => {
                         if (ticketContentDocument === '') {
-                            document.querySelector('input-document').querySelector(".ep-input").classList.add("ep-error");
-                            document.querySelector('input-document').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
+                            document.querySelector('input-document-epayco').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-document-epayco').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             documentHelpers.style.display = 'flex';
                         }
                     }
@@ -104,7 +104,7 @@
 
                     /*const countryType = document.getElementsByName('epayco_ticket[countryType]')[0].value;
                     const ticketContentCountry = document.getElementsByName('epayco_ticket[country]')[0].value;
-                    const countryHelpers =  document.querySelector('input-country').querySelector("input-helper").querySelector("div");
+                    const countryHelpers =  document.querySelector('input-country').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCountry = (ticketContentCountry) => {
                         if (ticketContentCountry === '') {
                             document.querySelector('input-country').querySelector(".ep-input").classList.add("ep-error");
@@ -136,7 +136,7 @@
                             //"epayco_ticket[country]": ticketContentCountry
                         };
                     var paymentOptionSelected;
-                    const paymentselpers =  document.querySelector(".ep-checkout-ticket-container").querySelectorAll(".ep-input-radio-radio")[0].parentElement.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('input-helper').querySelector('div');
+                    const paymentselpers =  document.querySelector(".ep-checkout-ticket-container").querySelectorAll(".ep-input-radio-radio")[0].parentElement.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('input-helper-epayco').querySelector('div');
                     document.querySelector(".ep-checkout-ticket-container").querySelectorAll(".ep-input-radio-radio").forEach((e => {
                         if (e.checked) {
                             paymentOptionSelected = e.value;

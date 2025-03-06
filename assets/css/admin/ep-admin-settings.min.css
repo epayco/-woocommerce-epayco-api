@@ -554,7 +554,7 @@ input:checked+.ep-settings-slider:before {
     align-items: center;
 }
 
-.ep-settings-test-mode-alert {
+.ep-settings-test-mode-epayco-alert {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -567,7 +567,7 @@ input:checked+.ep-settings-slider:before {
     bottom: 0;
     color: #FFD100;
     background: rgba(255, 250, 224, 1);
-    border-radius: 12px;
+    border-radius: 6px;
      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 12px;
     line-height: 12px;
@@ -594,7 +594,7 @@ input:checked+.ep-settings-slider:before {
     text-align: center;
     border: 1px solid #67C940;
     background: rgba(210, 239, 198, 1);
-    border-radius: 12px;
+    border-radius: 6px;
     color: #67C940;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }

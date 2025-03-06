@@ -53,48 +53,48 @@
                 const e = r((async () => {
                     var e;
                     const pseContentName = document.getElementsByName('epayco_pse[name]')[0].value;
-                    const nameHelpers =  document.querySelector('input-helper').querySelector("div");
+                    const nameHelpers =  document.querySelector('input-helper-epayco').querySelector("div");
                     const verifyName = (nameElement) => {
                         if (nameElement === '') {
-                            document.querySelector('input-name').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-name-epayco').querySelector(".ep-input").classList.add("ep-error");
                             nameHelpers.style.display = 'flex';
                         }
                     }
                     const pseContentAddress = document.getElementsByName('epayco_pse[address]')[0].value;
-                    const addressHelpers =  document.querySelector('input-address').querySelector("input-helper").querySelector("div");
+                    const addressHelpers =  document.querySelector('input-address-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyAddress = (addressElement) => {
                         if (addressElement === '') {
-                            document.querySelector('input-address').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-address-epayco').querySelector(".ep-input").classList.add("ep-error");
                             addressHelpers.style.display = 'flex';
                         }
                     }
                     const pseContentEmail = document.getElementsByName('epayco_pse[email]')[0].value;
-                    const emailHelpers =  document.querySelector('input-email').querySelector("input-helper").querySelector("div");
+                    const emailHelpers =  document.querySelector('input-email-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyEmail = (emailElement) => {
                         if (emailElement === '') {
-                            document.querySelector('input-email').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-email-epayco').querySelector(".ep-input").classList.add("ep-error");
                             emailHelpers.style.display = 'flex';
                         }
                     }
 
                     const cellphoneType = document.getElementsByName('epayco_pse[cellphone]')[0].value;
                     const pseContentCellphone = document.getElementsByName('epayco_pse[cellphoneType]')[0].value;
-                    const cellphoneHelpers =  document.querySelector('input-cellphone').querySelector("input-helper").querySelector("div");
+                    const cellphoneHelpers =  document.querySelector('input-cellphone-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCellphone = (cellphone) => {
                         if (cellphone === '') {
-                            document.querySelector('input-cellphone').querySelector(".ep-input").classList.add("ep-error");
-                            document.querySelector('input-cellphone').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
+                            document.querySelector('input-cellphone-epayco').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-cellphone-epayco').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             cellphoneHelpers.style.display = 'flex';
                         }
                     }
 
                     const person_type_value = document.getElementsByName('epayco_pse[person_type]')[1].value;
                     const doc_type = document.getElementsByName('epayco_pse[documentType]')[0].value;
-                    const documentHelpers =  document.querySelector('input-document').querySelector("input-helper").querySelector("div");
+                    const documentHelpers =  document.querySelector('input-document-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyDocument = (pseContentDocument) => {
                         if (pseContentDocument === '') {
-                            document.querySelector('input-document').querySelector(".ep-input").classList.add("ep-error");
-                            document.querySelector('input-document').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
+                            document.querySelector('input-document-epayco').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-document-epayco').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             documentHelpers.style.display = 'flex';
                         }
                     }
@@ -102,11 +102,11 @@
                     const doc_number_value = doc_number[0].value;
                     const countryType = document.getElementsByName('epayco_pse[countryType]')[0].value;
                     const pseContentCountry = document.getElementsByName('epayco_pse[country]')[0].value;
-                    const countryHelpers =  document.querySelector('input-country').querySelector("input-helper").querySelector("div");
+                    const countryHelpers =  document.querySelector('input-country-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCountry = (pseContentCountry) => {
                         if (pseContentCountry === '') {
-                            document.querySelector('input-country').querySelector(".ep-input").classList.add("ep-error");
-                            document.querySelector('input-country').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
+                            document.querySelector('input-country-epayco').querySelector(".ep-input").classList.add("ep-error");
+                            document.querySelector('input-country-epayco').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             countryHelpers.style.display = 'flex';
                         }
                     }
@@ -125,7 +125,7 @@
                         }
                     });
                     const bank = document.getElementsByName('epayco_pse[bank]')[1].value;
-                    const bankHelper = document.getElementsByName('epayco_pse[bank]')[0].querySelector('input-helper').querySelector('div');
+                    const bankHelper = document.getElementsByName('epayco_pse[bank]')[0].querySelector('input-helper-epayco').querySelector('div');
                     if("0" === bank){
                         m(bankHelper, "flex")
                     }else{
