@@ -188,6 +188,7 @@
     height: 40px;
     cursor: pointer;
     position: relative;
+    top: -4px;
 }
 
 .ep-input-radio-label i {
@@ -627,6 +628,12 @@ input.ep-cellphone {
     display: flex !important;
     width: 100%;
 }
+@media (max-width: 425px){
+    .ep-input-table-epayco-label,
+    .ep-input-table-epayco-option {
+        flex-direction: column;
+    }  
+}
 
 .ep-input-table-epayco-label {
     /*cursor: pointer !important;*/
@@ -654,6 +661,7 @@ option {
 .ep-input-radio-container {
     display: flex;
     position: relative !important;
+    align-items: center;
 }
 
 .ep-input-table-epayco-row-text,
