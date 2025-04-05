@@ -117,7 +117,7 @@ class Order
      */
     public function setDaviplataMetadata(WC_Order $order, $data): void
     {
-        $externalResourceUrl = $data['urlPayment'];
+        $externalResourceUrl = json_encode($data);
         $this->orderMetadata->setDaviplataTransactionDetailsData($order, $externalResourceUrl);
         $order->save();
     }

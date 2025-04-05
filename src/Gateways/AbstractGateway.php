@@ -9,6 +9,7 @@ use Exception;
 use Epayco\Woocommerce\Exceptions\RejectedPaymentException;
 use WC_Payment_Gateway;
 use TCPDF;
+use Epayco as EpaycoSdk;
 abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatewayInterface
 {
     public const ID = '';
@@ -208,9 +209,64 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
         $x_approval_code = trim(sanitize_text_field($params['x_approval_code']));
         $x_franchise = trim(sanitize_text_field($params['x_franchise']));
         $x_fecha_transaccion = trim(sanitize_text_field($params['x_fecha_transaccion']));
+        $x_id_invoice = trim(sanitize_text_field($params['x_id_invoice']));
         if ($order_id != "" && $x_ref_payco != "") {
             $authSignature = $this->authSignature($x_ref_payco, $x_transaction_id, $x_amount, $x_currency_code);
         }
+        if($x_franchise == 'DP' || $x_franchise == 'DaviPlata'){
+            $bodyRequest= [
+                "filter"=>[
+                    //"referencePayco"=>$paymentInfo
+                    "referenceClient"=>$x_id_invoice
+                ]
+            ];
+            $epaycoSdk = $this->getSdkInstance();
+            $transactionDetails = $epaycoSdk->transaction->get($bodyRequest,true,"POST");
+            $transactionInfo = json_decode(json_encode($transactionDetails), true);
+
+            if (empty($transactionInfo)) {
+                return;
+            }
+
+            if (is_array($transactionInfo)) {
+                foreach ((array) $transactionInfo as $transaction) {
+                    $daviplataTransactionData["data"] = $transaction;
+                }
+            }
+            $transaciton = end($daviplataTransactionData["data"]);
+            $x_ref_payco = $transaciton['referencePayco'];
+            switch ($transaciton['status']) {
+                case "Aceptada":
+                    {
+                        $x_cod_transaction_state = 1;
+                    }
+                    break;
+                case "Rechazada":
+                case "Fallida":
+                case "abandonada":
+                case "Cancelada":
+                    {
+                        $x_cod_transaction_state = 2;
+                    }
+                    break;
+                case "Pendiente":
+                case "retenido":
+                    {
+                        $x_cod_transaction_state = 3;
+                    }
+                    break;
+                case "Reversada":
+                    {
+                        $x_cod_transaction_state = 6;
+                    }
+                    break;
+                default:
+                {
+                    $x_cod_transaction_state = 0;
+                }
+            }
+        }
+
         $isTestPluginMode = $this->epayco->storeConfig->isTestMode();
         $modo = $isTestPluginMode?'Prueba':'Producción';
         $current_state = $order->get_status();
@@ -298,6 +354,25 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
             .$x_currency_code
         );
         return $signature;
+    }
+
+    private function getSdkInstance()
+    {
+
+        $lang = get_locale();
+        $lang = explode('_', $lang);
+        $lang = $lang[0];
+        $public_key = $this->epayco->sellerConfig->getCredentialsPublicKeyPayment();
+        $private_key = $this->epayco->sellerConfig->getCredentialsPrivateKeyPayment();
+        $isTestMode = $this->epayco->storeConfig->isTestMode()?"true":"false";
+        return new EpaycoSdk\Epayco(
+            [
+                "apiKey" => $public_key,
+                "privateKey" => $private_key,
+                "lenguage" => strtoupper($lang),
+                "test" => $isTestMode
+            ]
+        );
     }
 
 

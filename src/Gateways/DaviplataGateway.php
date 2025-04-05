@@ -419,23 +419,39 @@ class DaviplataGateway extends AbstractGateway
     public function renderThankYouPage($order_id): void
     {
         $order        = wc_get_order($order_id);
-        //$transactionDetails  =  $this->epayco->orderMetadata->getDaviplataTransactionDetailsMeta($order);
+        $transactionDetails  =  $this->epayco->orderMetadata->getDaviplataTransactionDetailsMeta($order);
         $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
+        $daviplata_data = json_decode($transactionDetails, true);
         $paymentInfo = json_decode(json_encode($lastPaymentId), true);
-        if (empty($paymentInfo)) {
+        if (empty($paymentInfo) && empty($daviplata_data)) {
             return;
         }
-
+        $referenceClient = $daviplata_data['data']['invoice'];
         $this->transaction = new  DaviplataTransaction($this, $order, []);
-
-        $transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
+        $bodyRequest= [
+            "filter"=>[
+                //"referencePayco"=>$paymentInfo
+                "referenceClient"=>$referenceClient
+            ]
+        ];
+        //$transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
+        $transactionDetails = $this->transaction->sdk->transaction->get($bodyRequest,true,"POST");
         $transactionInfo = json_decode(json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {
             return;
         }
 
-        $transaction = $this->transaction->returnParameterToThankyouPage($transactionInfo, $this);
+        if (is_array($transactionInfo)) {
+            foreach ((array) $transactionInfo as $transaction) {
+                $daviplataTransactionData["data"] = $transaction;
+            }
+        }
+        $daviplataTransaction = [
+            "success" => true,
+            "data" => end($daviplataTransactionData["data"])
+        ];
+        $transaction = $this->transaction->returnParameterToThankyouPage($daviplataTransaction, $this);
 
         if (empty($transaction)) {
             return;

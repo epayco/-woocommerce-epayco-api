@@ -991,22 +991,22 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
 
     public function returnParameterToThankyouPage($transactionInfo, $payment)
     {
-        $x_amount = $transactionInfo['data']['x_amount'];
-        $x_amount_base = $transactionInfo['data']['x_amount_base'];
-        $x_cardnumber = $transactionInfo['data']['x_cardnumber'];
-        $x_id_invoice = $transactionInfo['data']['x_id_invoice'];
-        $x_franchise = $transactionInfo['data']['x_franchise'];
-        $x_transaction_id = $transactionInfo['data']['x_transaction_id'];
-        $x_transaction_date = $transactionInfo['data']['x_transaction_date'];
-        $x_transaction_state = $transactionInfo['data']['x_transaction_state'];
-        $x_customer_ip = $transactionInfo['data']['x_customer_ip'];
-        $x_description = $transactionInfo['data']['x_description'];
-        $x_response= $transactionInfo['data']['x_response'];
-        $x_response_reason_text= $transactionInfo['data']['x_response_reason_text'];
-        $x_approval_code= $transactionInfo['data']['x_approval_code'];
-        $x_ref_payco= $transactionInfo['data']['x_ref_payco'];
-        $x_tax= $transactionInfo['data']['x_tax'];
-        $x_currency_code= $transactionInfo['data']['x_currency_code'];
+        $x_amount = $transactionInfo['data']['x_amount']??$transactionInfo['data']['amount'];
+        $x_amount_base = $transactionInfo['data']['x_amount_base']??$transactionInfo['data']['taxBaseClient'];
+        $x_cardnumber = $transactionInfo['data']['x_cardnumber']??$transactionInfo['data']['numberCard'];
+        $x_id_invoice = $transactionInfo['data']['x_id_invoice']??$transactionInfo['data']['bill'];
+        $x_franchise = $transactionInfo['data']['x_franchise']??$transactionInfo['data']['bank'];
+        $x_transaction_id = $transactionInfo['data']['x_transaction_id']??$transactionInfo['data']['referencePayco'];
+        $x_transaction_date = $transactionInfo['data']['x_transaction_date']??$transactionInfo['data']['transactionDate'];
+        $x_transaction_state = $transactionInfo['data']['x_transaction_state']??$transactionInfo['data']['status'];
+        $x_customer_ip = $transactionInfo['data']['x_customer_ip']??$transactionInfo['data']['ip'];
+        $x_description = $transactionInfo['data']['x_description']??$transactionInfo['data']['description'];
+        $x_response= $transactionInfo['data']['x_response']??$transactionInfo['data']['status'];
+        $x_response_reason_text= $transactionInfo['data']['x_response_reason_text']??$transactionInfo['data']['response'];
+        $x_approval_code= $transactionInfo['data']['x_approval_code']??$transactionInfo['data']['authorization'];
+        $x_ref_payco= $transactionInfo['data']['x_ref_payco']??$transactionInfo['data']['referencePayco'];
+        $x_tax= $transactionInfo['data']['x_tax']??$transactionInfo['data']['tax'];
+        $x_currency_code= $transactionInfo['data']['x_currency_code']??$transactionInfo['data']['currency'];
         switch ($x_response) {
             case 'Aceptada': {
                 $iconUrl = $payment->epayco->hooks->gateway->getGatewayIcon('check.png');
@@ -1047,12 +1047,12 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             $x_cardnumber_ = null;
             $is_cash = true;
         }else{
-            if($x_franchise == 'PSE' || $x_franchise == 'DP'){
+            if($x_franchise == 'PSE' || $x_franchise == 'DP' || $x_franchise == 'DaviPlata' ){
                 $x_cardnumber_ = null;
             }else{
                 $x_cardnumber_ = isset($x_cardnumber)?substr($x_cardnumber, -8):null;
             }
-
+            $x_franchise = $x_franchise == 'DaviPlata' ? 'DP' : $x_franchise;
         }
         $transaction = [
             'franchise_logo' => 'https://secure.epayco.co/img/methods/'.$x_franchise.'.svg',

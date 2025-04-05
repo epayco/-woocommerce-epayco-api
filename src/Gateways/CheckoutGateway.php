@@ -547,6 +547,22 @@ class CheckoutGateway extends AbstractGateway
                     $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('error.png');
                     $iconColor = '#E1251B';
                     $message = $this->storeTranslations['fail_message'];
+                    global $woocommerce;
+                    $woocommerce->cart->empty_cart();
+                    foreach ($order->get_items() as $item) {
+                        // Get an instance of corresponding the WC_Product object
+                        $product_id = $item->get_product()->id;
+                        $product = $item->get_product();
+                        $qty = $item->get_quantity(); // Get the item quantity
+                        // Verificar si el producto es una variación
+                        if ($product->is_type('variation')) {
+                            WC()->cart->add_to_cart($product_id, $qty, $product->get_id(), $product->get_attributes());
+                        }else{
+                            WC()->cart->add_to_cart($product_id, (int)$qty);
+                        }
+                    }
+                    wp_safe_redirect(wc_get_checkout_url());
+                    exit();
                 }break;
             }
             $donwload_url =get_site_url() . "/";

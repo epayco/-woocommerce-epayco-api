@@ -15,17 +15,17 @@ Class Transaction extends Resource{
      * @param  string $options data transaction
      * @return object
      */
-    public function get($option, $apify=false)
+    public function get($option, $apify=false, $method='GET')
     {
         if(!$apify){
             $url = "/transaction/response.json?ref_payco=".$option."&&public_key=".$this->epayco->api_key;
             $options = [];
         }else{
-            $url = "/transaction";
+            $url = "/transaction/detail";
             $options = $option;
         }
         return $this->request(
-            "GET",
+            $method,
             $url,
             $this->epayco->api_key,
             $options,
