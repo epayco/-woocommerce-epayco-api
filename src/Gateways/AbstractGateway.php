@@ -125,7 +125,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_token_sdk',
             $this->epayco->helpers->url->getJsAsset('checkouts/creditcard/library')
-            //"https://cms.epayco.io/js/library.js"
+            //"https://cms.epayco.co/js/library.js"
         );
 
         $this->epayco->hooks->scripts->registerCheckoutScript(

@@ -328,8 +328,8 @@ class PseGateway extends AbstractGateway
     {
         $test = $this->epayco->storeConfig->isTestMode();
         $this->transaction = new PseTransaction($this, null, []);
-        //$bancos = $this->transaction->sdk->bank->pseBank($test);
-        $bancos=[];
+        $bancos = $this->transaction->sdk->bank->pseBank($test);
+        //$bancos=[];
         if(isset($bancos) && isset($bancos->data) ){
             $banks = (array) $bancos->data;
             $convertedBanks = array();
