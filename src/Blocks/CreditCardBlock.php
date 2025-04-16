@@ -2,6 +2,8 @@
 
 namespace Epayco\Woocommerce\Blocks;
 
+use Epayco\Woocommerce\Helpers\Template;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -34,6 +36,11 @@ class CreditCardBlock extends AbstractBlock
      */
     public function getScriptParams(): array
     {
-        return $this->gateway->getPaymentFieldsParams();
+        return [
+            'content' => Template::html(
+                'public/checkout/creditcard-checkout',
+                $this->gateway->getPaymentFieldsParams()
+            ),
+        ];
     }
 }

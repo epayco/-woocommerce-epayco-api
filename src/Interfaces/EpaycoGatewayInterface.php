@@ -2,6 +2,7 @@
 
 namespace Epayco\Woocommerce\Interfaces;
 
+
 if (!defined('ABSPATH')) {
     exit;
 }

@@ -2,156 +2,52 @@
 
 namespace Epayco\Woocommerce\Translations;
 
-use Epayco\Woocommerce\Helpers\Links;
-
 if (!defined('ABSPATH')) {
     exit;
 }
 
 class AdminTranslations
 {
-    /**
-     * @var array
-     */
-    public $notices = [];
 
-    /**
-     * @var array
-     */
-    public $plugin = [];
+    public array $notices = [];
 
-    /**
-     * @var array
-     */
-    public $order = [];
-
-    /**
-     * @var array
-     */
-    public $headerSettings = [];
-
-    /**
-     * @var array
-     */
-    public $credentialsSettings = [];
-
-
-    /**
-     * @var array
-     */
-    public $storeSettings = [];
-
-    /**
-     * @var array
-     */
-    public $gatewaysSettings = [];
-
-    /**
-     * @var array
-     */
-    public $basicGatewaySettings = [];
-
-    /**
-     * @var array
-     */
-    public $creditcardGatewaySettings = [];
-
-
-    /**
-     * @var array
-     */
-    public $subscriptionGatewaySettings = [];
-
-    /**
-     * @var array
-     */
-    public $ticketGatewaySettings = [];
-
-    /**
-     * @var array
-     */
-    public $pseGatewaySettings = [];
-
-    /**
-     * @var array
-     */
-    public $checkoutGatewaySettings = [];
-
-    /**
-     * @var array
-     */
-    public $daviplatatewaySettings = [];
-
-    /**
-     * @var array
-     */
-    public $testModeSettings = [];
-
-    /**
-     * @var array
-     */
-    public $configurationTips = [];
-
-    /**
-     * @var array
-     */
-    public $validateCredentials = [];
-
-    /**
-     * @var array
-     */
-    public $updateCredentials = [];
-
-    /**
-     * @var array
-     */
-    public $updateStore = [];
-
-    /**
-     * @var array
-     */
-    public $currency = [];
-
-    /**
-     * @var array
-     */
-    public $statusSync = [];
-
-    /**
-     * @var array
-     */
-    public $links;
+    public array $plugin = [];
+    public array $headerSettings = [];
+    public array $credentialsSettings = [];
+    public array $gatewaysSettings = [];
+    public array $testModeSettings = [];
+    public array $updateCredentials = [];
+    public array $configurationTips = [];
+    public array $ticketGatewaySettings = [];
+    public array $daviplataGatewaySettings = [];
+    public array $creditcardGatewaySettings = [];
+    public array $pseGatewaySettings = [];
+    public array $checkoutGatewaySettings = [];
+    public array $subscriptionGatewaySettings = [];
+    public array $statusSync = [];
 
     /**
      * Translations constructor
-     *
-     * @param Links $links
      */
-    public function __construct(Links $links)
+    public function __construct()
     {
-        $this->links = $links->getLinks();
-
         $this->setNoticesTranslations();
         $this->setPluginSettingsTranslations();
         $this->setHeaderSettingsTranslations();
         $this->setCredentialsSettingsTranslations();
-        $this->setOrderSettingsTranslations();
         $this->setGatewaysSettingsTranslations();
-        $this->setBasicGatewaySettingsTranslations();
-        $this->setcreditCardGatewaySettingsTranslations ();
-        $this->setSubscriptonGatewaySettingsTranslations();
+        $this->setTestModeSettingsTranslations();
+        $this->setUpdateCredentialsTranslations();
+        $this->setConfigurationTipsTranslations();
         $this->setTicketGatewaySettingsTranslations();
+        $this->setDaviplataGatewaySettingsTranslations();
+        $this->setcreditCardGatewaySettingsTranslations();
         $this->setPseGatewaySettingsTranslations();
         $this->setCheckoutGatewaySettingsTranslations();
-        $this->setDaviplataGatewaySettingsTranslations();
-        $this->setTestModeSettingsTranslations();
-        $this->setConfigurationTipsTranslations();
-        $this->setUpdateCredentialsTranslations();
-        $this->setValidateCredentialsTranslations();
-        $this->setUpdateStoreTranslations();
-        $this->setCurrencyTranslations();
+        $this->setSubscriptonGatewaySettingsTranslations();
         $this->setStatusSyncTranslations();
     }
+
 
     /**
      * Set notices translations
@@ -161,27 +57,27 @@ class AdminTranslations
     private function setNoticesTranslations(): void
     {
         $missWoocommerce = sprintf(
-            __('The ePayco module needs an active version of %s in order to work!', 'woocommerce-epayco'),
+            __('The ePayco module needs an active version of %s in order to work!', 'woo-epayco-api'),
             '<a target="_blank" href="https://wordpress.org/extend/plugins/woocommerce/">WooCommerce</a>'
         );
 
         $this->notices = [
             'miss_woocommerce'          => $missWoocommerce,
-            'php_wrong_version'         => __('ePayco payments for WooCommerce requires PHP version 7.4 or later. Please update your PHP version.', 'woocommerce-epayco'),
-            'missing_curl'              => __('ePayco Error: PHP Extension CURL is not installed.', 'woocommerce-epayco'),
-            'missing_gd_extensions'     => __('ePayco Error: PHP Extension GD is not installed. Installation of GD extension is required to send QR Code Pix by email.', 'woocommerce-epayco'),
-            'activate_woocommerce'      => __('Activate WooCommerce', 'woocommerce-epayco'),
-            'install_woocommerce'       => __('Install WooCommerce', 'woocommerce-epayco'),
-            'see_woocommerce'           => __('See WooCommerce', 'woocommerce-epayco'),
-            'dismissed_review_title'    => sprintf(__('%s, help us improve the experience we offer', 'woocommerce-epayco'), wp_get_current_user()->display_name),
-            'dismissed_review_subtitle' => __('Share your opinion with us so that we improve our product and offer the best payment solution.', 'woocommerce-epayco'),
-            'dismissed_review_button'   => __('Rate the plugin', 'woocommerce-epayco'),
-            'saved_cards_title'         => __('Enable payments via Sdk account', 'woocommerce-epayco'),
-            'saved_cards_subtitle'      => __('When you enable this function, your customers pay faster using their Sdk accounts.</br>The approval rate of these payments in your store can be 25% higher compared to other payment methods.', 'woocommerce-epayco'),
-            'saved_cards_button'        => __('Activate', 'woocommerce-epayco'),
-            'missing_translation'       => __("Our plugin does not support the language you've chosen, so we've switched it to the English default. If you prefer, you can also select Spanish or Portuguese (Brazilian).", 'woocommerce-epayco'),
-            'action_feedback_title'     => __('You activated Sdk’s plug-in', 'woocommerce-epayco'),
-            'action_feedback_subtitle'  => __('Follow the instructions below to integrate your store with Sdk and start to sell.', 'woocommerce-epayco'),
+            'php_wrong_version'         => __('ePayco payments for WooCommerce requires PHP version 7.4 or later. Please update your PHP version.', 'woo-epayco-api'),
+            'missing_curl'              => __('ePayco Error: PHP Extension CURL is not installed.', 'woo-epayco-api'),
+            'missing_gd_extensions'     => __('ePayco Error: PHP Extension GD is not installed. Installation of GD extension is required to send QR Code Pix by email.', 'woo-epayco-api'),
+            'activate_woocommerce'      => __('Activate WooCommerce', 'woo-epayco-api'),
+            'install_woocommerce'       => __('Install WooCommerce', 'woo-epayco-api'),
+            'see_woocommerce'           => __('See WooCommerce', 'woo-epayco-api'),
+            'dismissed_review_title'    => sprintf(__('%s, help us improve the experience we offer', 'woo-epayco-api'), wp_get_current_user()->display_name),
+            'dismissed_review_subtitle' => __('Share your opinion with us so that we improve our product and offer the best payment solution.', 'woo-epayco-api'),
+            'dismissed_review_button'   => __('Rate the plugin', 'woo-epayco-api'),
+            'saved_cards_title'         => __('Enable payments via Sdk account', 'woo-epayco-api'),
+            'saved_cards_subtitle'      => __('When you enable this function, your customers pay faster using their Sdk accounts.</br>The approval rate of these payments in your store can be 25% higher compared to other payment methods.', 'woo-epayco-api'),
+            'saved_cards_button'        => __('Activate', 'woo-epayco-api'),
+            'missing_translation'       => __("Our plugin does not support the language you've chosen, so we've switched it to the English default. If you prefer, you can also select Spanish or Portuguese (Brazilian).", 'woo-epayco-api'),
+            'action_feedback_title'     => __('You activated Sdk’s plug-in', 'woo-epayco-api'),
+            'action_feedback_subtitle'  => __('Follow the instructions below to integrate your store with Sdk and start to sell.', 'woo-epayco-api'),
         ];
     }
 
@@ -193,28 +89,8 @@ class AdminTranslations
     private function setPluginSettingsTranslations(): void
     {
         $this->plugin = [
-            'set_plugin'     => __('Set plugin', 'woocommerce-epayco'),
-            'payment_method' => __('Payment methods', 'woocommerce-epayco')
-        ];
-    }
-
-    /**
-     * Set order settings translations
-     *
-     * @return void
-     */
-    private function setOrderSettingsTranslations(): void
-    {
-        $this->order = [
-            'cancel_order'                       => __('Cancel order', 'woocommerce-epayco'),
-            'order_note_commission_title'        => __('ePayco commission:', 'woocommerce-epayco'),
-            'order_note_commission_tip'          => __('Represents the commission configured on plugin settings.', 'woocommerce-epayco'),
-            'order_note_discount_title'          => __('ePayco discount:', 'woocommerce-epayco'),
-            'order_note_discount_tip'            => __('Represents the discount configured on plugin settings.', 'woocommerce-epayco'),
-            'order_note_installments_fee_tip'    => __('Represents the installment fee charged by Sdk.', 'woocommerce-epayco'),
-            'order_note_installments_fee_title'  => __('ePayco Installment Fee:', 'woocommerce-epayco'),
-            'order_note_total_paid_amount_tip'   => __('Represents the total purchase plus the installment fee charged by Sdk.', 'woocommerce-epayco'),
-            'order_note_total_paid_amount_title' => __('ePayco Total:', 'woocommerce-epayco'),
+            'set_plugin'     => __('Set plugin', 'woo-epayco-api'),
+            'payment_method' => __('Payment methods', 'woo-epayco-api'),
         ];
     }
 
@@ -226,19 +102,17 @@ class AdminTranslations
     private function setHeaderSettingsTranslations(): void
     {
         $titleHeader = sprintf(
-            '%s %s %s <br/> %s %s',
-            __('Accept', 'woocommerce-epayco'),
-            __('payments', 'woocommerce-epayco'),
-            __('safely', 'woocommerce-epayco'),
-            __('with', 'woocommerce-epayco'),
-            __('ePayco', 'woocommerce-epayco')
+            '<div class="ep-settings-header-title"><p style="font-weight: 900;color: #16161D ;margin:0px 50px;font-size: 19px;line-height: 20px;">%s</p><p style="font-weight: 900;color: #DF5C1F;margin:0px 50px;font-size: 29px;">%s</p><p class="ep-settings-context">%s</p></div>',
+            __('OPTIMIZE YOUR STORE WITH THE', 'woo-epayco-api'),
+            __('ePayco PLUGIN', 'woo-epayco-api'),
+            __('Facilitate payments in your online store with the ePayco plugin. With this integration, you will be able to offer your customers a fast, secure and frictionless payment experience.', 'woo-epayco-api'),
         );
 
         $this->headerSettings = [
-            'title_header'             => $titleHeader
+            'title_header'             => $titleHeader,
+            'configuration'   => __('Configuration', 'woo-epayco-api'),
         ];
     }
-
     /**
      * Set credentials settings translations
      *
@@ -246,210 +120,28 @@ class AdminTranslations
      */
     private function setCredentialsSettingsTranslations(): void
     {
-
         $this->credentialsSettings = [
-            'title_credentials'                 => __('1. Enter your credentials to integrate your store with ePayco', 'woocommerce-epayco'),
-            'title_credential'                  => __('Credentials', 'woocommerce-epayco'),
-            'first_text_subtitle_credentials'   => __('To start selling, ', 'woocommerce-epayco'),
-            'text_link_credentials'             => __('copy and paste your credentials ', 'woocommerce-epayco'),
-            'second_text_subtitle_credentials'  => __('in the fields below. If you don’t have credentials yet, you’ll have to create them from this link.', 'woocommerce-epayco'),
-            'p_cust_id'                         => __('P_CUST_ID_CLIENTE', 'woocommerce-epayco'),
-            'publicKey'                         => __('PUBLIC_KEY', 'woocommerce-epayco'),
-            'private_key'                       => __('PRIVATE_KEY', 'woocommerce-epayco'),
-            'p_key'                             => __('P_KEY', 'woocommerce-epayco'),
-            'placeholder_p_cust_id'             => __('Paste your P_CUST_ID here', 'woocommerce-epayco'),
-            'placeholder_publicKey'             => __('Paste your PUBLIC_KEY here', 'woocommerce-epayco'),
-            'placeholder_private_key'           => __('Paste your PRIVATE_KEY here', 'woocommerce-epayco'),
-            'placeholder_p_key'                 => __('Paste your P_KEY here', 'woocommerce-epayco'),
-            'button_credentials'                => __('Save and continue', 'woocommerce-epayco'),
+            'title_credentials'                 => __('1. Enter your credentials to integrate your store with ePayco', 'woo-epayco-api'),
+            'title_credential'                  => __('Credentials', 'woo-epayco-api'),
+            'first_text_subtitle_credentials'   => __('To start selling, ', 'woo-epayco-api'),
+            'text_link_credentials'             => __('copy and paste your credentials ', 'woo-epayco-api'),
+            'second_text_subtitle_credentials'  => __('in the fields below. If you don’t have credentials yet, you’ll have to create them from this link.', 'woo-epayco-api'),
+            'p_cust_id'                         => __('P_CUST_ID_CLIENTE', 'woo-epayco-api'),
+            'publicKey'                         => __('PUBLIC_KEY', 'woo-epayco-api'),
+            'private_key'                       => __('PRIVATE_KEY', 'woo-epayco-api'),
+            'p_key'                             => __('P_KEY', 'woo-epayco-api'),
+            'placeholder_p_cust_id'             => __('Paste your P_CUST_ID here', 'woo-epayco-api'),
+            'placeholder_publicKey'             => __('Paste your PUBLIC_KEY here', 'woo-epayco-api'),
+            'placeholder_private_key'           => __('Paste your PRIVATE_KEY here', 'woo-epayco-api'),
+            'placeholder_p_key'                 => __('Paste your P_KEY here', 'woo-epayco-api'),
+            'button_credentials'                => __('Save and continue', 'woo-epayco-api'),
+            'card_info_subtitle'                => __('You have to enter your production credentials to start selling with ePayco.', 'woo-epayco-api'),
+            'card_info_button_text'             => __('Enter credentials', 'woo-epayco-api'),
+            'card_homolog_title'                => __('Activate your credentials to be able to sell', 'woo-epayco-api'),
+            'card_homolog_subtitle'             => __('Credentials are codes that you must enter to enable sales. Go below on Activate Credentials. On the next screen, use again the Activate Credentials button and fill in the fields with the requested information.', 'woo-epayco-api'),
+            'card_homolog_button_text'          => __('Activate credentials', 'woo-epayco-api'),
         ];
     }
-
-    /**
-     * Set gateway settings translations
-     *
-     * @return void
-     */
-    private function setGatewaysSettingsTranslations(): void
-    {
-        $this->gatewaysSettings = [
-            'title_payments'    => __('2. Activate and set up payment methods', 'woocommerce-epayco'),
-            'subtitle_payments' => __('Select the payment method you want to appear in your store to activate and set it up.', 'woocommerce-epayco'),
-            'settings_payment'  => __('Settings', 'woocommerce-epayco'),
-            'button_payment'    => __('Continue', 'woocommerce-epayco'),
-            'enabled'           => __('Enabled', 'woocommerce-epayco'),
-            'disabled'          => __('Disabled', 'woocommerce-epayco'),
-            'empty_credentials' => __('Configure your credentials to enable ePayco payment methods.', 'woocommerce-epayco'),
-        ];
-    }
-
-    /**
-     * Set basic settings translations
-     *
-     * @return void
-     */
-    private function setBasicGatewaySettingsTranslations(): void
-    {
-        $enabledDescriptionsEnabled = sprintf(
-            '%s <b>%s</b>.',
-            __('The checkout is', 'woocommerce-epayco'),
-            __('enabled', 'woocommerce-epayco')
-        );
-
-        $enabledDescriptionsDisabled = sprintf(
-            '%s <b>%s</b>.',
-            __('The checkout is', 'woocommerce-epayco'),
-            __('disabled', 'woocommerce-epayco')
-        );
-
-        $currencyConversionDescriptionsEnabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Currency conversion is', 'woocommerce-epayco'),
-            __('enabled', 'woocommerce-epayco')
-        );
-
-        $currencyConversionDescriptionsDisabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Currency conversion is', 'woocommerce-epayco'),
-            __('disabled', 'woocommerce-epayco')
-        );
-
-        $autoReturnDescriptionsEnabled = sprintf(
-            '%s <b>%s</b>.',
-            __('The buyer', 'woocommerce-epayco'),
-            __('will be automatically redirected to the store', 'woocommerce-epayco')
-        );
-
-        $autoReturnDescriptionsDisabled = sprintf(
-            '%s <b>%s</b>.',
-            __('The buyer', 'woocommerce-epayco'),
-            __('will not be automatically redirected to the store', 'woocommerce-epayco')
-        );
-
-
-        $binaryModeDescriptionsEnabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Pending payments', 'woocommerce-epayco'),
-            __('will be automatically declined', 'woocommerce-epayco')
-        );
-
-        $binaryModeDescriptionsDisabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Pending payments', 'woocommerce-epayco'),
-            __('will not be automatically declined', 'woocommerce-epayco')
-        );
-
-        $this->basicGatewaySettings = [
-            'gateway_title'                             => __('Checkout ePayco', 'woocommerce-epayco'),
-            'gateway_description'                       => __('Your clients finalize their payments in ePayco.', 'woocommerce-epayco'),
-            'gateway_method_title'                      => __('ePayco - Checkout Pro', 'woocommerce-epayco'),
-            'gateway_method_description'                => __('Your clients finalize their payments in ePayco.', 'woocommerce-epayco'),
-            'header_title'                              => __('Checkout Pro', 'woocommerce-epayco'),
-            'header_description'                        => __('With Checkout Pro you sell with all the safety inside Sdk environment.', 'woocommerce-epayco'),
-            'card_settings_title'                       => __('ePayco plugin general settings', 'woocommerce-epayco'),
-            'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woocommerce-epayco'),
-            'card_settings_button_text'                 => __('Go to Settings', 'woocommerce-epayco'),
-            'enabled_title'                             => __('Enable the checkout', 'woocommerce-epayco'),
-            'enabled_subtitle'                          => __('By disabling it, you will disable all payments from Sdk Checkout at Sdk website by redirect.', 'woocommerce-epayco'),
-            'enabled_descriptions_enabled'              => $enabledDescriptionsEnabled,
-            'enabled_descriptions_disabled'             => $enabledDescriptionsDisabled,
-            'title_title'                               => __('Title in the store Checkout', 'woocommerce-epayco'),
-            'title_description'                         => __('Change the display text in Checkout, maximum characters: 85', 'woocommerce-epayco'),
-            'title_default'                             => __('Checkout ePayco', 'woocommerce-epayco'),
-            'title_desc_tip'                            => __('The text inserted here will not be translated to other languages', 'woocommerce-epayco'),
-            'currency_conversion_title'                 => __('Convert Currency', 'woocommerce-epayco'),
-            'currency_conversion_subtitle'              => __('Activate this option so that the value of the currency set in WooCommerce is compatible with the value of the currency you use in Sdk.', 'woocommerce-epayco'),
-            'currency_conversion_descriptions_enabled'  => $currencyConversionDescriptionsEnabled,
-            'currency_conversion_descriptions_disabled' => $currencyConversionDescriptionsDisabled,
-            'ex_payments_title'                         => __('Choose the payment methods you accept in your store', 'woocommerce-epayco'),
-            'ex_payments_description'                   => __('Enable the payment methods available to your clients.', 'woocommerce-epayco'),
-            'ex_payments_type_credit_card_label'        => __('Credit Cards', 'woocommerce-epayco'),
-            'ex_payments_type_debit_card_label'         => __('Debit Cards', 'woocommerce-epayco'),
-            'ex_payments_type_other_label'              => __('Other Payment Methods', 'woocommerce-epayco'),
-            'installments_title'                        => __('Maximum number of installments', 'woocommerce-epayco'),
-            'installments_description'                  => __('What is the maximum quota with which a customer can buy?', 'woocommerce-epayco'),
-            'installments_options_1'                    => __('1 installment', 'woocommerce-epayco'),
-            'installments_options_2'                    => __('2 installments', 'woocommerce-epayco'),
-            'installments_options_3'                    => __('3 installments', 'woocommerce-epayco'),
-            'installments_options_4'                    => __('4 installments', 'woocommerce-epayco'),
-            'installments_options_5'                    => __('5 installments', 'woocommerce-epayco'),
-            'installments_options_6'                    => __('6 installments', 'woocommerce-epayco'),
-            'installments_options_10'                   => __('10 installments', 'woocommerce-epayco'),
-            'installments_options_12'                   => __('12 installments', 'woocommerce-epayco'),
-            'installments_options_15'                   => __('15 installments', 'woocommerce-epayco'),
-            'installments_options_18'                   => __('18 installments', 'woocommerce-epayco'),
-            'installments_options_24'                   => __('24 installments', 'woocommerce-epayco'),
-            'advanced_configuration_title'              => __('Advanced settings', 'woocommerce-epayco'),
-            'advanced_configuration_description'        => __('Edit these advanced fields only when you want to modify the preset values.', 'woocommerce-epayco'),
-            'method_title'                              => __('Payment experience', 'woocommerce-epayco'),
-            'method_description'                        => __('Define what payment experience your customers will have, whether inside or outside your store.', 'woocommerce-epayco'),
-            'method_options_redirect'                   => __('Redirect', 'woocommerce-epayco'),
-            'method_options_modal'                      => __('Modal', 'woocommerce-epayco'),
-            'auto_return_title'                         => __('Return to the store', 'woocommerce-epayco'),
-            'auto_return_subtitle'                      => __('Do you want your customer to automatically return to the store after payment?', 'woocommerce-epayco'),
-            'auto_return_descriptions_enabled'          => $autoReturnDescriptionsEnabled,
-            'auto_return_descriptions_disabled'         => $autoReturnDescriptionsDisabled,
-            'success_url_title'                         => __('Success URL', 'woocommerce-epayco'),
-            'success_url_description'                   => __('Choose the URL that we will show your customers when they finish their purchase.', 'woocommerce-epayco'),
-            'failure_url_title'                         => __('Payment URL rejected', 'woocommerce-epayco'),
-            'failure_url_description'                   => __('Choose the URL that we will show to your customers when we refuse their purchase. Make sure it includes a message appropriate to the situation and give them useful information so they can solve it.', 'woocommerce-epayco'),
-            'pending_url_title'                         => __('Payment URL pending', 'woocommerce-epayco'),
-            'pending_url_description'                   => __('Choose the URL that we will show to your customers when they have a payment pending approval.', 'woocommerce-epayco'),
-            'binary_mode_title'                         => __('Automatic decline of payments without instant approval', 'woocommerce-epayco'),
-            'binary_mode_subtitle'                      => __('Enable it if you want to automatically decline payments that are not instantly approved by banks or other institutions.', 'woocommerce-epayco'),
-            'binary_mode_default'                       => __('Debit, Credit and Invoice in Sdk environment.', 'woocommerce-epayco'),
-            'binary_mode_descriptions_enabled'          => $binaryModeDescriptionsEnabled,
-            'binary_mode_descriptions_disabled'         => $binaryModeDescriptionsDisabled,
-            'discount_title'                            => __('Discount in Sdk Checkouts', 'woocommerce-epayco'),
-            'discount_description'                      => __('Choose a percentage value that you want to discount your customers for paying with Sdk.', 'woocommerce-epayco'),
-            'discount_checkbox_label'                   => __('Activate and show this information on Sdk Checkout', 'woocommerce-epayco'),
-            'commission_title'                          => __('Commission in Sdk Checkouts', 'woocommerce-epayco'),
-            'commission_description'                    => __('Choose an additional percentage value that you want to charge as commission to your customers for paying with Sdk.', 'woocommerce-epayco'),
-            'commission_checkbox_label'                 => __('Activate and show this information on Sdk Checkout', 'woocommerce-epayco'),
-            'invalid_back_url'                          => __('This seems to be an invalid URL', 'woocommerce-epayco'),
-        ];
-        $this->basicGatewaySettings  = array_merge($this->basicGatewaySettings, $this->setSupportLinkTranslations());
-    }
-
-    /**
-     * Set credits settings translations
-     *
-     * @return void
-     */
-    private function setcreditCardGatewaySettingsTranslations (): void
-    {
-        $enabledDescriptionsEnabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Credit cards is', 'woocommerce-epayco'),
-            __('enabled', 'woocommerce-epayco')
-        );
-
-        $enabledDescriptionsDisabled = sprintf(
-            '%s <b>%s</b>.',
-            __('Credit cards is', 'woocommerce-epayco'),
-            __('disabled', 'woocommerce-epayco')
-        );
-
-        $this->creditcardGatewaySettings = [
-            'gateway_title'                             => __('Credit and Debit Cards by ePayco', 'woocommerce-epayco'),
-            'gateway_description'                       => __('Accept fast and secure payments directly from your store using credit and debit cards from any bank. No redirects, ensuring a seamless shopping experience.  (Visa, Mastercard, Amex & Dinners)', 'woocommerce-epayco'),
-            'gateway_method_title'                      => __('ePayco - Checkout API', 'woocommerce-epayco'),
-            'gateway_method_description'                => __('Payments without leaving your store with our customizable checkout', 'woocommerce-epayco'),
-            'header_title'                              => __('Credit and Debit Cards by ePayco', 'woocommerce-epayco'),
-            'header_description'                        => __('With the Credit card payment, you can sell inside your store environment, without redirection and with the security from ePayco.', 'woocommerce-epayco'),
-            'enabled_title'                             => __('Enable', 'woocommerce-epayco'),
-            'enabled_subtitle'                          => __('By disabling it, you will disable all credit cards payments from ePayco.', 'woocommerce-epayco'),
-            'enabled_descriptions_enabled'              => $enabledDescriptionsEnabled,
-            'enabled_descriptions_disabled'             => $enabledDescriptionsDisabled,
-            'title_title'                               => __('Title in the store Checkout', 'woocommerce-epayco'),
-            'title_description'                         => __('Change the display text in Checkout, maximum characters: 85', 'woocommerce-epayco'),
-            'title_default'                             => __('Credit and debit cards', 'woocommerce-epayco'),
-            'title_desc_tip'                            => __('The text inserted here will not be translated to other languages', 'woocommerce-epayco')
-        ];
-        $this->creditcardGatewaySettings  = array_merge($this->creditcardGatewaySettings, $this->setSupportLinkTranslations());
-    }
-
-
 
     /**
      * Set credits settings translations
@@ -460,33 +152,114 @@ class AdminTranslations
     {
         $enabledDescriptionsEnabled = sprintf(
             '%s <b>%s</b>.',
-            __('Credit cards is', 'woocommerce-epayco'),
-            __('enabled', 'woocommerce-epayco')
+            __('Credit cards is', 'woo-epayco-api'),
+            __('enabled', 'woo-epayco-api')
         );
 
         $enabledDescriptionsDisabled = sprintf(
             '%s <b>%s</b>.',
-            __('Credit cards is', 'woocommerce-epayco'),
-            __('disabled', 'woocommerce-epayco')
+            __('Credit cards is', 'woo-epayco-api'),
+            __('disabled', 'woo-epayco-api')
         );
 
         $this->subscriptionGatewaySettings = [
-            'gateway_title'                             => __('Subscription', 'woocommerce-epayco'),
-            'gateway_description'                       => __('Payments without leaving your store with our customizable checkout', 'woocommerce-epayco'),
-            'gateway_method_title'                      => __('ePayco - Checkout API', 'woocommerce-epayco'),
-            'gateway_method_description'                => __('Payments without leaving your store with our customizable checkout', 'woocommerce-epayco'),
-            'header_title'                              => __('Subscription', 'woocommerce-epayco'),
-            'header_description'                        => __('With the Subscription payment, you can sell inside your store environment, without redirection and with the security from ePayco.', 'woocommerce-epayco'),
-            'enabled_title'                             => __('Enable', 'woocommerce-epayco'),
-            'enabled_subtitle'                          => __('By disabling it, you will disable all credit cards payments from ePayco.', 'woocommerce-epayco'),
+            'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
+            'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
+            'card_settings_button_text'                 => __('Go to Settings', 'woo-epayco-api'),
+            'gateway_title'                             => __('Subscription', 'woo-epayco-api'),
+            'gateway_description'                       => __('Allow your customers to subscribe to recurring payment plans quickly and easily. Automatically charge every set period without requiring additional actions from the customer.', 'woo-epayco-api'),
+            'gateway_method_title'                      => __('ePayco - Checkout Subscription', 'woo-epayco-api'),
+            'gateway_method_description'                => __('Payments without leaving your store with our customizable checkout', 'woo-epayco-api'),
+            'header_title'                              => __('Subscription', 'woo-epayco-api'),
+            'header_description'                        => __('With the Subscription payment, you can sell inside your store environment, without redirection and with the security from ePayco.', 'woo-epayco-api'),
+            'enabled_title'                             => __('Enable', 'woo-epayco-api'),
+            'enabled_subtitle'                          => __('By disabling it, you will disable subscriptions payments from ePayco.', 'woo-epayco-api'),
             'enabled_descriptions_enabled'              => $enabledDescriptionsEnabled,
             'enabled_descriptions_disabled'             => $enabledDescriptionsDisabled,
-            'title_title'                               => __('Title in the store Checkout', 'woocommerce-epayco'),
-            'title_description'                         => __('Change the display text in Checkout, maximum characters: 85', 'woocommerce-epayco'),
-            'title_default'                             => __('Subscription', 'woocommerce-epayco'),
-            'title_desc_tip'                            => __('The text inserted here will not be translated to other languages', 'woocommerce-epayco')
+            'title_title'                               => __('Title in the store Checkout', 'woo-epayco-api'),
+            'title_description'                         => __('Change the display text in Checkout, maximum characters: 85', 'woo-epayco-api'),
+            'title_default'                             => __('Subscription', 'woo-epayco-api'),
+            'title_desc_tip'                            => __('The text inserted here will not be translated to other languages', 'woo-epayco-api')
         ];
         $this->subscriptionGatewaySettings  = array_merge($this->subscriptionGatewaySettings, $this->setSupportLinkTranslations());
+    }
+
+    /**
+     * Set gateway settings translations
+     *
+     * @return void
+     */
+    private function setGatewaysSettingsTranslations(): void
+    {
+        $this->gatewaysSettings = [
+            'title_payments'    => __('2. Activate and set up payment methods', 'woo-epayco-api'),
+            'subtitle_payments' => __('Select the payment method you want to appear in your store to activate and set it up.', 'woo-epayco-api'),
+            'settings_payment'  => __('Settings', 'woo-epayco-api'),
+            'button_payment'    => __('Continue', 'woo-epayco-api'),
+            'enabled'           => __('Enabled', 'woo-epayco-api'),
+            'disabled'          => __('Disabled', 'woo-epayco-api'),
+            'empty_credentials' => __('Configure your credentials to enable ePayco payment methods.', 'woo-epayco-api'),
+        ];
+    }
+
+    /**
+     * Set test mode settings translations
+     *
+     * @return void
+     */
+    private function setTestModeSettingsTranslations(): void
+    {
+        $this->testModeSettings = [
+            'title_test_mode'         => __('3. Test your store before you start to sell', 'woo-epayco-api'),
+            'badge_test'              => __('test', 'woo-epayco-api'),
+            'badge_mode'              => __('Production', 'woo-epayco-api'),
+            'subtitle_test_mode'      => __('Select “Test Mode” if you want to try the payment experience before you start to sell or “Sales Mode” (Production) to start now.', 'woo-epayco-api'),
+            'title_mode'              => __('Choose how you want to operate your store:', 'woo-epayco-api'),
+            'title_test'              => __('Test Mode', 'woo-epayco-api'),
+            'subtitle_test'           => __('ePayco Checkouts Test.', 'woo-epayco-api'),
+            'subtitle_test_link'      => __('Test Mode rules.', 'woo-epayco-api'),
+            'title_prod'              => __('Production Mode', 'woo-epayco-api'),
+            'subtitle_prod'           => __('ePayco Checkouts Production.', 'woo-epayco-api'),
+            'title_message_prod'      => __('ePayco payment methods in Production Mode', 'woo-epayco-api'),
+            'title_message_test'      => __('ePayco payment methods in Test Mode', 'woo-epayco-api'),
+            'subtitle_message_prod'   => __('The clients can make real purchases in your store.', 'woo-epayco-api'),
+            'button_test_mode'        => __('Save changes', 'woo-epayco-api'),
+        ];
+    }
+
+    /**
+     * Set update credentials translations
+     *
+     * @return void
+     */
+    private function setUpdateCredentialsTranslations(): void
+    {
+        $this->updateCredentials = [
+            'credentials_updated'              => __('Credentials were updated', 'woo-epayco-api'),
+            'no_test_mode_title'               => __('Your store has exited Test Mode and is making real sales in Production Mode.', 'woo-epayco-api'),
+            'no_test_mode_subtitle'            => __('To test the store, re-enter both test credentials.', 'woo-epayco-api'),
+            'invalid_credentials_title'        => __('Invalid credentials', 'woo-epayco-api'),
+            'invalid_credentials_subtitle'     => __('See our manual to learn', 'woo-epayco-api'),
+            'invalid_credentials_link_message' => __('how to enter the credentials the right way.', 'woo-epayco-api'),
+            'for_test_mode'                    => __(' for test mode', 'woo-epayco-api'),
+        ];
+    }
+
+    /**
+     * Set configuration tips translations
+     *
+     * @return void
+     */
+    private function setConfigurationTipsTranslations(): void
+    {
+        $this->configurationTips = [
+            'valid_store_tips'         => __('Store business fields are valid', 'woo-epayco-api'),
+            'invalid_store_tips'       => __('Store business fields could not be validated', 'woo-epayco-api'),
+            'valid_payment_tips'       => __('At least one payment method is enabled', 'woo-epayco-api'),
+            'invalid_payment_tips'     => __('No payment method enabled', 'woo-epayco-api'),
+            'valid_credentials_tips'   => __('Credentials fields are valid', 'woo-epayco-api'),
+            'invalid_credentials_tips' => __('Credentials fields could not be validated', 'woo-epayco-api'),
+        ];
     }
 
     /**
@@ -497,25 +270,28 @@ class AdminTranslations
     private function setTicketGatewaySettingsTranslations(): void
     {
         $this->ticketGatewaySettings = [
-            'gateway_title'                => __('Cash', 'woocommerce-epayco'),
-            'gateway_description'          => __('Add the cash payment option directly in your store. Perfect for customers who prefer paying at physical locations, with no hassles or redirects.', 'woocommerce-epayco'),
-            'method_title'                 => __('ePayco - Checkout API', 'woocommerce-epayco'),
-            'header_title'                 => __('Cash Checkout', 'woocommerce-epayco'),
-            'header_description'           => __('With the Transparent Checkout, you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woocommerce-epayco'),
-            'enabled_title'                => __('Enable the Checkout', 'woocommerce-epayco'),
-            'enabled_subtitle'             => __('By disabling it, you will disable all cash payments from ePayco Transparent Checkout.', 'woocommerce-epayco'),
-            'enabled_enabled'              => __('Cash is <b>enabled</b>.', 'woocommerce-epayco'),
-            'enabled_disabled'             => __('Cash is <b>disabled</b>.', 'woocommerce-epayco'),
-            'title_title'                  => __('Title in the store Checkout', 'woocommerce-epayco'),
-            'title_description'            => __('Change the display text in Checkout, maximum characters: 85', 'woocommerce-epayco'),
-            'title_default'                => __('Invoice', 'woocommerce-epayco'),
-            'title_desc_tip'               => __('The text inserted here will not be translated to other languages', 'woocommerce-epayco'),
-            'date_expiration_title'        => __('Payment Due', 'woocommerce-epayco'),
-            'date_expiration_description'  => __('In how many days will cash payments expire.', 'woocommerce-epayco'),
-            'type_payments_title'          => __('Payment methods', 'woocommerce-epayco'),
-            'type_payments_description'    => __('Enable the available payment methods', 'woocommerce-epayco'),
-            'type_payments_desctip'        => __('Choose the available payment methods in your store.', 'woocommerce-epayco'),
-            'type_payments_label'          => __('All payment methods', 'woocommerce-epayco'),
+            'gateway_title'                => __('Cash', 'woo-epayco-api'),
+            'gateway_description'          => __('Add the cash payment option directly in your store. Perfect for customers who prefer paying at physical locations, with no hassles or redirects.', 'woo-epayco-api'),
+            'method_title'                 => __('ePayco - Checkout Cash', 'woo-epayco-api'),
+            'header_title'                 => __('Cash Checkout', 'woo-epayco-api'),
+            'header_description'           => __('With the Transparent Checkout, you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woo-epayco-api'),
+            'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
+            'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
+            'card_settings_button_text'                 => __('Go to Settings', 'woo-epayco-api'),
+            'enabled_title'                => __('Enable the Checkout', 'woo-epayco-api'),
+            'enabled_subtitle'             => __('By disabling it, you will disable all cash payments from ePayco Transparent Checkout.', 'woo-epayco-api'),
+            'enabled_enabled'              => __('Cash is <b>enabled</b>.', 'woo-epayco-api'),
+            'enabled_disabled'             => __('Cash is <b>disabled</b>.', 'woo-epayco-api'),
+            'title_title'                  => __('Title in the store Checkout', 'woo-epayco-api'),
+            'title_description'            => __('Change the display text in Checkout, maximum characters: 85', 'woo-epayco-api'),
+            'title_default'                => __('Invoice', 'woo-epayco-api'),
+            'title_desc_tip'               => __('The text inserted here will not be translated to other languages', 'woo-epayco-api'),
+            'date_expiration_title'        => __('Payment Due', 'woo-epayco-api'),
+            'date_expiration_description'  => __('In how many days will cash payments expire.', 'woo-epayco-api'),
+            'type_payments_title'          => __('Payment methods', 'woo-epayco-api'),
+            'type_payments_description'    => __('Enable the available payment methods', 'woo-epayco-api'),
+            'type_payments_desctip'        => __('Choose the available payment methods in your store.', 'woo-epayco-api'),
+            'type_payments_label'          => __('All payment methods', 'woo-epayco-api'),
         ];
         $this->ticketGatewaySettings  = array_merge($this->ticketGatewaySettings, $this->setSupportLinkTranslations());
     }
@@ -527,22 +303,66 @@ class AdminTranslations
      */
     private function setDaviplataGatewaySettingsTranslations(): void
     {
-        $this->daviplatatewaySettings = [
-            'gateway_title'                => __('Daviplata', 'woocommerce-epayco'),
-            'gateway_description'          => __('Connect with millions of Daviplata users in Colombia. Customers can pay directly from your store without extra steps, quickly and easily.', 'woocommerce-epayco'),
-            'method_title'                 => __('Daviplata', 'woocommerce-epayco'),
-            'header_title'                 => __('Daviplata', 'woocommerce-epayco'),
-            'header_description'           => __('you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woocommerce-epayco'),
-            'enabled_title'                => __('Enable Daviplata', 'woocommerce-epayco'),
-            'enabled_subtitle'             => __('By deactivating it, you will disable Checkout payment from ePayco', 'woocommerce-epayco'),
-            'enabled_enabled'              => __('Daviplata is <b>enabled</b>.', 'woocommerce-epayco'),
-            'enabled_disabled'             => __('Daviplata is <b>disabled</b>.', 'woocommerce-epayco'),
-            'title_title'                  => __('Title in the store Checkout', 'woocommerce-epayco'),
-            'title_description'            => __('Change the display text in Checkout, maximum characters: 85', 'woocommerce-epayco'),
-            'title_default'                => __('Daviplata', 'woocommerce-epayco'),
-            'title_desc_tip'               => __('The text inserted here will not be translated to other languages', 'woocommerce-epayco'),
+        $this->daviplataGatewaySettings = [
+            'gateway_title'                => __('Daviplata', 'woo-epayco-api'),
+            'gateway_description'          => __('Add the Daviplata payment option directly in your store. Perfect for customers who prefer paying at physical locations, with no hassles or redirects.', 'woo-epayco-api'),
+            'method_title'                 => __('ePayco - Checkout Daviplata', 'woo-epayco-api'),
+            'header_title'                 => __('Daviplata Checkout', 'woo-epayco-api'),
+            'header_description'           => __('With the Transparent Checkout, you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woo-epayco-api'),
+            'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
+            'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
+            'card_settings_button_text'                 => __('Go to Settings', 'woo-epayco-api'),
+            'enabled_title'                => __('Enable the Checkout', 'woo-epayco-api'),
+            'enabled_subtitle'             => __('By disabling it, you will disable daviplata payment from ePayco Transparent Checkout.', 'woo-epayco-api'),
+            'enabled_enabled'              => __('Daviplata is <b>enabled</b>.', 'woo-epayco-api'),
+            'enabled_disabled'             => __('Daviplata is <b>disabled</b>.', 'woo-epayco-api'),
+            'title_title'                  => __('Title in the store Checkout', 'woo-epayco-api'),
+            'title_description'            => __('Change the display text in Checkout, maximum characters: 85', 'woo-epayco-api'),
+            'title_default'                => __('Invoice', 'woo-epayco-api'),
+            'title_desc_tip'               => __('The text inserted here will not be translated to other languages', 'woo-epayco-api'),
         ];
-        $this->daviplatatewaySettings  = array_merge($this->daviplatatewaySettings, $this->setSupportLinkTranslations());
+        $this->ticketGatewaySettings  = array_merge($this->ticketGatewaySettings, $this->setSupportLinkTranslations());
+    }
+
+    /**
+     * Set credits settings translations
+     *
+     * @return void
+     */
+    private function setcreditCardGatewaySettingsTranslations (): void
+    {
+        $enabledDescriptionsEnabled = sprintf(
+            '%s <b>%s</b>.',
+            __('Credit cards is', 'woo-epayco-api'),
+            __('enabled', 'woo-epayco-api')
+        );
+
+        $enabledDescriptionsDisabled = sprintf(
+            '%s <b>%s</b>.',
+            __('Credit cards is', 'woo-epayco-api'),
+            __('disabled', 'woo-epayco-api')
+        );
+
+        $this->creditcardGatewaySettings = [
+            'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
+            'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
+            'card_settings_button_text'                 => __('Go to Settings', 'woo-epayco-api'),
+            'gateway_title'                             => __('Credit and Debit Cards by ePayco', 'woo-epayco-api'),
+            'gateway_description'                       => __('Accept fast and secure payments directly from your store using credit and debit cards from any bank. No redirects, ensuring a seamless shopping experience.  (Visa, Mastercard, Amex & Dinners)', 'woo-epayco-api'),
+            'gateway_method_title'                      => __('ePayco - Checkout Credit card', 'woo-epayco-api'),
+            'gateway_method_description'                => __('Payments without leaving your store with our customizable checkout', 'woo-epayco-api'),
+            'header_title'                              => __('Credit and Debit Cards by ePayco', 'woo-epayco-api'),
+            'header_description'                        => __('With the Credit card payment, you can sell inside your store environment, without redirection and with the security from ePayco.', 'woo-epayco-api'),
+            'enabled_title'                             => __('Enable', 'woo-epayco-api'),
+            'enabled_subtitle'                          => __('By disabling it, you will disable all credit cards payments from ePayco.', 'woo-epayco-api'),
+            'enabled_descriptions_enabled'              => $enabledDescriptionsEnabled,
+            'enabled_descriptions_disabled'             => $enabledDescriptionsDisabled,
+            'title_title'                               => __('Title in the store Checkout', 'woo-epayco-api'),
+            'title_description'                         => __('Change the display text in Checkout, maximum characters: 85', 'woo-epayco-api'),
+            'title_default'                             => __('Credit and debit cards', 'woo-epayco-api'),
+            'title_desc_tip'                            => __('The text inserted here will not be translated to other languages', 'woo-epayco-api')
+        ];
+        $this->creditcardGatewaySettings  = array_merge($this->creditcardGatewaySettings, $this->setSupportLinkTranslations());
     }
 
     /**
@@ -553,19 +373,22 @@ class AdminTranslations
     private function setPseGatewaySettingsTranslations(): void
     {
         $this->pseGatewaySettings = [
-            'gateway_title'                => __('PSE by ePayco', 'woocommerce-epayco'),
-            'gateway_description'          => __('Let your customers pay with direct bank transfers from any Colombian bank, all without leaving your online store. Secure, fast, and interruption-free.', 'woocommerce-epayco'),
-            'method_title'                 => __('ePayco - Checkout API', 'woocommerce-epayco'),
-            'header_title'                 => __('PSE by ePayco', 'woocommerce-epayco'),
-            'header_description'           => __('you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woocommerce-epayco'),
-            'enabled_title'                => __('Enable PSE', 'woocommerce-epayco'),
-            'enabled_subtitle'             => __('By deactivating it, you will disable PSE payments from ePayco', 'woocommerce-epayco'),
-            'enabled_enabled'              => __('PSE is <b>enabled</b>.', 'woocommerce-epayco'),
-            'enabled_disabled'             => __('PSE is <b>disabled</b>.', 'woocommerce-epayco'),
-            'title_title'                  => __('Title in the store Checkout', 'woocommerce-epayco'),
-            'title_description'            => __('Change the display text in Checkout, maximum characters: 85', 'woocommerce-epayco'),
-            'title_default'                => __('PSE', 'woocommerce-epayco'),
-            'title_desc_tip'               => __('The text inserted here will not be translated to other languages', 'woocommerce-epayco'),
+            'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
+            'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
+            'card_settings_button_text'                 => __('Go to Settings', 'woo-epayco-api'),
+            'gateway_title'                => __('PSE by ePayco', 'woo-epayco-api'),
+            'gateway_description'          => __('Let your customers pay with direct bank transfers from any Colombian bank, all without leaving your online store. Secure, fast, and interruption-free.', 'woo-epayco-api'),
+            'method_title'                 => __('ePayco - Checkout Pse', 'woo-epayco-api'),
+            'header_title'                 => __('PSE by ePayco', 'woo-epayco-api'),
+            'header_description'           => __('you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woo-epayco-api'),
+            'enabled_title'                => __('Enable PSE', 'woo-epayco-api'),
+            'enabled_subtitle'             => __('By deactivating it, you will disable PSE payments from ePayco', 'woo-epayco-api'),
+            'enabled_enabled'              => __('PSE is <b>enabled</b>.', 'woo-epayco-api'),
+            'enabled_disabled'             => __('PSE is <b>disabled</b>.', 'woo-epayco-api'),
+            'title_title'                  => __('Title in the store Checkout', 'woo-epayco-api'),
+            'title_description'            => __('Change the display text in Checkout, maximum characters: 85', 'woo-epayco-api'),
+            'title_default'                => __('PSE', 'woo-epayco-api'),
+            'title_desc_tip'               => __('The text inserted here will not be translated to other languages', 'woo-epayco-api'),
         ];
         $this->pseGatewaySettings  = array_merge($this->pseGatewaySettings, $this->setSupportLinkTranslations());
     }
@@ -579,153 +402,38 @@ class AdminTranslations
     {
         $ePaycoCheckoutDescriptionsEnabled = sprintf(
             '%s <b>%s</b>.',
-            __('One Page Checkout is', 'woocommerce-epayco'),
-            __('enabled', 'woocommerce-epayco')
+            __('One Page Checkout is', 'woo-epayco-api'),
+            __('enabled', 'woo-epayco-api')
         );
 
         $ePaycoCheckoutDescriptionsDisabled = sprintf(
             '%s <b>%s</b>.',
-            __('One Page Checkout is', 'woocommerce-epayco'),
-            __('disabled', 'woocommerce-epayco')
+            __('One Page Checkout is', 'woo-epayco-api'),
+            __('disabled', 'woo-epayco-api')
         );
         $this->checkoutGatewaySettings = [
-            'gateway_title'                => __('Web CheckOut', 'woocommerce-epayco'),
-            'gateway_description'          => __('Offer your customers a complete payment experience with multiple options: cards, bank transfers, digital wallets, and cash. All in one secure and easy-to-use platform!', 'woocommerce-epayco'),
-            'method_title'                 => __('ePayco', 'woocommerce-epayco'),
-            'header_title'                 => __('Web CheckOut', 'woocommerce-epayco'),
-            'header_description'           => __('you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woocommerce-epayco'),
-            'enabled_title'                => __('Enable ePayco', 'woocommerce-epayco'),
-            'enabled_subtitle'             => __('By deactivating it, you will disable Checkout payment from ePayco', 'woocommerce-epayco'),
-            'enabled_enabled'              => __('Checkout is <b>enabled</b>.', 'woocommerce-epayco'),
-            'enabled_disabled'             => __('Checkout is <b>disabled</b>.', 'woocommerce-epayco'),
-            'title_title'                  => __('Title in the store Checkout', 'woocommerce-epayco'),
-            'title_description'            => __('Change the display text in Checkout, maximum characters: 85', 'woocommerce-epayco'),
-            'title_default'                => __('Checkout', 'woocommerce-epayco'),
-            'title_desc_tip'               => __('The text inserted here will not be translated to other languages', 'woocommerce-epayco'),
-            'epayco_type_checkout_title'                 => __('Checkout mode', 'woocommerce-epayco'),
-            'epayco_type_checkout_subtitle'              => __('Activate this option so that the payment experience is within your store environment, without redirection.', 'woocommerce-epayco'),
+            'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
+            'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
+            'card_settings_button_text'                 => __('Go to Settings', 'woo-epayco-api'),
+            'gateway_title'                => __('Web CheckOut', 'woo-epayco-api'),
+            'gateway_description'          => __('Offer your customers a complete payment experience with multiple options: cards, bank transfers, digital wallets, and cash. All in one secure and easy-to-use platform!', 'woo-epayco-api'),
+            'method_title'                 => __('ePayco', 'woo-epayco-api'),
+            'header_title'                 => __('Web CheckOut', 'woo-epayco-api'),
+            'header_description'           => __('you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woo-epayco-api'),
+            'enabled_title'                => __('Enable ePayco', 'woo-epayco-api'),
+            'enabled_subtitle'             => __('By deactivating it, you will disable Checkout payment from ePayco', 'woo-epayco-api'),
+            'enabled_enabled'              => __('Checkout is <b>enabled</b>.', 'woo-epayco-api'),
+            'enabled_disabled'             => __('Checkout is <b>disabled</b>.', 'woo-epayco-api'),
+            'title_title'                  => __('Title in the store Checkout', 'woo-epayco-api'),
+            'title_description'            => __('Change the display text in Checkout, maximum characters: 85', 'woo-epayco-api'),
+            'title_default'                => __('Checkout', 'woo-epayco-api'),
+            'title_desc_tip'               => __('The text inserted here will not be translated to other languages', 'woo-epayco-api'),
+            'epayco_type_checkout_title'                 => __('Checkout mode', 'woo-epayco-api'),
+            'epayco_type_checkout_subtitle'              => __('Activate this option so that the payment experience is within your store environment, without redirection.', 'woo-epayco-api'),
             'epayco_type_checkout_descriptions_enabled'  => $ePaycoCheckoutDescriptionsEnabled,
             'epayco_type_checkout_descriptions_disabled' => $ePaycoCheckoutDescriptionsDisabled,
-            ];
+        ];
         $this->checkoutGatewaySettings  = array_merge($this->checkoutGatewaySettings, $this->setSupportLinkTranslations());
-    }
-
-
-    /**
-     * Set test mode settings translations
-     *
-     * @return void
-     */
-    private function setTestModeSettingsTranslations(): void
-    {
-        $this->testModeSettings = [
-            'title_test_mode'         => __('3. Test your store before you start to sell', 'woocommerce-epayco'),
-            'badge_test'              => __('test', 'woocommerce-epayco'),
-            'badge_mode'              => __('Production', 'woocommerce-epayco'),
-            'subtitle_test_mode'      => __('Select “Test Mode” if you want to try the payment experience before you start to sell or “Sales Mode” (Production) to start now.', 'woocommerce-epayco'),
-            'title_mode'              => __('Choose how you want to operate your store:', 'woocommerce-epayco'),
-            'title_test'              => __('Test Mode', 'woocommerce-epayco'),
-            'subtitle_test'           => __('ePayco Checkouts Test.', 'woocommerce-epayco'),
-            'subtitle_test_link'      => __('Test Mode rules.', 'woocommerce-epayco'),
-            'title_prod'              => __('Production Mode', 'woocommerce-epayco'),
-            'subtitle_prod'           => __('ePayco Checkouts Production.', 'woocommerce-epayco'),
-            'title_message_prod'      => __('ePayco payment methods in Production Mode', 'woocommerce-epayco'),
-            'title_message_test'      => __('ePayco payment methods in Test Mode', 'woocommerce-epayco'),
-            'subtitle_message_prod'   => __('The clients can make real purchases in your store.', 'woocommerce-epayco'),
-            'button_test_mode'        => __('Save changes', 'woocommerce-epayco'),
-        ];
-    }
-
-    /**
-     * Set configuration tips translations
-     *
-     * @return void
-     */
-    private function setConfigurationTipsTranslations(): void
-    {
-        $this->configurationTips = [
-            'valid_store_tips'         => __('Store business fields are valid', 'woocommerce-epayco'),
-            'invalid_store_tips'       => __('Store business fields could not be validated', 'woocommerce-epayco'),
-            'valid_payment_tips'       => __('At least one payment method is enabled', 'woocommerce-epayco'),
-            'invalid_payment_tips'     => __('No payment method enabled', 'woocommerce-epayco'),
-            'valid_credentials_tips'   => __('Credentials fields are valid', 'woocommerce-epayco'),
-            'invalid_credentials_tips' => __('Credentials fields could not be validated', 'woocommerce-epayco'),
-        ];
-    }
-
-    /**
-     * Set validate credentials translations
-     *
-     * @return void
-     */
-    private function setValidateCredentialsTranslations(): void
-    {
-        $this->validateCredentials = [
-            'valid_access_token'   => __('Valid Access Token', 'woocommerce-epayco'),
-            'invalid_access_token' => __('Invalid Access Token', 'woocommerce-epayco'),
-        ];
-    }
-
-    /**
-     * Set update credentials translations
-     *
-     * @return void
-     */
-    private function setUpdateCredentialsTranslations(): void
-    {
-        $this->updateCredentials = [
-            'credentials_updated'              => __('Credentials were updated', 'woocommerce-epayco'),
-            'no_test_mode_title'               => __('Your store has exited Test Mode and is making real sales in Production Mode.', 'woocommerce-epayco'),
-            'no_test_mode_subtitle'            => __('To test the store, re-enter both test credentials.', 'woocommerce-epayco'),
-            'invalid_credentials_title'        => __('Invalid credentials', 'woocommerce-epayco'),
-            'invalid_credentials_subtitle'     => __('See our manual to learn', 'woocommerce-epayco'),
-            'invalid_credentials_link_message' => __('how to enter the credentials the right way.', 'woocommerce-epayco'),
-            'for_test_mode'                    => __(' for test mode', 'woocommerce-epayco'),
-        ];
-    }
-
-    /**
-     * Set update store translations
-     *
-     * @return void
-     */
-    private function setUpdateStoreTranslations(): void
-    {
-        $this->updateStore = [
-            'valid_configuration' => __('Store information is valid', 'woocommerce-epayco'),
-        ];
-    }
-
-    /**
-     * Set currency translations
-     *
-     * @return void
-     */
-    private function setCurrencyTranslations(): void
-    {
-        $notCompatibleCurrencyConversion = sprintf(
-            '<b>%s</b> %s',
-            __('Attention:', 'woocommerce-epayco'),
-            __('The currency settings you have in WooCommerce are not compatible with the currency you use in your Sdk account. Please activate the currency conversion.', 'woocommerce-epayco')
-        );
-
-        $baseConversionMessage = __('Make payments faster and safer', 'woocommerce-epayco');
-        $this->currency = [
-            'not_compatible_currency_conversion' => $notCompatibleCurrencyConversion,
-            'now_we_convert'     => $this->generateConversionMessage($baseConversionMessage),
-        ];
-    }
-
-    /**
-     * Generate conversion message
-     *
-     * @param string $baseMessage
-     *
-     * @return string
-     */
-    private function generateConversionMessage(string $baseMessage): string
-    {
-        return sprintf('%s %s %s ', $baseMessage, get_woocommerce_currency(), __("to ", 'woocommerce-epayco'));
     }
 
     /**
@@ -736,131 +444,20 @@ class AdminTranslations
     private function setStatusSyncTranslations(): void
     {
         $this->statusSync = [
-            'metabox_title'                                    => __('Payment status on ePayco', 'woocommerce-epayco'),
-            'card_title'                                       => __('This is the payment status of your Sdk Activities. To check the order status, please refer to Order details.', 'woocommerce-epayco'),
-            'link_description_success'                         => __('View purchase details at Sdk', 'woocommerce-epayco'),
-            'sync_button_success'                              => __('Sync order status', 'woocommerce-epayco'),
-            'link_description_pending'                         => __('View purchase details at Sdk', 'woocommerce-epayco'),
-            'sync_button_pending'                              => __('Sync order status', 'woocommerce-epayco'),
-            'link_description_failure'                         => __('Consult the reasons for refusal', 'woocommerce-epayco'),
-            'sync_button_failure'                              => __('Sync order status', 'woocommerce-epayco'),
-            'response_success'                                 => __('Order update successfully. This page will be reloaded...', 'woocommerce-epayco'),
-            'response_error'                                   => __('Unable to update order:', 'woocommerce-epayco'),
-            'alert_title_accredited'                           => __('Payment made', 'woocommerce-epayco'),
-            'description_accredited'                           => __('Payment made by the buyer and already credited in the account.', 'woocommerce-epayco'),
-            'alert_title_settled'                              => __('Call resolved', 'woocommerce-epayco'),
-            'description_settled'                              => __('Please contact Sdk for further details.', 'woocommerce-epayco'),
-            'alert_title_reimbursed'                           => __('Payment refunded', 'woocommerce-epayco'),
-            'description_reimbursed'                           => __('Your refund request has been made. Please contact Sdk for further details.', 'woocommerce-epayco'),
-            'alert_title_refunded'                             => __('Payment returned', 'woocommerce-epayco'),
-            'description_refunded'                             => __('The payment has been returned to the client.', 'woocommerce-epayco'),
-            'alert_title_partially_refunded'                   => __('Payment returned', 'woocommerce-epayco'),
-            'description_partially_refunded'                   => __('The payment has been partially returned to the client.', 'woocommerce-epayco'),
-            'alert_title_by_collector'                         => __('Payment canceled', 'woocommerce-epayco'),
-            'description_by_collector'                         => __('The payment has been successfully canceled.', 'woocommerce-epayco'),
-            'alert_title_by_payer'                             => __('Purchase canceled', 'woocommerce-epayco'),
-            'description_by_payer'                             => __('The payment has been canceled by the customer.', 'woocommerce-epayco'),
-            'alert_title_pending'                              => __('Pending payment', 'woocommerce-epayco'),
-            'description_pending'                              => __('Awaiting payment from the buyer.', 'woocommerce-epayco'),
-            'alert_title_pending_waiting_payment'              => __('Pending payment', 'woocommerce-epayco'),
-            'description_pending_waiting_payment'              => __('Awaiting payment from the buyer.', 'woocommerce-epayco'),
-            'alert_title_pending_waiting_for_remedy'           => __('Pending payment', 'woocommerce-epayco'),
-            'description_pending_waiting_for_remedy'           => __('Awaiting payment from the buyer.', 'woocommerce-epayco'),
-            'alert_title_pending_waiting_transfer'             => __('Pending payment', 'woocommerce-epayco'),
-            'description_pending_waiting_transfer'             => __('Awaiting payment from the buyer.', 'woocommerce-epayco'),
-            'alert_title_pending_review_manual'                => __('Pending payment', 'woocommerce-epayco'),
-            'description_pending_review_manual'                => __('We are veryfing the payment. We will notify you by email in up to 6 hours if everything is fine so that you can deliver the product or provide the service.', 'woocommerce-epayco'),
-            'alert_title_waiting_bank_confirmation'            => __('Declined payment', 'woocommerce-epayco'),
-            'description_waiting_bank_confirmation'            => __('The card-issuing bank declined the payment. Please ask your client to use another card or to get in touch with the bank.', 'woocommerce-epayco'),
-            'alert_title_pending_capture'                      => __('Payment authorized. Awaiting capture.', 'woocommerce-epayco'),
-            'description_pending_capture'                      => __("The payment has been authorized on the client's card. Please capture the payment.", 'woocommerce-epayco'),
-            'alert_title_in_process'                           => __('Payment in process', 'woocommerce-epayco'),
-            'description_in_process'                           => __('Please wait or contact Sdk for further details', 'woocommerce-epayco'),
-            'alert_title_pending_contingency'                  => __('Pending payment', 'woocommerce-epayco'),
-            'description_pending_contingency'                  => __('The bank is reviewing the payment. As soon as we have their confirmation, we will notify you via email so that you can deliver the product or provide the service.', 'woocommerce-epayco'),
-            'alert_title_pending_card_validation'              => __('Pending payment', 'woocommerce-epayco'),
-            'description_pending_card_validation'              => __('Awaiting payment information validation.', 'woocommerce-epayco'),
-            'alert_title_pending_online_validation'            => __('Pending payment', 'woocommerce-epayco'),
-            'description_pending_online_validation'            => __('Awaiting payment information validation.', 'woocommerce-epayco'),
-            'alert_title_pending_additional_info'              => __('Pending payment', 'woocommerce-epayco'),
-            'description_pending_additional_info'              => __('Awaiting payment information validation.', 'woocommerce-epayco'),
-            'alert_title_offline_process'                      => __('Pending payment', 'woocommerce-epayco'),
-            'description_offline_process'                      => __('Please wait or contact Sdk for further details', 'woocommerce-epayco'),
-            'alert_title_pending_challenge'                    => __('Pending payment', 'woocommerce-epayco'),
-            'description_pending_challenge'                    => __('Waiting for the buyer.', 'woocommerce-epayco'),
-            'alert_title_pending_provider_response'            => __('Pending payment', 'woocommerce-epayco'),
-            'description_pending_provider_response'            => __('Waiting for the card issuer.', 'woocommerce-epayco'),
-            'alert_title_bank_rejected'                        => __('The card issuing bank declined the payment', 'woocommerce-epayco'),
-            'description_bank_rejected'                        => __('Please recommend your customer to pay with another payment method or to contact their bank.', 'woocommerce-epayco'),
-            'alert_title_rejected_by_bank'                     => __('The card issuing bank declined the payment', 'woocommerce-epayco'),
-            'description_rejected_by_bank'                     => __('Please recommend your customer to pay with another payment method or to contact their bank.', 'woocommerce-epayco'),
-            'alert_title_rejected_insufficient_data'           => __('Declined payment', 'woocommerce-epayco'),
-            'description_rejected_insufficient_data'           => __('The card-issuing bank declined the payment. Please ask your client to use another card or to get in touch with the bank.', 'woocommerce-epayco'),
-            'alert_title_bank_error'                           => __('The card issuing bank declined the payment', 'woocommerce-epayco'),
-            'description_bank_error'                           => __('Please recommend your customer to pay with another payment method or to contact their bank.', 'woocommerce-epayco'),
-            'alert_title_by_admin'                             => __('Sdk did not process the payment', 'woocommerce-epayco'),
-            'description_by_admin'                             => __('Please contact Sdk for further details.', 'woocommerce-epayco'),
-            'alert_title_expired'                              => __('Expired payment deadline', 'woocommerce-epayco'),
-            'description_expired'                              => __('The client did not pay within the time limit.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_bad_filled_card_number'   => __('Your customer entered one or more incorrect card details', 'woocommerce-epayco'),
-            'description_cc_rejected_bad_filled_card_number'   => __('Please ask them to enter to enter them again exactly as they appear on the card or on their bank app to complete the payment.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_bad_filled_security_code' => __('Your customer entered one or more incorrect card details', 'woocommerce-epayco'),
-            'description_cc_rejected_bad_filled_security_code' => __('Please ask them to enter to enter them again exactly as they appear on the card or on their bank app to complete the payment.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_bad_filled_date'          => __('Your customer entered one or more incorrect card details', 'woocommerce-epayco'),
-            'description_cc_rejected_bad_filled_date'          => __('Please ask them to enter to enter them again exactly as they appear on the card or on their bank app to complete the payment.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_high_risk'                => __('We protected you from a suspicious payment', 'woocommerce-epayco'),
-            'description_cc_rejected_high_risk'                => __('For safety reasons, this transaction cannot be completed.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_fraud'                    => __('Declined payment', 'woocommerce-epayco'),
-            'description_cc_rejected_fraud'                    => __('The buyer is suspended in our platform. Your client must contact us to check what happened.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_blacklist'                => __('For safety reasons, the card issuing bank declined the payment', 'woocommerce-epayco'),
-            'description_cc_rejected_blacklist'                => __('Recommend your customer to pay with their usual payment method and device for online purchases.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_insufficient_amount'      => __("Your customer's credit card has no available limit", 'woocommerce-epayco'),
-            'description_cc_rejected_insufficient_amount'      => __('Please ask them to pay with another card or to choose another payment method.', 'woocommerce-epayco'),
-            'description_cc_rejected_insufficient_amount_cc'   => __('Please ask them to pay with another card or to choose another payment method.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_other_reason'             => __('The card issuing bank declined the payment', 'woocommerce-epayco'),
-            'description_cc_rejected_other_reason'             => __('Please recommend your customer to pay with another payment method or to contact their bank.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_max_attempts'             => __('Your customer reached the limit of payment attempts with this card', 'woocommerce-epayco'),
-            'description_cc_rejected_max_attempts'             => __('Please ask them to pay with another card or to choose another payment method.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_invalid_installments'     => __("Your customer's card  does not accept the number of installments selected", 'woocommerce-epayco'),
-            'description_cc_rejected_invalid_installments'     => __('Please ask them to choose a different number of installments or to pay with another method.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_call_for_authorize'       => __('Your customer needs to authorize the payment through their bank', 'woocommerce-epayco'),
-            'description_cc_rejected_call_for_authorize'       => __('Please ask them to call the telephone number on their card or to pay with another method.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_duplicated_payment'       => __('The payment was declined because your customer already paid for this purchase', 'woocommerce-epayco'),
-            'description_cc_rejected_duplicated_payment'       => __('Check your approved payments to verify it.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_card_disabled'            => __("Your customer's card was is not activated yet", 'woocommerce-epayco'),
-            'description_cc_rejected_card_disabled'            => __('Please ask them to contact their bank by calling the number on the back of their card or to pay with another method.', 'woocommerce-epayco'),
-            'alert_title_payer_unavailable'                    => __('Declined payment', 'woocommerce-epayco'),
-            'description_payer_unavailable'                    => __('The buyer is suspended in our platform. Your client must contact us to check what happened.', 'woocommerce-epayco'),
-            'alert_title_rejected_high_risk'                   => __('We protected you from a suspicious payment', 'woocommerce-epayco'),
-            'description_rejected_high_risk'                   => __('Recommend your customer to pay with their usual payment method and device for online purchases.', 'woocommerce-epayco'),
-            'alert_title_rejected_by_regulations'              => __('Declined payment', 'woocommerce-epayco'),
-            'description_rejected_by_regulations'              => __('This payment was declined because it did not pass Sdk security controls. Please ask your client to use another card.', 'woocommerce-epayco'),
-            'alert_title_rejected_cap_exceeded'                => __('Declined payment', 'woocommerce-epayco'),
-            'description_rejected_cap_exceeded'                => __('The amount exceeded the card limit. Please ask your client to use another card or to get in touch with the bank.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_3ds_challenge'            => __('Declined payment', 'woocommerce-epayco'),
-            'description_cc_rejected_3ds_challenge'            => __('Please ask your client to use another card or to get in touch with the card issuer.', 'woocommerce-epayco'),
-            'alert_title_rejected_other_reason'                => __('The card issuing bank declined the payment', 'woocommerce-epayco'),
-            'description_rejected_other_reason'                => __('Please recommend your customer to pay with another payment method or to contact their bank.', 'woocommerce-epayco'),
-            'alert_title_authorization_revoked'                => __('Declined payment', 'woocommerce-epayco'),
-            'description_authorization_revoked'                => __('Please ask your client to use another card or to get in touch with the card issuer.', 'woocommerce-epayco'),
-            'alert_title_cc_amount_rate_limit_exceeded'        => __('Pending payment', 'woocommerce-epayco'),
-            'description_cc_amount_rate_limit_exceeded'        => __("The amount exceeded the card's limit. Please ask your client to use another card or to get in touch with the bank.", 'woocommerce-epayco'),
-            'alert_title_cc_rejected_expired_operation'        => __('Expired payment deadline', 'woocommerce-epayco'),
-            'description_cc_rejected_expired_operation'        => __('The client did not pay within the time limit.', 'woocommerce-epayco'),
-            'alert_title_cc_rejected_bad_filled_other'         => __('Your customer entered one or more incorrect card details', 'woocommerce-epayco'),
-            'description_cc_rejected_bad_filled_other'         => __('Please ask them to enter to enter them again exactly as they appear on the card or on their bank app to complete the payment.', 'woocommerce-epayco'),
-            'description_cc_rejected_bad_filled_other_cc'      => __('Please ask them to enter to enter them again exactly as they appear on the card or on their bank app to complete the payment.', 'woocommerce-epayco'),
-            'alert_title_rejected_call_for_authorize'          => __('Your customer needs to authorize the payment through their bank', 'woocommerce-epayco'),
-            'description_rejected_call_for_authorize'          => __('Please ask them to call the telephone number on their card or to pay with another method.', 'woocommerce-epayco'),
-            'alert_title_am_insufficient_amount'               => __("Your customer's debit card has insufficient funds", 'woocommerce-epayco'),
-            'description_am_insufficient_amount'               => __('Please recommend your customer to pay with another card or to choose another payment method.', 'woocommerce-epayco'),
-            'alert_title_generic'                              => __('Something went wrong and the payment was declined', 'woocommerce-epayco'),
-            'description_generic'                              => __('Please recommend you customer to try again or to pay with another payment method.', 'woocommerce-epayco'),
+            'metabox_title'                                    => __('Payment status on ePayco', 'woo-epayco-api'),
+            'card_title'                                       => __('This is the payment status of your ePayco Activities. To check the order status, please refer to Order details.', 'woo-epayco-api'),
+            'link_description_success'                         => __('View purchase details at ePayco', 'woo-epayco-api'),
+            'sync_button_success'                              => __('Sync order status', 'woo-epayco-api'),
+            'link_description_pending'                         => __('View purchase details at ePayco', 'woo-epayco-api'),
+            'sync_button_pending'                              => __('Sync order status', 'woo-epayco-api'),
+            'link_description_failure'                         => __('Consult the reasons for refusal', 'woo-epayco-api'),
+            'sync_button_failure'                              => __('Sync order status', 'woo-epayco-api'),
+            'alert_title_generic'                              => __('Something went wrong and the payment was declined', 'woo-epayco-api'),
+            'description_generic'                              => __('Please recommend you customer to try again or to pay with another payment method.', 'woo-epayco-api'),
         ];
     }
 
-
-     /**
+    /**
      * Set support link translations
      *
      * @return array with new translations
@@ -868,11 +465,11 @@ class AdminTranslations
     private function setSupportLinkTranslations(): array
     {
         return [
-            'support_link_bold_text'        => __('Any questions?', 'woocommerce-epayco'),
-            'support_link_text_before_link' => __('Please check the', 'woocommerce-epayco'),
-            'support_link_text_with_link'   => __('FAQs', 'woocommerce-epayco'),
-            'support_link_text_after_link'  => __('on the dev website.', 'woocommerce-epayco'),
+            'support_link_bold_text'        => __('Any questions?', 'woo-epayco-api'),
+            'support_link_text_before_link' => __('Please check the', 'woo-epayco-api'),
+            'support_link_text_with_link'   => __('FAQs', 'woo-epayco-api'),
+            'support_link_text_after_link'  => __('on the dev website.', 'woo-epayco-api'),
         ];
     }
-
+    
 }

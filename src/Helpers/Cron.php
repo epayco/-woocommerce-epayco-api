@@ -2,7 +2,7 @@
 
 namespace Epayco\Woocommerce\Helpers;
 
-use Epayco\Woocommerce\Libraries\Logs\Logs;
+use WP_User;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -10,21 +10,6 @@ if (!defined('ABSPATH')) {
 
 class Cron
 {
-    /**
-     * @var Logs
-     */
-    public $logs;
-
-    /**
-     * Cron helper constructor
-     *
-     * @param Logs $logs
-     */
-    public function __construct(Logs $logs)
-    {
-        $this->logs = $logs;
-    }
-
     /**
      * Register an scheduled event
      *
@@ -36,11 +21,14 @@ class Cron
             if (!wp_next_scheduled($hook)) {
                 wp_schedule_event(time(), $periodicy, $hook);
             }
+            if ( function_exists( 'as_next_scheduled_action' ) && false === as_next_scheduled_action( $hook ) ) {
+                //as_schedule_recurring_action(time() + 3600, 3600, $hook );
+            }
         } catch (\Exception $ex) {
-            $this->logs->file->error(
-                "Unable to register event {$hook}, got error: {$ex->getMessage()}",
-                __CLASS__
-            );
+            if ( class_exists( 'WC_Logger' ) ) {
+                $logger = new \WC_Logger();
+                $logger->add( 'ePayco',"Unable to unregister event {$hook}, got error: {$ex->getMessage()}" );
+            }
         }
     }
 
@@ -56,30 +44,14 @@ class Cron
             if ($timestamp) {
                 wp_unschedule_event($timestamp, $hook);
             }
-        } catch (\Exception $ex) {
-            $this->logs->file->error(
-                "Unable to unregister event {$hook}, got error: {$ex->getMessage()}",
-                __CLASS__
-            );
-        }
-    }
+            //wp_clear_scheduled_hook($hook);
+            //as_unschedule_action($hook);
 
-    /**
-     * Alter an scheduled event
-     *
-     * @return void
-     */
-    public function alterScheduledEvent(string $periodicy, $hook): void
-    {
-        try {
-            if (wp_next_scheduled($hook)) {
-                wp_reschedule_event(time(), $periodicy, $hook);
-            }
         } catch (\Exception $ex) {
-            $this->logs->file->error(
-                "Unable to alter event periodicy on hook {$hook}, got error: {$ex->getMessage()}",
-                __CLASS__
-            );
+            if ( class_exists( 'WC_Logger' ) ) {
+                $logger = new \WC_Logger();
+                $logger->add( 'ePayco',"Unable to unregister event {$hook}, got error: {$ex->getMessage()}" );
+            }
         }
     }
 }

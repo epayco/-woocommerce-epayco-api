@@ -9,13 +9,189 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
     /**
      * Payment Transaction constructor
      */
-    public function __construct(AbstractGateway $gateway, \WC_Order $order, array $checkout)
+    public function __construct(AbstractGateway $gateway, ?\WC_Order $order, array $checkout)
     {
         parent::__construct($gateway, $order, $checkout);
-        $this->transaction = $this->sdk->getPaymentInstance();
     }
 
+    /**
+     * Create Payment
+     *
+     * @return string|array
+     * @throws \Exception
+     */
+    public function createCashPayment($order_id, array $checkout)
+    {
+        $order = new \WC_Order($order_id);
+        $descripcionParts = array();
+        $iva=0;
+        $ico=0;
+        $base_tax=$order->get_subtotal()-$order->get_total_discount();
+        foreach($order->get_items('tax') as $item_id => $item ) {
+            $tax_label = trim(strtolower($item->get_label()));
 
+            if ($tax_label == 'iva') {
+                $iva += round($item->get_tax_total(), 2);
+            }
+
+            if ($tax_label == 'ico') {
+                $ico += round($item->get_tax_total(), 2);
+            }
+        }
+        $iva = $iva !== 0 ? $iva : $order->get_total() - $base_tax;
+
+        foreach ($order->get_items() as $product) {
+            $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
+            $descripcionParts[] = $clearData;
+        }
+
+        $descripcion = implode(' - ', $descripcionParts);
+        $currency = strtolower(get_woocommerce_currency());
+        $basedCountry = WC()->countries->get_base_country()!='' ? WC()->countries->get_base_country():$order->get_shipping_country();
+        //$basedCountry = $checkout["countryType"]??$checkout["countrytype"];
+        $city = WC()->countries->get_base_city() !='' ? WC()->countries->get_base_city():$order->get_shipping_city();
+        $myIp=$this->getCustomerIp();
+        $confirm_url = $checkout["confirm_url"];
+        $response_url = $checkout["confirm_url"];
+        $end_date = date('y-m-d', strtotime(sprintf('+%s days',$checkout["date_expiration"]) ));
+        $testMode = $this->epayco->storeConfig->isTestMode()??false;
+        $customerName = $checkout["name"]??$checkout[""]["name"];
+        $explodeName = explode(" ", $customerName);
+        $name = $explodeName[0];
+        $lastName = $explodeName[1];
+        //$person_type= $checkout["person_type"];
+        $person_type= 'PN';
+        //$holder_address= $checkout["address"];
+        $holder_address=$order->get_billing_address_1();
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout["documentType"];
+        $doc_number= $checkout["doc_number"]??$checkout["document"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $email= $checkout["email"];
+        $cellphone= $checkout["cellphonetype"];
+        //$cellphone=@$order->billing_phone??'0';
+        $data = array(
+            "paymentMethod" => $checkout["paymentMethod"],
+            "invoice" => (string)$order->get_id(),
+            "description" => $descripcion,
+            "value" =>(string)$order->get_total(),
+            "tax" => (string)$iva,
+            "taxBase" => (string)$base_tax,
+            "currency" => $currency,
+            "type_person" => $person_type=='PN'?"0":"1",
+            "address" => $holder_address,
+            "docType" => $doc_type,
+            "docNumber" => $doc_number,
+            "name" => $name,
+            "lastName" => $lastName,
+            "email" => $email,
+            "country" => $basedCountry,
+            "city" => $city,
+            "cellPhone" => $cellphone,
+            "endDate" => $end_date,
+            "ip" => $myIp,
+            "urlResponse" => $response_url,
+            "urlConfirmation" => $confirm_url,
+            "methodConfirmation" => "POST",
+            "extra1" => (string)$order->get_id(),
+            "extras" => array(
+                "extra1" => (string)$order->get_id(),
+            ),
+            "vtex" => false,
+            "testMode" => $testMode,
+            "extras_epayco"=>["extra5"=>"P19"]
+        );
+        $cash = $this->sdk->cash->create($data);
+
+        $cash = json_decode(json_encode($cash), true);
+        return $cash;
+    }
+
+    /**
+     * Create Payment
+     *
+     * @return string|array
+     * @throws \Exception
+     */
+    public function createDaviplataPayment($order_id, array $checkout)
+    {
+        $order = new \WC_Order($order_id);
+        $descripcionParts = array();
+        $iva=0;
+        $ico=0;
+        $base_tax=$order->get_subtotal()-$order->get_total_discount();
+        foreach($order->get_items('tax') as $item_id => $item ) {
+            $tax_label = trim(strtolower($item->get_label()));
+
+            if ($tax_label == 'iva') {
+                $iva += round($item->get_tax_total(), 2);
+            }
+
+            if ($tax_label == 'ico') {
+                $ico += round($item->get_tax_total(), 2);
+            }
+        }
+        $iva = $iva !== 0 ? $iva : $order->get_total() - $base_tax;
+        foreach ($order->get_items() as $product) {
+            $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
+            $descripcionParts[] = $clearData;
+        }
+
+        $descripcion = implode(' - ', $descripcionParts);
+        $currency = strtolower(get_woocommerce_currency());
+        //$basedCountry = WC()->countries->get_base_country();
+        $basedCountry = 'CO';
+        $myIp=$this->getCustomerIp();
+        $confirm_url = $checkout["confirm_url"];
+        $response_url = $checkout["response_url"];
+        $customerName = $checkout["name"]??$checkout[""]["name"];
+        $explodeName = explode(" ", $customerName);
+        $name = $explodeName[0];
+        $lastName = $explodeName[1];
+        //$person_type= $checkout["person_type"]??$checkout[""]["person_type"];
+        //$holder_address= $checkout["address"]??$checkout[""]["address"];
+        $person_type= 'PN';
+        $holder_address=$order->get_billing_address_1();
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"];
+        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $email= $checkout["email"]??$checkout[""]["email"];
+        $cellphone= $checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
+        $cellphonetype = $_POST["cellphone"]??$checkout["cellphone"]??$checkout[""]["cellphone"];
+        $cellphonetypeIn = explode("+", $cellphonetype)[1];
+        $city = WC()->countries->get_base_city() !='' ? WC()->countries->get_base_city():$order->get_shipping_city();
+        $testMode = $this->epayco->storeConfig->isTestMode()??false;
+        $data = array(
+            "invoice" => (string)$order->get_id(),
+            "description" => $descripcion,
+            "value" =>(string)$order->get_total(),
+            "tax" => (string)$iva,
+            "taxBase" => (string)$base_tax,
+            "currency" => strtoupper($currency),
+            "type_person" => $person_type=='PN'?"0":"1",
+            "address" => $holder_address,
+            "docType" => $doc_type,
+            "document" => $doc_number,
+            "name" => $name,
+            "lastName" => $lastName,
+            "email" => $email,
+            "country" => $basedCountry,
+            "indCountry" => $cellphonetypeIn,
+            "city" => $city,
+            "phone" => $cellphone,
+            "ip" => $myIp,
+            "urlResponse" => $response_url,
+            "urlConfirmation" => $confirm_url,
+            "methodConfirmation" => "POST",
+            "extra1" => (string)$order->get_id(),
+            "extras" => array(
+                "extra1" => (string)$order->get_id(),
+            ),
+            "vtex" => true,
+            "testMode" => $testMode,
+            "extras_epayco"=>["extra5"=>"P19"]
+        );
+        $daviplata = $this->sdk->daviplata->create($data);
+        $daviplata= json_decode(json_encode($daviplata), true);
+        return $daviplata;
+    }
 
     /**
      * Create Payment
@@ -31,13 +207,17 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $ico=0;
         $base_tax=$order->get_subtotal()-$order->get_total_discount();
         foreach($order->get_items('tax') as $item_id => $item ) {
-            if( strtolower( $item->get_label() ) == 'iva' ){
-                $iva += round($item->get_tax_total(),2);
+            $tax_label = trim(strtolower($item->get_label()));
+
+            if ($tax_label == 'iva') {
+                $iva += round($item->get_tax_total(), 2);
             }
-            if( strtolower( $item->get_label() ) == 'ico'){
-                $ico += round($item->get_tax_total(),2);
+
+            if ($tax_label == 'ico') {
+                $ico += round($item->get_tax_total(), 2);
             }
         }
+        $iva = $iva !== 0 ? $iva : $order->get_total() - $base_tax;
 
         foreach ($order->get_items() as $product) {
             $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
@@ -73,7 +253,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "token_card" => $checkout["token"],
             //"customer_id" => $customerData['customer_id'],
             "customer_id" => 'customer_id',
-            "bill" => (string)$order->get_id()."_wc_api_test",
+            "bill" => (string)$order->get_id(),
             "dues" => $dues,
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
@@ -95,10 +275,98 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "metodoconfirmacion" => "POST",
             "use_default_card_customer" => true,
             "extra1" => (string)$order->get_id(),
+            "extras" => array(
+                "extra1" => (string)$order->get_id(),
+            ),
             "extras_epayco"=>["extra5"=>"P19"]
         );
         $charge = $this->sdk->charge->create($data);
         return $charge;
+    }
+
+    /**
+     * Create Payment
+     *
+     * @return string|array
+     * @throws \Exception
+     */
+    public function createPsePayment($order_id, array $checkout)
+    {
+        $order = new \WC_Order($order_id);
+        $descripcionParts = array();
+        $iva=0;
+        $ico=0;
+        $base_tax=$order->get_subtotal()-$order->get_total_discount();
+        foreach($order->get_items('tax') as $item_id => $item ) {
+            $tax_label = trim(strtolower($item->get_label()));
+
+            if ($tax_label == 'iva') {
+                $iva += round($item->get_tax_total(), 2);
+            }
+
+            if ($tax_label == 'ico') {
+                $ico += round($item->get_tax_total(), 2);
+            }
+        }
+        
+        $iva = $iva !== 0 ? $iva : $order->get_total() - $base_tax;
+
+        foreach ($order->get_items() as $product) {
+            $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
+            $descripcionParts[] = $clearData;
+        }
+
+        $descripcion = implode(' - ', $descripcionParts);
+        $currency = strtolower(get_woocommerce_currency());
+        //$basedCountry = WC()->countries->get_base_country();
+        $basedCountry = $checkout["countryType"]??$checkout["countrytype"]??$checkout[""]["countryType"];
+        $city = $checkout["country"]??$checkout[""]["country"];
+        $myIp=$this->getCustomerIp();
+        $confirm_url = $checkout["confirm_url"];
+        $response_url = $checkout["response_url"];
+        $testMode = $this->epayco->storeConfig->isTestMode()??false;
+        $customerName = $checkout["name"]??$checkout[""]["name"];
+        $explodeName = explode(" ", $customerName);
+        $name = $explodeName[0];
+        $lastName = $explodeName[1];
+        $bank = $checkout["bank"]??$checkout[""]["bank"];
+        $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
+        $holder_address= $checkout["address"]??$checkout[""]["address"];
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"];
+        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $email= $checkout["email"]??$checkout[""]["email"];
+        $cellphone= $checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
+        $data = array(
+            "bank" => $bank,
+            "invoice" => (string)$order->get_id(),
+            "description" => $descripcion,
+            "value" =>$order->get_total(),
+            "tax" => $iva,
+            "taxBase" => $base_tax,
+            "currency" => $currency,
+            "typePerson" => $person_type=='PN'?"0":"1",
+            "address" => $holder_address,
+            "docType" => $doc_type,
+            "docNumber" => $doc_number,
+            "name" =>$name,
+            "lastName" => $lastName,
+            "email" => $email,
+            "country" => $basedCountry,
+            "city" => $city,
+            "cellPhone" => $cellphone,
+            "ip" => $myIp,
+            "urlResponse" => $response_url,
+            "urlConfirmation" => $confirm_url,
+            "methodConfirmation" => "POST",
+            "extra1" => (string)$order->get_id(),
+            "extras" => array(
+                "extra1" => (string)$order->get_id(),
+            ),
+            "testMode" => $testMode,
+            "extras_epayco"=>["extra5"=>"P58"]
+        );
+        $pse = $this->sdk->bank->create($data);
+        return $pse;
     }
 
     /**
@@ -127,254 +395,23 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         }
         $errorMessage = array();
         if(!$validatePlan['success']){
-            foreach ($validatePlan['message'] as $message) {
-                $errorMessage[] = $message;
+            if(is_array($validatePlan['message'])){
+                foreach ($validatePlan['message'] as $message) {
+                    $errorMessage[] = $message;
+                }
+                return [
+                    'success' => false,
+                    'message' => implode(' - ', $errorMessage)
+                ];
+            }else{
+                return [
+                    'success' => false,
+                    'message' => $validatePlan['message']
+                ];
             }
-            return [
-                'success' => false,
-                'message' => implode(' - ', $errorMessage)
-            ];
         }else{
             return $validatePlan;
         }
-    }
-
-
-    /**
-     * Create Payment
-     *
-     * @return string|array
-     * @throws \Exception
-     */
-    public function createPsePayment($order_id, array $checkout)
-    {
-        $order = new \WC_Order($order_id);
-        $descripcionParts = array();
-        $iva=0;
-        $ico=0;
-        $base_tax=$order->get_subtotal()-$order->get_total_discount();
-        foreach($order->get_items('tax') as $item_id => $item ) {
-            if( strtolower( $item->get_label() ) == 'iva' ){
-                $iva += round($item->get_tax_total(),2);
-            }
-            if( strtolower( $item->get_label() ) == 'ico'){
-                $ico += round($item->get_tax_total(),2);
-            }
-        }
-
-        foreach ($order->get_items() as $product) {
-            $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
-            $descripcionParts[] = $clearData;
-        }
-
-        $descripcion = implode(' - ', $descripcionParts);
-        $currency = strtolower(get_woocommerce_currency());
-        //$basedCountry = WC()->countries->get_base_country();
-        $basedCountry = $checkout["countryType"]??$checkout["countrytype"]??$checkout[""]["countryType"];
-        $city = $checkout["country"]??$checkout[""]["country"];
-        $myIp=$this->getCustomerIp();
-        $confirm_url = $checkout["confirm_url"];
-        $response_url = $checkout["response_url"];
-        $testMode = $this->epayco->storeConfig->isTestMode()??false;
-        $customerName = $checkout["name"]??$checkout[""]["name"];
-        $explodeName = explode(" ", $customerName);
-        $name = $explodeName[0];
-        $lastName = $explodeName[1];
-        $bank = $checkout["bank"]??$checkout[""]["bank"];
-        $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
-        $holder_address= $checkout["address"]??$checkout[""]["address"];
-        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"];
-        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
-        $email= $checkout["email"]??$checkout[""]["email"];
-        $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
-        $data = array(
-            "bank" => $bank,
-            "invoice" => (string)$order->get_id()."_wc_api_test",
-            "description" => $descripcion,
-            "value" =>$order->get_total(),
-            "tax" => $iva,
-            "taxBase" => $base_tax,
-            "currency" => $currency,
-            "typePerson" => $person_type=='PN'?"0":"1",
-            "address" => $holder_address,
-            "docType" => $doc_type,
-            "docNumber" => $doc_number,
-            "name" =>$name,
-            "lastName" => $lastName,
-            "email" => $email,
-            "country" => $basedCountry,
-            "city" => $city,
-            "cellPhone" => $cellphone,
-            "ip" => $myIp,
-            "urlResponse" => $response_url,
-            "urlConfirmation" => $confirm_url,
-            "methodConfirmation" => "GET",
-            "extra1" => (string)$order->get_id(),
-            "testMode" => $testMode,
-            "extras_epayco"=>["extra5"=>"P58"]
-        );
-        $pse = $this->sdk->bank->create($data);
-        return $pse;
-    }
-
-    /**
-     * Create Payment
-     *
-     * @return string|array
-     * @throws \Exception
-     */
-    public function createCashPayment($order_id, array $checkout)
-    {
-        $order = new \WC_Order($order_id);
-        $descripcionParts = array();
-        $iva=0;
-        $ico=0;
-        $base_tax=$order->get_subtotal()-$order->get_total_discount();
-        foreach($order->get_items('tax') as $item_id => $item ) {
-            if( strtolower( $item->get_label() ) == 'iva' ){
-                $iva += round($item->get_tax_total(),2);
-            }
-            if( strtolower( $item->get_label() ) == 'ico'){
-                $ico += round($item->get_tax_total(),2);
-            }
-        }
-
-        foreach ($order->get_items() as $product) {
-            $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
-            $descripcionParts[] = $clearData;
-        }
-
-        $descripcion = implode(' - ', $descripcionParts);
-        $currency = strtolower(get_woocommerce_currency());
-        //$basedCountry = WC()->countries->get_base_country();
-        $basedCountry = $checkout["countryType"]??$checkout["countrytype"];
-        $city = $checkout["country"];
-        $myIp=$this->getCustomerIp();
-        $confirm_url = $checkout["confirm_url"];
-        $response_url = $checkout["confirm_url"];
-        $end_date = date('y-m-d', strtotime(sprintf('+%s days',$checkout["date_expiration"]) ));
-        $testMode = $this->epayco->storeConfig->isTestMode()??false;
-        $customerName = $checkout["name"]??$checkout[""]["name"];
-        $explodeName = explode(" ", $customerName);
-        $name = $explodeName[0];
-        $lastName = $explodeName[1];
-        $person_type= $checkout["person_type"];
-        $holder_address= $checkout["address"];
-        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout["documentType"];
-        $doc_number= $checkout["doc_number"]??$checkout["document"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
-        $email= $checkout["email"];
-        $cellphone= $checkout["cellphone"];
-        $data = array(
-            "paymentMethod" => $checkout["paymentMethod"],
-            "invoice" => (string)$order->get_id()."_wc_api_test",
-            "description" => $descripcion,
-            "value" =>(string)$order->get_total(),
-            "tax" => (string)$iva,
-            "taxBase" => (string)$base_tax,
-            "currency" => $currency,
-            "type_person" => $person_type=='PN'?"0":"1",
-            "address" => $holder_address,
-            "docType" => $doc_type,
-            "docNumber" => $doc_number,
-            "name" => $name,
-            "lastName" => $lastName,
-            "email" => $email,
-            "country" => $basedCountry,
-            "city" => $city,
-            "cellPhone" => $cellphone,
-            "endDate" => $end_date,
-            "ip" => $myIp,
-            "urlResponse" => $response_url,
-            "urlConfirmation" => $confirm_url,
-            "methodConfirmation" => "POST",
-            "extra1" => (string)$order->get_id(),
-            "vtex" => true,
-            "testMode" => $testMode,
-            "extras_epayco"=>["extra5"=>"P19"]
-        );
-        $cash = $this->sdk->cash->create($data);
-
-        $cash = json_decode(json_encode($cash), true);
-        return $cash;
-    }
-
-    /**
-     * Create Payment
-     *
-     * @return string|array
-     * @throws \Exception
-     */
-    public function createDaviplataPayment($order_id, array $checkout)
-    {
-        $order = new \WC_Order($order_id);
-        $descripcionParts = array();
-        $iva=0;
-        $ico=0;
-        $base_tax=$order->get_subtotal()-$order->get_total_discount();
-        foreach($order->get_items('tax') as $item_id => $item ) {
-            if( strtolower( $item->get_label() ) == 'iva' ){
-                $iva += round($item->get_tax_total(),2);
-            }
-            if( strtolower( $item->get_label() ) == 'ico'){
-                $ico += round($item->get_tax_total(),2);
-            }
-        }
-
-        foreach ($order->get_items() as $product) {
-            $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
-            $descripcionParts[] = $clearData;
-        }
-
-        $descripcion = implode(' - ', $descripcionParts);
-        $currency = strtolower(get_woocommerce_currency());
-        $basedCountry = WC()->countries->get_base_country();
-        $myIp=$this->getCustomerIp();
-        $confirm_url = $checkout["confirm_url"];
-        $response_url = $checkout["response_url"];
-        $customerName = $checkout["name"]??$checkout[""]["name"];
-        $explodeName = explode(" ", $customerName);
-        $name = $explodeName[0];
-        $lastName = $explodeName[1];
-        $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
-        $holder_address= $checkout["address"]??$checkout[""]["address"];
-        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"];
-        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
-        $email= $checkout["email"]??$checkout[""]["email"];
-        $cellphone= $checkout["cellphone"]??$checkout[""]["cellphone"];
-        $cellphonetype = $_POST["cellphoneType"]??$checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
-        $cellphonetypeIn = explode("+", $cellphonetype)[1];
-        $city = WC()->countries->get_base_city() !='' ? WC()->countries->get_base_city():$order->get_shipping_city();
-        $testMode = $this->epayco->storeConfig->isTestMode()??false;
-        $data = array(
-            "invoice" => (string)$order->get_id()."_wc_api_test",
-            "description" => $descripcion,
-            "value" =>(string)$order->get_total(),
-            "tax" => (string)$iva,
-            "taxBase" => (string)$base_tax,
-            "currency" => $currency,
-            "type_person" => $person_type=='PN'?"0":"1",
-            "address" => $holder_address,
-            "docType" => $doc_type,
-            "document" => $doc_number,
-            "name" => $name,
-            "lastName" => $lastName,
-            "email" => $email,
-            "country" => $basedCountry,
-            "indCountry" => $cellphonetypeIn,
-            "city" => $city,
-            "phone" => $cellphone,
-            "ip" => $myIp,
-            "urlResponse" => $response_url,
-            "urlConfirmation" => $confirm_url,
-            "methodConfirmation" => "GET",
-            "extra1" => (string)$order->get_id(),
-            "vtex" => true,
-            "testMode" => $testMode,
-            "extras_epayco"=>["extra5"=>"P19"]
-        );
-        $daviplata = $this->sdk->daviplata->create($data);
-        $daviplata= json_decode(json_encode($daviplata), true);
-        return $daviplata;
     }
 
     public function getCustomer($customerData)
@@ -388,36 +425,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             )
         );
         if (count($customerGetData) == 0) {
-           $customer = $this->customerCreate($customerData);
-            if (is_array($customer) && $customer['success']) {
-                $inserCustomer = $wpdb->insert(
-                    $table_name_customer,
-                    [
-                        'customer_id' => $customer['data']['customerId'],
-                        //'token_id' => trim($customerData['token']),
-                        'email' => trim($customerData['email'])
-                    ]
-                );
-                if (!$inserCustomer) {
-                    $response_status = [
-                        'success' => false,
-                        'message' => 'internar error, tray again'
-                    ];
-                    return $response_status;
-                }{
-                    $response_status = [
-                        'success' => true,
-                        'customer_id' => $customer['data']['customerId']
-                    ];
-                    return $response_status;
-                }
-            }else{
-                $response_status = [
-                    'success' => false,
-                    'message' => $customer['message']
-                ];
-                return $response_status;
-            }
+            return $this->getCreateNewCustomer($customerData);
         }else{
             $count_customers = 0;
             for ($i = 0; $i < count($customerGetData); $i++) {
@@ -438,7 +446,6 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                     $table_name_customer,
                     [
                         'customer_id' => $customer['data']['customerId'],
-                        //'token_id' => trim($customerData['token']),
                         'email' => trim($customerData['email'])
                     ]
                 );
@@ -463,16 +470,15 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                         $cards = $customers['data']['cards'];
                         for ($j = 0; $j < count($cards); $j++) {
                             if ($cards[$j]['token'] == trim($customerData['token'])) {
-                                $count_customers += 1;
+                                $count_cards += 1;
                             }
                         }
-                        if($count_customers == 0){
+                        if($count_cards == 0){
                             $this->customerAddToken($customerGetData[$i]->customer_id, trim($customerData['token']));
                         }
+                    }else{
+                        return $this->getCreateNewCustomer($customerData);
                     }
-                    /*if ($customerGetData[$i]->email == trim($customerData['email']) && $customerGetData[$i]->token_id != trim($customerData['token'])) {
-                        $this->customerAddToken($customerGetData[$i]->customer_id, trim($customerData['token']));
-                    }*/
                     $customerData['customer_id'] = $customerGetData[$i]->customer_id;
                 }
                 $response_status = [
@@ -481,6 +487,60 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                 ];
                 return $response_status;
             }
+        }
+    }
+
+    public function getCreateNewCustomer($customerData)
+    {
+        global $wpdb;
+        $table_name_customer = $wpdb->prefix . 'epayco_customer';
+        $customer = $this->customerCreate($customerData);
+        if (is_array($customer) && $customer['success']) {
+            $inserCustomer = $wpdb->insert(
+                $table_name_customer,
+                [
+                    'customer_id' => $customer['data']['customerId'],
+                    'email' => trim($customerData['email'])
+                ]
+            );
+            if (!$inserCustomer) {
+                $response_status = [
+                    'success' => false,
+                    'message' => 'internar error, tray again'
+                ];
+                return $response_status;
+            }{
+                $response_status = [
+                    'success' => true,
+                    'customer_id' => $customer['data']['customerId']
+                ];
+                return $response_status;
+            }
+        }else{
+            $messageError = $customer['message'];
+            $errorMessage = "";
+            if (isset($customer['data']['errors'])) {
+                $errors = $customer['data']['errors'];
+                if(is_array($errors)){
+                    foreach ($errors as $error) {
+                        $errorMessage = $error['errorMessage'] . "\n";
+                    }
+                }
+                if(is_string($errors)){
+                    $errorMessage = $errors . "\n";
+                }
+            } elseif (isset($customer['data']['error']['errores'])) {
+                $errores = $customer['data']['error']['errores'];
+                foreach ($errores as $error) {
+                    $errorMessage = $error['errorMessage'] . "\n";
+                }
+            }
+            $processReturnFailMessage = $messageError. " " . $errorMessage;
+            $response_status = [
+                'success' => false,
+                'message' => $processReturnFailMessage
+            ];
+            return $response_status;
         }
     }
 
@@ -584,7 +644,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         return $product_plan;
     }
 
-    public function validatePlan($create, $order_id, array $plans, $subscriptions, $customer, $order, $confirm = null, $update = null, $getPlans = null, $checkout)
+    public function validatePlan($create, $order_id, array $plans, $subscriptions, $customer, $order, $confirm, $update, $getPlans, $checkout)
     {
         if ($create) {
             $newPLan = $this->plansCreate($plans);
@@ -598,7 +658,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             } else {
                 $response_status = [
                     'status' => false,
-                    'message' => $newPLan->message
+                    'message' => $newPLan->message??$newPLan['message']
                 ];
                 return $response_status;
             }
@@ -693,7 +753,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             ];
             $getPlans = $this->getPlans($newPlans);
             if(!$getPlans){
-                 return $this->validatePlan(true, $order_id, $newPlans, $subscriptions, $customer, $order, false, false, null,$checkout);
+                return $this->validatePlan(true, $order_id, $newPlans, $subscriptions, $customer, $order, false, false, null,$checkout);
             }else{
                 return $this->validatePlan(false, $order_id, $newPlans, $subscriptions, $customer, $order, true, false, $getPlans,$checkout);
             }
@@ -779,12 +839,8 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
     public function process_payment_epayco(array $plans, array $customerData, $subscriptions, $order, $checkout)
     {
         $subsCreated = $this->subscriptionCreate($plans, $customerData, $checkout);
-        //$subsCreated = json_decode(json_encode('{"status":true,"message":"Suscripci\u00f3n creada","created":"06-11-2024","id":"72b74c1bc789d28620a5196","success":true,"current_period_start":"11\/06\/2024","current_period_end":"06-11-2024","customer":{"_id":"72a6e60670f068ec00241b8","name":"ricardo saldarriaga","email":"ricardo.saldarriaga@payco.co","doc_number":"1232323111","merchantId":"627236","indicative":"","country":"CO","city":"","address":"calle 109 # 67-112","break_card":false,"doc_type":"CC","updated_at":"2024-11-06T13:53:25.556000Z"},"status_subscription":"inactive","type":"Create Subscription","data":{"idClient":"coffe_020_15000","name":"Plan coffe","description":"Plan coffe","amount":15000,"currency":"COP","interval":"month","interval_count":"1","trialDays":0,"createdAt":"2024-11-05T23:02:01.926000Z"},"object":"subscription"}'), true);
-        //$subsCreated = json_decode($subsCreated);
         if ($subsCreated->status) {
             $subs = $this->subscriptionCharge($plans, $customerData, $checkout);
-            //$subs = json_decode(json_encode('[{"success":true,"title_response":"Transacci\u00f3n realizada","text_response":"Transaccion realizada con tarjeta de pruebas","last_action":"Validar tarjeta de pruebas","data":{"ref_payco":101645839,"factura":"72b74c1bc789d28620a5196-1730902023","descripcion":"Plan coffe","valor":15000,"iva":0,"ico":0,"baseiva":15000,"valorneto":15000,"moneda":"COP","banco":"BANCO DE PRUEBAS","estado":"Aceptada","respuesta":"Aprobada","autorizacion":"000000","recibo":"101645839","fecha":"2024-11-06 09:07:05","franquicia":"VS","cod_respuesta":1,"cod_error":"00","ip":"192.168.32.1","enpruebas":1,"tipo_doc":"CC","documento":"1232323111","nombres":"ricardo","apellidos":"saldarriaga","email":"ricardo.saldarriaga@payco.co","ciudad":"SIN CIUDAD","direccion":"calle 109 # 67112","ind_pais":"PE","country_card":"PE","extras":{"extra1":"72b74c1bc789d28620a5196","extra2":"72a6e60670f068ec00241b8","extra3":"72aa3e96af64966850cc489","extra9":"627236","extra4":"","extra5":"","extra6":"","extra7":"","extra8":"","extra10":""},"cc_network_response":{"code":"00","message":"Aprobada"},"extras_epayco":{"extra5":"P10"}},"subscription":{"idPlan":"coffe_020_15000","data":{"idClient":"coffe_020_15000","name":"Plan coffe","description":"Plan coffe","amount":15000,"currency":"COP","interval":"month","interval_count":"1","trialDays":0},"periodStart":"2024-11-06T08:53:05.000000Z","periodEnd":"06-12-2024","nextVerificationDate":"06-12-2024","status":"active","first":true,"idCustomer":"72a6e60670f068ec00241b8","tokenCard":"72b71096c1e3afd5f035db6","ip":"192.168.32.1","paymentAttempts":[],"url_confirmation":"http:\/\/localhost:86\/wordpress\/?wc-api=WC_Epayco_Subscription_Gateway&order_id=73&confirmation=1","method_confirmation":"POST"}}]'), true);
-            //$subs = json_decode($subs);
             foreach ($subs as $sub) {
                 $validation = !is_null($sub->status) ? $sub->status : $sub->success;
                 if ($validation) {
@@ -881,21 +937,27 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $orederStatus = array("Aprobada", "Aceptada", "Pendiente");
         foreach ($subscriptions as $subscription) {
             $sub = $subscriptionsStatus[$count];
-            $messageStatus['ref_payco'] = array_merge($messageStatus['ref_payco'], [$sub->data->ref_payco]);
-            $messageStatus['message'] = array_merge($messageStatus['message'], ["estado: {$sub->data->respuesta}"]);
-            $messageStatus['estado'] = array_merge($messageStatus['estado'], [$sub->data->respuesta]);
-            if(in_array($sub->data->respuesta, $orederStatus)){
-                $messageStatus['success'] = true;
+            if($sub->status || $sub->success){
+                if(isset($sub->data->estado)){
+                    $messageStatus['ref_payco'] = array_merge($messageStatus['ref_payco'], [$sub->data->ref_payco]);
+                    $messageStatus['message'] = array_merge($messageStatus['message'], ["estado: {$sub->data->respuesta}"]);
+                    $messageStatus['estado'] = array_merge($messageStatus['estado'], [$sub->data->estado]);
+                    if(in_array($sub->data->estado, $orederStatus)){
+                        $messageStatus['success'] = true;
+                    }
+                }else{
+                    $messageStatus['ref_payco'] = array_merge($messageStatus['ref_payco'], ['Pendiente']);
+                    $messageStatus['message'] = array_merge($messageStatus['message'], ["estado: Pendiente"]);
+                    $messageStatus['estado'] = array_merge($messageStatus['estado'], ['Pendiente']);
+                    $messageStatus['success'] = true;
+                }
             }
-            $count++;
 
-            //if ($count === $quantitySubscriptions && count($messageStatus['message']) >= $count)
-                //$messageStatus['success'] = $subscriptionsStatus[$count]->success;
+            $count++;
         }
         return $messageStatus;
 
     }
-
 
 
     public function string_sanitize($string, $force_lowercase = true, $anal = false) {
@@ -925,5 +987,117 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         else
             $ipaddress = 'UNKNOWN';
         return $ipaddress;
+    }
+
+    public function returnParameterToThankyouPage($transactionInfo, $payment)
+    {
+        $x_amount = $transactionInfo['data']['x_amount']??$transactionInfo['data']['amount'];
+        $x_amount_base = $transactionInfo['data']['x_amount_base']??$transactionInfo['data']['taxBaseClient'];
+        $x_cardnumber = $transactionInfo['data']['x_cardnumber']??$transactionInfo['data']['numberCard'];
+        $x_id_invoice = $transactionInfo['data']['x_id_invoice']??$transactionInfo['data']['bill'];
+        $x_franchise = $transactionInfo['data']['x_franchise']??$transactionInfo['data']['bank'];
+        $x_transaction_id = $transactionInfo['data']['x_transaction_id']??$transactionInfo['data']['referencePayco'];
+        $x_transaction_date = $transactionInfo['data']['x_transaction_date']??$transactionInfo['data']['transactionDate'];
+        $x_transaction_state = $transactionInfo['data']['x_transaction_state']??$transactionInfo['data']['status'];
+        $x_customer_ip = $transactionInfo['data']['x_customer_ip']??$transactionInfo['data']['ip'];
+        $x_description = $transactionInfo['data']['x_description']??$transactionInfo['data']['description'];
+        $x_response= $transactionInfo['data']['x_response']??$transactionInfo['data']['status'];
+        $x_response_reason_text= $transactionInfo['data']['x_response_reason_text']??$transactionInfo['data']['response'];
+        $x_approval_code= $transactionInfo['data']['x_approval_code']??$transactionInfo['data']['authorization'];
+        $x_ref_payco= $transactionInfo['data']['x_ref_payco']??$transactionInfo['data']['referencePayco'];
+        $x_tax= $transactionInfo['data']['x_tax']??$transactionInfo['data']['tax'];
+        $x_currency_code= $transactionInfo['data']['x_currency_code']??$transactionInfo['data']['currency'];
+        switch ($x_response) {
+            case 'Aceptada': {
+                $iconUrl = $payment->epayco->hooks->gateway->getGatewayIcon('check.png');
+                $iconColor = '#67C940';
+                $message = $payment->storeTranslations['success_message'];
+            }break;
+            case 'Pendiente':
+            case 'Pending':{
+                $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('warning.png');
+                $iconColor = '#FFD100';
+                $message = $payment->storeTranslations['pending_message'];
+            }break;
+            default: {
+                $iconUrl = $payment->epayco->hooks->gateway->getGatewayIcon('error.png');
+                $iconColor = '#E1251B';
+                $message = $payment->storeTranslations['fail_message'];
+            }break;
+        }
+        $donwload_url =get_site_url() . "/";
+        $donwload_url = add_query_arg( 'wc-api', $payment::WEBHOOK_DONWLOAD, $donwload_url );
+        $donwload_url = add_query_arg( 'refPayco', $x_ref_payco, $donwload_url );
+        $donwload_url = add_query_arg( 'fecha', $x_transaction_date, $donwload_url );
+        $donwload_url = add_query_arg( 'franquicia', $x_franchise, $donwload_url );
+        $donwload_url = add_query_arg( 'descuento', '0', $donwload_url );
+        $donwload_url = add_query_arg( 'autorizacion', $x_approval_code, $donwload_url );
+        $donwload_url = add_query_arg( 'valor', $x_amount, $donwload_url );
+        $donwload_url = add_query_arg( 'estado', $x_response, $donwload_url );
+        $donwload_url = add_query_arg( 'descripcion', $x_description, $donwload_url );
+        $donwload_url = add_query_arg( 'respuesta', $x_response, $donwload_url );
+        $donwload_url = add_query_arg( 'ip', $x_customer_ip, $donwload_url );
+        $is_cash = false;
+        if($x_franchise == 'EF'||
+            $x_franchise == 'GA'||
+            $x_franchise == 'PR'||
+            $x_franchise == 'RS'||
+            $x_franchise == 'SR'
+        ){
+            $x_cardnumber_ = null;
+            $is_cash = true;
+        }else{
+            if($x_franchise == 'PSE' || $x_franchise == 'DP' || $x_franchise == 'DaviPlata' ){
+                $x_cardnumber_ = null;
+            }else{
+                $x_cardnumber_ = isset($x_cardnumber)?substr($x_cardnumber, -8):null;
+            }
+            $x_franchise = $x_franchise == 'DaviPlata' ? 'DP' : $x_franchise;
+        }
+        $transaction = [
+            'franchise_logo' => 'https://secure.epayco.co/img/methods/'.$x_franchise.'.svg',
+            'x_amount_base' => $x_amount_base,
+            'x_cardnumber' => $x_cardnumber_,
+            'status' => $x_response,
+            'type' => "",
+            'refPayco' => $x_ref_payco,
+            'factura' => $x_id_invoice,
+            'descripcion_order' => $x_description,
+            'valor' => $x_amount,
+            'iva' => $x_tax,
+            'estado' => $x_transaction_state,
+            'response_reason_text' => $x_response_reason_text,
+            'respuesta' => $x_response,
+            'fecha' => $x_transaction_date,
+            'currency' => $x_currency_code,
+            'name' => '',
+            'card' => '',
+            'message' => $message,
+            'error_message' => $payment->storeTranslations['error_message'],
+            'error_description' => $payment->storeTranslations['error_description'],
+            'payment_method'  => $payment->storeTranslations['payment_method'],
+            'response'=> $payment->storeTranslations['response'],
+            'dateandtime' => $payment->storeTranslations['dateandtime'],
+            'authorization' => $x_approval_code,
+            'iconUrl' => $iconUrl,
+            'iconColor' => $iconColor,
+            'epayco_icon' => $this->epayco->hooks->gateway->getGatewayIcon('logo_white.png'),
+            'ip' => $x_customer_ip,
+            'totalValue' => $payment->storeTranslations['totalValue'],
+            'description' => $payment->storeTranslations['description'],
+            'reference' => $payment->storeTranslations['reference'],
+            'purchase' => $payment->storeTranslations['purchase'],
+            'iPaddress' => $payment->storeTranslations['iPaddress'],
+            'receipt' => $payment->storeTranslations['receipt'],
+            'authorizations' => $payment->storeTranslations['authorization'],
+            'paymentMethod'  => $payment->storeTranslations['paymentMethod'],
+            'epayco_refecence'  => $payment->storeTranslations['epayco_refecence'],
+            'donwload_url' => $donwload_url,
+            'donwload_text' => $payment->storeTranslations['donwload_text'],
+            'code' => $payment->storeTranslations['code']??null,
+            'is_cash' => $is_cash
+        ];
+
+        return $transaction;
     }
 }

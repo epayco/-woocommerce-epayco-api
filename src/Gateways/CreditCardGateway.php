@@ -2,12 +2,10 @@
 
 namespace Epayco\Woocommerce\Gateways;
 
-use Epayco\Woocommerce\Exceptions\InvalidCheckoutDataException;
 use Epayco\Woocommerce\Helpers\Form;
-use Epayco\Woocommerce\Helpers\Numbers;
 use Epayco\Woocommerce\Helpers\PaymentStatus;
 use Epayco\Woocommerce\Transactions\CreditCardTransaction;
-use Epayco\Woocommerce\Exceptions\ResponseStatusException;
+
 
 if (!defined('ABSPATH')) {
     exit;
@@ -33,6 +31,11 @@ class CreditCardGateway extends AbstractGateway
     /**
      * @const
      */
+    public const WEBHOOK_DONWLOAD = 'Donwload';
+
+    /**
+     * @const
+     */
     public const LOG_SOURCE = 'Epayco_CreditcardGateway';
 
     /**
@@ -46,8 +49,8 @@ class CreditCardGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->creditcardCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card-admin');
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card.png');
+        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('credit-card-botton.png');
         $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
 
         $this->init_form_fields();
@@ -60,9 +63,9 @@ class CreditCardGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerUpdateOptions($this);
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
         $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
+        $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
 
-        $this->epayco->helpers->currency->handleCurrencyNotices($this);
     }
 
     /**
@@ -89,13 +92,28 @@ class CreditCardGateway extends AbstractGateway
         parent::init_form_fields();
 
         $this->form_fields = array_merge($this->form_fields, [
-            'header' => [
-                'type'        => 'ep_config_title',
+            'config_header' => [
+                'type'        => 'mp_config_title',
                 'title'       => $this->adminTranslations['header_title'],
                 'description' => $this->adminTranslations['header_description'],
             ],
+            'card_homolog_validate' => $this->getHomologValidateNoticeOrHidden(),
+            'card_settings'  => [
+                'type'  => 'mp_card_info',
+                'value' => [
+                    'title'       => $this->adminTranslations['card_settings_title'],
+                    'subtitle'    => $this->adminTranslations['card_settings_subtitle'],
+                    'button_text' => $this->adminTranslations['card_settings_button_text'],
+                    'button_url'  => admin_url('admin.php?page=epayco-settings'),
+                    //'icon'        => 'ep-icon-badge-info',
+                    'icon'        =>  $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
+                    'color_card'  => '',
+                    'size_card'   => 'ep-card-body-size',
+                    'target'      => '_self',
+                ],
+            ],
             'enabled' => [
-                'type'         => 'ep_toggle_switch',
+                'type'         => 'mp_toggle_switch',
                 'title'        => $this->adminTranslations['enabled_title'],
                 'subtitle'     => $this->adminTranslations['enabled_subtitle'],
                 'default'      => 'no',
@@ -143,17 +161,26 @@ class CreditCardGateway extends AbstractGateway
     public function registerCheckoutScripts(): void
     {
         parent::registerCheckoutScripts();
+        $lang = get_locale();
+        $lang = explode('_', $lang);
+        $lang = $lang[0];
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_creditcard_page',
+            $this->epayco->helpers->url->getJsAsset('checkouts/creditcard/ep-creditcard-page')
+        );
 
-        /*$this->epayco->hooks->scripts->registerCheckoutScript(
-            'wc_epayco_sdk',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/credits/library', '.js')
-        );*/
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_creditcard_elements',
+            $this->epayco->helpers->url->getJsAsset('checkouts/creditcard/ep-creditcard-elements')
+        );
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_creditcard_checkout',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/creditcard/ep-creditcard-checkout', '.js'),
+            $this->epayco->helpers->url->getJsAsset('checkouts/creditcard/ep-creditcard-checkout'),
             [
-                'public_key_epayco'        => $this->epayco->sellerConfig->getCredentialsPublicKeyPayment()
+                'site_id' => 'epayco',
+                'public_key_epayco'        => $this->epayco->sellerConfig->getCredentialsPublicKeyPayment(),
+                'lang' => $lang
             ]
         );
     }
@@ -166,7 +193,7 @@ class CreditCardGateway extends AbstractGateway
     public function payment_fields(): void
     {
         $this->epayco->hooks->template->getWoocommerceTemplate(
-            'public/checkouts/creditcard-checkout.php',
+            'public/checkout/creditcard-checkout.php',
             $this->getPaymentFieldsParams()
         );
     }
@@ -183,6 +210,11 @@ class CreditCardGateway extends AbstractGateway
             $termsAndCondiction = 'Términos y condiciones';
         }else{
             $termsAndCondiction = 'Terms and conditions';
+        }
+        if (strpos($this->storeTranslations['input_country_helper'], "Ciudad") !== false) {
+            $city = "Ciudad";
+        } else {
+            $city = "City";
         }
         return [
             'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
@@ -218,10 +250,17 @@ class CreditCardGateway extends AbstractGateway
             'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
-            //'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
-            'terms_and_conditions_link_text'   => $termsAndCondiction,
-            'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
-            'site_id'                          => $this->epayco->sellerConfig->getSiteId() ?: $this->epayco->helpers->country::SITE_ID_MLA,
+            'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
+            //'terms_and_conditions_link_text'   => $termsAndCondiction,
+            'and_the'   => $this->storeTranslations['and_the'],
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
+            'personal_data_processing_link_text'    => $this->storeTranslations['personal_data_processing_link_text'],
+            'personal_data_processing_link_src'    => 'https://epayco.com/tratamiento-de-datos/',
+            'site_id'                          => 'epayco',
+            'city'                          => $city,
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'icon_info' =>       $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
+            'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];
     }
 
@@ -240,7 +279,7 @@ class CreditCardGateway extends AbstractGateway
 
             parent::process_payment($order_id);
 
-            $checkout['token'] = $checkout['cardTokenId'] ?? $checkout['cardtokenid'];
+            $checkout['token'] = $checkout['cardTokenId'] ?? $checkout['cardtokenid'] ?? '';
             if (
                 !empty($checkout['token'])
             ) {
@@ -255,8 +294,8 @@ class CreditCardGateway extends AbstractGateway
                 $response = json_decode(json_encode($response), true);
                 if (is_array($response) && $response['success']) {
                     $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
-                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                     if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
+                        $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
                         //$this->epayco->hooks->order->addOrderNote($order, $this->storeTranslations['customer_not_paid']);
@@ -267,6 +306,7 @@ class CreditCardGateway extends AbstractGateway
                         ];
                     }
                     if (in_array(strtolower($response['data']['estado']),["aceptada","acepted"])) {
+                        $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                         $order->update_status("processing");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
@@ -356,86 +396,15 @@ class CreditCardGateway extends AbstractGateway
             "filter" => array("referencePayco" => $paymentInfo),
             "success" =>true
         );
-        $transactionDetails = $this->sdk->transaction->get($data);
+        $this->transaction = new CreditCardTransaction($this, $order, []);
+        $transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
         $transactionInfo = json_decode(json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {
             return;
         }
- 
-        $status = 'pending';
-        $alert_title = '';
-        foreach ($transactionInfo['data']['data'] as $data) {
-            $status = $data['status'];
-            $alert_title = $data['response'];
-            $ref_payco = $data['referencePayco'];
-            $test = $data['test'] ? 'Pruebas' : 'Producción';
-            $transactionDateTime= $data['transactionDateTime'];
-            $bank= $data['bank'];
-            $authorization= $data['authorization'];
-            $factura = $data['referenceClient'];
-            $descripcion = $data['description'];
-            $valor = $data['amount'];
-            $iva = $data['iva'];
-            $estado = $data['status'];
-            $currency = $data['currency'];
-            $name =  $data['names']." ". $data['lastnames'];
-            $card = $data['card'];
-            switch ($status) {
-                case 'Aceptada': {
-                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('check');
-                    $iconColor = '#67C940';
-                    $message = $this->storeTranslations['success_message'];
-                }break;
-                case 'Pendiente':
-                case 'Pending':{
-                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('warning');
-                    $iconColor = '#FFD100';
-                    $message = $this->storeTranslations['pending_message'];
-                }break;
-                default: {
-                    $iconUrl = $this->epayco->hooks->gateway->getGatewayIcon('error');
-                    $iconColor = '#E1251B';
-                    $message = $this->storeTranslations['fail_message'];
-                }break;
-            }
-        }
-        $paymentStatusType = PaymentStatus::getStatusType(strtolower($status));
-        $this->transaction = new CreditCardTransaction($this, $order, []);
-        $transaction = [
-            'status' => $status,
-            'type' => "",
-            'refPayco' => $ref_payco,
-            'factura' => $factura,
-            'descripcion_order' => $descripcion,
-            'valor' => $valor,
-            'iva' => $iva,
-            'estado' => $estado,
-            'respuesta' => $alert_title,
-            'fecha' => $transactionDateTime,
-            'currency' => $currency,
-            'name' => $name,
-            'card' => $card,
-            'message' => $message,
-            'error_message' => $this->storeTranslations['error_message'],
-            'error_description' => $this->storeTranslations['error_description'],
-            'payment_method'  => $this->storeTranslations['payment_method'],
-            'response'=> $this->storeTranslations['response'],
-            'dateandtime' => $this->storeTranslations['dateandtime'],
-            'authorization' => $authorization,
-            'iconUrl' => $iconUrl,
-            'iconColor' => $iconColor,
-            'ip' => $this->transaction->getCustomerIp(),
-            'totalValue' => $this->storeTranslations['totalValue'],
-            'description' => $this->storeTranslations['description'],
-            'reference' => $this->storeTranslations['reference'],
-            'purchase' => $this->storeTranslations['purchase'],
-            'iPaddress' => $this->storeTranslations['iPaddress'],
-            'receipt' => $this->storeTranslations['receipt'],
-            'authorizations' => $this->storeTranslations['authorization'],
-            'paymentMethod'  => $this->storeTranslations['paymentMethod'],
-            'epayco_refecence'  => $this->storeTranslations['epayco_refecence'],
-        ];
+
+        $transaction = $this->transaction->returnParameterToThankyouPage($transactionInfo, $this);
 
         if (empty($transaction)) {
             return;

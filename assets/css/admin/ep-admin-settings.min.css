@@ -1,132 +1,151 @@
-.mp-settings {
-    margin: 0 20px 0 10px;
+@font-face {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/poppins/v21/pxiEyp8kv8JHgFVrJJnecmNE.woff2) format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* latin */
+@font-face {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/poppins/v21/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+.ep-settings {
+    margin: 0 55px 0 23px;
     font-size: 16px;
     /*min-width: 550px;*/
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    max-width: 1440px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
-.mp-settings-header {
-    height: 340px;
-    margin: 30px 0 15px 0;
-    position: relative
-}
-
-.mp-settings-header-img {
-    width: 100%;
-    height: 100%;
-    /*background: url("https://epayco.com/wp-content/uploads/2021/07/nosotros.png") no-repeat center;*/
-    background: url("../../images/settings/header.jpg") no-repeat center;
-    background-size: cover;
-    border-radius: 140px 170px 170px 0;
-    position: absolute
-}
-
-.mp-settings-header-logo {
+.ep-settings-header {
+    height: 380px !important;
     position: relative;
-    background: url("../../images/admin-logo.png") 100% 100% no-repeat transparent;
-    width: 190px;
-    height: 70px;
-    padding-right: 16px !important;
+    background: url("../../images/settings/frame.png") no-repeat center;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+.ep-settings-header-img {
+    margin: 30px;
+    width: 92%;
+    height: 85%;
+    background: url("../../images/settings/header.png") no-repeat center;
+    background-size: cover;
+    position: absolute;
+    border-radius: 10px;
+}
+
+.ep-settings-header-logo {
+    position: relative;
+    background: url("../../images/logo2.png") 100% 50% no-repeat transparent;
+    width: 295px;
+    height: 100px;
     top: 60px;
     line-height: 36px;
     flex: none;
     flex-grow: 0;
-    margin: 16px 0 0 50px
+    margin: 0px
 }
 
-.mp-settings-header-hr {
+.ep-settings-header-hr {
     position: relative;
     top: 65px;
-    width: 55%;
-    border: 1px solid #ffffff;
+    width: 75%;
+    border: 1px solid #f6f7f7;
     flex: none;
     flex-grow: 0;
-    margin: 0px 0 0 45px
+    margin: 0px 0 0 45px;
 }
 
-.mp-settings-header p {
+.ep-settings-header p {
     position: relative;
     top: 70px;
-    font-family: sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 2rem;
     line-height: 36px;
     color: #fff;
     flex: none;
     flex-grow: 0;
-    margin: 10px 10px 0 50px
+    margin: 16px 16px 0 50px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
-.mp-container {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: stretch;
-    align-items: stretch;
-    position: relative;
+.ep-container {
+    /*display: flex*/
 }
 
-.mp-settings-title-container {
+.ep-settings-title-container {
     display: flex
 }
 
-.mp-block {
-    padding: 24px;
+.ep-block {
+    padding: 24px 24px 0px;
     background-color: #fff;
     box-shadow: 0 6px 16px rgb(0 0 0 / 10%);
-    border-radius: 6px
+    border-radius: 0px 0px 6px 6px;
+    border: 1px solid #D3D3D4;
+    box-shadow: 1px 1px 4px 0px #16161D4D;
+
 }
 
-.mp-block-requirements {
+.ep-block-requirements {
     background-color: unset;
     flex: 1;
     flex-direction: column;
     box-shadow: unset
 }
 
-.mp-align-items-center {
+.ep-align-items-center {
     display: flex;
     align-items: center
 }
 
-.mp-block-flex {
+.ep-block-flex {
     flex: 2
 }
 
-.mp-block-manual {
+.ep-block-manual {
     background: #f5f5f5
 }
 
-.mp-display-block {
+.ep-display-block {
     display: block !important
 }
 
-.mp-settings-font-color {
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    color: rgba(0, 0, 0, .9)
+.ep-settings-font-color {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+    color: #16161D;
 }
 
-.mp-settings-title-font-size {
+.ep-settings-title-font-size {
     font-size: 18px;
     line-height: 22px;
     font-weight: 500
 }
 
-.mp-settings-subtitle-font-size {
+.ep-settings-subtitle-font-size {
     font-size: 16px;
     line-height: 20px
 }
 
-.mp-settings-title-color {
-    color: rgba(0, 0, 0, .55)
+.ep-settings-title-color {
+    color: #373737;
 }
 
-.mp-inner-container {
+.ep-inner-container {
     display: flex;
-    flex-direction: row
+    flex-direction: row;
+    
 }
 
-.mp-inner-container div:first-child {
+.ep-inner-container div:first-child {
     flex: 1;
     margin: 0;
     padding: 0;
@@ -134,7 +153,7 @@
     flex-direction: row
 }
 
-.mp-inner-container div:nth-child(2) {
+.ep-inner-container div:nth-child(2) {
     flex: 1;
     margin: 0;
     padding: 0;
@@ -142,122 +161,154 @@
     flex-direction: row-reverse
 }
 
-.mp-inner-container div p {
+.ep-inner-container div p {
     margin: 0 8px 0 0;
     padding: 0
 }
 
-.mp-inner-container div h4 {
+.ep-inner-container div h4 {
     margin: 0;
     padding-right: 5px
 }
 
-.mp-inner-container-settings {
+.ep-inner-container-settings {
     display: block;
     flex-direction: column
 }
 
-.mp-button {
+.ep-button {
     font-size: 14px;
     color: #fff;
     border: none;
     padding: 9px 12px 7px;
-    background: #006ba1;
+    background: #373737;
     border-radius: 5px;
     margin: 15px 0 15px 0;
     cursor: pointer;
     transition: box-shadow .25s ease-out, background-color .2s ease-out;
     box-shadow: 0 0 0 0 #fff;
-    font-weight: 400
+    font-weight: 400;
+    float: inline-end;
 }
 
-
-.mp-button-small {
+.ep-button-small {
     line-height: 16px
 }
 
-.mp-button-large {
+.ep-button-large {
     line-height: 48px;
     font-size: 16px;
     padding-top: 0;
     padding-bottom: 0
 }
 
-.mp-button:hover {
+.ep-button:hover {
     border-color: transparent;
-    /*background-color: #646970;*/
-    background-color: #005a87;
+    background-color: #373737e3 !important;
     color: #fff;
-    -webkit-transition: background-color .2s ease-in;
-    transition: background-color .2s ease-in
+    -webkit-transition: background-color .1s ease-in;
+    transition: background-color .1s ease-in
 }
 
-
-.mp-button:focus {
+.ep-button:focus {
+    border: 1px solid #373737ad !important;
     outline: 0;
     box-shadow: 0 0 0 .1875em rgb(27 135 201 / 30%);
     -webkit-transition: box-shadow .25s ease-in;
-    transition: box-shadow .25s ease-in
+    transition: box-shadow .25s ease-in;
 }
 
-.mp-button:active {
+.ep-button:active {
     border-color: transparent;
-    background-color: #005e88;
+    background-color: #ebebeb;
     color: #fff
 }
 
-.mp-button-light-blue {
+.ep-button-light-blue {
     border-color: transparent;
     background: rgba(71, 154, 209, .15);
     color: #479ad1
 }
 
-.mp-button-light-blue:hover {
+.ep-button-light-blue:hover {
     border-color: transparent;
     background-color: rgba(65, 137, 230, .2);
     color: #009ee3;
-    -webkit-transition: background-color .2s ease-in;
-    transition: background-color .2s
+    -webkit-transition: background-color .1s ease-in;
+    transition: background-color .1s
 }
 
-.mp-button-light-blue:focus {
+.ep-button-light-blue:focus {
     outline: 0;
     box-shadow: 0 0 0 .1875em rgb(27 135 201 / 30%);
     -webkit-transition: box-shadow .25s ease-in;
     transition: box-shadow .25s ease-in
 }
 
-.mp-button-light-blue:active {
+.ep-button-light-blue:active {
     border-color: transparent;
     background-color: rgba(65, 137, 230, .3);
     color: #009ee3
 }
 
-.mp-settings-icon-success {
+.ep-settings-icon-success {
     background: url("../../images/icons/icon-success.png") 100% 50% no-repeat transparent;
     background-size: 16px;
     padding-right: 16px !important
 }
 
-.mp-settings-icon-warning {
-    background: url("../../images/icons/icon-warning.png") 100% 50% no-repeat transparent;
+.ep-settings-icon-warning {
+    background: url("../../images/icons/warning.png") 100% 50% no-repeat transparent;
     background-size: 16px;
     padding-right: 16px !important
 }
 
-.mp-settings-icon-open {
-    background: url("../../images/icons/icon-open.png") 100% 50% no-repeat transparent;
-    background-size: 16px;
+.ep-settings-icon-open {
+    background: url("../../images/icons/CaretDownFill.png") 100% 50% no-repeat transparent;
+    background-size: 12px;
     padding-right: 16px !important;
     transition: .3s
 }
 
-.mp-settings-icon-open.mp-arrow-up {
+.ep-settings-icon-open.ep-arrow-up {
     transform: rotate(180deg);
     transition: .3s
 }
 
-.mp-settings-icon {
+.ep-settings-block-align-top {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.dropdown-visible {
+    max-height: 2200px;
+    /* Ajusta según el contenido */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-hidden {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ep-settings-icon {
     width: 70px;
     height: 70px;
     display: flex;
@@ -265,17 +316,43 @@
     justify-content: center
 }
 
-.mp-settings-icon-info {
+.ep-settings-icon-info {
     background: url("../../images/icons/icon-info.png") 98% 50% no-repeat transparent;
     padding-right: 16px !important
 }
 
-.mp-settings-icon-config {
+.ep-settings-icon-config {
     background: url("../../images/icons/icon-config.png") center center no-repeat transparent;
-    padding-right: 16px !important
+    padding-right: 16px !important;
+    width: 32px;
+    height: 32px;
 }
 
-.mp-settings-hr {
+.ep-settings-icon-body {
+    display: flex;
+    /* justify-content: space-between; */
+    cursor: pointer;
+    /* box-shadow: 1px 1px 4px 0px #16161D4D; */
+    height: 26px;
+    border: 1px solid #eeeeee00;
+    background: #EEEEEE;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 4px;
+    border-width: 1px;
+    font-size: 16px;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.ep-settings-icon-body:hover {
+    color: #FF6720;
+    -webkit-transition: background-color .1s ease-in;
+    transition: background-color .1s ease-in;
+    box-shadow: 2px 2px 4px 0px #16161D4D;
+}
+
+.ep-settings-hr {
     position: static;
     border: 1px solid #c6c6c6;
     flex: none;
@@ -285,13 +362,15 @@
     margin: 32px 0 32px
 }
 
-.mp-settings-title-blocks {
-    font-weight: 500;
+.ep-settings-title-blocks {
+    font-weight: 400;
     font-size: 20px;
-    line-height: 25px
+    line-height: 25px;
+    margin: auto;
+    color: #16161D;
 }
 
-.mp-settings-input {
+.ep-settings-input {
     width: 100%;
     height: 48px;
     left: calc(50% - 544px / 2);
@@ -303,25 +382,34 @@
     order: 1;
     align-self: stretch;
     flex-grow: 0;
-    margin: 4px 0
+    margin: 4px 0;
+    color: #373737 !important;
 }
 
-.mp-settings-margin-right {
-    margin: 8px
+.ep-settings-input:hover {
+    border-color: transparent;
+    border: 1px solid #FF6720 !important;
+    /*color: #fff;*/
+    -webkit-transition: background-color .2s ease-in;
+    transition: background-color .2s ease-in
 }
 
-.mp-settings-margin-left {
+
+
+
+
+.ep-settings-margin-left {
     margin-left: 8px
 }
 
-.mp-settings-label {
-    font-family: sans-serif;
+.ep-settings-label {
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 14px;
     line-height: 18px
 }
 
-.mp-settings-helper {
-    font-family: sans-serif;
+.ep-settings-helper {
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     position: static;
     width: 532px;
     height: 18px;
@@ -332,21 +420,21 @@
     color: rgba(0, 0, 0, .55)
 }
 
-.mp-settings-standard-margin {
+.ep-settings-standard-margin {
     margin: 0 0 24px
 }
 
-.mp-settings-blue-text {
+.ep-settings-blue-text {
     cursor: pointer;
-    color: #000 !important;
+    color: #009ee3 !important;
     text-decoration: none
 }
 
-.mp-settings-blue-text:hover {
+.ep-settings-blue-text:hover {
     text-decoration: underline
 }
 
-.mp-settings-switch {
+.ep-settings-switch {
     position: relative;
     display: inline-block;
     width: 40px;
@@ -354,13 +442,13 @@
     margin: 0 12px 5px 0
 }
 
-.mp-settings-switch input {
+.ep-settings-switch input {
     opacity: 0;
     width: 0;
     height: 0
 }
 
-.mp-settings-slider {
+.ep-settings-slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -372,7 +460,7 @@
     transition: .4s
 }
 
-.mp-settings-slider:before {
+.ep-settings-slider:before {
     position: absolute;
     content: "";
     height: 20px;
@@ -384,241 +472,298 @@
     transition: .4s
 }
 
-input:checked + .mp-settings-slider {
+input:checked+.ep-settings-slider {
     background-color: #2196f3
 }
 
-input:focus + .mp-settings-slider {
+input:focus+.ep-settings-slider {
     box-shadow: 0 0 1px #2196f3
 }
 
-input:checked + .mp-settings-slider:before {
+input:checked+.ep-settings-slider:before {
     -webkit-transform: translateX(16px);
     -ms-transform: translateX(16px);
     transform: translateX(16px)
 }
 
-.mp-settings-slider.mp-settings-round {
+.ep-settings-slider.ep-settings-round {
     border-radius: 34px
 }
 
-.mp-settings-slider.mp-settings-round:before {
+.ep-settings-slider.ep-settings-round:before {
     border-radius: 50%
 }
 
-.mp-settings-debug {
+.ep-settings-debug {
     margin: 0
 }
 
-.mp-settings-payment-block {
+.ep-settings-payment-block {
     border-radius: unset;
     border-bottom: 1px solid #c6c6c6;
     display: flex;
-    align-items: center
-}
-
-.mp-settings-badge-active {
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 7px 8px 5px;
-    width: 45px;
-    height: 15px;
-    left: calc(50% - 57px / 2);
-    background: rgba(0, 166, 80, .1);
-    border-radius: 12px;
-    font-size: 12px;
-    line-height: 12px;
-    text-align: center;
-    color: #00a650
+    padding-bottom: 24px;
 }
 
-.mp-settings-badge-inactive {
-    flex-direction: column;
+.ep-settings-payment-block:hover {
+    border-color: transparent;
+    color: #FF6720;
+    -webkit-transition: background-color .1s ease-in;
+    transition: background-color .1s ease-in
+}
+
+
+.ep-settings-badge-active {
+    width: 83px;
+    height: 32px;
+    padding: auto;
+    padding-top: 4px;
+    padding-right: 10px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    display: flex;
+    gap: 6px;
+    border-radius: 4px;
     justify-content: center;
-    align-items: center;
-    padding: 7px 8px 5px;
-    width: 45px;
-    height: 15px;
-    left: calc(50% - 52px / 2);
-    background: rgba(0, 0, 0, .07);
-    border-radius: 12px;
-    margin: 0 0;
-    font-size: 12px;
-    line-height: 12px;
     text-align: center;
-    color: rgba(0, 0, 0, .55)
+    color: #FF6720;
+    background: #EEEEEE;
+    font-size: 14px;
+    font-weight: 400;
+    align-items: center;
 }
 
-.mp-settings-test-mode-alert {
+.ep-settings-badge-inactive {
+    width: 83px;
+    height: 32px;
+    padding: auto;
+    padding-top: 4px;
+    padding-right: 10px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    display: flex;
+    gap: 6px;
+    border-radius: 4px;
+    justify-content: center;
+    text-align: center;
+    color: #737377;
+    background: #EEEEEE;
+    font-size: 14px;
+    font-weight: 400;
+    align-items: center;
+}
+
+.ep-settings-test-mode-epayco-alert {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 7px 8px 5px;
     height: 24px;
     position: static;
-    width: 124px;
+    width: 85px;
     left: calc(50% - 124px / 2);
     top: 0;
     bottom: 0;
-    background: rgba(255, 119, 51, .1);
-    border-radius: 12px;
-    font-family: sans-serif;
+    color: #FFD100;
+    background: rgba(255, 250, 224, 1);
+    border-radius: 6px;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 12px;
     line-height: 12px;
     text-align: center;
-    color: #f73
+    border: 1px solid #FFD100;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
-.mp-settings-prod-mode-alert {
+.ep-settings-prod-mode-alert {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 7px 8px 5px;
-    width: 196px;
+    width: 85px;
     height: 24px;
     position: static;
     left: 4.08%;
     right: 4.08%;
     top: 29.17%;
     bottom: 20.83%;
-    font-family: sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 12px;
     line-height: 12px;
     text-align: center;
-    color: #00a650;
-    background: rgba(0, 166, 80, .1);
-    border-radius: 12px
+    border: 1px solid #67C940;
+    background: rgba(210, 239, 198, 1);
+    border-radius: 6px;
+    color: #67C940;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
-.mp-settings-fieldset {
+.ep-settings-fieldset {
     margin: 0 0 24px 0
 }
 
-.mp-settings-align-div {
+.ep-settings-align-div {
     display: flex;
     align-items: center;
     justify-content: space-between
 }
 
-.mp-settings-text-payment {
-    font-family: sans-serif;
+.ep-settings-text-payment {
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 14px;
     line-height: 16px;
     color: #009ee3;
     margin: 0 10px
 }
 
-.mp-settings-margin-title-payment {
-    margin: 0 16px 0 16px
+.ep-settings-margin-title-payment {
+    margin: 0 16px 0 16px;
+    max-width: 1000px;
 }
 
-.mp-settings-border-bottom-payment {
+.ep-settings-border-bottom-payment {
     border-bottom: unset
 }
 
-.mp-settings-helper-payment-methods {
+.ep-settings-helper-payment-methods {
     padding: 0 16px 0 14px;
     margin: unset
 }
 
-.mp-settings-radio-button {
+.ep-settings-radio-button {
     max-width: 16px;
     max-height: 16px
 }
 
-.mp-settings-alert-payment-methods {
+.ep-settings-alert-payment-methods {
     display: flex;
     align-items: stretch;
     position: relative;
     margin-top: 12px
 }
 
-.mp-settings-alert-payment-methods-orange {
-    width: 6px;
-    background-color: #f73;
-    border-radius: 6px 0 0 6px
-}
-
-.mp-settings-alert-red {
-    width: 6px;
-    background-color: red;
-    border-radius: 6px 0 0 6px
-}
-
-.mp-settings-alert-payment-methods-green {
-    width: 6px;
-    background-color: #00a650;
-    border-radius: 6px 0 0 6px
-}
-
-.mp-settings-alert-payment-methods-gray {
-    border-radius: 0 6px 6px 0;
+.ep-settings-alert-payment-methods-yellow {
+    border-radius: 6px;
     width: 550px;
-    background: rgba(0, 0, 0, .04);
+    background: rgba(255, 250, 224, 1);
     display: flex;
     padding: 16px 20px 16px 14px;
-    align-items: flex-start
+    align-items: center;
+    border: 1px solid #FFD100;
+    margin-bottom: 15px;
 }
 
-.mp-settings-alert-mode-body {
-    font-family: sans-serif;
+.ep-settings-alert-red {
+    width: 6px;
+    background-color: red;
+    border-radius: 6px 0 0 6px;
+}
+
+.ep-settings-alert-payment-methods-green {
+    border-radius: 6px;
+    width: 550px;
+    background: rgba(210, 239, 198, 1);
+    display: flex;
+    padding: 16px 20px 16px 14px;
+    align-items: center;
+    border: 1px solid #67C940;
+    margin-bottom: 15px;
+}
+
+.ep-settings-alert-payment-methods-gray {
+    border-radius: 0 6px 6px 0;
+    width: 550px;
+    background: rgba(210, 239, 198, 1);
+    display: flex;
+    padding: 16px 20px 16px 14px;
+    align-items: flex-start;
+    border: 1px solid #67C940
+}
+
+.ep-settings-alert-mode-body {
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 14px;
     line-height: 22px;
     margin-top: 4px
 }
 
-.mp-settings-alert-mode-title {
-    font-family: sans-serif;
+.ep-settings-alert-mode-title {
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 16px;
     line-height: 20px;
     margin-top: 0;
     color: rgba(0, 0, 0, .9)
 }
 
-.mp-settings-mode-container {
+.ep-settings-mode-container {
     display: flex;
     align-items: center;
     margin: 20px 8px 0 0
 }
 
-.mp-settings-mode-spacing {
+.ep-settings-mode-spacing {
     margin-right: 12px
 }
 
-.mp-settings-title-align {
+.ep-settings-title-align {
     display: flex;
     justify-content: space-between;
-    cursor: pointer
+    cursor: pointer;
+    box-shadow: 1px 1px 4px 0px #16161D4D;
+    height: 60px;
+    padding-top: 6px;
+    padding-right: 12px;
+    padding-bottom: 6px;
+    padding-left: 12px;
+    border-radius: 4px;
+    border-width: 1px;
+    font-size: 16px;
+    align-items: normal;
 }
 
-.mp-icon-align {
+.ep-icon-align {
     display: flex;
     align-items: center
 }
 
-.mp-settings-block-align-top {
-    padding-top: 8px
-}
 
-.mp-credential-feedback-positive {
+.ep-credential-feedback-positive {
     background: url("../../images/settings/feedback-positive.png") 98% 50% no-repeat transparent;
     background-size: 1rem;
     padding-right: 30px !important
 }
 
-.mp-credential-feedback-negative {
+.ep-credential-show-password {
+    background: url("../../images/settings/visibility.png") 98% 50% no-repeat transparent;
+    background-size: 1rem;
+    padding-right: 30px !important;
+    cursor: pointer;
+    position: relative;
+    margin-left: -45px !important;
+}
+
+.ep-credential-hide-password {
+    background: url("../../images/settings/visibility_off.png") 98% 50% no-repeat transparent;
+    background-size: 1rem;
+    padding-right: 30px !important;
+    cursor: pointer;
+    position: relative;
+    margin-left: -45px !important;
+}
+
+.ep-credential-feedback-negative {
     background: url("../../images/settings/feedback-negative.png") 98% 50% no-repeat transparent;
     background-size: 1rem;
     padding-right: 30px !important
 }
 
-.mp-settings-tooltip {
+.ep-settings-tooltip {
     position: relative;
     display: flex
 }
 
-.mp-settings-tooltip .mp-settings-tooltip-text {
+.ep-settings-tooltip .ep-settings-tooltip-text {
     visibility: hidden;
     width: 200px;
     background: #fff;
@@ -631,18 +776,18 @@ input:checked + .mp-settings-slider:before {
     z-index: 3;
     top: 30px;
     left: -550%;
-    font-family: sans-serif;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
     font-size: 16px;
     line-height: 20px;
     word-wrap: break-word;
     cursor: auto
 }
 
-.mp-settings-tooltip .mp-settings-tooltip-text p {
+.ep-settings-tooltip .ep-settings-tooltip-text p {
     padding-bottom: 10px
 }
 
-.mp-settings-tooltip .mp-settings-tooltip-text::after {
+.ep-settings-tooltip .ep-settings-tooltip-text::after {
     content: " ";
     position: absolute;
     bottom: 100%;
@@ -653,16 +798,16 @@ input:checked + .mp-settings-slider:before {
     border-color: transparent transparent #000 transparent
 }
 
-.mp-settings-tooltip:hover .mp-settings-tooltip-text {
+.ep-settings-tooltip:hover .ep-settings-tooltip-text {
     visibility: visible
 }
 
-.mp-settings-tooltip {
+.ep-settings-tooltip {
     position: relative;
     display: inline-block
 }
 
-.mp-settings-tooltip .mp-settings-tooltiptext {
+.ep-settings-tooltip .ep-settings-tooltiptext {
     visibility: hidden;
     width: 120px;
     background: #fff;
@@ -677,7 +822,7 @@ input:checked + .mp-settings-slider:before {
     padding: 16px
 }
 
-.mp-settings-tooltip .mp-settings-tooltip-text::after {
+.ep-settings-tooltip .ep-settings-tooltip-text::after {
     content: "";
     position: absolute;
     bottom: 100%;
@@ -688,28 +833,43 @@ input:checked + .mp-settings-slider:before {
     border-color: transparent transparent #fff transparent
 }
 
-.mp-settings-tooltip:hover .mp-settings-tooltip-text {
+.ep-settings-tooltip:hover .ep-settings-tooltip-text {
     visibility: visible
 }
 
-.mp-settings-choose-mode {
+.ep-settings-choose-mode {
     flex-direction: column;
-    justify-content: space-between;
-    width: 88%;
+    justify-content: space-between
 }
 
-.mp-settings-mode-style {
+.ep-settings-step-one:hover {
+    border-color: red;
+    color: #FF6720;
+    -webkit-transition: background-color .1s ease-in;
+    transition: background-color .1s ease-in;
+    box-shadow: 2px 2px 4px 0px #16161D4D;
+}
+
+.ep-settings-title-align:hover {
+    border-color: red;
+    color: #FF6720;
+    -webkit-transition: background-color .1s ease-in;
+    transition: background-color .1s ease-in;
+    box-shadow: 2px 2px 4px 0px #16161D4D;
+}
+
+.ep-settings-mode-style {
     width: 16px;
     height: 16px
 }
 
-.mp-settings-mode-warning {
+.ep-settings-mode-warning {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start
+    margin-top: 4px;
 }
 
-.mp-settings-select {
+.ep-settings-select {
     appearance: unset !important;
     -webkit-appearance: unset !important;
     -moz-appearance: unset !important;
@@ -733,29 +893,29 @@ input:checked + .mp-settings-slider:before {
     width: 100% !important
 }
 
-.mp-settings-flex-start {
+.ep-settings-flex-start {
     align-items: flex-start
 }
 
-.mp-settings-link {
-    width: 92%;
+.ep-settings-link {
+    /*width: 75%;*/
     display: flex;
     text-decoration: none
 }
 
-.mp-alert-danger {
+.ep-alert-danger {
     color: #842029;
     background-color: #f8d7da;
     border-color: #f5c2c7
 }
 
-.mp-alert-success {
+.ep-alert-success {
     color: #0f5132;
     background-color: #d1e7dd;
     border-color: #badbcc
 }
 
-.mp-alert {
+.ep-alert {
     position: relative;
     padding: 1rem 1rem;
     margin-bottom: 1rem;
@@ -763,11 +923,11 @@ input:checked + .mp-settings-slider:before {
     border-radius: .25rem
 }
 
-.mp-text-center {
+.ep-text-center {
     text-align: center !important
 }
 
-.mp-settings-checkbox-options {
+.ep-settings-checkbox-options {
     line-height: 1.4;
     margin: .25em 0 .5em !important;
     display: inline-block;
@@ -777,7 +937,7 @@ input:checked + .mp-settings-slider:before {
     user-select: none
 }
 
-.mp-settings-support-container {
+.ep-settings-support-container {
     margin-top: 50px;
     background: #fff;
     padding: 24px;
@@ -785,40 +945,41 @@ input:checked + .mp-settings-slider:before {
     border-radius: 6px
 }
 
-.mp-settings-hr-support {
+.ep-settings-hr-support {
     position: static;
     margin: 16px 0 16px
 }
 
-.mp-settings-support-title {
+.ep-settings-support-title {
     color: rgba(0, 0, 0, .9);
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 20px
 }
 
-.mp-settings-support-content p {
+.ep-settings-support-content p {
     color: rgba(0, 0, 0, .9);
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 10px
 }
 
-#mp-settings-support-how-to {
+#ep-settings-support-how-to {
     line-height: 32px !important
 }
 
-.mp-settings-support-content-table {
+.ep-settings-support-content-table {
     border-collapse: collapse;
     margin-top: 16px;
     margin-bottom: 16px
 }
 
-.mp-settings-support-content-table td, .mp-settings-support-content-table th {
+.ep-settings-support-content-table td,
+.ep-settings-support-content-table th {
     font-size: 12px;
     padding: 8px;
     padding-left: 5px;
@@ -827,19 +988,19 @@ input:checked + .mp-settings-slider:before {
     line-height: 10px
 }
 
-.mp-settings-support-content-table th {
+.ep-settings-support-content-table th {
     color: rgba(0, 0, 0, .45)
 }
 
-.mp-settings-support-content-table th:first-child {
+.ep-settings-support-content-table th:first-child {
     padding-left: 5px
 }
 
-.mp-settings-support-content-table th:last-child {
+.ep-settings-support-content-table th:last-child {
     padding-right: 32px
 }
 
-.mp-settings-support-modal {
+.ep-settings-support-modal {
     display: none;
     position: fixed;
     padding-top: 100px;
@@ -853,7 +1014,7 @@ input:checked + .mp-settings-slider:before {
     background-color: rgba(0, 0, 0, .4)
 }
 
-.mp-settings-support-modal-content {
+.ep-settings-support-modal-content {
     position: relative;
     background-color: #fefefe;
     margin: auto;
@@ -863,32 +1024,33 @@ input:checked + .mp-settings-slider:before {
     border-radius: 10px
 }
 
-.mp-settings-close {
+.ep-settings-close {
     color: #000;
     float: right;
     font-size: 28px;
     margin-top: 20px
 }
 
-.mp-settings-close:focus, .mp-settings-close:hover {
+.ep-settings-close:focus,
+.ep-settings-close:hover {
     color: #000;
     text-decoration: none;
     cursor: pointer
 }
 
-.mp-settings-modal-table {
+.ep-settings-modal-table {
     border-collapse: collapse;
     width: 100%
 }
 
-.mp-settings-modal-table-header {
+.ep-settings-modal-table-header {
     background-color: #ccc;
     font-weight: 700;
     border: 1px solid #d3d3d3;
     padding: 10px
 }
 
-.mp-settings-modal-table-cell {
+.ep-settings-modal-table-cell {
     border: 1px solid #d3d3d3;
     padding: 10px;
     text-align: center
@@ -899,9 +1061,9 @@ input:checked + .mp-settings-slider:before {
     text-align: center !important
 }
 
-.mp-settings-modal-title {
+.ep-settings-modal-title {
     color: rgba(0, 0, 0, .9);
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;;
     font-size: 22px;
     font-style: normal;
     font-weight: 500;
@@ -909,9 +1071,9 @@ input:checked + .mp-settings-slider:before {
     margin-bottom: 16px
 }
 
-.mp-settings-modal-desc {
+.ep-settings-modal-desc {
     color: rgba(0, 0, 0, .9);
-    font-family: "Proxima Nova", -apple-system, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -920,17 +1082,18 @@ input:checked + .mp-settings-slider:before {
     margin-top: 24px
 }
 
-.mp-settings-modal-table-row {
+.ep-settings-modal-table-row {
     border: 1px solid #000
 }
 
-.mp-settings-modal-table-cell, .mp-settings-modal-table-header {
+.ep-settings-modal-table-cell,
+.ep-settings-modal-table-header {
     height: 50px;
     min-width: 60px;
     text-align: left
 }
 
-.mp-settings-pagination {
+.ep-settings-pagination {
     margin-bottom: 20px
 }
 
@@ -941,63 +1104,62 @@ input:checked + .mp-settings-slider:before {
     padding: 16px
 }
 
-.mp-settings-button-group {
+.ep-settings-button-group {
     text-align: center;
     margin-top: 20px
 }
 
-.mp-page-span {
+.ep-page-span {
     margin-right: 10px;
     cursor: pointer
 }
 
-.mp-page-span.active {
+.ep-page-span.active {
     color: #000
 }
 
-.mp-page-span:not(.active) {
+.ep-page-span:not(.active) {
     color: #d3d3d3
 }
 
 @media screen and (max-width: 780px) {
-
-    .mp-settings-header-img {
-        width: 100%;
-        height: 100%
+    .ep-settings {
+        margin: 0 0 0 -10px
     }
 
-    .mp-block-requirements {
+    .ep-settings-title-align {
+        height: 70px;
+    }
+
+    .ep-block-requirements {
         flex-direction: column;
         margin: 10px 0 10px 0
     }
 
-    .mp-container {
+    .ep-container {
         flex-direction: column;
-        margin: 10px 0 10px 0
     }
 
-    .mp-block {
-        margin: 10px 0 10px 0;
-    }
 
-    .mp-settings-payment-block {
+    .ep-settings-payment-block {
         margin: unset
     }
 
-    .mp-settings-header {
+    .ep-settings-header {
         height: 250px
     }
 
-    .mp-settings-header p {
+    .ep-settings-header p {
         top: 55px;
         font-size: 1.25rem
     }
 
-    .mp-settings-title-blocks {
-        font-size: 1.25rem
+    .ep-settings-title-blocks {
+        font-size: 1.25rem;
+        color: #16161D;
     }
 
-    .mp-settings-icon {
+    .ep-settings-icon {
         width: 60px;
         height: 40px;
         min-width: 60px;
@@ -1005,39 +1167,92 @@ input:checked + .mp-settings-slider:before {
         align-items: center;
         justify-content: center
     }
-}
 
-@media screen and (max-width: 425px) {
-    .mp-settings-header {
-        display: none;
+    .ep-settings-align-div {
+        flex-direction: column;
+        gap: 10px;
     }
 }
 
-#credentials-setup{
-    position: relative;
-    z-index: 1;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
+
+@media screen and (min-width: 425px) {
+    .ep-settings-header-img {
+        width: 86%;
+    }
 }
 
-.loader {
-    display: none; /* Oculto inicialmente */
-    border: 16px solid #1d23278c;
-    border-top: 16px solid #f73;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    top: 40%;
-    left: 40%;
-    transform: translate(-50%, -50%);
-    animation: spin 1.5s linear infinite;
-    z-index: 10;
+@media screen and (min-width: 768px) {
+    .ep-settings-header-img {
+        width: 92%;
+    }
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+@media screen and (min-width: 1024px) {
+    .ep-settings-header-img {
+        width: 92%;
+    }
 }
 
+@media screen and (min-width: 1440px) {
+    .ep-settings-header-img {
+        width: 94%;
+    }
+}
+
+.ep-settings-header-title {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+@media screen and (min-width: 1440px) {
+    .ep-settings-header-title {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .ep-settings-header-title {
+        width: 70%;
+    }
+}
+
+
+@media screen and (max-width: 475px) {
+    .ep-settings-header-title {
+        width: 80%;
+    }
+}
+
+.ep-settings-context {
+    font-weight: 500 !important;
+    color:  #373737 !important;
+    font-size: 14px !important;
+    margin: 0px 50px !important;
+    line-height: 18px !important;
+}
+
+@media screen and (min-width: 780px) {
+    .ep-settings-context {
+        margin-top: 30px !important;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .ep-settings-context {
+        margin-top: 20px !important;
+    }
+}
+
+
+@media screen and (max-width: 475px) {
+    .ep-settings-context {
+        margin-top: 10px !important;
+    }
+}
+
+@media screen and (max-width: 412px) {
+    .ep-settings-context {
+        display: none !important;
+    }
+}

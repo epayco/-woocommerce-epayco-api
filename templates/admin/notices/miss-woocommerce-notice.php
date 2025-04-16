@@ -8,7 +8,7 @@
  * @var array $translations
  * @var array $allowedHtmlTags
  *
- * @see \Epayco\Woocommerce\WoocommerceEpayco
+ * @see \EpaycoSubscription\Woocommerce\WoocommerceEpayco
  */
 
 if (!defined('ABSPATH')) {
@@ -18,12 +18,12 @@ if (!defined('ABSPATH')) {
 ?>
 
 <div id="message" class="notice notice-error">
-    <div class="mp-alert-frame">
-        <div class="mp-left-alert">
+    <div class="ep-alert-frame">
+        <div class="ep-left-alert">
             <img src="<?= esc_url($minilogo) ?>" alt="ePayco mini logo" />
         </div>
 
-        <div class="mp-right-alert">
+        <div class="ep-right-alert">
             <p><?= wp_kses($translations['miss_woocommerce'], $allowedHtmlTags) ?></p>
 
             <p>

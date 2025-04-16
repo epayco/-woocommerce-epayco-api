@@ -1,48 +1,27 @@
 <?php
 
 namespace Epayco\Woocommerce\Hooks;
-
-use Epayco\Woocommerce\Helpers\Country;
 use Epayco\Woocommerce\Helpers\Url;
-use Epayco\Woocommerce\Configs\Seller;
-use Automattic\WooCommerce\Blocks\Utils\CartCheckoutUtils;
 
 if (!defined('ABSPATH')) {
     exit;
 }
-
 class Scripts
 {
-    /**
-     * @const
-     */
     private const SUFFIX = '_params';
 
-    /**
-     * @const
-     */
     private const NOTICES_SCRIPT_NAME = 'wc_epayco_notices';
 
-    /**
-     * @var Url
-     */
-    private $url;
-
-    /**
-     * @var Seller
-     */
-    private $seller;
+    private Url $url;
 
     /**
      * Scripts constructor
      *
      * @param Url $url
-     * @param Seller $seller
      */
-    public function __construct(Url $url, Seller $seller)
+    public function __construct(Url $url)
     {
         $this->url    = $url;
-        $this->seller = $seller;
     }
 
     /**
@@ -108,90 +87,6 @@ class Scripts
     }
 
     /**
-     * Register styles on store
-     *
-     * @param string $name
-     * @param string $file
-     *
-     * @return void
-     */
-    public function registerStoreStyle(string $name, string $file): void
-    {
-        $this->registerStyle($name, $file);
-    }
-
-    /**
-     * Register scripts on store
-     *
-     * @param string $name
-     * @param string $file
-     * @param array $variables
-     *
-     * @return void
-     */
-    public function registerStoreScript(string $name, string $file, array $variables = []): void
-    {
-        $this->registerScript($name, $file, $variables);
-    }
-
-    /**
-     * Register notices script on admin
-     *
-     * @return void
-     */
-    public function registerNoticesAdminScript(): void
-    {
-        global $woocommerce;
-
-        $file      = $this->url->getPluginFileUrl('assets/js/notices/notices-client', '.js');
-        $variables = [
-            'site_id'          => $this->seller->getSiteId() ?: Country::SITE_ID_MLA,
-            'container'        => '#wpbody-content',
-            'public_key'       => $this->seller->getCredentialsPublicKeyPayment(),
-            'plugin_version'   => EP_VERSION,
-            'platform_id'      => EP_PLATFORM_ID,
-            'platform_version' => $woocommerce->version,
-        ];
-
-        $this->registerAdminScript(self::NOTICES_SCRIPT_NAME, $file, $variables);
-    }
-
-    /**
-     * Register credits script on admin
-     *
-     * @param string $name
-     * @param string $file
-     * @param array $variables
-     *
-     * @return void
-     */
-    public function registerCreditsAdminScript(string $name, string $file, array $variables = []): void
-    {
-        if ($this->url->validateSection('woo-epayco-credits')) {
-            $this->registerAdminScript($name, $file, $variables);
-        }
-    }
-
-    /**
-     * Register credits style on admin
-     *
-     * @param string $name
-     * @param string $file
-     *
-     * @return void
-     */
-    public function registerCreditsAdminStyle(string $name, string $file): void
-    {
-        if ($this->url->validateSection('woo-epayco-credits')) {
-            $this->registerAdminStyle($name, $file);
-        }
-    }
-
-
-
-
-
-    /**
      * Register scripts for payment block
      *
      * @param string $name
@@ -210,6 +105,11 @@ class Scripts
         }
     }
 
+    public function registerPaymentBlockStyle(string $name, string $file): void
+    {
+        add_action('enqueue_block_assets', fn() => $this->registerStyle($name, $file));
+    }
+
     /**
      * Register styles
      *
@@ -220,7 +120,7 @@ class Scripts
      */
     private function registerStyle(string $name, string $file): void
     {
-        wp_register_style($name, $file, false, EP_VERSION);
+        wp_register_style($name, $file, [], $this->url->assetVersion());
         wp_enqueue_style($name);
     }
 
@@ -235,10 +135,60 @@ class Scripts
      */
     private function registerScript(string $name, string $file, array $variables = []): void
     {
-        wp_enqueue_script($name, $file, [], EP_VERSION, true);
+        wp_enqueue_script($name, $file, [], $this->url->assetVersion(), true);
 
         if ($variables) {
             wp_localize_script($name, $name . self::SUFFIX, $variables);
         }
     }
+
+    /**
+     * Register notices script on admin
+     *
+     * @return void
+     */
+    public function registerNoticesAdminScript(): void
+    {
+        global $woocommerce;
+
+        $variables = [
+            'site_id'          => 'epayco',
+            'container'        => '#wpbody-content',
+            'public_key'       => 'epayco_public',
+            'plugin_version'   => EP_VERSION,
+            'platform_id'      => 'woocommerce',
+            'platform_version' => $woocommerce->version,
+        ];
+
+        //$this->registerAdminScript(self::NOTICES_SCRIPT_NAME, null, $variables);
+    }
+
+    /**
+     * Register scripts on store
+     *
+     * @param string $name
+     * @param string $file
+     * @param array $variables
+     *
+     * @return void
+     */
+    public function registerStoreScript(string $name, string $file, array $variables = []): void
+    {
+        $this->registerScript($name, $file, $variables);
+    }
+
+    /**
+     * Register styles on store
+     *
+     * @param string $name
+     * @param string $file
+     *
+     * @return void
+     */
+    public function registerStoreStyle(string $name, string $file): void
+    {
+        $this->registerStyle($name, $file);
+    }
+
+
 }

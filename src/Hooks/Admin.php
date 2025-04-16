@@ -5,17 +5,11 @@ namespace Epayco\Woocommerce\Hooks;
 if (!defined('ABSPATH')) {
     exit;
 }
-
 class Admin
 {
-    /**
-     * @const
-     */
+
     public const HREF_TARGET_DEFAULT = '_self';
 
-    /**
-     * @const
-     */
     public const HREF_TARGET_BLANK = '_blank';
 
     /**

@@ -1,24 +1,31 @@
 <?php
-
 /**
- * Plugin Name: ePayco Gateway
- * Plugin URI: https://github.com/epayco/Plugin_ePayco_WooCommerce
- * Description: Configure the payment options and accept payments with cards, cash and PSE.
- * Version: 7.6.4
- * Author: ePayco
- * Author URI: http://epayco.co
- * Text Domain: woocommerce-epayco
- * Domain Path: /i18n/languages/
- * WC requires at least: 5.5.2
- * WC tested up to: 9.0.2
- * Requires PHP: 7.4
+ * @since             1.0.0
  *
- * @package Sdk
+ * @wordpress-plugin
+ * Plugin Name:       ePayco WooCommerce
+ * Description:       Plugin ePayco WooCommerce.
+ * Plugin URI: https://github.com/epayco/Plugin_ePayco_WooCommerce
+ * Version:           6.1.0
+ * Author: ePayco
+ * Author URI: https://epayco.com/
+ * Text Domain:     woo-epayco-api
+ * Author URI:
+ * Licence
+ * Domain Path:      /i18n/languages/
+ * WC requires at least: 5.5.2
+ * WC tested up to: 9.4.3
+ * Requires PHP: 7.4
+ * Requires Plugins: woocommerce
+ * @package Epayco
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
+
+defined('EP_PLUGIN_FILE') || define('EP_PLUGIN_FILE', __FILE__);
+
 
 require_once dirname(__FILE__) . '/src/Startup.php';
 
@@ -45,15 +52,15 @@ if (!class_exists('WoocommerceEpayco')) {
     $GLOBALS['epayco'] = new WoocommerceEpayco();
 }
 
-register_activation_hook(__FILE__, 'mp_register_activate');
-register_deactivation_hook(__FILE__, 'mp_disable_plugin');
+register_activation_hook(__FILE__, 'ep_register_activate');
+register_deactivation_hook(__FILE__, 'ep_disable_plugin');
 register_activation_hook(__FILE__, 'activate_epayco_customer');
-function mp_register_activate()
+function ep_register_activate()
 {
     update_option('_mp_execute_activate', 'yes');
 }
 
-function mp_disable_plugin(): void
+function ep_disable_plugin(): void
 {
     $GLOBALS['epayco']->disablePlugin();
 }

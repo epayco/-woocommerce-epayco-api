@@ -3,29 +3,9 @@
 namespace Epayco\Woocommerce\Transactions;
 
 use Epayco\Woocommerce\Gateways\AbstractGateway;
-use Epayco\Woocommerce\Helpers\Date;
-use Epayco\Woocommerce\Entities\Metadata\PaymentMetadata;
 
 class TicketTransaction extends AbstractPaymentTransaction
 {
-    /**
-     * @const
-     */
-    public const ID = 'ticket';
-
-    /**
-     * Payment method id
-     *
-     * @var string
-     */
-    private $paymentMethodId;
-
-    /**
-     * Payment place id
-     *
-     * @var string
-     */
-    private $paymentPlaceId;
 
     /**
      * Ticket Transaction constructor
@@ -37,20 +17,7 @@ class TicketTransaction extends AbstractPaymentTransaction
     public function __construct(AbstractGateway $gateway, \WC_Order $order, array $checkout)
     {
         parent::__construct($gateway, $order, $checkout);
-
-        $this->paymentMethodId = $this->checkout['payment_method_id'];
-        $this->paymentPlaceId  = $this->epayco->helpers->paymentMethods->getPaymentPlaceId($this->paymentMethodId);
-        $this->paymentMethodId = $this->epayco->helpers->paymentMethods->getPaymentMethodId($this->paymentMethodId);
-
-        $this->transaction->installments = 1;
-        $this->transaction->payment_method_id  = $this->paymentMethodId;
-        $this->transaction->external_reference = $this->getExternalReference();
-        $this->transaction->date_of_expiration = $this->getExpirationDate();
-
     }
-
-
-
 
     /**
      * Get expiration date
@@ -65,8 +32,22 @@ class TicketTransaction extends AbstractPaymentTransaction
             EP_TICKET_DATE_EXPIRATION
         );
 
-        return Date::sumToNowDate($expirationDate . ' days');
+        return self::sumToNowDate($expirationDate . ' days');
     }
 
+    /**
+     * Sum now() with $value in GMT/CUT format
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    public static function sumToNowDate(string $value): string
+    {
+        if ($value) {
+            return gmdate('Y-m-d\TH:i:s.000O', strtotime('+' . $value));
+        }
 
+        return gmdate('Y-m-d\TH:i:s.000O');
+    }
 }

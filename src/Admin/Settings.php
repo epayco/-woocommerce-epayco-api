@@ -2,22 +2,20 @@
 
 namespace Epayco\Woocommerce\Admin;
 
+use Epayco\Woocommerce\Hooks\Order;
+use Exception;
 use Epayco\Woocommerce\Configs\Seller;
 use Epayco\Woocommerce\Configs\Store;
-use Epayco\Woocommerce\Helpers\CurrentUser;
-use Epayco\Woocommerce\Helpers\Form;
-use Epayco\Woocommerce\Helpers\Links;
-use Epayco\Woocommerce\Helpers\Nonce;
-use Epayco\Woocommerce\Helpers\Session;
-use Epayco\Woocommerce\Helpers\Strings;
-use Epayco\Woocommerce\Helpers\Url;
 use Epayco\Woocommerce\Hooks\Admin;
 use Epayco\Woocommerce\Hooks\Endpoints;
-use Epayco\Woocommerce\Hooks\Order;
 use Epayco\Woocommerce\Hooks\Plugin;
 use Epayco\Woocommerce\Hooks\Scripts;
+use Epayco\Woocommerce\Helpers\CurrentUser;
+use Epayco\Woocommerce\Helpers\Form;
+use Epayco\Woocommerce\Helpers\Url;
 use Epayco\Woocommerce\Translations\AdminTranslations;
 use Epayco\Woocommerce\Funnel\Funnel;
+
 
 if (!defined('ABSPATH')) {
     exit;
@@ -25,115 +23,37 @@ if (!defined('ABSPATH')) {
 
 class Settings
 {
-    /**
-     * @const
-     */
     private const PRIORITY_ON_MENU = 90;
-
-    /**
-     * @const
-     */
     private const NONCE_ID = 'ep_settings_nonce';
-
-    /**
-     * @var Admin
-     */
-    private $admin;
-
-    /**
-     * @var Endpoints
-     */
-    private $endpoints;
-
-    /**
-     * @var Links
-     */
-    private $links;
-
-    /**
-     * @var Order
-     */
-    private $order;
-
-    /**
-     * @var Plugin
-     */
-    private $plugin;
-
-    /**
-     * @var Scripts
-     */
-    private $scripts;
-
-    /**
-     * @var Seller
-     */
-    private $seller;
-
-    /**
-     * @var Store
-     */
-    private $store;
-
-    /**
-     * @var AdminTranslations
-     */
-    private $translations;
-
-    /**
-     * @var Url
-     */
-    private $url;
-
-    /**
-     * @var Nonce
-     */
-    private $nonce;
-
-    /**
-     * @var CurrentUser
-     */
-    private $currentUser;
-
-    /**
-     * @var Session
-     */
-    private $session;
-
-
-    /**
-     * @var Funnel
-     */
-    private $funnel;
-
-    /**
-     * @var Strings
-     */
-    private $strings;
+    private Admin $admin;
+    private Endpoints $endpoints;
+    private Order $order;
+    private Plugin $plugin;
+    private Scripts $scripts;
+    private Seller $seller;
+    private Store $store;
+    private AdminTranslations $translations;
+    private Url $url;
+    private CurrentUser $currentUser;
+    private Funnel $funnel;
 
     /**
      * Settings constructor
      *
      * @param Admin $admin
      * @param Endpoints $endpoints
-     * @param Links $links
-     * @param Order $order
      * @param Plugin $plugin
      * @param Scripts $scripts
      * @param Seller $seller
      * @param Store $store
      * @param AdminTranslations $translations
      * @param Url $url
-     * @param Nonce $nonce
      * @param CurrentUser $currentUser
-     * @param Session $session
      * @param Funnel $funnel
-     * @param Strings $strings
      */
     public function __construct(
         Admin $admin,
         Endpoints $endpoints,
-        Links $links,
         Order $order,
         Plugin $plugin,
         Scripts $scripts,
@@ -141,15 +61,12 @@ class Settings
         Store $store,
         AdminTranslations $translations,
         Url $url,
-        Nonce $nonce,
         CurrentUser $currentUser,
-        Session $session,
-        Funnel $funnel,
-        Strings $strings
-    ) {
+        Funnel $funnel
+    )
+    {
         $this->admin        = $admin;
         $this->endpoints    = $endpoints;
-        $this->links        = $links;
         $this->order        = $order;
         $this->plugin       = $plugin;
         $this->scripts      = $scripts;
@@ -157,11 +74,8 @@ class Settings
         $this->store        = $store;
         $this->translations = $translations;
         $this->url          = $url;
-        $this->nonce        = $nonce;
         $this->currentUser  = $currentUser;
-        $this->session      = $session;
         $this->funnel       = $funnel;
-        $this->strings      = $strings;
 
         $this->loadMenu();
         $this->loadScriptsAndStyles();
@@ -175,9 +89,9 @@ class Settings
             $this->funnel->updateStepPluginMode();
         });
 
-        $this->plugin->registerOnPluginStoreInfoUpdate(function () {
+        //$this->plugin->registerOnPluginStoreInfoUpdate(function () {
             $this->order->toggleSyncPendingStatusOrdersCron($this->store->getCronSyncMode());
-        });
+        //});
     }
 
     /**
@@ -200,19 +114,21 @@ class Settings
         if ($this->canLoadScriptsAndStyles()) {
             $this->scripts->registerAdminStyle(
                 'epayco_settings_admin_css',
-                $this->url->getPluginFileUrl('assets/css/admin/ep-admin-settings', '.css')
+                $this->url->getCssAsset('admin/ep-admin-settings')
             );
 
             $this->scripts->registerAdminStyle(
                 'epayco_admin_configs_css',
-                $this->url->getPluginFileUrl('assets/css/admin/ep-admin-configs', '.css')
+                $this->url->getCssAsset('admin/ep-admin-configs')
             );
 
             $this->scripts->registerAdminScript(
                 'epayco_settings_admin_js',
-                $this->url->getPluginFileUrl('assets/js/admin/ep-admin-settings', '.js'),
+                $this->url->getJsAsset('admin/ep-admin-settings'),
                 [
-                    'nonce'              => $this->nonce->generateNonce(self::NONCE_ID)
+                    'nonce'              => $this->generateNonce(self::NONCE_ID),
+                    'show_advanced_text' => 'Show advanced options',
+                    'hide_advanced_text' => 'Hide advanced options',
                 ]
             );
 
@@ -224,19 +140,6 @@ class Settings
     }
 
     /**
-     * Check if scripts and styles can be loaded
-     *
-     * @return bool
-     */
-    public function canLoadScriptsAndStyles(): bool
-    {
-        return $this->admin->isAdmin() && (
-            $this->url->validatePage('epayco-settings') ||
-            $this->url->validateSection('woo-epayco')
-        );
-    }
-
-    /**
      * Check if scripts notices can be loaded
      *
      * @return bool
@@ -244,12 +147,28 @@ class Settings
     public function canLoadScriptsNoticesAdmin(): bool
     {
         return $this->admin->isAdmin() && (
-            $this->url->validateUrl('index') ||
-            $this->url->validateUrl('plugins') ||
-            $this->url->validatePage('wc-admin') ||
-            $this->url->validatePage('wc-settings') ||
-            $this->url->validatePage('epayco-settings')
-        );
+                $this->url->validateUrl('index') ||
+                $this->url->validateUrl('plugins') ||
+                $this->url->validatePage('wc-admin') ||
+                $this->url->validatePage('wc-settings') ||
+                $this->url->validatePage('epayco-settings')
+            );
+    }
+
+    /**
+     * Generate wp_nonce
+     *
+     * @param string $id
+     *
+     * @return string
+     */
+    public function generateNonce(string $id): string
+    {
+        $nonce = wp_create_nonce($id);
+        if (!$nonce) {
+            return '';
+        }
+        return $nonce;
     }
 
     /**
@@ -259,15 +178,28 @@ class Settings
      */
     public function registerAjaxEndpoints(): void
     {
-        $this->endpoints->registerAjaxEndpoint('ep_update_test_mode', [$this, 'epaycoUpdateTestMode']);
-        $this->endpoints->registerAjaxEndpoint('ep_update_option_credentials', [$this, 'epaycoUpdateOptionCredentials']);
-        $this->endpoints->registerAjaxEndpoint('ep_get_payment_methods', [$this, 'epaycoPaymentMethods']);
-        $this->endpoints->registerAjaxEndpoint('ep_validate_credentials_tips', [$this, 'epaycoValidateCredentialsTips']);
-        $this->endpoints->registerAjaxEndpoint('ep_validate_payment_tips', [$this, 'epaycoValidatePaymentTips']);
+        $this->endpoints->registerAjaxEndpoint('ep_update_test_mode', [$this, 'EpaycoUpdateTestMode']);
+        $this->endpoints->registerAjaxEndpoint('ep_update_option_credentials', [$this, 'EpaycoUpdateOptionCredentials']);
+        $this->endpoints->registerAjaxEndpoint('ep_get_payment_methods', [$this, 'EpaycoPaymentMethods']);
+        $this->endpoints->registerAjaxEndpoint('ep_validate_credentials_tips', [$this, 'EpaycoValidateCredentialsTips']);
+        $this->endpoints->registerAjaxEndpoint('ep_validate_payment_tips', [$this, 'EpaycoValidatePaymentTips']);
     }
 
     /**
-     * Add Sdk submenu to Woocommerce menu
+     * Check if scripts and styles can be loaded
+     *
+     * @return bool
+     */
+    public function canLoadScriptsAndStyles(): bool
+    {
+        return $this->admin->isAdmin() && (
+                $this->url->validatePage('epayco-settings') ||
+                $this->url->validateSection('woo-epayco')
+            );
+    }
+
+    /**
+     * Add Epayco submenu to Woocommerce menu
      *
      * @return void
      */
@@ -275,11 +207,11 @@ class Settings
     {
         $this->admin->registerSubmenuPage(
             'woocommerce',
-            'ePayco Settings',
-            'ePayco',
+            'Epayco  Settings',
+            'Epayco',
             'manage_options',
             'epayco-settings',
-            [$this, 'ePaycoSubmenuPageCallback']
+            [$this, 'EpaycoSubmenuPageCallback']
         );
     }
 
@@ -288,178 +220,58 @@ class Settings
      *
      * @return void
      */
-    public function ePaycoSubmenuPageCallback(): void
+    public function EpaycoSubmenuPageCallback(): void
     {
         $headerTranslations      = $this->translations->headerSettings;
         $credentialsTranslations = $this->translations->credentialsSettings;
         $gatewaysTranslations    = $this->translations->gatewaysSettings;
         $testModeTranslations    = $this->translations->testModeSettings;
+
         $pcustid   = $this->seller->getCredentialsPCustId();
         $publicKey   = $this->seller->getCredentialsPublicKeyPayment();
         $privateKey   = $this->seller->getCredentialsPrivateKeyPayment();
         $pKey   = $this->seller->getCredentialsPkey();
+        $checkboxCheckoutTestMode  = $this->store->getCheckboxCheckoutTestMode();
 
-        $checkboxCheckoutTestMode       = $this->store->getCheckboxCheckoutTestMode();
-        $checkboxCheckoutProductionMode = $this->store->getCheckboxCheckoutProductionMode();
-
-        $links      = $this->links->getLinks();
         $testMode   = ($checkboxCheckoutTestMode === 'yes');
-        $allowedHtmlTags         = $this->strings->getAllowedHtmlTags();
+
+        $links      = [
+            'epayco_credentials' =>'https://dashboard.epayco.io/configuration'
+        ];
+        $allowedHtmlTags = array(
+            'br' => array(),
+            'b'  => array(),
+            'a'  => array(
+                'href'   => array(),
+                'target' => array(),
+                'class'  => array(),
+                'id'     => array()
+            ),
+            'span' => array(
+                'id'      => array(),
+                'class'   => array(),
+                'onclick' => array()
+            ),
+            'div' => array(
+                'id'      => array(),
+                'class'   => array(),
+            ),
+            'p' => array(
+                'id'      => array(),
+                'class'   => array(),
+                'style' => array()
+            ),
+        );
 
         include dirname(__FILE__) . '/../../templates/admin/settings/settings.php';
     }
-
-
-
-    /**
-     * Get available payment methods
-     *
-     * @return void
-     */
-    public function epaycoPaymentMethods(): void
-    {
-        try {
-            $this->validateAjaxNonce();
-
-            $paymentGateways            = $this->store->getAvailablePaymentGateways();
-            $payment_gateway_properties = [];
-
-            foreach ($paymentGateways as $paymentGateway) {
-                $gateway = new $paymentGateway();
-
-                $payment_gateway_properties[] = [
-                    'id'               => $gateway->id,
-                    'title_gateway'    => $gateway->title,
-                    'description'      => $gateway->description,
-                    'title'            => $gateway->title,
-                    'enabled'          => !isset($gateway->settings['enabled']) ? false : $gateway->settings['enabled'],
-                    'icon'             => $gateway->iconAdmin,
-                    'link'             => admin_url('admin.php?page=wc-settings&tab=checkout&section=') . $gateway->id,
-                    'badge_translator' => [
-                        'yes' => $this->translations->gatewaysSettings['enabled'],
-                        'no'  => $this->translations->gatewaysSettings['disabled'],
-                    ],
-                ];
-            }
-
-            wp_send_json_success($payment_gateway_properties);
-        } catch (\Exception $e) {
-            $response = [
-                'message' => $e->getMessage()
-            ];
-            wp_send_json_error($response);
-        }
-    }
-
-    /**
-     * Validate store tips
-     *
-     * @return void
-     */
-    public function epaycoValidatePaymentTips(): void
-    {
-        $this->validateAjaxNonce();
-
-        $paymentGateways = $this->store->getAvailablePaymentGateways();
-
-        foreach ($paymentGateways as $gateway) {
-            $gateway = new $gateway();
-
-            if (isset($gateway->settings['enabled']) && 'yes' === $gateway->settings['enabled']) {
-                wp_send_json_success($this->translations->configurationTips['valid_payment_tips']);
-            }
-        }
-
-        wp_send_json_error($this->translations->configurationTips['invalid_payment_tips']);
-    }
-
-
-    /**
-     * Validate credentials tips
-     *
-     * @return void
-     */
-    public function epaycoValidateCredentialsTips(): void
-    {
-        $this->validateAjaxNonce();
-
-        $p_cust_id = $this->seller->getCredentialsPCustId();
-        $publicKey = $this->seller->getCredentialsPublicKeyPayment();
-        $privateKey = $this->seller->getCredentialsPrivateKeyPayment();
-        $p_key = $this->seller->getCredentialsPkey();
-
-        if ($p_cust_id && $publicKey && $privateKey && $p_key) {
-            wp_send_json_success($this->translations->configurationTips['valid_credentials_tips']);
-        }
-
-        wp_send_json_error($this->translations->configurationTips['invalid_credentials_tips']);
-    }
-
-
-
-
-    /**
-     * Save credentials and seller options
-     *
-     * @return void
-     */
-    public function epaycoUpdateOptionCredentials(): void
-    {
-        try {
-            $this->validateAjaxNonce();
-
-            $p_cust_id   = Form::sanitizedPostData('p_cust_id')??$_POST['p_cust_id'];
-            $p_key   = Form::sanitizedPostData('p_key')??$_POST['p_key'];
-            $publicKey   = Form::sanitizedPostData('publicKey')??$_POST['publicKey'];
-            $private_key   = Form::sanitizedPostData('private_key')??$_POST['private_key'];
-
-            $this->seller->validatePublicKeyPayment('p_cust_id', $p_cust_id);
-            $this->seller->validatePublicKeyPayment('p_key', $p_key);
-            $this->seller->validatePublicKeyPayment('publicKey', $publicKey);
-            $this->seller->validatePublicKeyPayment('private_key', $private_key);
-
-            $validateEpaycoCredentials =  $this->seller->validateEpaycoCredentials($publicKey, $private_key);
-
-            if ($validateEpaycoCredentials['status']) {
-                $this->seller->setCredentialsPCustId($p_cust_id);
-                $this->seller->setCredentialsPkey($p_key);
-                $this->seller->setCredentialsPublicKeyPayment($publicKey);
-                $this->seller->setCredentialsPrivateKeyPayment($private_key);
-                $this->plugin->executeUpdateCredentialAction();
-                wp_send_json_success($this->translations->updateCredentials['credentials_updated']);
-            }else{
-                $response = [
-                    'type'      => 'error',
-                    'message'   => $this->translations->updateCredentials['invalid_credentials_title'],
-                    'subtitle'  => $this->translations->updateCredentials['invalid_credentials_subtitle'] . ' ',
-                    'linkMsg'   => $this->translations->updateCredentials['invalid_credentials_link_message'],
-                    'link'      => $this->links->getLinks()['docs_integration_credentials'],
-                    'test_mode' => $this->store->getCheckboxCheckoutTestMode()
-                ];
-                wp_send_json_error($response);
-            }
-
-
-        } catch (\Exception $e) {
-            $response = [
-                'type'      => 'error',
-                'message'   => $e->getMessage(),
-                'subtitle'  => $e->getMessage() . ' ',
-                'linkMsg'   => '',
-                'link'      => '',
-                'test_mode' => $this->store->getCheckboxCheckoutTestMode()
-            ];
-            wp_send_json_error($response);
-        }
-    }
-
 
     /**
      * Save test mode options
      *
      * @return void
      */
-    public function epaycoUpdateTestMode(): void
+    public function EpaycoUpdateTestMode(): void
     {
         $this->validateAjaxNonce();
 
@@ -488,6 +300,147 @@ class Settings
         wp_send_json_success($this->translations->testModeSettings['title_message_prod']);
     }
 
+
+    /**
+     * Save credentials, seller and store options
+     *
+     * @return void
+     */
+    public function EpaycoUpdateOptionCredentials(): void
+    {
+        try {
+            $this->validateAjaxNonce();
+
+            $p_cust_id   = Form::sanitizedPostData('p_cust_id')??$_POST['p_cust_id'];
+            $p_key   = Form::sanitizedPostData('p_key')??$_POST['p_key'];
+            $publicKey   = Form::sanitizedPostData('publicKey')??$_POST['publicKey'];
+            $private_key   = Form::sanitizedPostData('private_key')??$_POST['private_key'];
+
+            $this->seller->validatePublicKeyPayment('p_cust_id', $p_cust_id);
+            $this->seller->validatePublicKeyPayment('p_key', $p_key);
+            $this->seller->validatePublicKeyPayment('publicKey', $publicKey);
+            $this->seller->validatePublicKeyPayment('private_key', $private_key);
+
+            $validateEpaycoCredentials =  $this->seller->validateEpaycoCredentials($publicKey, $private_key);
+
+            //$this->store->setCronSyncMode('no');
+
+            if ($validateEpaycoCredentials['status']) {
+                $this->seller->setHomologValidate($validateEpaycoCredentials['status']);
+                $this->seller->setCredentialsPCustId($p_cust_id);
+                $this->seller->setCredentialsPkey($p_key);
+                $this->seller->setCredentialsPublicKeyPayment($publicKey);
+                $this->seller->setCredentialsPrivateKeyPayment($private_key);
+                $this->plugin->executeUpdateCredentialAction();
+                wp_send_json_success($this->translations->updateCredentials['credentials_updated']);
+            }else{
+                $response = [
+                    'type'      => 'error',
+                    'message'   => $this->translations->updateCredentials['invalid_credentials_title'],
+                    'subtitle'  => $this->translations->updateCredentials['invalid_credentials_subtitle'] . ' ',
+                    'linkMsg'   => $this->translations->updateCredentials['invalid_credentials_link_message'],
+                    'link'      => 'https://dashboard.epayco.io/login',
+                    'test_mode' => $this->store->getCheckboxCheckoutTestMode()
+                ];
+                wp_send_json_error($response);
+            }
+
+
+        } catch (Exception $e) {
+            $response = [
+                'type'      => 'error',
+                'message'   => $e->getMessage(),
+                'subtitle'  => $e->getMessage() . ' ',
+                'linkMsg'   => '',
+                'link'      => '',
+                'test_mode' => $this->store->getCheckboxCheckoutTestMode()
+            ];
+            wp_send_json_error($response);
+        }
+    }
+
+    /**
+     * Get available payment methods
+     *
+     * @return void
+     */
+    public function EpaycoPaymentMethods(): void
+    {
+        try {
+            $this->validateAjaxNonce();
+
+            $paymentGateways            = $this->store->getAvailablePaymentGateways();
+            $payment_gateway_properties = [];
+
+            foreach ($paymentGateways as $paymentGateway) {
+                $gateway = new $paymentGateway();
+
+                $payment_gateway_properties[] = [
+                    'id'               => $gateway->id,
+                    'title_gateway'    => $gateway->title,
+                    'description'      => $gateway->description,
+                    'title'            => $gateway->title,
+                    'enabled'          => !isset($gateway->settings['enabled']) ? false : $gateway->settings['enabled'],
+                    'icon'             => $gateway->iconAdmin,
+                    'link'             => admin_url('admin.php?page=wc-settings&tab=checkout&section=') . $gateway->id,
+                    'badge_translator' => [
+                        'yes' => $this->translations->gatewaysSettings['enabled'],
+                        'no'  => $this->translations->gatewaysSettings['disabled'],
+                    ],
+                ];
+            }
+
+            wp_send_json_success($payment_gateway_properties);
+        } catch (Exception $e) {
+            $response = [
+                'message' => $e->getMessage()
+            ];
+
+            wp_send_json_error($response);
+        }
+    }
+
+    /**
+     * Validate credentials tips
+     *
+     * @return void
+     */
+    public function EpaycoValidateCredentialsTips(): void
+    {
+        $this->validateAjaxNonce();
+
+        $publicKeyProd   = $this->seller->getCredentialsPublicKeyPayment();
+        $accessTokenProd = $this->seller->getCredentialsPublicKeyPayment();
+
+        if ($publicKeyProd && $accessTokenProd) {
+            wp_send_json_success($this->translations->configurationTips['valid_credentials_tips']);
+        }
+
+        wp_send_json_error($this->translations->configurationTips['invalid_credentials_tips']);
+    }
+
+    /**
+     * Validate store tips
+     *
+     * @return void
+     */
+    public function EpaycoValidatePaymentTips(): void
+    {
+        $this->validateAjaxNonce();
+
+        $paymentGateways = $this->store->getAvailablePaymentGateways();
+
+        foreach ($paymentGateways as $gateway) {
+            $gateway = new $gateway();
+
+            if (isset($gateway->settings['enabled']) && 'yes' === $gateway->settings['enabled']) {
+                wp_send_json_success($this->translations->configurationTips['valid_payment_tips']);
+            }
+        }
+
+        wp_send_json_error($this->translations->configurationTips['invalid_payment_tips']);
+    }
+
     /**
      * Validate ajax nonce
      *
@@ -495,9 +448,23 @@ class Settings
      */
     private function validateAjaxNonce(): void
     {
-        $this->nonce->validateNonce(self::NONCE_ID, Form::sanitizedPostData('nonce'));
+        $this->validateNonce(self::NONCE_ID, Form::sanitizedPostData('nonce'));
         $this->currentUser->validateUserNeededPermissions();
     }
 
+    /**
+     * Validate wp_nonce
+     *
+     * @param string $id
+     * @param string $nonce
+     *
+     * @return void
+     */
+    public function validateNonce(string $id, string $nonce): void
+    {
+        if (!wp_verify_nonce($nonce, $id)) {
+            wp_send_json_error('Forbidden', 403);
+        }
+    }
 
 }

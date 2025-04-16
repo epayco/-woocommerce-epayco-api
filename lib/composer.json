@@ -1,6 +1,5 @@
 {
-  "require": {
-    "epayco/epayco-php": "dev-master"
-  }
+    "require": {
+        "epayco/epayco-php": "^1.5"
+    }
 }
-

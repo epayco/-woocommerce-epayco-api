@@ -5,7 +5,6 @@ namespace Epayco\Woocommerce\Hooks;
 if (!defined('ABSPATH')) {
     exit;
 }
-
 class Endpoints
 {
     /**

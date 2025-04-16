@@ -1,29 +1,25 @@
 <?php
 
 namespace Epayco\Woocommerce\Hooks;
-
 use Epayco\Woocommerce\Gateways\AbstractGateway;
 
 if (!defined('ABSPATH')) {
     exit;
 }
-
 class Options
 {
-    /**
-     * @const
-     */
+
     public const COMMON_CONFIGS = [
+        '_mp_public_key_test',
+        '_mp_access_token_test',
+        '_mp_public_key_prod',
+        '_mp_access_token_prod',
         '_ep_category_id',
         '_ep_store_identificator',
         '_ep_integrator_id',
         '_ep_custom_domain',
         'checkout_country',
         'ep_statement_descriptor',
-        '_ep_p_cust_id',
-        '_ep_publicKey',
-        '_ep_private_key',
-        '_ep_p_key',
     ];
 
     /**
@@ -53,7 +49,7 @@ class Options
     }
 
     /**
-     * Get Sdk gateway option
+     * Get Epayco gateway option
      *
      * @param AbstractGateway $gateway
      * @param string $optionName
@@ -78,7 +74,7 @@ class Options
 
 
     /**
-     * Set Sdk gateway option
+     * Set Epayco gateway option
      *
      * @param AbstractGateway $gateway
      * @param string $optionName
@@ -90,4 +86,6 @@ class Options
     {
         return $gateway->update_option($optionName, $value);
     }
+
+
 }

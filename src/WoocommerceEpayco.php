@@ -4,22 +4,21 @@ namespace Epayco\Woocommerce;
 
 use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Epayco\Woocommerce\Admin\Settings;
-use Epayco\Woocommerce\Blocks\CheckoutBlock;
 use Epayco\Woocommerce\Blocks\CreditCardBlock;
-use Epayco\Woocommerce\Blocks\DaviplataBlock;
-use Epayco\Woocommerce\Blocks\TicketBlock;
+use Epayco\Woocommerce\Blocks\CheckoutBlock;
 use Epayco\Woocommerce\Blocks\PseBlock;
+use Epayco\Woocommerce\Blocks\TicketBlock;
+use Epayco\Woocommerce\Blocks\DaviplataBlock;
+use Epayco\Woocommerce\Configs\Store;
+use Epayco\Woocommerce\Configs\Seller;
 use Epayco\Woocommerce\Blocks\SubscriptionBlock;
-use Epayco\Woocommerce\Configs\Metadata;
+use Epayco\Woocommerce\Helpers\Paths;
+use Epayco\Woocommerce\Helpers\Strings;
 use Epayco\Woocommerce\Funnel\Funnel;
 use Epayco\Woocommerce\Order\OrderMetadata;
-use Epayco\Woocommerce\Configs\Seller;
-use Epayco\Woocommerce\Configs\Store;
-use Epayco\Woocommerce\Order\OrderStatus;
 use Epayco\Woocommerce\Translations\AdminTranslations;
 use Epayco\Woocommerce\Translations\StoreTranslations;
-use Epayco\Woocommerce\Helpers\Country;
-use Epayco\Woocommerce\Helpers\Strings;
+use WooCommerce;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -27,110 +26,30 @@ if (!defined('ABSPATH')) {
 
 class WoocommerceEpayco
 {
-    /**
-     * @const
-     */
-    private const PLUGIN_VERSION = '7.6.4';
-
-    /**
-     * @const
-     */
-    private const PLUGIN_MIN_PHP = '7.4';
-
-    /**
-     * @const
-     */
-    private const PLATFORM_ID = 'bo2hnr2ic4p001kbgpt0';
-
-    /**
-     * @const
-     */
-    private const PRODUCT_ID_DESKTOP = 'BT7OF5FEOO6G01NJK3QG';
-
-    /**
-     * @const
-     */
-    private const PRODUCT_ID_MOBILE  = 'BT7OFH09QS3001K5A0H0';
-
-    /**
-     * @const
-     */
+    private const PLUGIN_VERSION = '4.0.0';
     private const PLATFORM_NAME = 'woocommerce';
-
-    /**
-     * @const
-     */
     private const TICKET_TIME_EXPIRATION = 3;
+    private const PLUGIN_NAME = '-wooommerce-epayco-api/woocommerce-epayco.php';
 
-    /**
-     * @const
-     */
-    private const PLUGIN_NAME = '-woocommerce-epayco-api/woocommerce-epayco.php';
+    public WooCommerce $woocommerce;
 
-    /**
-     * @var \WooCommerce
-     */
-    public $woocommerce;
+    public Hooks $hooks;
 
-    /**
-     * @var Hooks
-     */
-    public $hooks;
+    public Settings $settings;
 
-    /**
-     * @var Helpers
-     */
-    public $helpers;
+    public Helpers $helpers;
 
-    /**
-     * @var Settings
-     */
-    public $settings;
+    public OrderMetadata $orderMetadata;
 
-    /**
-     * @var Metadata
-     */
-    public $metadataConfig;
+    public AdminTranslations $adminTranslations;
 
-    /**
-     * @var Seller
-     */
-    public $sellerConfig;
+    public StoreTranslations $storeTranslations;
 
-    /**
-     * @var Store
-     */
-    public $storeConfig;
+    public Store $storeConfig;
 
-    /**
-     * @var OrderMetadata
-     */
-    public $orderMetadata;
+    public Seller $sellerConfig;
 
-    /**
-     * @var OrderStatus
-     */
-    public $orderStatus;
-
-    /**
-     * @var AdminTranslations
-     */
-    public $adminTranslations;
-
-    /**
-     * @var StoreTranslations
-     */
-    public $storeTranslations;
-
-    /**
-     * @var Funnel
-     */
-    public static $funnel;
-
-    /**
-     * @var Country
-     */
-    public $country;
+    public Funnel $funnel;
 
     /**
      * WoocommerceEpayco constructor
@@ -149,12 +68,11 @@ class WoocommerceEpayco
      */
     public function loadPluginTextDomain(): void
     {
-        $textDomain           = 'woocommerce-epayco';
-        $locale               = apply_filters('plugin_locale', get_locale(), $textDomain);
-        $originalLanguageFile = dirname(__FILE__) . '/../i18n/languages/woocommerce-epayco-' . $locale . '.mo';
-
+        $textDomain = $this->pluginMetadata('text-domain');
         unload_textdomain($textDomain);
-        load_textdomain($textDomain, $originalLanguageFile);
+        $locale = explode('_', apply_filters('plugin_locale', get_locale(), $textDomain))[0];
+        $locale = apply_filters('plugin_locale', get_locale(), $textDomain);
+        load_textdomain($textDomain, Paths::basePath(Paths::join($this->pluginMetadata('domain-path'), "woo-epayco-api-$locale.mo")));
     }
 
     /**
@@ -165,13 +83,7 @@ class WoocommerceEpayco
     public function registerHooks(): void
     {
         add_action('plugins_loaded', [$this, 'init']);
-        add_filter('query_vars', function ($vars) {
-            $vars[] = 'wallet_button';
-            return $vars;
-        });
     }
-
-
 
     /**
      * Register gateways
@@ -180,11 +92,55 @@ class WoocommerceEpayco
      */
     public function registerGateways(): void
     {
-        $gatewaysForCountry = $this->country->getOrderGatewayForCountry();
-        foreach ($gatewaysForCountry as $gateway) {
+
+        $methods = [
+                'Epayco\Woocommerce\Gateways\TicketGateway',
+                'Epayco\Woocommerce\Gateways\DaviplataGateway',
+                'Epayco\Woocommerce\Gateways\CreditCardGateway',
+                'Epayco\Woocommerce\Gateways\PseGateway',
+                'Epayco\Woocommerce\Gateways\CheckoutGateway',
+        ];
+        if (class_exists('WC_Subscriptions')){
+            array_push($methods, 'Epayco\Woocommerce\Gateways\SubscriptionGateway');
+        }
+        foreach ($methods as $gateway) {
             $this->hooks->gateway->registerGateway($gateway);
         }
     }
+
+    /**
+     * Init plugin
+     *
+     * @return void
+     */
+    public function init(): void
+    {
+        if (!class_exists('WC_Payment_Gateway')) {
+            $this->adminNoticeMissWoocoommerce();
+            return;
+        }
+
+        if (!class_exists('WC_Subscriptions_Cart')) {
+            //$this->adminNoticeMissWoocoommerceSubscription();
+            //return;
+        }
+
+        $this->setProperties();
+        $this->setPluginSettingsLink();
+        $this->registerBlocks();
+        $this->registerGateways();
+
+        $this->hooks->gateway->registerAvailablePaymentGateway();
+
+        $this->hooks->gateway->registerSaveCheckoutSettings();
+        if ($this->storeConfig->getExecuteActivate()) {
+            $this->hooks->plugin->executeActivatePluginAction();
+        }
+        if ($this->storeConfig->getExecuteAfterPluginUpdate()) {
+            $this->afterPluginUpdate();
+        }
+    }
+
 
     /**
      * Register woocommerce blocks support
@@ -199,54 +155,26 @@ class WoocommerceEpayco
                 function (PaymentMethodRegistry $payment_method_registry) {
                     $payment_method_registry->register(new CheckoutBlock());
                     $payment_method_registry->register(new CreditCardBlock());
+                    $payment_method_registry->register(new SubscriptionBlock());
                     $payment_method_registry->register(new DaviplataBlock());
                     $payment_method_registry->register(new PseBlock());
-                    $payment_method_registry->register(new SubscriptionBlock());
                     $payment_method_registry->register(new TicketBlock());
                 }
             );
         }
     }
 
-
     /**
-     * Init plugin
+     * Define plugin constants
      *
      * @return void
      */
-    public function init(): void
+    private function defineConstants(): void
     {
-        if (!class_exists('WC_Payment_Gateway')) {
-            $this->adminNoticeMissWoocoommerce();
-            return;
-        }
-
-        /*if (!class_exists('WC_Subscriptions_Cart')) {
-            $this->adminNoticeMissWoocoommerceSubscription();
-            return;
-        }*/
-
-        $this->setProperties();
-        $this->setPluginSettingsLink();
-
-        if (version_compare(PHP_VERSION, self::PLUGIN_MIN_PHP, '<')) {
-            $this->verifyPhpVersionNotice();
-            return;
-        }
-
-        if (!$this->country->isLanguageSupportedByPlugin() && $this->helpers->notices->shouldShowNotices()) {
-            $this->verifyCountryForTranslationsNotice();
-        }
-
-        $this->registerBlocks();
-        $this->registerGateways();
-
-        $this->hooks->plugin->executePluginLoadedAction();
-        $this->hooks->plugin->registerActivatePlugin([$this, 'activatePlugin']);
-        $this->hooks->gateway->registerSaveCheckoutSettings();
-        if ($this->storeConfig->getExecuteActivate()) {
-            $this->hooks->plugin->executeActivatePluginAction();
-        }
+        $this->define('EP_VERSION', self::PLUGIN_VERSION);
+        $this->define('EP_PLATFORM_NAME', self::PLATFORM_NAME);
+        $this->define('EP_TICKET_DATE_EXPIRATION', self::TICKET_TIME_EXPIRATION);
+        $this->define('EP_PLUGIN_URL',sprintf('%s%s', plugin_dir_url(__FILE__), '../assets/json/'));
     }
 
     /**
@@ -256,17 +184,25 @@ class WoocommerceEpayco
      */
     public function disablePlugin()
     {
-        //self::$funnel->updateStepDisable();
+        $this->funnel->updateStepDisable();
     }
 
     /**
      * Function hook active plugin
-     *
-     * @return void
      */
-    public function activatePlugin()
+    public function activatePlugin(): void
     {
-        self::$funnel->isInstallationId() ? self::$funnel->updateStepActivate() : self::$funnel->getInstallationId();
+        $after = fn() => $this->storeConfig->setExecuteActivate(false);
+
+        $this->funnel->created() ? $this->funnel->updateStepActivate($after) : $this->funnel->create($after);
+    }
+
+    /**
+     * Function hook after plugin update
+     */
+    public function afterPluginUpdate(): void
+    {
+        $this->funnel->updateStepPluginVersion(fn() => $this->storeConfig->setExecuteAfterPluginUpdate(false));
     }
 
     /**
@@ -284,14 +220,16 @@ class WoocommerceEpayco
         // Configs
         $this->storeConfig    = $dependencies->storeConfig;
         $this->sellerConfig   = $dependencies->sellerConfig;
-        $this->metadataConfig = $dependencies->metadataConfig;
 
         // Order
         $this->orderMetadata = $dependencies->orderMetadata;
-        $this->orderStatus   = $dependencies->orderStatus;
 
         // Helpers
         $this->helpers = $dependencies->helpers;
+
+        // Translations
+        $this->adminTranslations = $dependencies->adminTranslations;
+        $this->storeTranslations = $dependencies->storeTranslations;
 
         // Hooks
         $this->hooks = $dependencies->hooks;
@@ -299,14 +237,7 @@ class WoocommerceEpayco
         // Exclusive
         $this->settings = $dependencies->settings;
 
-        // Translations
-        $this->adminTranslations = $dependencies->adminTranslations;
-        $this->storeTranslations = $dependencies->storeTranslations;
-
-        // Country
-        $this->country = $dependencies->countryHelper;
-
-        self::$funnel = $dependencies->funnel;
+        $this->funnel = $dependencies->funnel;
     }
 
     /**
@@ -316,62 +247,20 @@ class WoocommerceEpayco
      */
     public function setPluginSettingsLink()
     {
-        $links = $this->helpers->links->getLinks();
-
         $pluginLinks = [
             [
                 'text'   => $this->adminTranslations->plugin['set_plugin'],
-                'href'   => $links['admin_settings_page'],
+                'href'   => admin_url('admin.php?page=epayco-settings'),
                 'target' => $this->hooks->admin::HREF_TARGET_DEFAULT,
             ],
             [
                 'text'   => $this->adminTranslations->plugin['payment_method'],
-                'href'   => $links['admin_gateways_list'],
+                'href'   => admin_url('admin.php?page=wc-settings&tab=checkout'),
                 'target' => $this->hooks->admin::HREF_TARGET_DEFAULT,
             ],
         ];
 
         $this->hooks->admin->registerPluginActionLinks(self::PLUGIN_NAME, $pluginLinks);
-    }
-
-    /**
-     * Show php version unsupported notice
-     *
-     * @return void
-     */
-    public function verifyPhpVersionNotice(): void
-    {
-        $this->helpers->notices->adminNoticeError($this->adminTranslations->notices['php_wrong_version'], false);
-    }
-
-
-    /**
-     * Show unsupported country for translations
-     *
-     * @return void
-     */
-    public function verifyCountryForTranslationsNotice(): void
-    {
-        $this->helpers->notices->adminNoticeError($this->adminTranslations->notices['missing_translation'], true);
-    }
-
-
-    /**
-     * Define plugin constants
-     *
-     * @return void
-     */
-    private function defineConstants(): void
-    {
-        $this->define('EP_MIN_PHP', self::PLUGIN_MIN_PHP);
-        $this->define('EP_VERSION', self::PLUGIN_VERSION);
-        $this->define('EP_PLATFORM_ID', self::PLATFORM_ID);
-        $this->define('EP_PLATFORM_NAME', self::PLATFORM_NAME);
-        $this->define('EP_PRODUCT_ID_DESKTOP', self::PRODUCT_ID_DESKTOP);
-        $this->define('EP_PRODUCT_ID_MOBILE', self::PRODUCT_ID_MOBILE);
-        $this->define('EP_TICKET_DATE_EXPIRATION', self::TICKET_TIME_EXPIRATION);
-        $this->define( 'EP_WOOCOMMERCE_VERSION', '5.3.0' );
-        $this->define( 'EP_PLUGIN_URL',sprintf('%s%s', plugin_dir_url(__FILE__), '../assets/json/'));
     }
 
     /**
@@ -387,6 +276,33 @@ class WoocommerceEpayco
         if (!defined($name)) {
             define($name, $value);
         }
+    }
+
+    /**
+     * Show woocommerce missing notice
+     * This function should use WordPress features only
+     *
+     * @return void
+     */
+    public function adminNoticeMissWoocoommerceSubscription(): void
+    {
+        $url_docs = 'https://github.com/wp-premium/woocommerce-subscriptions';
+        $subs = __( 'Subscription ePayco: Woocommerce subscriptions must be installed and active, ') . sprintf(__('<a target="_blank" href="%s">'. __('check documentation for help') .'</a>'), $url_docs);
+        add_action(
+            'admin_notices',
+            function() use($subs) {
+                $this->subscription_epayco_se_notices($subs);
+            }
+        );
+    }
+
+    public function subscription_epayco_se_notices( $notice ): void
+    {
+        ?>
+        <div class="error notice">
+            <p><?php echo $notice; ?></p>
+        </div>
+        <?php
     }
 
     /**
@@ -415,13 +331,13 @@ class WoocommerceEpayco
                 $isInstalled = false;
                 $currentUserCanInstallPlugins = current_user_can('install_plugins');
 
-                $minilogo     = sprintf('%s%s', plugin_dir_url(__FILE__), '../assets/images/logo.png');
+                $minilogo     = sprintf('%s%s', plugin_dir_url(__FILE__), '../assets/images/minilogo.png');
                 $translations = [
-                    'activate_woocommerce' => __('Activate WooCommerce', 'woocommerce-epayco'),
-                    'install_woocommerce'  => __('Install WooCommerce', 'woocommerce-epayco'),
-                    'see_woocommerce'      => __('See WooCommerce', 'woocommerce-epayco'),
+                    'activate_woocommerce' => __('Activate WooCommerce', 'woo-epayco-api'),
+                    'install_woocommerce'  => __('Install WooCommerce', 'woo-epayco-api'),
+                    'see_woocommerce'      => __('See WooCommerce', 'woo-epayco-api'),
                     'miss_woocommerce'     => sprintf(
-                        __('The ePayco module needs an active version of %s in order to work!', 'woocommerce-epayco'),
+                        __('Epayco module needs an active version of %s in order to work!', 'woo-epayco-api'),
                         '<a target="_blank" href="https://wordpress.org/extend/plugins/woocommerce/">WooCommerce</a>'
                     ),
                 ];
@@ -457,30 +373,53 @@ class WoocommerceEpayco
     }
 
     /**
-     * Show woocommerce missing notice
-     * This function should use WordPress features only
+     * Plugin file metadata
      *
-     * @return void
+     * Metadata map:
+     * ```
+     * [
+     *     'name'             => 'Plugin Name',
+     *     'uri'              => 'Plugin URI',
+     *     'description'      => 'Description',
+     *     'version'          => 'Version',
+     *     'author'           => 'Author',
+     *     'author-uri'       => 'Author URI',
+     *     'text-domain'      => 'Text Domain',
+     *     'domain-path'      => 'Domain Path',
+     *     'network'          => 'Network',
+     *     'min-wp'           => 'Requires at least',
+     *     'min-wc'           => 'WC requires at least',
+     *     'min-php'          => 'Requires PHP',
+     *     'tested-wc'        => 'WC tested up to',
+     *     'update-uri'       => 'Update URI',
+     *     'required-plugins' => 'Requires Plugins',
+     * ]
+     * ```
+     *
+     * @param string $key metadata desired element key
+     *
+     * @return string|string[] all data or just $key element value
      */
-    public function adminNoticeMissWoocoommerceSubscription(): void
+    public function pluginMetadata(?string $key = null)
     {
-        $url_docs = 'https://github.com/wp-premium/woocommerce-subscriptions';
-        $subs = __( 'Subscription ePayco: Woocommerce subscriptions must be installed and active, ') . sprintf(__('<a target="_blank" href="%s">'. __('check documentation for help') .'</a>'), $url_docs);
-        add_action(
-            'admin_notices',
-            function() use($subs) {
-                $this->subscription_epayco_se_notices($subs);
-            }
-        );
-    }
+        $data = get_file_data(EP_PLUGIN_FILE, [
+            'name' => 'Plugin Name',
+            'uri' => 'Plugin URI',
+            'description' => 'Description',
+            'version' => 'Version',
+            'author' => 'Author',
+            'author-uri' => 'Author URI',
+            'text-domain' => 'Text Domain',
+            'domain-path' => 'Domain Path',
+            'network' => 'Network',
+            'min-wp' => 'Requires at least',
+            'min-wc' => 'WC requires at least',
+            'min-php' => 'Requires PHP',
+            'tested-wc' => 'WC tested up to',
+            'update-uri' => 'Update URI',
+            'required-plugins' => 'Requires Plugins',
+        ]);
 
-    public function subscription_epayco_se_notices( $notice ): void
-    {
-        ?>
-        <div class="error notice">
-            <p><?php echo $notice; ?></p>
-        </div>
-        <?php
+        return isset($key) ? $data[$key] : $data;
     }
-
 }

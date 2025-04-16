@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Part of Woo Sdk Module
- * Author - Sdk
+ * Part of Woo Epayco Module
+ * Author - Epayco
  * Developer
- * Copyright - Copyright(c) Sdk [https://www.epayco.com]
+ * Copyright - Copyright(c) Epayco [https://www.epayco.com]
  * License - https://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  *
- * @package Sdk
+ * @package Epayco
  */
 
 exit;

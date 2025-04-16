@@ -1,22 +1,20 @@
 <?php
-
 namespace Epayco\Woocommerce\Hooks;
 
 use Exception;
-use Epayco\Woocommerce\Configs\Seller;
-use Epayco\Woocommerce\Order\OrderMetadata;
-use Epayco\Woocommerce\Configs\Store;
-use Epayco\Woocommerce\Helpers\Cron;
-use Epayco\Woocommerce\Helpers\CurrentUser;
-use Epayco\Woocommerce\Helpers\Form;
-use Epayco\Woocommerce\Helpers\Nonce;
 use Epayco\Woocommerce\Helpers\PaymentStatus;
+use Epayco\Woocommerce\Helpers\CurrentUser;
+use Epayco\Woocommerce\Order\OrderMetadata;
+use Epayco\Woocommerce\Hooks\Template;
+use Epayco\Woocommerce\Configs\Seller;
+use Epayco\Woocommerce\Configs\Store;
 use Epayco\Woocommerce\Helpers\Url;
-use Epayco\Woocommerce\Order\OrderStatus;
 use Epayco\Woocommerce\Translations\AdminTranslations;
 use Epayco\Woocommerce\Translations\StoreTranslations;
-use Epayco\Woocommerce\Libraries\Logs\Logs;
-use Epayco\Woocommerce\Sdk\EpaycoSdk;
+use Epayco\Woocommerce\Helpers\Cron;
+use WC_Order;
+use WP_Post;
+use Epayco as EpaycoSdk;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -25,163 +23,103 @@ if (!defined('ABSPATH')) {
 class Order
 {
 
-    /**
-     * @var Template
-     */
-    private $template;
-
-    /**
-     * @var OrderMetadata
-     */
-    private $orderMetadata;
-
-    /**
-     * @var OrderStatus
-     */
-    private $orderStatus;
-
-    /**
-     * @var StoreTranslations
-     */
-    private $storeTranslations;
-
-    /**
-     * @var AdminTranslations
-     */
-    private $adminTranslations;
-
-    /**
-     * @var Store
-     */
-    private $store;
-
-    /**
-     * @var Seller
-     */
-    private $seller;
-
-    /**
-     * @var Scripts
-     */
-    private $scripts;
-
-    /**
-     * @var Url
-     */
-    private $url;
-
-    /**
-     * @var Nonce
-     */
-    private $nonce;
-
-    /**
-     * @var Endpoints
-     */
-    private $endpoints;
-
-    /**
-     * @var Cron
-     */
-    private $cron;
-
-    /**
-     * @var CurrentUser
-     */
-    private $currentUser;
-
-
-    /**
-     * @var Logs
-     */
-    private $logs;
-
-
-    /**
-     * @const
-     */
     private const NONCE_ID = 'EP_ORDER_NONCE';
-
     /**
      * Order constructor
      * @param Template $template
      * @param OrderMetadata $orderMetadata
-     * @param OrderStatus $orderStatus
      * @param AdminTranslations $adminTranslations
      * @param StoreTranslations $storeTranslations
      * @param Store $store
      * @param Seller $seller
      * @param Scripts $scripts
      * @param Url $url
-     * @param Nonce $nonce
      * @param Endpoints $endpoints
      * @param Cron $cron
      * @param CurrentUser $currentUser
-     * @param Logs $logs
      */
-    public function __construct(
+     public function __construct(
         Template $template,
         OrderMetadata $orderMetadata,
-        OrderStatus $orderStatus,
         AdminTranslations $adminTranslations,
         StoreTranslations $storeTranslations,
         Store $store,
         Seller $seller,
         Scripts $scripts,
         Url $url,
-        Nonce $nonce,
         Endpoints $endpoints,
         Cron $cron,
-        CurrentUser $currentUser,
-        Logs $logs
-    ) {
-        $this->template          = $template;
-        $this->orderMetadata     = $orderMetadata;
-        $this->orderStatus       = $orderStatus;
-        $this->adminTranslations = $adminTranslations;
-        $this->storeTranslations = $storeTranslations;
-        $this->store             = $store;
-        $this->seller            = $seller;
-        $this->scripts           = $scripts;
-        $this->url               = $url;
-        $this->nonce             = $nonce;
-        $this->endpoints         = $endpoints;
-        $this->cron              = $cron;
-        $this->currentUser       = $currentUser;
-        $this->logs              = $logs;
+        CurrentUser $currentUser
+     ){
+         $this->template          = $template;
+         $this->orderMetadata     = $orderMetadata;
+         $this->adminTranslations = $adminTranslations;
+         $this->storeTranslations = $storeTranslations;
+         $this->store             = $store;
+         $this->seller            = $seller;
+         $this->scripts           = $scripts;
+         $this->url               = $url;
+         $this->endpoints         = $endpoints;
+         $this->cron              = $cron;
+         $this->currentUser       = $currentUser;
 
-        $this->sdk  = $this->getSdkInstance();
+         $this->sdk         = $this->getSdkInstance();
+         $this->registerSyncPendingStatusOrdersAction();
 
-        $this->registerStatusSyncMetaBox();
-        $this->registerSyncPendingStatusOrdersAction();
-        $this->endpoints->registerAjaxEndpoint('ep_sync_payment_status', [$this, 'paymentStatusSync']);
-    }
-
+         $this->registerStatusSyncMetaBox();
+     }
 
     /**
      * Get SDK instance
      */
-    public function getSdkInstance():EpaycoSdk
+    public function getSdkInstance()
     {
 
+        $lang = get_locale();
+        $lang = explode('_', $lang);
+        $lang = $lang[0];
         $public_key = $this->seller->getCredentialsPublicKeyPayment();
         $private_key = $this->seller->getCredentialsPrivateKeyPayment();
-        $pCustId = $this->seller->getCredentialsPCustId();
-        $pKey = $this->seller->getCredentialsPkey();
-        $isTestMode = $this->seller->isTestUser()?"true":"false";
-        $idioma = substr(get_locale(), 0, 2);
-        return new EpaycoSdk([
-            "apiKey" => $public_key,
-            "privateKey" =>$private_key,
-            "lenguage" => strtoupper($idioma),
-            "test" => $isTestMode
-        ],
-            "",
-            $public_key,
-            $private_key,
-            $pCustId,
-            $pKey
+        //$isTestMode = $this->seller->isTestUser()?"true":"false";
+        $isTestMode = $this->seller->isTestMode()?"true":"false";
+        return new EpaycoSdk\Epayco(
+            [
+                "apiKey" => $public_key,
+                "privateKey" => $private_key,
+                "lenguage" => strtoupper($lang),
+                "test" => $isTestMode
+            ]
         );
+    }
+
+    /**
+     * Set ticket metadata in the order
+     *
+     * @param WC_Order $order
+     * @param $data
+     *
+     * @return void
+     */
+    public function setTicketMetadata(WC_Order $order, $data): void
+    {
+        $externalResourceUrl = $data['urlPayment'];
+        $this->orderMetadata->setTicketTransactionDetailsData($order, $externalResourceUrl);
+        $order->save();
+    }
+
+    /**
+     * Set ticket metadata in the order
+     *
+     * @param WC_Order $order
+     * @param $data
+     *
+     * @return void
+     */
+    public function setDaviplataMetadata(WC_Order $order, $data): void
+    {
+        $externalResourceUrl = json_encode($data);
+        $this->orderMetadata->setDaviplataTransactionDetailsData($order, $externalResourceUrl);
+        $order->save();
     }
 
     /**
@@ -190,7 +128,7 @@ class Order
     private function registerStatusSyncMetabox(): void
     {
         $this->registerMetaBox(function ($postOrOrderObject) {
-            $order = ($postOrOrderObject instanceof \WP_Post) ? wc_get_order($postOrOrderObject->ID) : $postOrOrderObject;
+            $order = ($postOrOrderObject instanceof WP_Post) ? wc_get_order($postOrOrderObject->ID) : $postOrOrderObject;
 
             if (!$order || !$this->getLastPaymentInfo($order)) {
                 return;
@@ -201,11 +139,15 @@ class Order
                 return $gateway::ID === $paymentMethod || $gateway::WEBHOOK_API_NAME === $paymentMethod;
             });
 
-            if (!$isMpPaymentMethod) {
+            /*if (!$isMpPaymentMethod) {
                 return;
-            }
+            }*/
 
             $this->loadScripts($order);
+            $epayco_order = $this->getMetaboxData($order);
+            if(!$epayco_order){
+                return;
+            }
 
             $this->addMetaBox(
                 'ep_payment_status_sync',
@@ -214,264 +156,6 @@ class Order
                 $this->getMetaboxData($order)
             );
         });
-    }
-
-    /**
-     * Load the Status Sync Metabox script and style
-     *
-     * @param \WC_Order $order
-     */
-    private function loadScripts(\WC_Order $order): void
-    {
-        $this->scripts->registerStoreScript(
-            'ep_payment_status_sync',
-            $this->url->getPluginFileUrl('assets/js/admin/order/payment-status-sync', '.js'),
-            [
-                'order_id' => $order->get_id(),
-                'nonce' => $this->nonce->generateNonce(self::NONCE_ID),
-            ]
-        );
-
-        $this->scripts->registerStoreStyle(
-            'ep_payment_status_sync',
-            $this->url->getPluginFileUrl('assets/css/admin/order/payment-status-sync', '.css')
-        );
-    }
-
-    /**
-     * Get the data to be renreded on the Status Sync Metabox
-     *
-     * @param \WC_Order $order
-     *
-     * @return array
-     */
-    private function getMetaboxData(\WC_Order $order): array
-    {
-        $paymentInfo  = $this->getLastPaymentInfo($order);
-        $paymentInfo = json_decode(json_encode($paymentInfo), true);
-        //$paymentInfo = json_decode('{"success":true,"titleResponse":"Successful consult","textResponse":"successful consult","lastAction":"successful consult","data":{"pagination":{"totalCount":1,"limit":50,"page":1},"data":[{"referencePayco":101638598,"referenceClient":"32_test_1","transactionDate":"2024-10-19","description":"my coffe subscription","paymentMethod":"DP","amount":22000,"status":"Rechazada","test":true,"currency":"COP","transactionDateTime":"2024-10-19 16:45:18","iva":0,"bank":"DaviPlata","card":"DP","receipt":"10163859820241019112993","authorization":"000000","response":"C\u00f3digo de confirmaci\u00f3n incorrecto","trmdia":null,"docType":"CC","document":"8019","names":"Paola","lastnames":"Margarita","cicloPse":null}],"aggregations":{"status":[{"key":"Rechazada","doc_count":1}],"transactionType":{"produccion":{"doc_count":0},"pruebas":{"doc_count":1}},"transactionFranchises":{"American Express":{"doc_count":0},"Baloto":{"doc_count":0},"Bot\u00f3n Bancolombia":{"doc_count":0},"Codensa":{"doc_count":0},"Credibanco Bot\u00f3n":{"doc_count":0},"Cr\u00e9dito Credencial":{"doc_count":0},"Cr\u00e9dito Mastercard":{"doc_count":0},"Cr\u00e9dito Visa":{"doc_count":0},"C\u00f3digo QR":{"doc_count":0},"Daviplata":{"doc_count":1},"Daviplata App":{"doc_count":0},"Debito Mastercard":{"doc_count":0},"Debito Visa":{"doc_count":0},"Diners Club":{"doc_count":0},"D\u00e9bito Autom\u00e1tico Interbancario":{"doc_count":0},"Efecty":{"doc_count":0},"Epm":{"doc_count":0},"Gana":{"doc_count":0},"PSE":{"doc_count":0},"PayPal":{"doc_count":0},"Punto Red":{"doc_count":0},"Puntos Colombia":{"doc_count":0},"Puntos y Cr\u00e9dito Davivienda":{"doc_count":0},"Recarga Daviplata PSE":{"doc_count":0},"Red Servi":{"doc_count":0},"SafetyPay":{"doc_count":0},"Sin medio de Pago":{"doc_count":0},"Split Payment":{"doc_count":0},"Split Receiver Fee":{"doc_count":0},"Sured":{"doc_count":0},"Tarjeta Mef\u00eda":{"doc_count":0}},"transactionStatus":{"Abandonada":{"doc_count":0},"Aceptada":{"doc_count":0},"Antifraude":{"doc_count":0},"Cancelada":{"doc_count":0},"Expirada":{"doc_count":0},"Fallida":{"doc_count":0},"Iniciada":{"doc_count":0},"Pendiente":{"doc_count":0},"Rechazada":{"doc_count":1},"Retenida":{"doc_count":0},"Reversada":{"doc_count":0}}}}}', true);
-        $status = 'pending';
-        $alert_title = '';
-        foreach ($paymentInfo['data']['data'] as $data) {
-            $status = $data['status'];
-            $alert_title = $data['response'];
-            $ref_payco = $data['referencePayco'];
-            $test = $data['test'] ? 'Pruebas' : 'Producción';
-            $transactionDateTime= $data['transactionDateTime'];
-            $bank= $data['bank'];
-            $authorization= $data['authorization'];
-        }
-
-        $paymentStatusType = PaymentStatus::getStatusType(strtolower($status));
-
-        $cardContent = PaymentStatus::getCardDescription(
-            $this->adminTranslations->statusSync,
-            'by_collector',
-            false
-        );
-
-        switch ($paymentStatusType) {
-            case 'success':
-                return [
-                    'card_title'        => $this->adminTranslations->statusSync['card_title'],
-                    'img_src'           => $this->url->getPluginFileUrl('assets/images/icons/icon-success', '.png', true),
-                    'alert_title'       => $alert_title,
-                    'alert_description' => $alert_title,
-                    'link'              => 'https://epayco.com',
-                    'border_left_color' => '#00A650',
-                    'link_description'  => $this->adminTranslations->statusSync['link_description_success'],
-                    'sync_button_text'  => $this->adminTranslations->statusSync['sync_button_success'],
-                    'ref_payco'         => $ref_payco,
-                    'test'              => $test,
-                    'transactionDateTime'              => $transactionDateTime,
-                    'bank'              => $bank,
-                    'authorization'     => $authorization
-                ];
-
-            case 'pending':
-                return [
-                    'card_title'        => $this->adminTranslations->statusSync['card_title'],
-                    'img_src'           => $this->url->getPluginFileUrl('assets/images/icons/icon-alert', '.png', true),
-                    'alert_title'       => $alert_title,
-                    'alert_description' => $alert_title,
-                    'link'              => 'https://epayco.com',
-                    'border_left_color' => '#f73',
-                    'link_description'  => $this->adminTranslations->statusSync['link_description_pending'],
-                    'sync_button_text'  => $this->adminTranslations->statusSync['sync_button_pending'],
-                    'ref_payco'         => $ref_payco,
-                    'test'              => $test,
-                    'transactionDateTime'              => $transactionDateTime,
-                    'bank'              => $bank,
-                    'authorization'     => $authorization
-                ];
-
-            case 'rejected':
-            case 'refunded':
-            case 'charged_back':
-                return [
-                    'card_title'        => $this->adminTranslations->statusSync['card_title'],
-                    'img_src'           => $this->url->getPluginFileUrl('assets/images/icons/icon-warning', '.png', true),
-                    'alert_title'       => $alert_title,
-                    'alert_description' => $alert_title,
-                    'link'              => $this->adminTranslations->links['reasons_refusals'],
-                    'border_left_color' => '#F23D4F',
-                    'link_description'  => $this->adminTranslations->statusSync['link_description_failure'],
-                    'sync_button_text'  => $this->adminTranslations->statusSync['sync_button_failure'],
-                    'ref_payco'         => $ref_payco,
-                    'test'              => $test,
-                    'transactionDateTime'              => $transactionDateTime,
-                    'bank'              => $bank,
-                    'authorization'     => $authorization
-                ];
-
-            default:
-                return [];
-        }
-    }
-
-    /**
-     * Get the last order payment info
-     *
-     * @param \WC_Order $order
-     *
-     * @return bool|object
-     */
-    private function getLastPaymentInfo(\WC_Order $order)
-    {
-        try {
-            $paymentsIds   = explode(',', $this->orderMetadata->getPaymentsIdMeta($order));
-            $lastPaymentId = trim(end($paymentsIds));
-
-            if (!$lastPaymentId) {
-                return false;
-            }
-            $data = array(
-                "filter" => array("referencePayco" => $lastPaymentId),
-                "success" =>true
-            );
-            return $this->sdk->transaction->get($data);
-
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
-    /**
-     * Updates the order based on current payment status from API
-     *
-     */
-    public function paymentStatusSync(): void
-    {
-        try {
-            $this->nonce->validateNonce(self::NONCE_ID, Form::sanitizedPostData('nonce'));
-            $this->currentUser->validateUserNeededPermissions();
-
-            $orderId = Form::sanitizedPostData('order_id');
-            $order = wc_get_order($orderId);
-            $this->syncOrderStatus($order);
-
-            wp_send_json_success(
-                $this->adminTranslations->statusSync['response_success']
-            );
-        } catch (\Exception $e) {
-            $this->logs->file->error(
-                "ePayco gave error in payment status Sync: {$e->getMessage()}",
-                __CLASS__
-            );
-
-            wp_send_json_error(
-                $this->adminTranslations->statusSync['response_error'] . ' ' . $e->getMessage(),
-                500
-            );
-        }
-    }
-
-    /**
-     * Syncs the order in woocommerce to epayco
-     *
-     * @param \WC_Order $order
-     *
-     * @return void
-     */
-    public function syncOrderStatus(\WC_Order $order): void
-    {
-        $paymentData = $this->getLastPaymentInfo($order);
-        if (!$paymentData) {
-            throw new Exception('Couldn\'t find payment');
-        }
-
-        $this->orderStatus->processStatus($paymentData['status'], (array) $paymentData, $order, $this->orderMetadata->getUsedGatewayData($order));
-    }
-
-    /**
-     * Register action that sync orders with pending status with corresponding status in epayco
-     *
-     * @return void
-     */
-    public function registerSyncPendingStatusOrdersAction(): void
-    {
-        add_action('epayco_sync_pending_status_order_action', function () {
-            try {
-                $orders = wc_get_orders(array(
-                    'limit'    => -1,
-                    'status'   => 'pending',
-                    'meta_query' => array(
-                        array(
-                            'key' => 'is_production_mode',
-                            'compare' => 'EXISTS'
-                        ),
-                        array(
-                            'key' => 'blocks_payment',
-                            'compare' => 'EXISTS'
-                        )
-                    )
-                ));
-
-                foreach ($orders as $order) {
-                    $this->syncOrderStatus($order);
-                }
-
-
-            } catch (\Exception $ex) {
-                $error_message = "Unable to update batch of orders on action got error: {$ex->getMessage()}";
-
-                $this->logs->file->error(
-                    $error_message,
-                    __CLASS__
-                );
-
-            }
-        });
-    }
-
-    /**
-     * Register/Unregister cron job that sync pending orders
-     *
-     * @return void
-     */
-    public function toggleSyncPendingStatusOrdersCron(string $enabled): void
-    {
-        $action = 'epayco_sync_pending_status_order_action';
-
-        if ($enabled == 'yes') {
-            $this->cron->registerScheduledEvent('hourly', $action);
-        } else {
-            $this->cron->unregisterScheduledEvent($action);
-        }
-
-    }
-
-    /**
-     * Register meta box addition on order page
-     *
-     * @param mixed $callback
-     *
-     * @return void
-     */
-    public function registerMetaBox($callback): void
-    {
-        add_action('add_meta_boxes_shop_order', $callback);
-        add_action('add_meta_boxes_woocommerce_page_wc-orders', $callback);
     }
 
     /**
@@ -492,84 +176,412 @@ class Order
     }
 
     /**
-     * Register order details after order table
+     * Load the Status Sync Metabox script and style
      *
-     * @param mixed $callback
-     *
-     * @return void
+     * @param WC_Order $order
      */
-    public function registerOrderDetailsAfterOrderTable($callback): void
+    private function loadScripts(WC_Order $order): void
     {
-        add_action('woocommerce_order_details_after_order_table', $callback);
+        $this->scripts->registerStoreScript(
+            'mp_payment_status_sync',
+            $this->url->getJsAsset('admin/order/payment-status-sync'),
+            [
+                'order_id' => $order->get_id(),
+                'nonce' => self::generateNonce(self::NONCE_ID),
+            ]
+        );
+
+        $this->scripts->registerStoreStyle(
+            'mp_payment_status_sync',
+            $this->url->getCssAsset('admin/order/payment-status-sync')
+        );
     }
 
     /**
-     * Register email before order table
+     * Register meta box addition on order page
      *
      * @param mixed $callback
      *
      * @return void
      */
-    public function registerEmailBeforeOrderTable($callback): void
+    public function registerMetaBox($callback): void
     {
-        add_action('woocommerce_email_before_order_table', $callback);
+        add_action('add_meta_boxes_shop_order', $callback);
+        add_action('add_meta_boxes_woocommerce_page_wc-orders', $callback);
     }
 
     /**
-     * Register total line after WooCommerce order totals callback
+     * Get the data to be renreded on the Status Sync Metabox
      *
-     * @param mixed $callback
+     * @param WC_Order $order
      *
-     * @return void
+     * @return array|bool
      */
-    public function registerAdminOrderTotalsAfterTotal($callback): void
+    private function getMetaboxData(WC_Order $order)
     {
-        add_action('woocommerce_admin_order_totals_after_total', $callback);
+        $paymentInfo  = $this->getLastPaymentInfo($order);
+        if(!$paymentInfo->success){
+            return false;
+        }
+        $status = 'pending';
+        $alert_title = '';
+        $order_id=false;
+
+        $status = $paymentInfo->data->x_response;
+        $alert_title = $paymentInfo->data->x_response;
+        $alert_description = $paymentInfo->data->x_response_reason_text;
+        $ref_payco = $paymentInfo->data->x_ref_payco;
+        $test = $paymentInfo->data->x_test_request == 'TRUE' ? 'Pruebas' : 'Producción';
+        $transactionDateTime= $paymentInfo->data->x_transaction_date;
+        $bank= $paymentInfo->data->x_bank_name;
+        $authorization= $paymentInfo->data->x_approval_code;
+        $order_id = $paymentInfo->data->x_id_invoice;
+
+        if(!$order_id){
+            return false;
+        }
+        $order = new WC_Order($order_id);
+        $WooOrderstatus = $order->get_status();
+
+        switch ($status) {
+            case 'Aceptada':
+                $orderstatus = 'approved';
+                break;
+            case 'Pendiente':
+                $orderstatus = 'pending';
+                break;
+            default:
+                $orderstatus = 'rejected';
+                break;
+        }
+        $paymentStatusType = PaymentStatus::getStatusType(strtolower($orderstatus));
+        $upload_order=false;
+        if($WooOrderstatus == 'on-hold'||$WooOrderstatus == 'cancelled'){
+            $upload_order=true;
+        }
+
+        $cardContent = PaymentStatus::getCardDescription(
+            $this->adminTranslations->statusSync,
+            'by_collector',
+            false
+        );
+
+        switch ($paymentStatusType) {
+            case 'success':{
+                if($upload_order){
+                    if($WooOrderstatus !== 'processing'){
+                        $order->update_status("processing");
+                    }
+                }
+                return [
+                    'card_title'        => $this->adminTranslations->statusSync['card_title'],
+                    'img_src'           => $this->url->getImageAsset('icons/icon-success'),
+                    'alert_title'       => $alert_title,
+                    'alert_description' => $alert_description,
+                    'link'              => 'https://epayco.com',
+                    'border_left_color' => '#00A650',
+                    'link_description'  => $this->adminTranslations->statusSync['link_description_success'],
+                    'sync_button_text'  => $this->adminTranslations->statusSync['sync_button_success'],
+                    'ref_payco'         => $ref_payco,
+                    'test'              => $test,
+                    'transactionDateTime'              => $transactionDateTime,
+                    'bank'              => $bank,
+                    'authorization'     => $authorization
+                ];
+            }break;
+            case 'pending':
+                return [
+                    'card_title'        => $this->adminTranslations->statusSync['card_title'],
+                    'img_src'           => $this->url->getImageAsset('icons/icon-alert'),
+                    'alert_title'       => $alert_title,
+                    'alert_description' => $alert_description,
+                    'link'              => 'https://epayco.com',
+                    'border_left_color' => '#f73',
+                    'link_description'  => $this->adminTranslations->statusSync['link_description_pending'],
+                    'sync_button_text'  => $this->adminTranslations->statusSync['sync_button_pending'],
+                    'ref_payco'         => $ref_payco,
+                    'test'              => $test,
+                    'transactionDateTime'              => $transactionDateTime,
+                    'bank'              => $bank,
+                    'authorization'     => $authorization
+                ];
+                break;
+            case 'rejected':
+            case 'refunded':
+            case 'charged_back':{
+                if($upload_order){
+                    if($WooOrderstatus !== 'cancelled'){
+                        $order->update_status("cancelled");
+                    }
+                }
+
+                return [
+                    'card_title'        => $this->adminTranslations->statusSync['card_title'],
+                    'img_src'           => $this->url->getImageAsset('icons/icon-warning'),
+                    'alert_title'       => $alert_title,
+                    'alert_description' => $alert_description,
+                    'link'              => 'reasons_refusals',
+                    'border_left_color' => '#F23D4F',
+                    'link_description'  => $this->adminTranslations->statusSync['link_description_failure'],
+                    'sync_button_text'  => $this->adminTranslations->statusSync['sync_button_failure'],
+                    'ref_payco'         => $ref_payco,
+                    'test'              => $test,
+                    'transactionDateTime'              => $transactionDateTime,
+                    'bank'              => $bank,
+                    'authorization'     => $authorization
+                ];
+            }break;
+            default:
+                return [];
+        }
+    }
+
+    /**
+     * Get the last order payment info
+     *
+     * @param WC_Order $order
+     *
+     * @return bool|AbstractCollection|AbstractEntity|object
+     */
+    private function getLastPaymentInfo(WC_Order $order)
+    {
+        try {
+            $paymentsIds   = explode(',', $this->orderMetadata->getPaymentsIdMeta($order));
+            $lastPaymentId = trim(end($paymentsIds));
+
+            if (!$lastPaymentId) {
+                return false;
+            }
+            $data = array(
+                "filter" => array(
+                    "referencePayco" =>(string) $paymentsIds[0]),
+                    "pagination" => ["page"=>1],
+                    "success" =>true
+            );
+            return $this->sdk->transaction->get($paymentsIds[0]);
+            //return false;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**
      * Add order note
      *
-     * @param \WC_Order $order
+     * @param WC_Order $order
      * @param string $description
      * @param int $isCustomerNote
      * @param bool $addedByUser
      *
      * @return void
      */
-    public function addOrderNote(\WC_Order $order, string $description, int $isCustomerNote = 0, bool $addedByUser = false)
+    public function addOrderNote(WC_Order $order, string $description, int $isCustomerNote = 0, bool $addedByUser = false)
     {
         $order->add_order_note($description, $isCustomerNote, $addedByUser);
     }
 
     /**
-     * Set ticket metadata in the order
+     * Generate wp_nonce
      *
-     * @param \WC_Order $order
-     * @param $data
+     * @param string $id
      *
-     * @return void
+     * @return string
      */
-    public function setTicketMetadata(\WC_Order $order, $data): void
+    private static function generateNonce(string $id): string
     {
-        $externalResourceUrl = $data['urlPayment'];
-        $this->orderMetadata->setTicketTransactionDetailsData($order, $externalResourceUrl);
-        $order->save();
+        $nonce = wp_create_nonce($id);
+
+        if (!$nonce) {
+            return '';
+        }
+
+        return $nonce;
     }
 
     /**
-     * Set ticket metadata in the order
-     *
-     * @param \WC_Order $order
-     * @param $data
+     * Register action that sync orders with pending status with corresponding status in epayco
      *
      * @return void
      */
-    public function setDaviplataMetadata(\WC_Order $order, $data): void
+    public function registerSyncPendingStatusOrdersAction(): void
     {
-        $externalResourceUrl = $data['urlPayment'];
-        $this->orderMetadata->setDaviplataTransactionDetailsData($order, $externalResourceUrl);
-        $order->save();
+        add_action('epayco_sync_pending_status_order_action', function () {
+            try {
+                $orders = wc_get_orders(array(
+                    'limit'    => -1,
+                    'status'   => 'on-hold',
+                    'meta_query' => array(
+                        'key' => $this->orderMetadata::PAYMENTS_IDS
+                    )
+                ));
+                $ref_payco_list = [];
+                foreach ($orders as $order) {
+                    $ref_payco = $this->syncOrderStatus($order);
+                    if($ref_payco){
+                        $ref_payco_list[] = $ref_payco;
+                    }
+                }
+
+                if (is_array($ref_payco_list) && !empty($ref_payco_list))
+                {
+                    $token = $this->epyacoBerarToken();
+                    if($token){
+                        foreach ($ref_payco_list as $ref_payco) {
+                            $this->getEpaycoStatusOrder($ref_payco, $token);
+                        }
+                    }
+                }
+
+
+            } catch (\Exception $ex) {
+                $error_message = "Unable to update batch of orders on action got error: {$ex->getMessage()}";
+
+                if ( class_exists( 'WC_Logger' ) ) {
+                    $logger = new \WC_Logger();
+                    $logger->add( 'ePayco',$error_message);
+                }
+
+            }
+        });
     }
 
+    public function getEpaycoStatusOrder($ref_payco,$token)
+    {
+        if($token){
+            $headers = array(
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer ".$token['token']
+            );
+            $public_key = $this->seller->getCredentialsPublicKeyPayment();
+            $path = "transaction/response.json?ref_payco=".$ref_payco."&&public_key=".$public_key;
+            $epayco_status = $this->epayco_realizar_llamada_api($path,[],$headers,false, 'GET');
+            if($epayco_status['success']){
+                if (isset($epayco_status['data']) && is_array($epayco_status['data'])) {
+                    $this->epaycoUploadOrderStatus($epayco_status);
+                }
+            }
+
+        }
+    }
+
+    public function epaycoUploadOrderStatus($epayco_status)
+    {
+        $order_id = isset($epayco_status['data']['x_extra1']) ? $epayco_status['data']['x_extra1'] : null;
+        $x_cod_transaction_state = isset($epayco_status['data']['x_cod_transaction_state']) ? $epayco_status['data']['x_cod_transaction_state'] : null;
+        $x_ref_payco = isset($epayco_status['data']['x_ref_payco']) ? $epayco_status['data']['x_ref_payco'] : null;
+        if ($order_id) {
+            $order = wc_get_order($order_id);
+            if ($order) {
+                $orderStatus = $order->get_status();
+                switch ($x_cod_transaction_state) {
+                    case 1: {
+                        $order->payment_complete($x_ref_payco);
+                        $order->update_status('processing', 'La orden se ha completado automáticamente por la integración con ePayco.');
+                        $order->add_order_note('ePayco.');
+                    } break;
+                    case 3:
+                    case 7:
+                        {
+                            $orderStatus = "on-hold";
+                            if($orderStatus !== $orderStatus){
+                                $order->update_status($orderStatus,'La orden se ha completado automáticamente por la integración con ePayco.');
+                                $order->add_order_note('ePayco.');
+                            }
+                        } break;
+                    case 2:
+                    case 4:
+                    case 10:
+                    case 11:{
+                        if($orderStatus == 'pending' || $orderStatus == 'on-hold'){
+                            $order->update_status('cancelled','La orden se ha completado automáticamente por la integración con ePayco.');
+                            $order->add_order_note('ePayco.');
+                        }
+                    }break;
+                }
+
+            }
+        }
+    }
+
+    public function syncOrderStatus(\WC_Order $order): string
+    {
+        $paymentsIds   = explode(',', $order->get_meta($this->orderMetadata::PAYMENTS_IDS));
+        $lastPaymentId = trim(end($paymentsIds));
+        if ($lastPaymentId) {
+            return $lastPaymentId;
+        }else{
+            return false;
+        }
+    }
+
+    public function epyacoBerarToken()
+    {
+
+        $publicKey = $this->seller->getCredentialsPublicKeyPayment();
+        $privateKey = $this->seller->getCredentialsPrivateKeyPayment();
+
+        if(!isset($_COOKIE[$publicKey])) {
+            $token = base64_encode($publicKey.":".$privateKey);
+            $bearer_token = $token;
+            $cookie_value = $bearer_token;
+            setcookie($publicKey, $cookie_value, time() + (60 * 14), "/");
+        }else{
+            $bearer_token = $_COOKIE[$publicKey];
+        }
+
+        $headers = array(
+            'Content-Type' => 'application/json',
+            'Authorization' => "Basic ".$bearer_token
+        );
+        return $this->epayco_realizar_llamada_api("login",[],$headers);
+    }
+
+    public function epayco_realizar_llamada_api($path, $data, $headers, $afify = true, $method = 'POST') {
+        if($afify){
+            $url = 'https://apify.epayco.co/'.$path;
+        }else{
+            $url = 'https://secure.epayco.co/restpagos/'.$path;
+        }
+
+        $response = wp_remote_post($url, array(
+            'method'    => $method,
+            'headers' => $headers,
+            'data' => json_encode($data),
+            'timeout'   => 120,
+        ));
+
+        if (is_wp_error($response)) {
+            $error_message = $response->get_error_message();
+            error_log("Error al hacer la llamada a la API de ePayco: " . $error_message);
+            return false;
+        } else {
+            $response_body = wp_remote_retrieve_body($response);
+            $status_code = wp_remote_retrieve_response_code($response);
+
+            if ($status_code == 200) {
+                $data = json_decode($response_body, true);
+                return $data;
+            } else {
+                error_log("Error en la respuesta de la API de ePayco, código de estado: " . $status_code);
+                return false;
+            }
+        }
+    }
+
+    /**
+     * Register/Unregister cron job that sync pending orders
+     *
+     * @return void
+     */
+    public function toggleSyncPendingStatusOrdersCron(string $enabled): void
+    {
+        $action = 'epayco_sync_pending_status_order_action';
+
+        if ($enabled == 'yes') {
+            $this->cron->registerScheduledEvent('hourly', $action);
+        } else {
+            $this->cron->unregisterScheduledEvent($action);
+        }
+
+    }
 }

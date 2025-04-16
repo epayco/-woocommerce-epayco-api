@@ -19,14 +19,14 @@ if (!defined('ABSPATH')) {
 ?>
 
 <tr valign="top">
-    <th scope="row" class="titledesc mp-pb-0">
+    <th scope="row" class="titledesc ep-pb-0">
         <label for="<?= esc_attr($field_key); ?>">
             <?= esc_html($settings['title']); ?>
             <?php if (isset($settings['desc_tip'])) { ?>
                 <span class="woocommerce-help-tip" data-tip="<?= esc_html($settings['desc_tip']); ?>"></span>
             <?php } ?>
             <?php if ($settings['description']) { ?>
-                <p class="description mp-activable-input-subtitle"><?= wp_kses_post($settings['description']); ?></p>
+                <p class="description ep-activable-input-subtitle"><?= wp_kses_post($settings['description']); ?></p>
             <?php } ?>
         </label>
     </th>

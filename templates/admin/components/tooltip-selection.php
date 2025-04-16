@@ -21,8 +21,8 @@ if (empty($currentOption)) {
 
 <div class="credits-tooltip-selection-sample-container">
     <p><?= esc_html($settings['tooltip_component_example']) ?></p>
-    <div class="mp-tooltip-sample-image-container">
-        <img alt="Epayco Mini Logo" src="<?php echo esc_html(plugins_url('../../assets/images/products/credits/tooltip-logo.svg', plugin_dir_path(__FILE__))); ?>" />
+    <div class="ep-tooltip-sample-image-container">
+        <img alt="ePayco Mini Logo" src="<?php echo esc_html(plugins_url('../../assets/images/products/credits/tooltip-logo.svg', plugin_dir_path(__FILE__))); ?>" />
         <span id="selected-option"><?= esc_html($defaultOption) ?></span>
     </div>
 </div>

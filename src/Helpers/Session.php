@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-final class Session
+class Session
 {
     /**
      * Get session
@@ -35,7 +35,7 @@ final class Session
     public function setSession(string $key, $value): void
     {
         if ($this->isAvailable()) {
-            WC()->session->set($key, $value) ?? null;
+                WC()->session->set($key, $value) ?? null;
         }
     }
 

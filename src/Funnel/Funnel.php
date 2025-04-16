@@ -2,141 +2,116 @@
 
 namespace Epayco\Woocommerce\Funnel;
 
-use Epayco\Woocommerce\Configs\Seller;
-use Epayco\Woocommerce\Configs\Store;
+use Exception;
 use Epayco\Woocommerce\Helpers\Gateways;
-use Epayco\Woocommerce\Helpers\Country;
-
 class Funnel
 {
-
-
-    /**
-     * @var Store
-     */
-    private $store;
-
-    /**
-     * @var Seller
-     */
-    private $seller;
-
-    /**
-     * @var Country
-     */
-    private $country;
-
-    /**
-     * @var Gateways
-     */
-    private $gateways;
-
+    private Gateways $gateways;
 
     /**
      * Funnel constructor
      *
-     * @param Store $store
-     * @param Seller $seller
-     * @param Country $country
      * @param Gateways $gateways
      */
-    public function __construct(Store $store, Seller $seller, Country $country, Gateways $gateways)
+    public function __construct(Gateways $gateways)
     {
-        $this->store    = $store;
-        $this->seller   = $seller;
-        $this->country  = $country;
         $this->gateways = $gateways;
     }
 
-    public function getInstallationId(): void
+    /**
+     * Create seller funnel
+     */
+    public function create(?\Closure $after = null): void
     {
-        if ($this->validateStartFunnel()) {
-
+        if (!$this->canCreate()) {
+            return;
         }
     }
 
-    public function updateStepCredentials(): void
+    public function created(): bool
     {
-        if ($this->isInstallationId()) {
+        return true;
+    }
 
-        }
+    public function updateStepCredentials(?\Closure $after = null): void
+    {
+        $this->update([
+            'plugin_mode'                    => $this->getPluginMode(),
+
+        ], $after);
     }
 
     /**
-     * @param string $paymentMethod
-     *
      * @return void
      */
-    public function updateStepPaymentMethods(): void
+    public function updateStepPaymentMethods(?\Closure $after = null): void
     {
-        if ($this->isInstallationId()) {
+        $this->update(['accepted_payments' => $this->gateways->getEnabledPaymentGateways()], $after);
+    }
 
+
+    public function updateStepPluginMode(?\Closure $after = null): void
+    {
+        $this->update(['plugin_mode' => $this->getPluginMode()], $after);
+    }
+
+    public function updateStepUninstall(?\Closure $after = null): void
+    {
+        $this->update(['is_deleted' => true], $after);
+    }
+
+    public function updateStepDisable(?\Closure $after = null): void
+    {
+        $this->update(['is_disabled' => true], $after);
+    }
+
+    public function updateStepActivate(?\Closure $after = null): void
+    {
+        $this->update(['is_disabled' => false], $after);
+    }
+
+    public function updateStepPluginVersion(?\Closure $after = null): void
+    {
+        $this->update(['plugin_version' => EP_VERSION], $after);
+    }
+
+    /**
+     * Update seller funnel using the given attributes
+     *
+     * @param array $attrs Funnel attribute values map
+     * @param \Closure $after Function to run after funnel updated, inside treatment
+     */
+    private function update(array $attrs, ?\Closure $after = null): void
+    {
+        if (!$this->created()) {
+            return;
         }
+
     }
 
-    public function updateStepPluginMode(): void
+    private function canCreate(): bool
     {
-        if ($this->isInstallationId()) {
-
-        }
-    }
-
-    public function updateStepUninstall(): void
-    {
-        if ($this->isInstallationId()) {
-
-        }
-    }
-
-    public function updateStepDisable(): void
-    {
-        if ($this->isInstallationId()) {
-        }
-    }
-
-    public function updateStepActivate(): void
-    {
-        if ($this->isInstallationId()) {
-            $this->runWithTreatment(function () {
-                $this->store->setExecuteActivate('no');
-            });
-        }
-    }
-
-    public function isInstallationId(): bool
-    {
-        return !empty($this->store->getInstallationId())
-        && !empty($this->store->getInstallationKey());
-    }
-
-    private function validateStartFunnel(): bool
-    {
-        return empty($this->seller->getCredentialsAccessTokenProd()) &&
-            !$this->isInstallationId() &&
-            empty($this->gateways->getEnabledPaymentGateways());
+        return !$this->created() && empty($this->gateways->getEnabledPaymentGateways());
     }
 
     private function getPluginMode(): string
     {
-        return $this->store->isProductionMode() ? 'Prod' : 'Test';
+        return  'Test';
     }
 
     private function getWoocommerceVersion(): string
     {
-        return $GLOBALS['woocommerce']->version ? $GLOBALS['woocommerce']->version : "";
+        return $GLOBALS['woocommerce']->version ?? "";
     }
 
-    private function runWithTreatment($callback)
+
+    private function runWithTreatment(\Closure $callback): void
     {
         try {
             $callback();
 
-        } catch (\Exception $ex) {
-
+        } catch (Exception $ex) {
+            $GLOBALS['epayco']->logs->file->error(sprintf("Error on %s\n%s", __METHOD__, $ex), __CLASS__);
         }
     }
-
-
-
-
 }

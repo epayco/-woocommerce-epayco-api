@@ -2,9 +2,11 @@
 
 namespace Epayco\Woocommerce\Gateways;
 
+use Exception;
 use Epayco\Woocommerce\Exceptions\InvalidCheckoutDataException;
 use Epayco\Woocommerce\Helpers\Form;
 use Epayco\Woocommerce\Transactions\TicketTransaction;
+use WP_User;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -27,7 +29,12 @@ class TicketGateway extends AbstractGateway
     /**
      * @const
      */
-    public const WEBHOOK_API_NAME = 'WC_Epayco_Ticket_Gateway';
+    public const WEBHOOK_API_NAME = 'WC_WooEpayco_Ticket_Gateway';
+
+    /**
+     * @const
+     */
+    public const WEBHOOK_DONWLOAD = 'Donwload';
 
     /**
      * @const
@@ -54,11 +61,48 @@ class TicketGateway extends AbstractGateway
         [
             "id" =>"SR",
             "name" =>"sured"
-        ]
+        ],
+        [
+            'id' => 'SR',
+            'name' => 'Punto red',
+        ],
+        [
+            'id' => 'SR',
+            'name' => 'Red de servicios',
+        ],
+        [
+            'id' => 'SR',
+            'name' => 'Apuestas cucuta',
+        ],
+        [
+            'id' => 'SR',
+            'name' => 'Suchance'
+        ],
+        [
+            'id' => 'SR',
+            'name' => 'Laperla'
+        ],
+        [
+            'id' => 'SR',
+            'name' => 'jer'
+        ],
+        [
+            'id' => 'SR',
+            'name' => 'pagatodo'
+        ],
+        [
+            'id' => 'SR',
+            'name' => 'acertemos'
+        ],
+        [
+            'id' => 'SR',
+            'name'  => 'ganagana',
+        ],
     ];
 
     /**
      * TicketGateway constructor
+     * @throws Exception
      */
     public function __construct()
     {
@@ -68,9 +112,11 @@ class TicketGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->ticketCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = $this->getCheckoutIcon();
-        $this->iconAdmin = $this->getCheckoutIcon(true);
-        $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
+        //$this->icon      = $this->getCheckoutIcon();
+        //$this->iconAdmin = $this->getCheckoutIcon(true);
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-ticket.png');
+        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('ticket-botton.png');
+        $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, 'efecty');
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
@@ -83,10 +129,10 @@ class TicketGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerGatewayTitle($this);
         $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
 
+        $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
-        $this->epayco->hooks->cart->registerCartCalculateFees([$this, 'registerDiscountAndCommissionFeesOnCart']);
+        //$this->epayco->hooks->cart->registerCartCalculateFees([$this, 'registerDiscountAndCommissionFeesOnCart']);
 
-        $this->epayco->helpers->currency->handleCurrencyNotices($this);
     }
 
     /**
@@ -114,12 +160,26 @@ class TicketGateway extends AbstractGateway
 
         $this->form_fields = array_merge($this->form_fields, [
             'config_header' => [
-                'type'        => 'ep_config_title',
+                'type'        => 'mp_config_title',
                 'title'       => $this->adminTranslations['header_title'],
                 'description' => $this->adminTranslations['header_description'],
             ],
+            'card_homolog_validate' => $this->getHomologValidateNoticeOrHidden(),
+            'card_settings'  => [
+                'type'  => 'mp_card_info',
+                'value' => [
+                    'title'       => $this->adminTranslations['card_settings_title'],
+                    'subtitle'    => $this->adminTranslations['card_settings_subtitle'],
+                    'button_text' => $this->adminTranslations['card_settings_button_text'],
+                    'button_url'  => admin_url('admin.php?page=epayco-settings'),
+                    'icon'        =>  $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
+                    'color_card'  => '',
+                    'size_card'   => 'ep-card-body-size',
+                    'target'      => '_self',
+                ],
+            ],
             'enabled' => [
-                'type'         => 'ep_toggle_switch',
+                'type'         => 'mp_toggle_switch',
                 'title'        => $this->adminTranslations['enabled_title'],
                 'subtitle'     => $this->adminTranslations['enabled_subtitle'],
                 'default'      => 'no',
@@ -137,12 +197,12 @@ class TicketGateway extends AbstractGateway
                 'class'       => 'limit-title-max-length',
             ],
             'type_payments'   => $this->generateExPaymentsFields(),
-            'date_expiration' => [
+            /*'date_expiration' => [
                 'title'       => $this->adminTranslations['date_expiration_title'],
                 'type'        => 'number',
                 'description' => $this->adminTranslations['date_expiration_description'],
                 'default'     => EP_TICKET_DATE_EXPIRATION,
-            ],
+            ],*/
         ]);
     }
 
@@ -172,10 +232,20 @@ class TicketGateway extends AbstractGateway
         parent::registerCheckoutScripts();
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_ticket_page',
+            $this->epayco->helpers->url->getJsAsset('checkouts/ticket/ep-ticket-page')
+        );
+
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_ticket_elements',
+            $this->epayco->helpers->url->getJsAsset('checkouts/ticket/ep-ticket-elements')
+        );
+
+        $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_ticket_checkout',
-            $this->epayco->helpers->url->getPluginFileUrl('assets/js/checkouts/ticket/ep-ticket-checkout', '.js'),
+            $this->epayco->helpers->url->getJsAsset('checkouts/ticket/ep-ticket-checkout'),
             [
-                'site_id' => $this->countryConfigs['site_id'],
+                'site_id' => '',
             ]
         );
     }
@@ -188,7 +258,7 @@ class TicketGateway extends AbstractGateway
     public function payment_fields(): void
     {
         $this->epayco->hooks->template->getWoocommerceTemplate(
-            'public/checkouts/ticket-checkout.php',
+            'public/checkout/ticket-checkout.php',
             $this->getPaymentFieldsParams()
         );
     }
@@ -197,9 +267,16 @@ class TicketGateway extends AbstractGateway
      * Get Payment Fields params
      *
      * @return array
+     *
+     * @codeCoverageIgnore
      */
     public function getPaymentFieldsParams(): array
     {
+        if (strpos($this->storeTranslations['input_country_helper'], "Ciudad") !== false) {
+            $city = "Ciudad";
+        } else {
+            $city = "City";
+        }
         return [
             'test_mode'                        => $this->epayco->storeConfig->isTestMode(),
             'test_mode_title'                  => $this->storeTranslations['test_mode_title'],
@@ -226,8 +303,15 @@ class TicketGateway extends AbstractGateway
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
-            'terms_and_conditions_link_src'    => $this->links['epayco_terms_and_conditions'],
-            'site_id'                          => $this->epayco->sellerConfig->getSiteId(),
+            'and_the'   => $this->storeTranslations['and_the'],
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
+            'personal_data_processing_link_text'    => $this->storeTranslations['personal_data_processing_link_text'],
+            'personal_data_processing_link_src'    => 'https://epayco.com/tratamiento-de-datos/',
+            'site_id'                          => '',
+            'city'                          => $city,
+            'customer_title'              => $this->storeTranslations['customer_title'],
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];
     }
 
@@ -256,17 +340,23 @@ class TicketGateway extends AbstractGateway
                 $confirm_url = $redirect_url.'&confirmation=1';
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
-                $checkout['date_expiration'] = $this->settings['date_expiration'];
+                //$checkout['date_expiration'] = $this->settings['date_expiration'];
+                $checkout["date_expiration"] = '9';
                 $payment_method_id= $checkout["payment_method_id"]??$checkout[""]["payment_method_id"];
                 $key = array_search( $payment_method_id, array_column(self::CASH_ENTITIES, 'name'));
                 $checkout['paymentMethod'] = self::CASH_ENTITIES[$key]['id'];
                 $this->transaction = new TicketTransaction($this, $order, $checkout);
                 $response          = $this->transaction->createCashPayment($order, $checkout);
-
                 if (is_array($response) && $response['success']) {
-                    //$this->handleWithRejectPayment($response);
-                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$response['data']['refPayco']]);
-                    if (isset($response['data']['token'])) {
+                    $epaycoOrder = [
+                      'refPayco'  => $response['data']['refPayco'],
+                      'pin'  => $response['data']['pin'],
+                      'codeProject'  => $response['data']['codeProject'],
+                      'expirationDate' => $response['data']['expirationDate']
+                    ];
+                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,$epaycoOrder);
+
+                    /*if (isset($response['data']['token'])) {
                         $response['urlPayment'] = 'https://vtex.epayco.io/es/pin?token='.$response['data']['token'];
                         $this->epayco->hooks->order->setTicketMetadata($order, $response);
                         $description = sprintf(
@@ -276,7 +366,7 @@ class TicketGateway extends AbstractGateway
                             $this->storeTranslations['congrats_subtitle']
                         );
                         $this->epayco->hooks->order->addOrderNote($order, $description, 1);
-                    }
+                    }*/
 
 
                     if (in_array(strtolower($response['data']['status']),["pendiente","pending"])) {
@@ -317,8 +407,9 @@ class TicketGateway extends AbstractGateway
                     return $this->returnFail($processReturnFailMessage, $order);
                 }
 
+            }else{
+                throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
             }
-            throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
         } catch (\Exception $e) {
             return $this->processReturnFail(
                 $e,
@@ -364,61 +455,91 @@ class TicketGateway extends AbstractGateway
             [
                 'id' => 'efecty',
                 'name'              => 'Efecty',
-                'thumbnail'         => 'https://secure.epayco.co/img/efecty.png'
+                'status'            => 'active',
+                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/Efecty.png'
             ],
             [
                 'id' => 'gana',
                 'name'              => 'Gana',
-                'thumbnail'         => 'https://secure.epayco.co/img/gana_no_red.png'
+                'status'            => 'active',
+                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/gana.png'
             ],
             [
                 'id' => 'puntored',
                 'name'              => 'Puntored',
-                'thumbnail'         => 'https://secure.epayco.co/img/puntored.jpg'
+                'status'            => 'active',
+                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/Punto%20red.png'
             ],
             [
                 'id' => 'redservi',
                 'name'              => 'Redservi',
-                'thumbnail'         => 'https://secure.epayco.co/img/redservi.jpg'
+                'status'            => 'active',
+                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/Red%20servi.png'
             ],
             [
                 'id' => 'sured',
                 'name'              => 'Sured',
-                'thumbnail'         => 'https://secure.epayco.co/img/sured.jpg'
+                'status'            => 'active',
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Sured.png')
             ],
             /*[
-                'id' => 'pagatodo',
-                'name'              => 'Pagatodo',
-                'thumbnail'         => 'https://secure.epayco.co/img/pagatodo.jpg'
+                'id' => 'sured',
+                'name'              => 'Punto red',
+                'status'            => 'active',
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Puntored.png')
             ],
             [
-                'id' => 'acertemos',
-                'name'              => 'Acertemos',
-                'thumbnail'         => 'https://secure.epayco.co/img/acertemos.jpg'
+                'id' => 'sured',
+                'name'              => 'Red de servicios',
+                'status'            => 'active',
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Reddeservicios.png')
             ],
             [
-                'id' => 'ganagana',
-                'name'              => 'Ganagana',
-                'thumbnail'         => 'https://secure.epayco.co/img/ganagana.jpg'
-            ],
+                'id' => 'sured',
+                'name'              => 'Apuestas cucuta',
+                'status'            => 'active',
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Apuestascucuta.png')
+            ],*/
             [
                 'id' => 'suchance',
                 'name'              => 'Suchance',
-                'thumbnail'         => 'https://secure.epayco.co/img/suchance.jpg'
-            ],
-            [
-                'id' => 'jer',
-                'name'              => 'Jer',
-                'thumbnail'         => 'https://secure.epayco.co/img/jer.jpg'
+                'status'            => 'active',
+                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/SuChance.png'
             ],
             [
                 'id' => 'laperla',
                 'name'              => 'Laperla',
-                'thumbnail'         => 'https://secure.epayco.co/img/laperla.jpg'
-            ]*/
+                'status'            => 'active',
+                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/La%20perla.png'
+            ],
+            [
+                'id' => 'jer',
+                'name'              => 'Jer',
+                'status'            => 'active',
+                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/Jer.png'
+            ],
+            [
+                'id' => 'pagatodo',
+                'name'              => 'Pagatodo',
+                'status'            => 'active',
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Pagatodo.png')
+            ],
+            [
+                'id' => 'acertemos',
+                'name'              => 'Acertemos',
+                'status'            => 'active',
+                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/Acertemos.png'
+            ],
+            [
+                'id' => 'ganagana',
+                'name'              => 'Ganagana',
+                'status'            => 'active',
+                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/Ganagana.png'
+            ],
         ];
+
         $payment_list = [
-            'type'                 => 'ep_checkbox_list',
+            'type'                 => 'mp_checkbox_list',
             'title'                => $this->adminTranslations['type_payments_title'],
             'description'          => $this->adminTranslations['type_payments_description'],
             'desc_tip'             => $this->adminTranslations['type_payments_desctip'],
@@ -446,15 +567,15 @@ class TicketGateway extends AbstractGateway
 
 
     /**
-     * Get Sdk Icon
+     * Get Epayco Icon
+     *
+     * @param bool $adminVersion
      *
      * @return string
      */
     private function getCheckoutIcon(bool $adminVersion = false): string
     {
-        $siteId   = strtoupper($this->epayco->sellerConfig->getSiteId());
-        $iconName = ($siteId === 'MLB') ? 'icon-ticket-mlb' : 'icon-ticket';
-
+        $iconName = 'icon-ticket.png';
         return $this->epayco->hooks->gateway->getGatewayIcon($iconName . ($adminVersion ? '-admin' : ''));
     }
 
@@ -470,70 +591,86 @@ class TicketGateway extends AbstractGateway
                 'id' => 'efecty',
                 'name'              => 'Efecty',
                 'status'            => 'active',
-                'thumbnail'         => 'https://secure.epayco.co/img/efecty.png'
+                'thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Efecty.png')
             ],
             [
                 'id' => 'gana',
                 'name'              => 'Gana',
                 'status'            => 'active',
-                'thumbnail'         => 'https://secure.epayco.co/img/gana_no_red.png'
+                'thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('gana.png')
             ],
             [
                 'id' => 'puntored',
                 'name'              => 'Puntored',
                 'status'            => 'active',
-                'thumbnail'         => 'https://secure.epayco.co/img/puntored.jpg'
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Puntored.png')
             ],
             [
                 'id' => 'redservi',
                 'name'              => 'Redservi',
                 'status'            => 'active',
-                'thumbnail'         => 'https://secure.epayco.co/img/redservi.jpg'
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Redservi.png')
             ],
             [
                 'id' => 'sured',
                 'name'              => 'Sured',
                 'status'            => 'active',
-                'thumbnail'         => 'https://secure.epayco.co/img/sured.jpg'
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Sured.png')
             ],
-            /*
-            [
-                'id' => 'pagatodo',
-                'name'              => 'Pagatodo',
+            /*[
+                'id' => 'sured',
+                'name'              => 'Punto red',
                 'status'            => 'active',
-                'thumbnail'         => 'https://secure.epayco.co/img/pagatodo.jpg'
-            ],
-            [
-                'id' => 'acertemos',
-                'name'              => 'Acertemos',
-                'status'            => 'active',
-                'thumbnail'         => 'https://secure.epayco.co/img/acertemos.jpg'
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Puntored.png')
             ],
             [
-                'id' => 'ganagana',
-                'name'              => 'Ganagana',
+                'id' => 'sured',
+                'name'              => 'Red de servicios',
                 'status'            => 'active',
-                'thumbnail'         => 'https://secure.epayco.co/img/ganagana.jpg'
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Reddeservicios.png')
             ],
+            [
+                'id' => 'sured',
+                'name'              => 'Apuestas cucuta',
+                'status'            => 'active',
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Apuestascucuta.png')
+            ],*/
             [
                 'id' => 'suchance',
                 'name'              => 'Suchance',
                 'status'            => 'active',
-                'thumbnail'         => 'https://secure.epayco.co/img/suchance.jpg'
-            ],
-            [
-                'id' => 'jer',
-                'name'              => 'Jer',
-                'status'            => 'active',
-                'thumbnail'         => 'https://secure.epayco.co/img/jer.jpg'
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('SuChance.png')
             ],
             [
                 'id' => 'laperla',
                 'name'              => 'Laperla',
                 'status'            => 'active',
-                'thumbnail'         => 'https://secure.epayco.co/img/laperla.jpg'
-            ]
-            */
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Laperla.png')
+            ],
+            [
+                'id' => 'jer',
+                'name'              => 'Jer',
+                'status'            => 'active',
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Jer.png')
+            ],
+            [
+                'id' => 'pagatodo',
+                'name'              => 'Pagatodo',
+                'status'            => 'active',
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Pagatodo.png')
+            ],
+            [
+                'id' => 'acertemos',
+                'name'              => 'Acertemos',
+                'status'            => 'active',
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Acertemos.png')
+            ],
+            [
+                'id' => 'ganagana',
+                'name'              => 'Ganagana',
+                'status'            => 'active',
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Ganagana.png')
+            ],
         ];
 
         if (!empty($ticketPaymentMethods)) {
@@ -563,18 +700,57 @@ class TicketGateway extends AbstractGateway
     public function renderThankYouPage($order_id): void
     {
         $order        = wc_get_order($order_id);
-        $transactionDetails  =  $this->epayco->orderMetadata->getTicketTransactionDetailsMeta($order);
-
+       // $transactionDetails  =  $this->epayco->orderMetadata->getTicketTransactionDetailsMeta($order);
+        $transactionDetails  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
         if (empty($transactionDetails)) {
             return;
         }
 
-        $this->epayco->hooks->template->getWoocommerceTemplate(
+        /*$this->epayco->hooks->template->getWoocommerceTemplate(
             'public/order/ticket-order-received.php',
             [
                 'print_ticket_label'  => '',
                 'transaction_details' => $transactionDetails,
             ]
+        );*/
+
+        $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
+        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+
+        if (empty($paymentInfo)) {
+            return;
+        }
+
+        $paymentsIdArray = explode(', ', $paymentInfo);
+
+        $data = array(
+            "filter" => array("referencePayco" => $paymentsIdArray[0]),
+            "success" =>true
+        );
+        $this->transaction = new TicketTransaction($this, $order, []);
+        $transactionDetails = $this->transaction->sdk->transaction->get($paymentsIdArray[0]);
+       // $sdk = $this->sdk->transaction->get($data);
+        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+
+        if (empty($transactionInfo)) {
+            return;
+        }
+
+        $transaction = $this->transaction->returnParameterToThankyouPage($transactionInfo, $this);
+
+        if (empty($transaction)) {
+            return;
+        }
+        $transaction['pin'] = $paymentsIdArray[1];
+        $transaction['codeProject'] = $paymentsIdArray[2];
+        $transaction['ticket_header'] = $this->storeTranslations['ticket_header'];
+        $transaction['ticket_footer'] = $this->storeTranslations['ticket_footer'];
+        $transaction['expirationDate'] = $paymentsIdArray[3];
+        $transaction['expirationDateText'] = $this->storeTranslations['expirationDate'];
+
+        $this->epayco->hooks->template->getWoocommerceTemplate(
+            'public/order/order-received.php',
+            $transaction
         );
     }
 }

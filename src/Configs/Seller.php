@@ -2,9 +2,9 @@
 
 namespace Epayco\Woocommerce\Configs;
 
+use Exception;
 use Epayco\Woocommerce\Helpers\Cache;
 use Epayco\Woocommerce\Hooks\Options;
-
 
 if (!defined('ABSPATH')) {
     exit;
@@ -12,192 +12,45 @@ if (!defined('ABSPATH')) {
 
 class Seller
 {
-    /**
-     * @const
-     */
-    private const SITE_ID = '_site_id_v1';
 
-    /**
-     * @const
-     */
-    private const CLIENT_ID = '_ep_client_id';
-
-    /**
-     * @const
-     */
-    private const COLLECTOR_ID = '_collector_id_v1';
-
-    /**
-     * @const
-     */
-    private const CREDENTIALS_PUBLIC_KEY_PROD = '_ep_public_key_prod';
-
-    /**
-     * @const
-     */
-    private const CREDENTIALS_PUBLIC_KEY_TEST = '_ep_public_key_test';
-
-    /**
-     * @const
-     */
-    private const CREDENTIALS_ACCESS_TOKEN_PROD = '_ep_access_token_prod';
-
-    /**
-     * @const
-     */
     private const CREDENTIALS_P_CUST_ID = '_ep_p_cust_id';
 
-    /**
-     * @const
-     */
     private const CREDENTIALS_PUBLIC_KEY = '_ep_publicKey';
 
-    /**
-     * @const
-     */
     private const CREDENTIALS_PRIVATE_KEY = '_ep_private_key';
 
-    /**
-     * @const
-     */
     private const CREDENTIALS_P_KEY = '_ep_p_key';
 
-    /**
-     * @const
-     */
-    private const CREDENTIALS_ACCESS_TOKEN_TEST = '_ep_access_token_test';
+    private const CHECKBOX_CHECKOUT_TEST_MODE = 'checkbox_checkout_test_mode';
 
-    /**
-     * @const
-     */
     private const HOMOLOG_VALIDATE = 'homolog_validate';
-
-    /**
-     * @const
-     */
-    private const CHECKOUT_BASIC_PAYMENT_METHODS = '_checkout_payments_methods';
-
-    /**
-     * @const
-     */
-    private const CHECKOUT_TICKET_PAYMENT_METHODS = '_all_payment_methods_ticket';
-
-    /**
-     * @const
-     */
-    private const CHECKOUT_PSE_PAYMENT_METHODS = '_payment_methods_pse';
-
-    /**
-     * @const
-     */
-    private const SITE_ID_PAYMENT_METHODS = '_site_id_payment_methods';
-
-
-    /**
-     * @const
-     */
     private const TEST_USER = '_test_user_v1';
 
-    /**
-     * @const
-     */
-    private const AUTO_UPDATE_PLUGINS = 'auto_update_plugins';
-
-    /**
-     * @const
-     */
-    private const EP_APIFY = 'https://apify.epayco.co';
-    //private const EP_APIFY  = "https://apify.epayco.io";
-
-    /**
-     * @var Cache
-     */
-    private $cache;
-
-    /**
-     * @var Options
-     */
-    private $options;
-
-
-    /**
-     * @var Store
-     */
-    private $store;
-
-
+    private const EP_APIFY  = "https://apify.epayco.co";
+    private Cache $cache;
+    private Options $options;
 
     /**
      * Credentials constructor
      *
      * @param Cache $cache
      * @param Options $options
-     * @param Store $store
      */
-    public function __construct(Cache $cache, Options $options, Store $store)
+    public function __construct(Cache $cache, Options $options)
     {
         $this->cache     = $cache;
         $this->options   = $options;
-        $this->store     = $store;
     }
 
     /**
-     * @return string
+     * @param string $publicKey
+     * @param string $type
+     *
+     * @return array
      */
-    public function getSiteId(): string
+    public function validateEpaycoCredentials(string $publicKey, string $private_key): array
     {
-        return strtoupper($this->options->get(self::SITE_ID, ''));
-    }
-
-    /**
-     * @param string $siteId
-     */
-    public function setSiteId(string $siteId): void
-    {
-        $this->options->set(self::SITE_ID, $siteId);
-    }
-
-    /**
-     * @return string
-     */
-    public function getClientId(): string
-    {
-        return $this->options->get(self::CLIENT_ID, '');
-    }
-
-    /**
-     * @param string $clientId
-     */
-    public function setClientId(string $clientId): void
-    {
-        $this->options->set(self::CLIENT_ID, $clientId);
-    }
-
-    /**
-     * @return string
-     */
-    public function getCollectorId(): string
-    {
-        return $this->options->get(self::COLLECTOR_ID, '');
-    }
-
-    /**
-     * @param string $collectorId
-     */
-    public function setCollectorId(string $collectorId): void
-    {
-        $this->options->set(self::COLLECTOR_ID, $collectorId);
-    }
-
-
-
-
-    /**
-     * @return string
-     */
-    public function getCredentialsPCustId(): string
-    {
-        return $this->options->get(self::CREDENTIALS_P_CUST_ID, '');
+        return $this->validateCredentialsPayment( $publicKey, $private_key, true);
     }
 
     /**
@@ -211,17 +64,9 @@ class Seller
     /**
      * @return string
      */
-    public function getCredentialsPkey(): string
+    public function getCredentialsPCustId(): string
     {
-        return $this->options->get(self::CREDENTIALS_P_KEY, '');
-    }
-
-    /**
-     * @param string $credentialsPKey
-     */
-    public function setCredentialsPkey(string $credentialsPKey): void
-    {
-        $this->options->set(self::CREDENTIALS_P_KEY, $credentialsPKey);
+        return $this->options->get(self::CREDENTIALS_P_CUST_ID, '');
     }
 
     /**
@@ -241,11 +86,14 @@ class Seller
     }
 
     /**
-     * @return string
+     * @param string $key
+     * @param string $type
+     *
+     * @return array
      */
-    public function getCredentialsPrivateKeyPayment(): string
+    public function validatePublicKeyPayment(string $type, string $key): array
     {
-        return $this->options->get(self::CREDENTIALS_PRIVATE_KEY, '');
+        return $this->validateCredentialsPayment( $type, $key);
     }
 
     /**
@@ -256,41 +104,54 @@ class Seller
         $this->options->set(self::CREDENTIALS_PRIVATE_KEY, $credentialsPrivateKey);
     }
 
+    /**
+     * @return string
+     */
+    public function getCredentialsPrivateKeyPayment(): string
+    {
+        return $this->options->get(self::CREDENTIALS_PRIVATE_KEY, '');
+    }
 
+    /**
+     * @param string $credentialsPKey
+     */
+    public function setCredentialsPkey(string $credentialsPKey): void
+    {
+        $this->options->set(self::CREDENTIALS_P_KEY, $credentialsPKey);
+    }
 
+    /**
+     * @return string
+     */
+    public function getCredentialsPkey(): string
+    {
+        return $this->options->get(self::CREDENTIALS_P_KEY, '');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTestMode(): bool
+    {
+        return $this->getCheckboxCheckoutTestMode() === 'yes';
+    }
 
 
 
     /**
      * @return string
      */
-    public function getCredentialsAccessTokenProd(): string
+    public function getCheckboxCheckoutTestMode(): string
     {
-        return $this->options->get(self::CREDENTIALS_ACCESS_TOKEN_PROD, '');
+        return $this->options->get(self::CHECKBOX_CHECKOUT_TEST_MODE, 'yes');
     }
 
     /**
-     * @param string $credentialsAccessTokenProd
+     * @param string $checkboxCheckoutTestMode
      */
-    public function setCredentialsAccessTokenProd(string $credentialsAccessTokenProd): void
+    public function setCheckboxCheckoutTestMode(string $checkboxCheckoutTestMode): void
     {
-        $this->options->set(self::CREDENTIALS_ACCESS_TOKEN_PROD, $credentialsAccessTokenProd);
-    }
-
-    /**
-     * @return string
-     */
-    public function getCredentialsAccessTokenTest(): string
-    {
-        return $this->options->get(self::CREDENTIALS_ACCESS_TOKEN_TEST, '');
-    }
-
-    /**
-     * @param string $credentialsAccessTokenTest
-     */
-    public function setCredentialsAccessTokenTest(string $credentialsAccessTokenTest): void
-    {
-        $this->options->set(self::CREDENTIALS_ACCESS_TOKEN_TEST, $credentialsAccessTokenTest);
+        $this->options->set(self::CHECKBOX_CHECKOUT_TEST_MODE, $checkboxCheckoutTestMode);
     }
 
     /**
@@ -333,27 +194,6 @@ class Seller
         return $this->getTestUser();
     }
 
-    /**
-     * @param string $key
-     * @param string $type
-     *
-     * @return array
-     */
-    public function validatePublicKeyPayment(string $type, string $key): array
-    {
-        return $this->validateCredentialsPayment( $type, $key);
-    }
-
-    /**
-     * @param string $publicKey
-     * @param string $type
-     *
-     * @return array
-     */
-    public function validateEpaycoCredentials(string $publicKey, string $private_key): array
-    {
-        return $this->validateCredentialsPayment( $publicKey, $private_key, true);
-    }
 
     /**
      * Validate credentials
@@ -366,8 +206,10 @@ class Seller
     private function validateCredentialsPayment( string $type = null, string $keys = null, bool $validate = false): array
     {
         try {
+            $publicKey = trim($type);
+            $private_key = trim($keys);
             if(!$validate){
-                $key   = sprintf('%s%s',$type, $keys);
+                $key   = sprintf('%s%s',$publicKey, $private_key);
                 $cache = $this->cache->getCache($key);
                 if ($cache) {
                     return $cache;
@@ -384,12 +226,12 @@ class Seller
                 ];
                 $headers = [];
                 $uri     = '/login';
-                $accessToken = base64_encode($type.":".$keys);
+                $accessToken = base64_encode($publicKey.":".$private_key);
                 $headers[] = 'Authorization: Basic ' . $accessToken;
                 $headers[] = 'Content-Type: application/json ';
                 $body = array(
-                    'public_key' => $type,
-                    'private_key' => $keys,
+                    'public_key' => $publicKey,
+                    'private_key' => $private_key,
                 );
                 $response           = $this->my_woocommerce_post_request($uri, $headers, $body);
                 if(isset($response) && $response['token']){
@@ -398,14 +240,11 @@ class Seller
                         'status' => true,
                     ];
                 }
-
             }
-
-
             return $serializedResponse;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [
-                'data'   => null,
+                'data'   => $e->getMessage(),
                 'status' => 500,
             ];
         }
@@ -443,19 +282,4 @@ class Seller
     }
 
 
-
-    /**
-     * Get auto update mode
-     *
-     * @return bool
-     */
-    public function isAutoUpdate()
-    {
-        $auto_update_plugins = $this->options->get(self::AUTO_UPDATE_PLUGINS, '');
-
-        if (is_array($auto_update_plugins) && in_array('-woocommerce-epayco-api-develop/woocommerce-epayco.php', $auto_update_plugins)) {
-            return true;
-        }
-        return false;
-    }
 }

@@ -5,7 +5,6 @@ namespace Epayco\Woocommerce\Hooks;
 if (!defined('ABSPATH')) {
     exit;
 }
-
 class Checkout
 {
     /**
@@ -15,7 +14,7 @@ class Checkout
      */
     public function isCheckout(): bool
     {
-        return is_checkout();
+        return isset($GLOBALS['wp_query']) && is_checkout();
     }
 
     /**
