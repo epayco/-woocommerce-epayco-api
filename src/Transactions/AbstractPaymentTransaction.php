@@ -995,7 +995,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $x_amount_base = $transactionInfo['data']['x_amount_base']??$transactionInfo['data']['taxBaseClient'];
         $x_cardnumber = $transactionInfo['data']['x_cardnumber']??$transactionInfo['data']['numberCard'];
         $x_id_invoice = $transactionInfo['data']['x_id_invoice']??$transactionInfo['data']['bill'];
-        $x_franchise = $transactionInfo['data']['x_franchise']??$transactionInfo['data']['bank'];
+        $x_franchise = $transactionInfo['data']['x_franchise']??$transactionInfo['data']['paymentMethod']??$transactionInfo['data']['bank'];
         $x_transaction_id = $transactionInfo['data']['x_transaction_id']??$transactionInfo['data']['referencePayco'];
         $x_transaction_date = $transactionInfo['data']['x_transaction_date']??$transactionInfo['data']['transactionDate'];
         $x_transaction_state = $transactionInfo['data']['x_transaction_state']??$transactionInfo['data']['status'];

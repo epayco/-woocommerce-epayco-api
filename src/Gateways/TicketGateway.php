@@ -728,7 +728,8 @@ class TicketGateway extends AbstractGateway
             "success" =>true
         );
         $this->transaction = new TicketTransaction($this, $order, []);
-        $transactionDetails = $this->transaction->sdk->transaction->get($paymentsIdArray[0]);
+        //$transactionDetails = $this->transaction->sdk->transaction->get($paymentsIdArray[0]);
+        $transactionDetails = $this->transaction->sdk->transaction->get($data, true, "POST");
        // $sdk = $this->sdk->transaction->get($data);
         $transactionInfo = json_decode(json_encode($transactionDetails), true);
 
