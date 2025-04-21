@@ -31,9 +31,9 @@ Class Transaction extends Resource{
             $options,
             $this->epayco->private_key,
             $this->epayco->test,
-            true,
+            false,
             $this->epayco->lang,
-            true,
+            false,
             false,
             $apify
         );

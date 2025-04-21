@@ -397,7 +397,8 @@ class CreditCardGateway extends AbstractGateway
             "success" =>true
         );
         $this->transaction = new CreditCardTransaction($this, $order, []);
-        $transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
+        //$transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
+        $transactionDetails = $this->transaction->sdk->transaction->get($data, true, "POST");
         $transactionInfo = json_decode(json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {

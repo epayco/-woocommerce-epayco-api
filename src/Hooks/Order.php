@@ -227,21 +227,49 @@ class Order
         $alert_title = '';
         $order_id=false;
 
-        $status = $paymentInfo->data->x_response;
-        $alert_title = $paymentInfo->data->x_response;
-        $alert_description = $paymentInfo->data->x_response_reason_text;
-        $ref_payco = $paymentInfo->data->x_ref_payco;
-        $test = $paymentInfo->data->x_test_request == 'TRUE' ? 'Pruebas' : 'Producción';
-        $transactionDateTime= $paymentInfo->data->x_transaction_date;
-        $bank= $paymentInfo->data->x_bank_name;
-        $authorization= $paymentInfo->data->x_approval_code;
-        $order_id = $paymentInfo->data->x_id_invoice;
+        $status = $paymentInfo->data->status;
+        $alert_title = $paymentInfo->data->status;
+        $alert_description = $paymentInfo->data->response;
+        $ref_payco = $paymentInfo->data->referencePayco;
+        $test = $paymentInfo->data->test == 1 ? 'Pruebas' : 'Producción';
+        $transactionDateTime= $paymentInfo->data->transactionDate;
+        $bank= $paymentInfo->data->bank;
+        $authorization= $paymentInfo->data->authorization;
+        $order_id = $paymentInfo->data->bill;
 
         if(!$order_id){
             return false;
         }
         $order = new WC_Order($order_id);
         $WooOrderstatus = $order->get_status();
+        if($bank == 'DP' || $bank == 'DaviPlata'){
+            $bodyRequest= [
+                "filter"=>[
+                    "referenceClient"=>$order_id
+                ]
+            ];
+            $transactionDetails =  $this->sdk->transaction->get($bodyRequest, true, "POST");
+            $transactionInfo = json_decode(json_encode($transactionDetails), true);
+
+            if (empty($transactionInfo)) {
+                return;
+            }
+
+            if (is_array($transactionInfo)) {
+                foreach ((array) $transactionInfo as $transaction) {
+                    $daviplataTransactionData["data"] = $transaction;
+                }
+            }
+            $transaciton = end($daviplataTransactionData["data"]);
+            $status = $transaciton['status'];
+            $alert_title = $transaciton['status'];
+            $alert_description = $transaciton['response'];
+            $ref_payco = $transaciton['referencePayco'];
+            $test = intval($transaciton['test'])  == 1 ? 'Pruebas' : 'Producción';
+            $transactionDateTime= $transaciton['transactionDate'];
+            $bank= $transaciton['bank'];
+            $authorization= $transaciton['authorization'];
+        }
 
         switch ($status) {
             case 'Aceptada':
@@ -256,7 +284,7 @@ class Order
         }
         $paymentStatusType = PaymentStatus::getStatusType(strtolower($orderstatus));
         $upload_order=false;
-        if($WooOrderstatus == 'on-hold'||$WooOrderstatus == 'cancelled'){
+        if($WooOrderstatus == 'on-hold'||$WooOrderstatus == 'cancelled' ||$WooOrderstatus == 'pending'){
             $upload_order=true;
         }
 
@@ -358,7 +386,7 @@ class Order
                     "pagination" => ["page"=>1],
                     "success" =>true
             );
-            return $this->sdk->transaction->get($paymentsIds[0]);
+            return $this->sdk->transaction->get($data, true, "POST");
             //return false;
         } catch (Exception $e) {
             return false;
