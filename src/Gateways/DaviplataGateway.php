@@ -451,7 +451,14 @@ class DaviplataGateway extends AbstractGateway
             "success" => true,
             "data" => end($daviplataTransactionData["data"])
         ];
-        $transaction = $this->transaction->returnParameterToThankyouPage($daviplataTransaction, $this);
+        if(is_array($daviplataTransaction['data'])){
+            $_transaction = $daviplataTransaction;
+        }elseif(is_array($transactionInfo)){
+             $_transaction = $transactionInfo;
+        }else{
+            return;
+        }
+        $transaction = $this->transaction->returnParameterToThankyouPage($_transaction, $this);
 
         if (empty($transaction)) {
             return;

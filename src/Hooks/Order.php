@@ -260,7 +260,14 @@ class Order
                     $daviplataTransactionData["data"] = $transaction;
                 }
             }
-            $transaciton = end($daviplataTransactionData["data"]);
+            if(is_array($daviplataTransactionData['data'])){
+                $transaciton = $daviplataTransactionData["data"];
+            }elseif(is_array($transactionInfo)){
+                    $transaciton = $transactionInfo["data"];
+            }else{
+                    return [];
+            }
+            //$transaciton = end($daviplataTransactionData["data"]);
             $status = $transaciton['status'];
             $alert_title = $transaciton['status'];
             $alert_description = $transaciton['response'];
