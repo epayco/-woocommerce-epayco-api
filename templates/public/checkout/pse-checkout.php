@@ -192,7 +192,6 @@ if (! defined('ABSPATH')) {
 
                 <!-- utilities -->
                 <div id="epayco-utilities" style="display:none;">
-                    <input type="hidden" id="amountPse" value="<?= esc_textarea($amount); ?>" name="epayco_pse[amount]" />
                     <input type="hidden" id="site_id" value="<?= esc_textarea($site_id); ?>" name="epayco_pse[site_id]" />
                     <input type="hidden" id="campaign_idPse" name="epayco_pse[campaign_id]" />
                     <input type="hidden" id="campaignPse" name="epayco_pse[campaign]" />

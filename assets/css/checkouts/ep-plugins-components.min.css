@@ -307,10 +307,12 @@ div .ep-error {
 
 .payment_method_woo-epayco-custom {
     padding-left: 0rem !important;
+    max-width: 500px;
 }
 
 .payment_method_woo-epayco-daviplata {
     padding-left: 0rem !important;
+    max-width: 500px;
 }
 
 .payment_method_woo-epayco-pse {
@@ -320,10 +322,17 @@ div .ep-error {
 
 .payment_method_woo-epayco-ticket {
     padding-left: 0rem !important;
+    max-width: 500px;
+}
+
+.payment_method_woo-epayco-creditcard {
+    padding-left: 0rem !important;
+    max-width: 500px;
 }
 
 .payment_method_woo-epayco-checkout {
     padding-left: 0rem !important;
+    max-width: 500px;
 }
 
 .ep-test-mode-epayco-badge {

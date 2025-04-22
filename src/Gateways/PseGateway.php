@@ -157,12 +157,12 @@ class PseGateway extends AbstractGateway
         parent::registerCheckoutScripts();
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
-            'wc_epayco_pse_checkout',
+            'wc_epayco_pse_page',
             $this->epayco->helpers->url->getJsAsset('checkouts/pse/ep-pse-page')
         );
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
-            'wc_epayco_pse_checkout',
+            'wc_epayco_pse_elements',
             $this->epayco->helpers->url->getJsAsset('checkouts/pse/ep-pse-elements')
         );
 
