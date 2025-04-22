@@ -991,22 +991,22 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
 
     public function returnParameterToThankyouPage($transactionInfo, $payment)
     {
-        $x_amount = $transactionInfo['data']['x_amount']??$transactionInfo['data']['amount'];
-        $x_amount_base = $transactionInfo['data']['x_amount_base']??$transactionInfo['data']['taxBaseClient'];
-        $x_cardnumber = $transactionInfo['data']['x_cardnumber']??$transactionInfo['data']['numberCard'];
-        $x_id_invoice = $transactionInfo['data']['x_id_invoice']??$transactionInfo['data']['bill'];
-        $x_franchise = $transactionInfo['data']['x_franchise']??$transactionInfo['data']['paymentMethod']??$transactionInfo['data']['bank'];
-        $x_transaction_id = $transactionInfo['data']['x_transaction_id']??$transactionInfo['data']['referencePayco'];
-        $x_transaction_date = $transactionInfo['data']['x_transaction_date']??$transactionInfo['data']['transactionDate'];
-        $x_transaction_state = $transactionInfo['data']['x_transaction_state']??$transactionInfo['data']['status'];
-        $x_customer_ip = $transactionInfo['data']['x_customer_ip']??$transactionInfo['data']['ip'];
-        $x_description = $transactionInfo['data']['x_description']??$transactionInfo['data']['description'];
-        $x_response= $transactionInfo['data']['x_response']??$transactionInfo['data']['status'];
-        $x_response_reason_text= $transactionInfo['data']['x_response_reason_text']??$transactionInfo['data']['response'];
-        $x_approval_code= $transactionInfo['data']['x_approval_code']??$transactionInfo['data']['authorization'];
-        $x_ref_payco= $transactionInfo['data']['x_ref_payco']??$transactionInfo['data']['referencePayco'];
-        $x_tax= $transactionInfo['data']['x_tax']??$transactionInfo['data']['tax'];
-        $x_currency_code= $transactionInfo['data']['x_currency_code']??$transactionInfo['data']['currency'];
+        $x_amount = $transactionInfo['data']['x_amount']??$transactionInfo['data']['amount']??$transactionInfo['data'][0]['amount'];
+        $x_amount_base = $transactionInfo['data']['x_amount_base']??$transactionInfo['data']['taxBaseClient']??$transactionInfo['data'][0]['taxBaseClient'];
+        $x_cardnumber = $transactionInfo['data']['x_cardnumber']??$transactionInfo['data']['numberCard']??$transactionInfo['data'][0]['numberCard'];
+        $x_id_invoice = $transactionInfo['data']['x_id_invoice']??$transactionInfo['data']['bill']??$transactionInfo['data'][0]['bill'];
+        $x_franchise = $transactionInfo['data']['x_franchise']??$transactionInfo['data']['paymentMethod']??$transactionInfo['data'][0]['paymentMethod']??$transactionInfo['data']['bank']??$transactionInfo['data'][0]['bank'];
+        $x_transaction_id = $transactionInfo['data']['x_transaction_id']??$transactionInfo['data']['referencePayco']??$transactionInfo['data'][0]['referencePayco'];
+        $x_transaction_date = $transactionInfo['data']['x_transaction_date']??$transactionInfo['data']['transactionDate']??$transactionInfo['data'][0]['transactionDate'];
+        $x_transaction_state = $transactionInfo['data']['x_transaction_state']??$transactionInfo['data']['status']??$transactionInfo['data'][0]['status'];
+        $x_customer_ip = $transactionInfo['data']['x_customer_ip']??$transactionInfo['data']['ip']??$transactionInfo['data'][0]['ip'];
+        $x_description = $transactionInfo['data']['x_description']??$transactionInfo['data']['description']??$transactionInfo['data'][0]['description'];
+        $x_response= $transactionInfo['data']['x_response']??$transactionInfo['data']['status']??$transactionInfo['data'][0]['status'];
+        $x_response_reason_text= $transactionInfo['data']['x_response_reason_text']??$transactionInfo['data']['response']??$transactionInfo['data'][0]['response'];
+        $x_approval_code= $transactionInfo['data']['x_approval_code']??$transactionInfo['data']['authorization']??$transactionInfo['data'][0]['authorization'];
+        $x_ref_payco= $transactionInfo['data']['x_ref_payco']??$transactionInfo['data']['referencePayco']??$transactionInfo['data'][0]['referencePayco'];
+        $x_tax= $transactionInfo['data']['x_tax']??$transactionInfo['data']['tax']??$transactionInfo['data'][0]['tax'];
+        $x_currency_code= $transactionInfo['data']['x_currency_code']??$transactionInfo['data']['currency']??$transactionInfo['data'][0]['currency'];
         switch ($x_response) {
             case 'Aceptada': {
                 $iconUrl = $payment->epayco->hooks->gateway->getGatewayIcon('check.png');
