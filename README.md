@@ -1,4 +1,4 @@
-#ePayco plugin para WooCommerce Suscripcion
+#ePayco plugin para WooCommerce
 
 **Si usted tiene alguna pregunta o problema, no dude en ponerse en contacto con nuestro soporte técnico: desarrollo@payco.co.**
 
@@ -11,16 +11,16 @@
 
 ## Requisitos
 
-* Tener una cuenta activa en [ePayco](https://pagaycobra.com).
+* Tener una cuenta activa en [ePayco](https://epayco.com/).
 * Tener instalado WordPress versión 5.3.x
 * WooCommerce versión 7.7.0 =<.
-* WooCommerce Suscripcion versión 2.6.x.
+* WooCommerce versión 2.6.x.
 * Acceso a las carpetas donde se encuetra instalado WordPress y WooCommerce.
 * Acceso al admin de WordPress.
 
 ## Instalación
 
-1. [Descarga el plugin.](https://github.com/epayco/suscripciones_woocommerce#versiones)
+1. [Descarga el plugin.](https://github.com/epayco/-woocommerce-epayco-api#versiones)
 2. Ingresa al administrador de tu wordPress.
 3. Ingresa a Plugins / Añadir-Nuevo / Subir-Plugin. 
 4. Busca el plugin descargado en tu equipo y súbelo como cualquier otro archivo.
