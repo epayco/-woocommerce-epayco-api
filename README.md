@@ -40,5 +40,5 @@
 
 
 ## Versiones
-* [ePayco plugin WooCommerce v1.0.0](https://github.com/epayco/-woocommerce-epayco-api/releases/tag/3.0.0).
+* [ePayco plugin WooCommerce v1.0.0](https://github.com/epayco/-woocommerce-epayco-api/releases/tag/1.0.0).
 
