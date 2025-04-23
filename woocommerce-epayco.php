@@ -6,7 +6,7 @@
  * Plugin Name:       ePayco WooCommerce
  * Description:       Plugin ePayco WooCommerce.
  * Plugin URI: https://github.com/epayco/Plugin_ePayco_WooCommerce
- * Version:           6.1.0
+ * Version:           1.0.0
  * Author: ePayco
  * Author URI: https://epayco.com/
  * Text Domain:     woo-epayco-api
