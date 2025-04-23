@@ -78,8 +78,8 @@
                         }
                     }
 
-                    const cellphoneType = document.getElementsByName('epayco_ticket[cellphone]')[0].value;
-                    const ticketContentCellphone = document.getElementsByName('epayco_ticket[cellphoneType]')[0].value; 
+                    const ticketContentCellphone  = document.getElementsByName('epayco_ticket[cellphone]')[0].value;
+                    const cellphoneType = document.getElementsByName('epayco_ticket[cellphoneType]')[0].value;
                     const cellphoneHelpers =  document.querySelector('input-cellphone-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCellphone = (cellphone) => {
                         if (cellphone === '') {
@@ -121,13 +121,13 @@
                         }
                     });
 
-                    
+
                     const nn = {
                             "epayco_ticket[name]": ticketContentName,
                             //"epayco_ticket[address]": ticketContentAddress,
                             "epayco_ticket[email]": ticketContentEmail,
-                            "epayco_ticket[cellphoneType]": cellphoneType,
                             "epayco_ticket[cellphone]": ticketContentCellphone,
+                            "epayco_ticket[cellphoneType]": cellphoneType,
                             //"epayco_ticket[person_type]": person_type_value,
                             "epayco_ticket[identificationtype]": doc_type,
                             "epayco_ticket[doc_number]": doc_number_value,

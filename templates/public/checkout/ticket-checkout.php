@@ -216,10 +216,6 @@ if (!defined('ABSPATH')) {
                     <!-- utilities -->
                     <div id="epayco-utilities" style="display:none;">
                         <input type="hidden" id="site_id" value="<?= esc_textarea($site_id); ?>" name="epayco_ticket[site_id]" />
-                        <input type="hidden" id="ticket_amount" value="<?= esc_textarea($amount); ?>" name="epayco_ticket[amount]" />
-                        <input type="hidden" id="ticket_campaign_id" name="epayco_ticket[campaign_id]" />
-                        <input type="hidden" id="ticket_campaign" name="epayco_ticket[campaign]" />
-                        <input type="hidden" id="ticket_discount" name="epayco_ticket[discount]" />
                     </div>
                 </div>
             </div>
@@ -243,10 +239,3 @@ if (!defined('ABSPATH')) {
         </div>
 </div>
 
-<script type="text/javascript">
-    if (document.getElementById("payment_method_woo-epayco-custom")) {
-        jQuery("form.checkout").on("checkout_place_order_woo-epayco-ticket", function() {
-            cardFormLoad();
-        });
-    }
-</script>

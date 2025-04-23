@@ -1,5 +1,7 @@
 <?php
 
+use Epayco\Woocommerce\Helpers\Template;
+
 /**
  * @var bool $test_mode
  * @var string $test_mode_title

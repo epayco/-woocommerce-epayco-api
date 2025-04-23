@@ -190,10 +190,6 @@ if (!defined('ABSPATH')) {
                 <!-- utilities -->
                 <div id="epayco-utilities" style="display:none;">
                     <input type="hidden" id="site_id" value="<?= esc_textarea($site_id); ?>" name="epayco_daviplata[site_id]" />
-                    <input type="hidden" id="daviplata_amount" value="<?= esc_textarea($amount); ?>" name="epayco_daviplata[amount]" />
-                    <input type="hidden" id="daviplata_campaign_id" name="epayco_daviplata[campaign_id]" />
-                    <input type="hidden" id="daviplata_campaign" name="epayco_daviplata[campaign]" />
-                    <input type="hidden" id="daviplata_discount" name="epayco_daviplata[discount]" />
                 </div>
             </div>
         </div>
@@ -217,11 +213,3 @@ if (!defined('ABSPATH')) {
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    if (document.getElementById("payment_method_woo-epayco-custom")) {
-        jQuery("form.checkout").on("checkout_place_order_woo-epayco-daviplata", function() {
-            cardFormLoad();
-        });
-    }
-</script>

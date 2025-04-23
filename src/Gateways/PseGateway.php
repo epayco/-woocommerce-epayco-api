@@ -2,6 +2,7 @@
 
 namespace Epayco\Woocommerce\Gateways;
 
+use Epayco\Woocommerce\Exceptions\InvalidCheckoutDataException;
 use Epayco\Woocommerce\Helpers\Form;
 use Epayco\Woocommerce\Helpers\PaymentStatus;
 use Epayco\Woocommerce\Transactions\PseTransaction;
@@ -255,57 +256,63 @@ class PseGateway extends AbstractGateway
             parent::process_payment($order_id);
 
             $checkout = $this->getCheckoutEpaycoPse($order);
-            $this->epayco->orderMetadata->markPaymentAsBlocks($order, "yes");
+            if ($checkout['bank'] !== '0'
+            ) {
+                $this->epayco->orderMetadata->markPaymentAsBlocks($order, "yes");
 
-            //$this->validateRulesPse($checkout);
-            $this->transaction = new PseTransaction($this, $order, $checkout);
-            $redirect_url =get_site_url() . "/";
-            $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
-            $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
-            $confirm_url = $redirect_url.'&confirmation=1';
-            $checkout['confirm_url'] = $confirm_url;
-            $checkout['response_url'] = $order->get_checkout_order_received_url();
-            $response = $this->transaction->createPsePayment($order_id, $checkout);
-            $response = json_decode(json_encode($response), true);
-            if (is_array($response) && $response['success']) {
-                if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
-                    $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
-                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
-                    $order->update_status("on-hold");
-                    $this->epayco->woocommerce->cart->empty_cart();
-                    /*if ($this->epayco->hooks->options->getGatewayOption($this, 'stock_reduce_mode', 'no') === 'yes') {
-                            wc_reduce_stock_levels($order_id);
-                            wc_increase_stock_levels($order_id);
-                    }*/
-                    return [
-                        'result'   => 'success',
-                        'redirect' => $response['data']['urlbanco'],
-                    ];
+                //$this->validateRulesPse($checkout);
+                $this->transaction = new PseTransaction($this, $order, $checkout);
+                $redirect_url =get_site_url() . "/";
+                $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
+                $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
+                $confirm_url = $redirect_url.'&confirmation=1';
+                $checkout['confirm_url'] = $confirm_url;
+                $checkout['response_url'] = $order->get_checkout_order_received_url();
+                $response = $this->transaction->createPsePayment($order_id, $checkout);
+                $response = json_decode(json_encode($response), true);
+                if (is_array($response) && $response['success']) {
+                    if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
+                        $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
+                        $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
+                        $order->update_status("on-hold");
+                        $this->epayco->woocommerce->cart->empty_cart();
+                        /*if ($this->epayco->hooks->options->getGatewayOption($this, 'stock_reduce_mode', 'no') === 'yes') {
+                                wc_reduce_stock_levels($order_id);
+                                wc_increase_stock_levels($order_id);
+                        }*/
+                        return [
+                            'result'   => 'success',
+                            'redirect' => $response['data']['urlbanco'],
+                        ];
+                    }
+                }else{
+                    //$this->handleWithRejectPayment($response);
+                    $messageError = $response['message']?? $response['titleResponse'];
+                    $errorMessage = "";
+                    if (isset($response['data']['errors'])) {
+                        $errors = $response['data']['errors'];
+                        foreach ($errors as $error) {
+                            $errorMessage = $error['errorMessage'] . "\n";
+                        }
+                    } elseif (isset($response['data']['error']['errores'])) {
+                        $errores = $response['data']['error']['errores'];
+                        foreach ($errores as $error) {
+                            $errorMessage = $error['errorMessage'] . "\n";
+                        }
+                    }elseif (isset($response['data']['error'])) {
+                        $errores = $response['data']['error'];
+                        foreach ($errores as $error) {
+                            $errorMessage = $error['errorMessage'] . "\n";
+                        }
+                    }
+                    $processReturnFailMessage = $messageError. " " . $errorMessage;
+                    return $this->returnFail($processReturnFailMessage, $order);
+
                 }
             }else{
-                //$this->handleWithRejectPayment($response);
-                $messageError = $response['message']?? $response['titleResponse'];
-                $errorMessage = "";
-                if (isset($response['data']['errors'])) {
-                    $errors = $response['data']['errors'];
-                    foreach ($errors as $error) {
-                        $errorMessage = $error['errorMessage'] . "\n";
-                    }
-                } elseif (isset($response['data']['error']['errores'])) {
-                    $errores = $response['data']['error']['errores'];
-                    foreach ($errores as $error) {
-                        $errorMessage = $error['errorMessage'] . "\n";
-                    }
-                }elseif (isset($response['data']['error'])) {
-                    $errores = $response['data']['error'];
-                    foreach ($errores as $error) {
-                        $errorMessage = $error['errorMessage'] . "\n";
-                    }
-                }
-                $processReturnFailMessage = $messageError. " " . $errorMessage;
-                return $this->returnFail($processReturnFailMessage, $order);
-
+                throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
             }
+
             //throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
         } catch (\Exception $e) {
             return $this->processReturnFail(

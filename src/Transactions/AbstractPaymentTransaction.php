@@ -66,7 +66,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout["documentType"];
         $doc_number= $checkout["doc_number"]??$checkout["document"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"];
-        $cellphone= $checkout["cellphonetype"];
+        $cellphone= $checkout["cellphone"];
         //$cellphone=@$order->billing_phone??'0';
         $data = array(
             "paymentMethod" => $checkout["paymentMethod"],
@@ -150,11 +150,11 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         //$holder_address= $checkout["address"]??$checkout[""]["address"];
         $person_type= 'PN';
         $holder_address=$order->get_billing_address_1();
-        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"];
-        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout["documentType"];
+        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$checkout["document"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];
-        $cellphone= $checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
-        $cellphonetype = $_POST["cellphone"]??$checkout["cellphone"]??$checkout[""]["cellphone"];
+        $cellphonetype= $checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
+        $cellphone = $_POST["cellphone"]??$checkout["cellphone"]??$checkout[""]["cellphone"];
         $cellphonetypeIn = explode("+", $cellphonetype)[1];
         $city = WC()->countries->get_base_city() !='' ? WC()->countries->get_base_city():$order->get_shipping_city();
         $testMode = $this->epayco->storeConfig->isTestMode()??false;
@@ -332,10 +332,10 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $bank = $checkout["bank"]??$checkout[""]["bank"];
         $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
         $holder_address= $checkout["address"]??$checkout[""]["address"];
-        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"];
-        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"]??$checkout["documentType"];
+        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$checkout["document"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];
-        $cellphone= $checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
+        $cellphone= $checkout["cellphonetype"]??$checkout[""]["cellphonetype"]??$checkout["cellphone"];
         $data = array(
             "bank" => $bank,
             "invoice" => (string)$order->get_id(),

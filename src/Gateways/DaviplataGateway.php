@@ -286,10 +286,11 @@ class DaviplataGateway extends AbstractGateway
             $checkout = $this->getCheckoutEpaycoDaviplata($order);
 
             parent::process_payment($order_id);
-
+            $cellphoneType = $checkout['cellphonetype']??$checkout['cellphoneType'];
             if (
-                !empty($checkout['cellphonetype'])
+                !empty($cellphoneType)
             ) {
+                $checkout['cellphonetype'] = $cellphoneType;
                 $redirect_url =get_site_url() . "/";
                 $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
                 $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );

@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
 
 class WoocommerceEpayco
 {
-    private const PLUGIN_VERSION = '4.0.0';
+    private const PLUGIN_VERSION = '1.0.0';
     private const PLATFORM_NAME = 'woocommerce';
     private const TICKET_TIME_EXPIRATION = 3;
     private const PLUGIN_NAME = '-wooommerce-epayco-api/woocommerce-epayco.php';
@@ -94,11 +94,12 @@ class WoocommerceEpayco
     {
 
         $methods = [
-                'Epayco\Woocommerce\Gateways\TicketGateway',
-                'Epayco\Woocommerce\Gateways\DaviplataGateway',
-                'Epayco\Woocommerce\Gateways\CreditCardGateway',
-                'Epayco\Woocommerce\Gateways\PseGateway',
-                'Epayco\Woocommerce\Gateways\CheckoutGateway',
+            'Epayco\Woocommerce\Gateways\CheckoutGateway',
+            'Epayco\Woocommerce\Gateways\PseGateway',
+            'Epayco\Woocommerce\Gateways\TicketGateway',
+            'Epayco\Woocommerce\Gateways\DaviplataGateway',
+            'Epayco\Woocommerce\Gateways\CreditCardGateway',
+
         ];
         if (class_exists('WC_Subscriptions')){
             array_push($methods, 'Epayco\Woocommerce\Gateways\SubscriptionGateway');

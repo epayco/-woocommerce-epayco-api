@@ -86,6 +86,7 @@
                         }
                     }
 
+
                     const cardContentDocument = current.querySelector('input-document-epayco').querySelector('input');
                     const documentHelpers =  current.querySelector('input-document-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyDocument = (cardContentDocument) => {

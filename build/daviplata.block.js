@@ -78,8 +78,8 @@
                         }
                     }
 
-                    const cellphoneType = document.getElementsByName('epayco_daviplata[cellphone]')[0].value;
-                    const daviplataContentCellphone = document.getElementsByName('epayco_daviplata[cellphoneType]')[0].value;
+                    const daviplataContentCellphone  = document.getElementsByName('epayco_daviplata[cellphone]')[0].value;
+                    const cellphoneType = document.getElementsByName('epayco_daviplata[cellphoneType]')[0].value;
                     const cellphoneHelpers =  document.querySelector('input-cellphone-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCellphone = (cellphone) => {
                         if (cellphone === '') {
@@ -119,7 +119,6 @@
                             termanAndContictionHelpers.classList.remove("ep-error")
                         }
                     });
-
 
                     const nn = {
                         "epayco_daviplata[name]": daviplataContentName,
