@@ -13,8 +13,7 @@
 
 * Tener una cuenta activa en [ePayco](https://epayco.com/).
 * Tener instalado WordPress versión 5.3.x
-* WooCommerce versión 7.7.0 =<.
-* WooCommerce versión 2.6.x.
+* WooCommerce versión 9.0.0 >=.
 * Acceso a las carpetas donde se encuetra instalado WordPress y WooCommerce.
 * Acceso al admin de WordPress.
 
