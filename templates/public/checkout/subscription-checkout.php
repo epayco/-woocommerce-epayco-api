@@ -157,7 +157,7 @@ if (!defined('ABSPATH')) {
             <div id="ep-custom-checkout-form-container">
 
                 <div id="ep-doc-div" class="ep-checkout-custom-input-document">
-                    <input-document
+                    <input-document-epayco
                             label-message="<?= esc_html($card_document_input_label); ?>"
                             helper-message="<?= esc_html($card_document_input_helper); ?>"
                             input-name-epayco='epayco_subscription[doc_number]'
@@ -182,20 +182,20 @@ if (!defined('ABSPATH')) {
                             validate=true
                             placeholder="0000000000"
                     >
-                    </input-document>
+                    </input-document-epayco>
                 </div>
 
                 <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
-                    <input-address
+                    <input-address-epayco
                             labelMessage="<?= esc_html($card_holder_address_input_label); ?>"
                             helperMessage="<?= esc_html($card_holder_address_input_helper); ?>"
                             placeholder="Street 123"
                             inputName='epayco_subscription[address]'
                             flagError='epayco_subscription[addressError]'
                             validate=true
-                            hiddenId= "hidden-adress-subscription"
+                            hiddenId= "hidden-adress-custom"
                     >
-                    </input-address>
+                    </input-address-epayco>
                 </div>
 
                 <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
@@ -206,46 +206,27 @@ if (!defined('ABSPATH')) {
                             inputName='epayco_subscription[email]'
                             flagError='epayco_subscription[emailError]'
                             validate=true
-                            hiddenId= "hidden-email-subscription"
+                            hiddenId= "hidden-email-custom"
                     >
                     </input-card-email>
                 </div>
 
-                <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
+                <div class='ep-checkout-custom-card-row' id="ep-card-holder-div" >
                     <input-cellphone-epayco
                             label-message="<?= esc_html($input_ind_phone_label); ?>"
                             helper-message="<?= esc_html($input_ind_phone_helper); ?>"
                             input-name-epayco='epayco_subscription[cellphone]'
                             hidden-id="cellphoneType"
-                            input-data-checkout="doc_number"
+                            input-data-checkout="cellphone_number"
                             select-id="cellphoneType"
                             input-id="cellphoneTypeNumber"
-                            select-name="cellphoneType"
-                            select-data-checkout="doc_type"
+                            select-name="epayco_subscription[cellphoneType]"
+                            select-data-checkout="cellphone_type"
                             flag-error="cellphoneTypeError"
-                            flag-error='epayco_subscription[cellphoneTypeError]'
                             validate=true
                             placeholder="0000000000"
                     >
                     </input-cellphone-epayco>
-                </div>
-
-                <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
-                    <input-country
-                            label-message="<?= esc_html($input_country_label); ?>"
-                            helper-message="<?= esc_html($input_country_helper); ?>"
-                            input-name-epayco='epayco_subscription[country]'
-                            hidden-id="countryType"
-                            input-data-checkout="country_number"
-                            select-id="countryType"
-                            input-id="countryTypeNumber"
-                            select-name="epayco_subscription[countryType]"
-                            select-data-checkout="doc_type"
-                            flag-error="countryTypeError"
-                            validate=true
-                            placeholder="<?= esc_html($city); ?>"
-                    >
-                    </input-country>
                 </div>
 
 

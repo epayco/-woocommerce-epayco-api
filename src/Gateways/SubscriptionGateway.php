@@ -345,9 +345,10 @@ class SubscriptionGateway extends AbstractGateway
                     $processReturnFailMessage = $messageError. " " . $errorMessage;
                     return $this->returnFail($processReturnFailMessage, $order);
                 }
+            }else{
+                $processReturnFailMessage = "Token incorrect ";
+                return $this->returnFail($processReturnFailMessage, $order);
             }
-
-            throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
         } catch (\Exception $e) {
             return $this->processReturnFail(
                 $e,
