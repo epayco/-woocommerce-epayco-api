@@ -305,40 +305,40 @@ class CheckoutGateway extends AbstractGateway
         $public_key = $this->epayco->sellerConfig->getCredentialsPublicKeyPayment();
         $private_key = $this->epayco->sellerConfig->getCredentialsPrivateKeyPayment();
         $testMode = $this->epayco->storeConfig->isTestMode() ? "true" : "false";
-        echo sprintf('
+        echo  sprintf('
                     <script> var handler = ePayco.checkout.configure({
-                        key: "%s",
-                        test: "%s"
+                        key: "%1$s",
+                        test: "%2$s"
                     })
                     var date = new Date().getTime();
                     var bntPagar = document.getElementById("btn_epayco");
                     var data = {
-                        name: "%s",
-                        description: "%s",
-                        invoice: "%s",
-                        currency: "%s",
-                        amount: "%s".toString(),
-                        tax_base: "%s".toString(),
-                        tax: "%s".toString(),
-                        taxIco: "%s".toString(),
-                        country: "%s",
-                        lang: "%s",
-                        external: "%s",
-                        confirmation: "%s",
-                        response: "%s",
-                        name_billing: "%s",
-                        address_billing: "%s",
-                        email_billing: "%s",
-                        mobilephone_billing: "%s",
+                        name: "%3$s",
+                        description: "%4$s",
+                        invoice: "%5$s",
+                        currency: "%6$s",
+                        amount: "%7$s".toString(),
+                        tax_base: "%8$s".toString(),
+                        tax: "%9$s".toString(),
+                        taxIco: "%10$s".toString(),
+                        country: "%11$s",
+                        lang: "%12$s",
+                        external: "%13$s",
+                        confirmation: "%14$s",
+                        response: "%15$s",
+                        name_billing: "%16$s",
+                        address_billing: "%17$s",
+                        email_billing: "%18$s",
+                        mobilephone_billing: "%19$s",
                         autoclick: "true",
-                        ip: "%s",
-                        test: "%s".toString(),
-                        extra1: "%s",
+                        ip: "%20$s",
+                        test: "%21$s".toString(),
+                        extra1: "%22$s",
                         extras_epayco:{extra5:"p19"},
                         method_confirmation: "POST"
                     }
-                    const apiKey = "%s";
-                    const privateKey = "%s";
+                    const apiKey = "%23$s";
+                    const privateKey = "%24$s";
                     var openNewChekout = function () {
                         if(localStorage.getItem("invoicePayment") == null){
                             localStorage.setItem("invoicePayment", data.invoice);
@@ -390,34 +390,34 @@ class CheckoutGateway extends AbstractGateway
                         openNewChekout()
                     }
                     bntPagar.addEventListener("click", openChekout);
-            	    openChekout()
+            	   openChekout()
                 </script>
                 </form>
                 </center>
-        ',  trim($public_key),
-            $testMode,
-            $descripcion,
-            $descripcion,
-            $order->get_id(),
-            $currency,
-            $order->get_total(),
-            $base_tax,
-            $iva,
-            $ico,
-            $basedCountry,
-            $lang,
-            $external,
-            $confirm_url,
-            $redirect_url,
-            $name_billing,
-            $address_billing,
-            $email_billing,
-            $phone_billing,
-            $myIp,
-            $testMode,
-            $order->get_id(),
-            trim($public_key),
-            trim($private_key)
+        ',  esc_js( trim( $public_key ) ),           // 1
+            esc_js( $testMode ),                         // 2
+            esc_js( $descripcion ),                  // 3
+            esc_js( $descripcion ),                  // 4
+            esc_js( $order->get_id() ),              // 5
+            esc_js( $currency ),                     // 6
+            esc_js( $order->get_total() ),           // 7
+            esc_js( $base_tax ),                     // 8
+            esc_js( $iva ),                          // 9
+            esc_js( $ico ),                          //10
+            esc_js( $basedCountry ),                 //11
+            esc_js( $lang ),                         //12
+            $external === 'true' ? 'true' : 'false', //13 (sin comillas para boolean JS)
+            esc_url_raw( $confirm_url ),             //14
+            esc_url_raw( $redirect_url ),            //15
+            esc_js( $name_billing ),                 //16
+            esc_js( $address_billing ),              //17
+            esc_js( $email_billing ),                //18
+            esc_js( $phone_billing ),                //19
+            esc_js( $myIp ),                         //20
+            esc_js( $testMode ),                        //21
+            esc_js( $order->get_id() ),              //22
+            esc_js( trim( $public_key ) ),           //23
+            esc_js( trim( $private_key ) )           //24
         );
         wp_enqueue_script('epayco',  'https://checkout.epayco.co/checkout.js', array(), '1.0.0', null);
         return '<form  method="post" id="appGateway">
@@ -447,12 +447,12 @@ class CheckoutGateway extends AbstractGateway
         echo '<p>       
                  <center>
                     <a id="btn_epayco" href="#">
-                       <img src="'.$epaycoButtonImage.'">
+                       <img src="'. esc_url( $epaycoButtonImage ) .'">
                     </a>
                  </center> 
                </p>';
 
-        echo $this->generate_epayco_form( $order_id );
+        echo wp_kses_post( $this->generate_epayco_form( $order_id ) );
     }
 
 
@@ -463,7 +463,7 @@ class CheckoutGateway extends AbstractGateway
     public function string_sanitize($string):string
     {
         $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]","}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;","â€”", "â€“", ",", "<", ".", ">", "/", "?");
-        $clean = trim(str_replace($strip, "", strip_tags($string)));
+        $clean = trim(str_replace($strip, "", wp_strip_all_tags($string)));
         $clean = preg_replace('/\s+/', "_", $clean);
         return $clean;
     }

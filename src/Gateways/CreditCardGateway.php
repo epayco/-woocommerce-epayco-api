@@ -291,7 +291,7 @@ class CreditCardGateway extends AbstractGateway
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
                 $response = $this->transaction->createTcPayment($order_id, $checkout);
-                $response = json_decode(json_encode($response), true);
+                $response = json_decode(wp_json_encode($response), true);
                 if (is_array($response) && $response['success']) {
                     $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
                     if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
@@ -387,7 +387,7 @@ class CreditCardGateway extends AbstractGateway
     {
         $order        = wc_get_order($order_id);
         $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
-        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+        $paymentInfo = json_decode(wp_json_encode($lastPaymentId), true);
 
         if (empty($paymentInfo)) {
             return;
@@ -399,7 +399,7 @@ class CreditCardGateway extends AbstractGateway
         $this->transaction = new CreditCardTransaction($this, $order, []);
         //$transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
         $transactionDetails = $this->transaction->sdk->transaction->get($data, true, "POST");
-        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+        $transactionInfo = json_decode(wp_json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {
             return;

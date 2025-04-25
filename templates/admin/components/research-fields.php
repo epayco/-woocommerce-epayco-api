@@ -14,4 +14,4 @@ if (!defined('ABSPATH')) {
 
 ?>
 
-<span id='<?= esc_attr($field_key); ?>' value='<?= esc_attr($field_value); ?>'></span>
+<span id='<?php echo  esc_attr($field_key); ?>' value='<?php echo  esc_attr($field_value); ?>'></span>

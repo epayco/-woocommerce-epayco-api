@@ -94,12 +94,11 @@ class WoocommerceEpayco
     {
 
         $methods = [
-            'Epayco\Woocommerce\Gateways\CheckoutGateway',
-            'Epayco\Woocommerce\Gateways\PseGateway',
-            'Epayco\Woocommerce\Gateways\TicketGateway',
-            'Epayco\Woocommerce\Gateways\DaviplataGateway',
             'Epayco\Woocommerce\Gateways\CreditCardGateway',
-
+            'Epayco\Woocommerce\Gateways\PseGateway',
+            'Epayco\Woocommerce\Gateways\DaviplataGateway',
+            'Epayco\Woocommerce\Gateways\TicketGateway',
+            'Epayco\Woocommerce\Gateways\CheckoutGateway'
         ];
         if (class_exists('WC_Subscriptions')){
             array_push($methods, 'Epayco\Woocommerce\Gateways\SubscriptionGateway');
@@ -288,7 +287,7 @@ class WoocommerceEpayco
     public function adminNoticeMissWoocoommerceSubscription(): void
     {
         $url_docs = 'https://github.com/wp-premium/woocommerce-subscriptions';
-        $subs = __( 'Subscription ePayco: Woocommerce subscriptions must be installed and active, ') . sprintf(__('<a target="_blank" href="%s">'. __('check documentation for help') .'</a>'), $url_docs);
+        $subs = sprintf( __( 'Subscription ePayco: WooCommerce Subscriptions must be installed and active, <a target="_blank" href="%1$s">%2$s</a>', 'woo-epayco-api' ), esc_url( $url_docs ), __( 'check documentation for help', 'woo-epayco-api' ) );
         add_action(
             'admin_notices',
             function() use($subs) {
@@ -301,7 +300,7 @@ class WoocommerceEpayco
     {
         ?>
         <div class="error notice">
-            <p><?php echo $notice; ?></p>
+            <p><?php echo esc_html( $notice ); ?></p>
         </div>
         <?php
     }

@@ -715,7 +715,7 @@ class TicketGateway extends AbstractGateway
         );*/
 
         $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
-        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+        $paymentInfo = json_decode(wp_json_encode($lastPaymentId), true);
 
         if (empty($paymentInfo)) {
             return;
@@ -731,7 +731,7 @@ class TicketGateway extends AbstractGateway
         //$transactionDetails = $this->transaction->sdk->transaction->get($paymentsIdArray[0]);
         $transactionDetails = $this->transaction->sdk->transaction->get($data, true, "POST");
        // $sdk = $this->sdk->transaction->get($data);
-        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+        $transactionInfo = json_decode(wp_json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {
             return;

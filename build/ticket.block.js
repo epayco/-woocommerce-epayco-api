@@ -82,6 +82,7 @@
                     const cellphoneType = document.getElementsByName('epayco_ticket[cellphoneType]')[0].value;
                     const cellphoneHelpers =  document.querySelector('input-cellphone-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCellphone = (cellphone) => {
+                        debugger
                         if (cellphone === '') {
                             document.querySelector('input-cellphone-epayco').querySelector(".ep-input").classList.add("ep-error");
                             document.querySelector('input-cellphone-epayco').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
@@ -153,7 +154,7 @@
                     "" === ticketContentName && verifyName(ticketContentName);
                     "" === ticketContentEmail && verifyEmail(ticketContentEmail);
                     //"" === ticketContentAddress && verifyAddress(ticketContentAddress);
-                    "" === cellphoneType && verifyCellphone(cellphoneType);
+                    "" === ticketContentCellphone && verifyCellphone(ticketContentCellphone);
                     "Type"||"Tipo" === doc_type && verifyDocument(doc_number_value);
                     "" === doc_number_value && verifyDocument(doc_number_value);
                     //"" === ticketContentCountry && verifyCountry(ticketContentCountry);

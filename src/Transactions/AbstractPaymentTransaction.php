@@ -53,7 +53,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $myIp=$this->getCustomerIp();
         $confirm_url = $checkout["confirm_url"];
         $response_url = $checkout["confirm_url"];
-        $end_date = date('y-m-d', strtotime(sprintf('+%s days',$checkout["date_expiration"]) ));
+        $end_date = gmdate( 'Y-m-d', strtotime( '+' . (int) $checkout['date_expiration'] . ' days' ) );
         $testMode = $this->epayco->storeConfig->isTestMode()??false;
         $customerName = $checkout["name"]??$checkout[""]["name"];
         $explodeName = explode(" ", $customerName);
@@ -101,7 +101,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         );
         $cash = $this->sdk->cash->create($data);
 
-        $cash = json_decode(json_encode($cash), true);
+        $cash = json_decode(wp_json_encode($cash), true);
         return $cash;
     }
 
@@ -189,7 +189,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "extras_epayco"=>["extra5"=>"P19"]
         );
         $daviplata = $this->sdk->daviplata->create($data);
-        $daviplata= json_decode(json_encode($daviplata), true);
+        $daviplata= json_decode(wp_json_encode($daviplata), true);
         return $daviplata;
     }
 
@@ -465,7 +465,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                 $count_cards = 0;
                 for ($i = 0; $i < count($customerGetData); $i++) {
                     $customers = $this->sdk->customer->get($customerGetData[$i]->customer_id);
-                    $customers = json_decode(json_encode($customers), true);
+                    $customers = json_decode(wp_json_encode($customers), true);
                     if($customers['success']){
                         $cards = $customers['data']['cards'];
                         for ($j = 0; $j < count($cards); $j++) {
@@ -560,7 +560,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                     "default" => true
                 ]
             );
-            $customer = json_decode(json_encode($customer), true);
+            $customer = json_decode(wp_json_encode($customer), true);
             return $customer;
         } catch (\Exception $exception) {
             return [
@@ -962,7 +962,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
 
     public function string_sanitize($string, $force_lowercase = true, $anal = false) {
         $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]","}", "\\", "|", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;","â€”", "â€“", "<", ">", "/", "?");
-        $clean = trim(str_replace($strip, "", strip_tags($string)));
+        $clean = trim(str_replace($strip, "", wp_strip_all_tags($string)));
         $clean = preg_replace('/\s+/', "_", $clean);
         $clean = ($anal) ? preg_replace("/[^a-zA-Z0-9]/", "", $clean) : $clean ;
         return $clean;

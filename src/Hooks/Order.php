@@ -117,7 +117,7 @@ class Order
      */
     public function setDaviplataMetadata(WC_Order $order, $data): void
     {
-        $externalResourceUrl = json_encode($data);
+        $externalResourceUrl = wp_json_encode($data);
         $this->orderMetadata->setDaviplataTransactionDetailsData($order, $externalResourceUrl);
         $order->save();
     }
@@ -249,7 +249,7 @@ class Order
                 ]
             ];
             $transactionDetails =  $this->sdk->transaction->get($bodyRequest, true, "POST");
-            $transactionInfo = json_decode(json_encode($transactionDetails), true);
+            $transactionInfo = json_decode(wp_json_encode($transactionDetails), true);
 
             if (empty($transactionInfo)) {
                 return;
@@ -443,11 +443,11 @@ class Order
         add_action('epayco_sync_pending_status_order_action', function () {
             try {
                 $orders = wc_get_orders(array(
-                    'limit'    => -1,
-                    'status'   => 'on-hold',
-                    'meta_query' => array(
-                        'key' => $this->orderMetadata::PAYMENTS_IDS
-                    )
+                    'limit'      => -1,          // o fija un límite real
+                    'status'     => 'on-hold',
+                    'meta_key'   => $this->orderMetadata::PAYMENTS_IDS,
+                    'meta_compare' => 'EXISTS',  // o '=' si filtras por valor
+
                 ));
                 $ref_payco_list = [];
                 foreach ($orders as $order) {
@@ -581,7 +581,7 @@ class Order
         $response = wp_remote_post($url, array(
             'method'    => $method,
             'headers' => $headers,
-            'data' => json_encode($data),
+            'data' => wp_json_encode($data),
             'timeout'   => 120,
         ));
 

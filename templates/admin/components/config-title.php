@@ -14,12 +14,12 @@ if (!defined('ABSPATH')) {
 
 <div class="row ep-pt-20">
     <div class="ep-col-md-12 ep-subtitle-header">
-        <?= esc_html($settings['title']) ?>
+        <?php echo esc_html($settings['title']) ?>
     </div>
 
     <div class="ep-col-md-12">
         <p class="ep-text-checkout-body ep-mb-0">
-            <?= esc_html($settings['description']) ?>
+            <?php echo esc_html($settings['description']) ?>
         </p>
     </div>
 </div>

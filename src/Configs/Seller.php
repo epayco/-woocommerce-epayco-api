@@ -252,12 +252,12 @@ class Seller
 
     private function my_woocommerce_post_request($uri, $headers, $body = []) {
         $url = self::EP_APIFY.$uri;
-        /*$response = wp_remote_post( $url, array(
+        $response = wp_remote_post( $url, array(
             'body'    => wp_json_encode( $body ),
             'headers' => $headers,
             'method'  => 'POST',
-        ));*/
-        $curl = curl_init();
+        ));
+        /*$curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
@@ -270,12 +270,12 @@ class Seller
             CURLOPT_HTTPHEADER => $headers,
         ));
         $response = curl_exec($curl);
-        curl_close($curl);
+        curl_close($curl);*/
         if ( is_wp_error( $response ) ) {
             $error_message = $response->get_error_message();
             return "Something went wrong: $error_message";
         }
-        //$response_body = wp_remote_retrieve_body( $response );
+        $response = wp_remote_retrieve_body( $response );
         $response_data = json_decode( $response, true );
 
         return $response_data;

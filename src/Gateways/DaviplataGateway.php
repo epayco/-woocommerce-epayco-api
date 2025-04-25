@@ -423,7 +423,7 @@ class DaviplataGateway extends AbstractGateway
         $transactionDetails  =  $this->epayco->orderMetadata->getDaviplataTransactionDetailsMeta($order);
         $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
         $daviplata_data = json_decode($transactionDetails, true);
-        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+        $paymentInfo = json_decode(wp_json_encode($lastPaymentId), true);
         if (empty($paymentInfo) && empty($daviplata_data)) {
             return;
         }
@@ -437,7 +437,7 @@ class DaviplataGateway extends AbstractGateway
         ];
         //$transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
         $transactionDetails = $this->transaction->sdk->transaction->get($bodyRequest,true,"POST");
-        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+        $transactionInfo = json_decode(wp_json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {
             return;

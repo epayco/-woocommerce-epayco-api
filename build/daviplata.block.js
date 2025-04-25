@@ -136,7 +136,7 @@
                     "" === daviplataContentName && verifyName(daviplataContentName);
                     "" === daviplataContentEmail && verifyEmail(daviplataContentEmail);
                    // "" === daviplataContentAddress && verifyAddress(daviplataContentAddress);
-                    "" === cellphoneType && verifyCellphone(cellphoneType);
+                    "" === daviplataContentCellphone && verifyCellphone(daviplataContentCellphone);
                     "Type"||"Tipo" === doc_type && verifyDocument(doc_number_value);
                     "" === doc_number_value && verifyDocument(doc_number_value);
                    // "" === daviplataContentCountry && verifyCountry(daviplataContentCountry);

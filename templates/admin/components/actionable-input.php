@@ -20,13 +20,13 @@ if (!defined('ABSPATH')) {
 
 <tr valign="top">
     <th scope="row" class="titledesc ep-pb-0">
-        <label for="<?= esc_attr($field_key); ?>">
-            <?= esc_html($settings['title']); ?>
+        <label for="<?php echo  esc_attr($field_key); ?>">
+            <?php echo  esc_html($settings['title']); ?>
             <?php if (isset($settings['desc_tip'])) { ?>
-                <span class="woocommerce-help-tip" data-tip="<?= esc_html($settings['desc_tip']); ?>"></span>
+                <span class="woocommerce-help-tip" data-tip="<?php echo  esc_html($settings['desc_tip']); ?>"></span>
             <?php } ?>
             <?php if ($settings['description']) { ?>
-                <p class="description ep-activable-input-subtitle"><?= wp_kses_post($settings['description']); ?></p>
+                <p class="description ep-activable-input-subtitle"><?php echo  wp_kses_post($settings['description']); ?></p>
             <?php } ?>
         </label>
     </th>
@@ -36,24 +36,24 @@ if (!defined('ABSPATH')) {
             <fieldset>
                 <input
                     class="input-text regular-input"
-                    type="<?= esc_attr($settings['input_type']); ?>"
-                    name="<?= esc_attr($field_key); ?>"
-                    id="<?= esc_attr($field_key); ?>"
-                    style="<?= esc_attr(isset($settings['css'])); ?>"
-                    value="<?= esc_attr($field_value); ?>"
-                    placeholder="<?= esc_attr(isset($settings['placeholder'])); ?>"
-                    <?= wp_kses($custom_attributes, $allowedHtmlTags) ?>
+                    type="<?php echo  esc_attr($settings['input_type']); ?>"
+                    name="<?php echo  esc_attr($field_key); ?>"
+                    id="<?php echo  esc_attr($field_key); ?>"
+                    style="<?php echo  esc_attr(isset($settings['css'])); ?>"
+                    value="<?php echo  esc_attr($field_value); ?>"
+                    placeholder="<?php echo  esc_attr(isset($settings['placeholder'])); ?>"
+                    <?php echo  wp_kses($custom_attributes, $allowedHtmlTags) ?>
                 />
                 <br/>
-                <label for="<?= esc_attr($field_key_checkbox); ?>">
+                <label for="<?php echo  esc_attr($field_key_checkbox); ?>">
                     <input
                         type="checkbox"
-                        name="<?= esc_attr($field_key_checkbox); ?>"
-                        id="<?= esc_attr($field_key_checkbox); ?>"
+                        name="<?php echo  esc_attr($field_key_checkbox); ?>"
+                        id="<?php echo  esc_attr($field_key_checkbox); ?>"
                         value="1"
-                        <?= checked($enabled, 'yes'); ?>
+                        <?php echo  checked($enabled, 'yes'); ?>
                     />
-                    <?= wp_kses_post($settings['checkbox_label']); ?>
+                    <?php echo  wp_kses_post($settings['checkbox_label']); ?>
                 </label>
             </fieldset>
         </div>

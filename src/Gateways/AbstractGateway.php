@@ -222,7 +222,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
             ];
             $epaycoSdk = $this->getSdkInstance();
             $transactionDetails = $epaycoSdk->transaction->get($bodyRequest,true,"POST");
-            $transactionInfo = json_decode(json_encode($transactionDetails), true);
+            $transactionInfo = json_decode(wp_json_encode($transactionDetails), true);
 
             if (empty($transactionInfo)) {
                 return;
@@ -338,7 +338,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
         }else{
             $message = 'Firma no valida';
         }
-        echo $message;
+        echo esc_html($message);
         die();
     }
 
@@ -584,7 +584,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
 
             $errorMessage = $this->getRejectedPaymentErrorMessage($statusDetail);
 
-            throw new RejectedPaymentException($errorMessage);
+            //throw new RejectedPaymentException($errorMessage);
         }
     }
 

@@ -223,7 +223,7 @@ class PseGateway extends AbstractGateway
             'input_country_label'              => $this->storeTranslations['input_country_label'],
             'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'person_type_label'                => $this->storeTranslations['person_type_label'],
-            'financial_institutions'           => json_encode($this->getFinancialInstitutions()),
+            'financial_institutions'           => wp_json_encode($this->getFinancialInstitutions()),
             'financial_institutions_label'     => $this->storeTranslations['financial_institutions_label'],
             'financial_institutions_helper'    => $this->storeTranslations['financial_institutions_helper'],
             'financial_placeholder'            => $this->storeTranslations['financial_placeholder'],
@@ -269,7 +269,7 @@ class PseGateway extends AbstractGateway
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
                 $response = $this->transaction->createPsePayment($order_id, $checkout);
-                $response = json_decode(json_encode($response), true);
+                $response = json_decode(wp_json_encode($response), true);
                 if (is_array($response) && $response['success']) {
                     if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
                         $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
@@ -384,7 +384,7 @@ class PseGateway extends AbstractGateway
     {
         $order        = wc_get_order($order_id);
         $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
-        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+        $paymentInfo = json_decode(wp_json_encode($lastPaymentId), true);
 
         if (empty($paymentInfo)) {
             return;
@@ -395,7 +395,7 @@ class PseGateway extends AbstractGateway
         );
         $this->transaction = new PseTransaction($this, $order, []);
         $transactionDetails = $this->transaction->sdk->transaction->get($data, true, "POST");
-        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+        $transactionInfo = json_decode(wp_json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {
             return;

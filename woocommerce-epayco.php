@@ -3,21 +3,21 @@
  * @since             1.0.0
  *
  * @wordpress-plugin
- * Plugin Name:       ePayco WooCommerce
- * Description:       Plugin ePayco WooCommerce.
- * Plugin URI: https://github.com/epayco/Plugin_ePayco_WooCommerce
+ * Plugin Name:       ePayco
+ * Description:       Plugin ePayco.
+ * Plugin URI: https://github.com/epayco/-woocommerce-epayco-api
  * Version:           1.0.0
  * Author: ePayco
  * Author URI: https://epayco.com/
  * Text Domain:     woo-epayco-api
- * Author URI:
- * Licence
  * Domain Path:      /i18n/languages/
- * WC requires at least: 5.5.2
+ * WC requires at least: 8.8.5
  * WC tested up to: 9.4.3
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
  * @package Epayco
+ *  License: GNU General Public License v3.0
+ *  License URI: http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 if (!defined('ABSPATH')) {
