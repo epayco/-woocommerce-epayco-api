@@ -73,7 +73,7 @@ if (!defined('ABSPATH')) {
                         <input-name-epayco
                                 labelMessage="<?php echo esc_html($input_name_label); ?>"
                                 helperMessage="<?php echo esc_html($input_name_helper); ?>"
-                                placeholder="Ex: John Doe"
+                                placeholder="Escribe..."
                                 inputName='epayco_ticket[name]'
                                 flagError='epayco_ticket[nameError]'
                                 validate=true
@@ -86,7 +86,7 @@ if (!defined('ABSPATH')) {
                         <input-email-epayco
                                 labelMessage="<?php echo esc_html($input_email_label); ?>"
                                 helperMessage="<?php echo esc_html($input_email_helper); ?>"
-                                placeholder="Johndoe@example.com"
+                                placeholder="Escribe..."
                                 inputName='epayco_ticket[email]'
                                 flagError='epayco_ticket[emailError]'
                                 validate=true
@@ -99,7 +99,7 @@ if (!defined('ABSPATH')) {
                         <input-address
                                 labelMessage="<?php echo esc_html($input_address_label); ?>"
                                 helperMessage="<?php echo esc_html($input_address_helper); ?>"
-                                placeholder="Street 123"
+                                placeholder="Escribe..."
                                 inputName='epayco_ticket[address]'
                                 flagError='epayco_ticket[addressError]'
                                 validate=true
@@ -121,7 +121,7 @@ if (!defined('ABSPATH')) {
                                 select-data-checkout="cellphone_type"
                                 flag-error="cellphoneTypeError"
                                 validate=true
-                                placeholder="0000000000"
+                                placeholder="Número de celular"
                         >
                         </input-cellphone-epayco>
                     </div>
@@ -160,7 +160,7 @@ if (!defined('ABSPATH')) {
                                 {"id":"DNI"}
                                 ]'
                         validate=true
-                        placeholder="0000000000"
+                        placeholder="Número de documento"
                             >
                         </input-document-epayco>
                     </div>
@@ -233,7 +233,7 @@ if (!defined('ABSPATH')) {
                 </terms-and-conditions>
             </div>
             <div style="display: flex;justify-content: center; align-items: center;padding: 15px;">
-                <p>Secure by</p>
+                <p>Secured by</p>
                 <img width="65px" src="<?php echo esc_html($logo); ?>">
             </div>
         </div>

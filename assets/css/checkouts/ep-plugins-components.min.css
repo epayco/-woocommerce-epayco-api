@@ -375,7 +375,9 @@ div .ep-error {
 .ep-checkout-custom-dual-column-row {
     align-items: flex-start !important;
     flex-direction: row !important;
-    margin-top: 16px !important;
+    margin-top: 5px !important;
+    width: 103%;
+
 }
 
 .ep-test-mode-epayco-card-content {
@@ -422,6 +424,8 @@ div .ep-error {
     margin-right: 16px !important;
 }
 
+
+
 .ep-input-label {
     align-items: flex-end !important;
     color: #2D3748 !important;
@@ -444,7 +448,7 @@ div .ep-error {
 .ep-input-document {
     border-radius: 8px !important;
     box-shadow: none !important;
-    width: 100% !important;
+    width: 120% !important;
 }
 
 .ep-input-document .ep-input {
@@ -454,6 +458,7 @@ div .ep-error {
     border-radius: 8px !important;
     display: flex !important;
     height: 48px !important;
+    width: 100% !important;
 }
 
 .ep-input-select-input {
@@ -515,6 +520,18 @@ div .ep-error {
     width: 100% !important;
 }
 
+
+.ep-input-element-expiration .ep-input {
+    align-items: center !important;
+    background: #fff !important;
+    border: 1px solid rgba(0, 0, 0, .25) !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    height: 48px !important;
+    width: 100% !important;
+}
+
+
 .with-country {
     width: 100% !important
 }
@@ -534,6 +551,7 @@ div .ep-error {
     margin-bottom: 10px !important;
 }
 
+
 .ep-input-element .ep-input .ep-cellphone {
     background: #fff !important;
     border: 0 !important;
@@ -550,6 +568,23 @@ div .ep-error {
     padding: 0 14px !important;
     width: 100% !important;
 }
+
+/* .ep-input-element .ep-input .ep-cellphone-document {
+    background: #fff !important;
+    border: 0 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    color: #000;
+    font-size: 16px !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    height: 100% !important;
+    line-height: 20px !important;
+    min-height: 38px !important;
+    outline: 0 !important;
+    padding: 0 14px !important;
+    width: 100% !important;
+} */
 
 .ep-input-select-select {
     background: #fff !important;
@@ -583,7 +618,7 @@ div .ep-error {
     width: 100% !important;
 }
 
-input.ep-cellphone {
+/* input.ep-cellphone {
     align-items: center !important;
     background: #fff !important;
     border: 1px solid rgba(0, 0, 0, .25);
@@ -592,7 +627,7 @@ input.ep-cellphone {
     height: 48px !important;
     padding: 0 14px !important;
     width: 102%;
-}
+} */
 
 .ep-input-element .ep-input:hover {
     border: 1px solid black !important

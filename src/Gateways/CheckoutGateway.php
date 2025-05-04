@@ -212,7 +212,7 @@ class CheckoutGateway extends AbstractGateway
             'personal_data_processing_link_text'    => $this->storeTranslations['personal_data_processing_link_text'],
             'personal_data_processing_link_src'    => 'https://epayco.com/tratamiento-de-datos/',
             'site_id'                          => 'epayco',
-            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo-checkout.png'),
             'icon_info' =>       $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
             'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];

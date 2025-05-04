@@ -310,7 +310,7 @@ class TicketGateway extends AbstractGateway
             'site_id'                          => '',
             'city'                          => $city,
             'customer_title'              => $this->storeTranslations['customer_title'],
-            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo-checkout.png'),
             'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];
     }

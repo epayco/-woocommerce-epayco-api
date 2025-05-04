@@ -67,7 +67,7 @@ if (!defined('ABSPATH')) {
                     <div style="display: grid;grid-template-rows: repeat(2, 1fr);gap: 8px;">
                         <p>Por favor, utiliza la siguiente información de tarjeta de prueba en modo de prueba:</p>
                         <p style="font-weight: bold;">Número: 4575 6231 8229 0326</p>
-                        <div style="width: 50%;display: grid;grid-template-columns: repeat(3, 1fr);gap: 0px;padding: 0px">
+                        <div style="width: 50%;display: grid;grid-template-columns: repeat(3, 1fr);gap: 0px;padding: 0px;margin-top: -13px !important;">
                             <p style="border-right: 1px solid #000 !important; padding: 0px 10px 0px 0px;"><strong>MM</strong>:12</p>
                             <p style="border-right: 1px solid #000 !important; padding: 0px 10px 0px;"><strong>AA</strong>:2025</p>
                             <p style="padding: 0px 10px 0px;"><strong>CVV</strong>:123</p>
@@ -90,7 +90,7 @@ if (!defined('ABSPATH')) {
                     <input-card-name
                             labelMessage="<?php echo esc_html($card_holder_name_input_label); ?>"
                             helperMessage="<?php echo esc_html($card_holder_name_input_helper); ?>"
-                            placeholder="Ex: John Doe"
+                            placeholder="Escribe..."
                             inputName='epayco_creditcard[name]'
                             flagError='epayco_creditcard[nameError]'
                             validate=true
@@ -104,7 +104,7 @@ if (!defined('ABSPATH')) {
                     <input-card-number
                             labelMessage="<?php echo esc_html($card_number_input_label); ?>"
                             helperMessage="<?php echo esc_html($card_number_input_helper); ?>"
-                            placeholder="0000 0000 0000 0000"
+                            placeholder="xxxx xxxx xxxx xxxx"
                             inputName='epayco_creditcard[card]'
                             flagError='epayco_creditcard[cardError]'
                             validate=true
@@ -120,7 +120,7 @@ if (!defined('ABSPATH')) {
                                 class="ep-checkout-custom-left-card-input"
                                 labelMessage="<?php echo esc_html($card_expiration_input_label); ?>"
                                 helperMessage="<?php echo esc_html($card_expiration_input_helper); ?>"
-                                placeholder="MM/YY"
+                                placeholder="MM/AA"
                                 inputName='epayco_creditcard[expirationDate]'
                                 flagError='epayco_creditcard[expirationDateError]'
                                 validate=true
@@ -189,7 +189,7 @@ if (!defined('ABSPATH')) {
                                 {"id":"DNI"}
                                 ]'
                             validate=true
-                            placeholder="0000000000"
+                            placeholder="Número de documento"
                     >
                     </input-document-epayco>
                 </div>
@@ -198,7 +198,7 @@ if (!defined('ABSPATH')) {
                     <input-address-epayco
                             labelMessage="<?php echo esc_html($card_holder_address_input_label); ?>"
                             helperMessage="<?php echo esc_html($card_holder_address_input_helper); ?>"
-                            placeholder="Street 123"
+                            placeholder="Escribe..."
                             inputName='epayco_creditcard[address]'
                             flagError='epayco_creditcard[addressError]'
                             validate=true
@@ -211,7 +211,7 @@ if (!defined('ABSPATH')) {
                     <input-card-email
                             labelMessage="<?php echo esc_html($card_holder_email_input_label); ?>"
                             helperMessage="<?php echo esc_html($card_holder_email_input_helper); ?>"
-                            placeholder="John@example.com"
+                            placeholder="Escribe..."
                             inputName='epayco_creditcard[email]'
                             flagError='epayco_creditcard[emailError]'
                             validate=true
@@ -234,7 +234,7 @@ if (!defined('ABSPATH')) {
                             select-data-checkout="cellphone_type"
                             flag-error="cellphoneTypeError"
                             validate=true
-                            placeholder="0000000000"
+                            placeholder="Número de celular"
                     >
                     </input-cellphone-epayco>
                 </div>
@@ -273,8 +273,8 @@ if (!defined('ABSPATH')) {
                 </terms-and-conditions>
             </div>
 
-            <div style="display: flex;justify-content: center; align-items: center;padding: 15px;">
-                <p>Secure by</p>
+            <div style="display: flex;justify-content: center; align-items: center;padding: 15px; ">
+                <p>Secured by </p>
                 <img width="65px" src="<?php echo esc_html($logo); ?>">
             </div>
 

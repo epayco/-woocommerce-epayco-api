@@ -1102,11 +1102,11 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:138
 msgid "Save and continue"
-msgstr ""
+msgstr "Guardar y continuar"
 
-#: src/Translations/AdminTranslations.php:227
-msgid "Apply changes"
-msgstr ""
+#: src/Translations/AdminTranslations.php:226
+msgid "Save and ended"
+msgstr "Guardar y finalizar"
 
 #: src/Translations/StoreTranslations.php:152
 #: src/Translations/StoreTranslations.php:311

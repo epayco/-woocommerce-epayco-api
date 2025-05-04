@@ -751,12 +751,13 @@ input:checked+.ep-settings-slider:before {
 }
 
 .ep-credential-show-password {
-    background: url("../../images/settings/visibility.png") 98% 50% no-repeat transparent;
-    background-size: 1rem;
-    padding-right: 30px !important;
-    cursor: pointer;
-    position: relative;
-    margin-left: -45px !important;
+  
+        background: url(../../images/settings/visibility.png) 98% 50% no-repeat transparent;
+        background-size: 1rem;
+        padding-right: 31px !important;
+        cursor: pointer;
+        position: relative;
+        margin-left: -36px !important;
 }
 
 .ep-credential-hide-password {
@@ -765,13 +766,13 @@ input:checked+.ep-settings-slider:before {
     padding-right: 30px !important;
     cursor: pointer;
     position: relative;
-    margin-left: -45px !important;
+    margin-left: -36px !important;
 }
 
 .ep-credential-feedback-negative {
     background: url("../../images/settings/feedback-negative.png") 98% 50% no-repeat transparent;
     background-size: 1rem;
-    padding-right: 30px !important
+    padding-right: 30px !important;
 }
 
 .ep-settings-tooltip {

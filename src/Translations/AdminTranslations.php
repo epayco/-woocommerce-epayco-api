@@ -223,7 +223,7 @@ class AdminTranslations
             'title_message_prod'      => __('ePayco payment methods in Production Mode', 'woo-epayco-api'),
             'title_message_test'      => __('ePayco payment methods in Test Mode', 'woo-epayco-api'),
             'subtitle_message_prod'   => __('The clients can make real purchases in your store.', 'woo-epayco-api'),
-            'button_test_mode'        => __('Apply changes', 'woo-epayco-api'),
+            'button_test_mode'        => __('Save and continue', 'woo-epayco-api'),
         ];
     }
 
