@@ -375,6 +375,7 @@ div .ep-error {
 .ep-checkout-custom-dual-column-row {
     align-items: flex-start !important;
     flex-direction: row !important;
+    margin-top: 16px !important;
 }
 
 .ep-test-mode-epayco-card-content {

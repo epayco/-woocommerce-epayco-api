@@ -223,7 +223,8 @@ class PseGateway extends AbstractGateway
             'input_country_label'              => $this->storeTranslations['input_country_label'],
             'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'person_type_label'                => $this->storeTranslations['person_type_label'],
-            'financial_institutions'           => wp_json_encode($this->getFinancialInstitutions()),
+            //error Fatal error: Uncaught Error: Call to undefined method Epayco\Woocommerce\Gateways\PseGateway::getFinancialInstitutions() in C:\xampp82\htdocs\wordpress-6.8\wordpress\wp-content\plugins\-
+            // 'financial_institutions'           => wp_json_encode($this->getFinancialInstitutions()),
             'financial_institutions_label'     => $this->storeTranslations['financial_institutions_label'],
             'financial_institutions_helper'    => $this->storeTranslations['financial_institutions_helper'],
             'financial_placeholder'            => $this->storeTranslations['financial_placeholder'],
@@ -231,7 +232,7 @@ class PseGateway extends AbstractGateway
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
-            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-generales/',
             'personal_data_processing_link_text'    => $this->storeTranslations['personal_data_processing_link_text'],
             'and_the'   => $this->storeTranslations['and_the'],
             'personal_data_processing_link_src'    => 'https://epayco.com/tratamiento-de-datos/',
@@ -331,26 +332,29 @@ class PseGateway extends AbstractGateway
      *
      * @return array
      */
-    private function getFinancialInstitutions(): array
-    {
-        $test = $this->epayco->storeConfig->isTestMode();
-        $this->transaction = new PseTransaction($this, null, []);
-        $bancos = $this->transaction->sdk->bank->pseBank($test);
-        //$bancos=[];
-        if(isset($bancos) && isset($bancos->data) ){
-            $banks = (array) $bancos->data;
-            $convertedBanks = array();
-            foreach ($banks as $bank) {
-                $convertedBanks[] = array(
-                    'id' => $bank->bankCode,
-                    'description' => $bank->bankName
-                );
-            }
-        }else{
-            $convertedBanks[] =['id' => 0, 'description' => "Selecciona el banco"];
-        }
-        return $convertedBanks;
-    }
+
+     //Warning: Undefined property: Epayco\Epayco::$bank in C:\xampp82\htdocs\wordpress-6.8\wordpress\wp-content\plugins\-woocommerce-epayco-api-master\src\Gateways\PseGateway.php on line 338
+
+    // private function getFinancialInstitutions(): array
+    // {
+    //     $test = $this->epayco->storeConfig->isTestMode();
+    //     $this->transaction = new PseTransaction($this, null, []);
+    //     $bancos = $this->transaction->sdk->bank->pseBank($test);
+    //     //$bancos=[];
+    //     if(isset($bancos) && isset($bancos->data) ){
+    //         $banks = (array) $bancos->data;
+    //         $convertedBanks = array();
+    //         foreach ($banks as $bank) {
+    //             $convertedBanks[] = array(
+    //                 'id' => $bank->bankCode,
+    //                 'description' => $bank->bankName
+    //             );
+    //         }
+    //     }else{
+    //         $convertedBanks[] =['id' => 0, 'description' => "Selecciona el banco"];
+    //     }
+    //     return $convertedBanks;
+    // }
 
     /**
      * Get checkout epayco ticket

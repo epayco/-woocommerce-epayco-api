@@ -43,8 +43,8 @@ msgstr " de ePayco."
 #: src/Translations/StoreTranslations.php:231
 #: src/Translations/StoreTranslations.php:271
 #: src/Translations/StoreTranslations.php:338
-msgid " personal data processing policy"
-msgstr " política de tratamiento de datos personales"
+msgid " Personal data processing policy"
+msgstr "Política de Tratamiento de datos personales"
 
 #: src/Translations/AdminTranslations.php:72
 #, php-format
@@ -468,8 +468,8 @@ msgstr ""
 "está en el reverso de tu tarjeta."
 
 #: src/Translations/AdminTranslations.php:199
-msgid "Continue"
-msgstr "Continúe en"
+msgid "Save and continue"
+msgstr "Guardar y continuar "
 
 #: src/Translations/StoreTranslations.php:86
 msgid "Convention code"
@@ -706,7 +706,7 @@ msgstr ""
 #: src/Translations/AdminTranslations.php:377
 #: src/Translations/AdminTranslations.php:416
 msgid "ePayco plugin general settings"
-msgstr "configuración general del plugin ePayco"
+msgstr "Configuración general del plugin ePayco"
 
 #: src/Translations/StoreTranslations.php:84
 #: src/Translations/StoreTranslations.php:194
@@ -723,7 +723,7 @@ msgstr "ePayco WooCommerce"
 #: src/Translations/StoreTranslations.php:150
 #: src/Translations/StoreTranslations.php:312
 msgid "Expiration"
-msgstr "Caducidad"
+msgstr "Fecha de expiración"
 
 #: src/Translations/StoreTranslations.php:87
 msgid "Expiration Date"
@@ -835,8 +835,8 @@ msgstr "Nombre del titular"
 
 #: src/Translations/StoreTranslations.php:146
 #: src/Translations/StoreTranslations.php:308
-msgid "Holder name as it appears on the card"
-msgstr "Nombre del titular tal como aparece en la tarjeta"
+msgid "Name and lastname"
+msgstr "Nombre y apellido"
 
 #: src/Translations/StoreTranslations.php:147
 #: src/Translations/StoreTranslations.php:309
@@ -867,7 +867,7 @@ msgstr "https://github.com/epayco/Plugin_ePayco_WooCommerce"
 #: src/Translations/StoreTranslations.php:267
 #: src/Translations/StoreTranslations.php:334
 msgid "I confirm and accept the"
-msgstr "Confirmo y acepto las"
+msgstr "Confirmo y acepto los"
 
 #: src/Translations/AdminTranslations.php:291
 msgid "In how many days will cash payments expire."
@@ -1152,7 +1152,7 @@ msgstr "PSE está <b>activado</b>."
 
 #: src/Translations/AdminTranslations.php:131
 msgid "PUBLIC_KEY"
-msgstr "PUBLIC_KEY"
+msgstr "CLAVE_PÚBLICA"
 
 #: src/Translations/StoreTranslations.php:79
 #: src/Translations/StoreTranslations.php:185
@@ -1211,8 +1211,8 @@ msgid "Save and continue"
 msgstr "Guardar y continuar"
 
 #: src/Translations/AdminTranslations.php:227
-msgid "Save changes"
-msgstr "Guardar cambios"
+msgid "Apply changes"
+msgstr "Aplicar cambios"
 
 #: src/Translations/StoreTranslations.php:152
 #: src/Translations/StoreTranslations.php:311
@@ -1349,7 +1349,7 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:263
 #: src/Translations/StoreTranslations.php:329
 msgid "Terms and conditions"
-msgstr "condiciones generales"
+msgstr "Términos y Condiciones"
 
 #: src/Translations/AdminTranslations.php:215
 msgid "test"
@@ -1417,7 +1417,7 @@ msgstr "Este método de pago no puede procesar su pago."
 #: src/Translations/AdminTranslations.php:389
 #: src/Translations/AdminTranslations.php:428
 msgid "Title in the store Checkout"
-msgstr "Título en la tienda Pago"
+msgstr "Título en la tienda de pago"
 
 #: src/Translations/AdminTranslations.php:127
 msgid "To start selling, "
@@ -1496,7 +1496,7 @@ msgid ""
 "With the Credit card payment, you can sell inside your store environment, "
 "without redirection and with the security from ePayco."
 msgstr ""
-"Con el pago con tarjeta de crédito, puede vender dentro del entorno de su "
+"Con el pago con tarjeta de crédito, Puede vender dentro del entorno de su "
 "tienda, sin redireccionamiento y con la seguridad de ePayco."
 
 #: src/Translations/AdminTranslations.php:175
@@ -1504,7 +1504,7 @@ msgid ""
 "With the Subscription payment, you can sell inside your store environment, "
 "without redirection and with the security from ePayco."
 msgstr ""
-"Con el pago por Suscripción, puede vender dentro del entorno de su tienda, "
+"Con el pago por Suscripción, Puede vender dentro del entorno de su tienda, "
 "sin redireccionamiento y con la seguridad de ePayco."
 
 #: src/Translations/AdminTranslations.php:278
@@ -1526,7 +1526,7 @@ msgid ""
 "you can sell inside your store environment, without redirection and all the "
 "safety from ePayco."
 msgstr ""
-"puede vender dentro del entorno de su tienda, sin redireccionamiento y con "
+"Puede vender dentro del entorno de su tienda, sin redireccionamiento y con "
 "toda la seguridad de ePayco."
 
 #: src/Translations/StoreTranslations.php:257

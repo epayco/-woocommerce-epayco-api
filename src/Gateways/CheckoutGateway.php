@@ -208,7 +208,7 @@ class CheckoutGateway extends AbstractGateway
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             'and_the'   => $this->storeTranslations['and_the'],
-            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-generales/',
             'personal_data_processing_link_text'    => $this->storeTranslations['personal_data_processing_link_text'],
             'personal_data_processing_link_src'    => 'https://epayco.com/tratamiento-de-datos/',
             'site_id'                          => 'epayco',

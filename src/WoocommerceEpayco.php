@@ -331,7 +331,7 @@ class WoocommerceEpayco
                 $isInstalled = false;
                 $currentUserCanInstallPlugins = current_user_can('install_plugins');
 
-                $minilogo     = sprintf('%s%s', plugin_dir_url(__FILE__), '../assets/images/minilogo.png');
+                $minilogo     = sprintf('%s%s', plugin_dir_url(__FILE__), '../assets/images/logoepayco.png');
                 $translations = [
                     'activate_woocommerce' => __('Activate WooCommerce', 'woo-epayco-api'),
                     'install_woocommerce'  => __('Install WooCommerce', 'woo-epayco-api'),

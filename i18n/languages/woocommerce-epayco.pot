@@ -396,7 +396,7 @@ msgid ""
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:199
-msgid "Continue"
+msgid "Save and continue"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:106
@@ -746,7 +746,7 @@ msgstr ""
 
 #: src/Translations/StoreTranslations.php:146
 #: src/Translations/StoreTranslations.php:308
-msgid "Holder name as it appears on the card"
+msgid "Name and lastname"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:147
@@ -1105,7 +1105,7 @@ msgid "Save and continue"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:227
-msgid "Save changes"
+msgid "Apply changes"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:152
