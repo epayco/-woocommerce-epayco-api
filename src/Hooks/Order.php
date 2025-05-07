@@ -573,9 +573,9 @@ class Order
 
     public function epayco_realizar_llamada_api($path, $data, $headers, $afify = true, $method = 'POST') {
         if($afify){
-            $url = 'https://apify.epayco.co/'.$path;
+            $url = 'https://eks-apify-service.epayco.io/'.$path;
         }else{
-            $url = 'https://secure.epayco.co/restpagos/'.$path;
+            $url = 'https://eks-checkout-service.epayco.io/restpagos/'.$path;
         }
 
         $response = wp_remote_post($url, array(
