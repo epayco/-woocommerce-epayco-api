@@ -20,24 +20,24 @@ if (!defined('ABSPATH')) {
 <div id="message" class="notice notice-error">
     <div class="ep-alert-frame">
         <div class="ep-left-alert">
-            <img src="<?= esc_url($minilogo) ?>" alt="ePayco mini logo" />
+            <img src="<?php echo  esc_url($minilogo) ?>" alt="ePayco mini logo" />
         </div>
 
         <div class="ep-right-alert">
-            <p><?= wp_kses($translations['miss_woocommerce'], $allowedHtmlTags) ?></p>
+            <p><?php echo wp_kses($translations['miss_woocommerce'], $allowedHtmlTags) ?></p>
 
             <p>
                 <?php if ($missWoocommerceAction === 'active') : ?>
-                    <a class="button button-primary" href="<?= esc_html($activateLink) ?>">
-                        <?= wp_kses($translations['activate_woocommerce'], $allowedHtmlTags) ?>
+                    <a class="button button-primary" href="<?php echo esc_html($activateLink) ?>">
+                        <?php wp_kses($translations['activate_woocommerce'], $allowedHtmlTags) ?>
                     </a>
                 <?php elseif ($missWoocommerceAction === 'install') : ?>
-                    <a class="button button-primary" href="<?= esc_html($installLink) ?>">
-                        <?= wp_kses($translations['install_woocommerce'], $allowedHtmlTags) ?>
+                    <a class="button button-primary" href="<?php echo esc_html($installLink) ?>">
+                        <?php echo  wp_kses($translations['install_woocommerce'], $allowedHtmlTags) ?>
                     </a>
                 <?php else : ?>
                     <a class="button button-primary" href="https://wordpress.org/plugins/woocommerce/">
-                        <?= wp_kses($translations['see_woocommerce'], $allowedHtmlTags) ?>
+                        <?php echo  wp_kses($translations['see_woocommerce'], $allowedHtmlTags) ?>
                     </a>
                 <?php endif; ?>
             </p>

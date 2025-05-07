@@ -117,7 +117,7 @@ class Order
      */
     public function setDaviplataMetadata(WC_Order $order, $data): void
     {
-        $externalResourceUrl = json_encode($data);
+        $externalResourceUrl = wp_json_encode($data);
         $this->orderMetadata->setDaviplataTransactionDetailsData($order, $externalResourceUrl);
         $order->save();
     }
@@ -227,21 +227,56 @@ class Order
         $alert_title = '';
         $order_id=false;
 
-        $status = $paymentInfo->data->x_response;
-        $alert_title = $paymentInfo->data->x_response;
-        $alert_description = $paymentInfo->data->x_response_reason_text;
-        $ref_payco = $paymentInfo->data->x_ref_payco;
-        $test = $paymentInfo->data->x_test_request == 'TRUE' ? 'Pruebas' : 'Producción';
-        $transactionDateTime= $paymentInfo->data->x_transaction_date;
-        $bank= $paymentInfo->data->x_bank_name;
-        $authorization= $paymentInfo->data->x_approval_code;
-        $order_id = $paymentInfo->data->x_id_invoice;
+        $status = $paymentInfo->data->status;
+        $alert_title = $paymentInfo->data->status;
+        $alert_description = $paymentInfo->data->response;
+        $ref_payco = $paymentInfo->data->referencePayco;
+        $test = $paymentInfo->data->test == 1 ? 'Pruebas' : 'Producción';
+        $transactionDateTime= $paymentInfo->data->transactionDate;
+        $bank= $paymentInfo->data->bank;
+        $authorization= $paymentInfo->data->authorization;
+        $order_id = $paymentInfo->data->bill;
 
         if(!$order_id){
             return false;
         }
         $order = new WC_Order($order_id);
         $WooOrderstatus = $order->get_status();
+        if($bank == 'DP' || $bank == 'DaviPlata'){
+            $bodyRequest= [
+                "filter"=>[
+                    "referenceClient"=>$order_id
+                ]
+            ];
+            $transactionDetails =  $this->sdk->transaction->get($bodyRequest, true, "POST");
+            $transactionInfo = json_decode(wp_json_encode($transactionDetails), true);
+
+            if (empty($transactionInfo)) {
+                return;
+            }
+
+            if (is_array($transactionInfo)) {
+                foreach ((array) $transactionInfo as $transaction) {
+                    $daviplataTransactionData["data"] = $transaction;
+                }
+            }
+            if(is_array($daviplataTransactionData['data'])){
+                $transaciton = $daviplataTransactionData["data"];
+            }elseif(is_array($transactionInfo)){
+                    $transaciton = $transactionInfo["data"];
+            }else{
+                    return [];
+            }
+            //$transaciton = end($daviplataTransactionData["data"]);
+            $status = $transaciton['status'];
+            $alert_title = $transaciton['status'];
+            $alert_description = $transaciton['response'];
+            $ref_payco = $transaciton['referencePayco'];
+            $test = intval($transaciton['test'])  == 1 ? 'Pruebas' : 'Producción';
+            $transactionDateTime= $transaciton['transactionDate'];
+            $bank= $transaciton['bank'];
+            $authorization= $transaciton['authorization'];
+        }
 
         switch ($status) {
             case 'Aceptada':
@@ -256,7 +291,7 @@ class Order
         }
         $paymentStatusType = PaymentStatus::getStatusType(strtolower($orderstatus));
         $upload_order=false;
-        if($WooOrderstatus == 'on-hold'||$WooOrderstatus == 'cancelled'){
+        if($WooOrderstatus == 'on-hold'||$WooOrderstatus == 'cancelled' ||$WooOrderstatus == 'pending'){
             $upload_order=true;
         }
 
@@ -358,7 +393,7 @@ class Order
                     "pagination" => ["page"=>1],
                     "success" =>true
             );
-            return $this->sdk->transaction->get($paymentsIds[0]);
+            return $this->sdk->transaction->get($data, true, "POST");
             //return false;
         } catch (Exception $e) {
             return false;
@@ -408,11 +443,11 @@ class Order
         add_action('epayco_sync_pending_status_order_action', function () {
             try {
                 $orders = wc_get_orders(array(
-                    'limit'    => -1,
-                    'status'   => 'on-hold',
-                    'meta_query' => array(
-                        'key' => $this->orderMetadata::PAYMENTS_IDS
-                    )
+                    'limit'      => -1,          // o fija un límite real
+                    'status'     => 'on-hold',
+                    'meta_key'   => $this->orderMetadata::PAYMENTS_IDS,
+                    'meta_compare' => 'EXISTS',  // o '=' si filtras por valor
+
                 ));
                 $ref_payco_list = [];
                 foreach ($orders as $order) {
@@ -538,15 +573,15 @@ class Order
 
     public function epayco_realizar_llamada_api($path, $data, $headers, $afify = true, $method = 'POST') {
         if($afify){
-            $url = 'https://apify.epayco.io/'.$path;
+            $url = 'https://eks-apify-service.epayco.io/'.$path;
         }else{
-            $url = 'https://secure2.epayco.io/restpagos/'.$path;
+            $url = 'https://eks-checkout-service.epayco.io/restpagos/'.$path;
         }
 
         $response = wp_remote_post($url, array(
             'method'    => $method,
             'headers' => $headers,
-            'data' => json_encode($data),
+            'data' => wp_json_encode($data),
             'timeout'   => 120,
         ));
 

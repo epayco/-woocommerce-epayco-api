@@ -49,7 +49,7 @@ class SubscriptionGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->subscriptionCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card.png');
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('credit-card-botton.png');
         $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('botonsuscripciones.png');
         $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
 
@@ -257,14 +257,14 @@ class SubscriptionGateway extends AbstractGateway
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             //'terms_and_conditions_link_text'   => $termsAndCondiction,
-            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-generales/',
             'personal_data_processing_link_text'    => $this->storeTranslations['personal_data_processing_link_text'],
             'and_the'   => $this->storeTranslations['and_the'],
             'personal_data_processing_link_src'    => 'https://epayco.com/tratamiento-de-datos/',
             'site_id'                          => 'epayco',
             'city'                          => $city,
             'customer_title'              => $this->storeTranslations['customer_title'],
-            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo-checkout.png'),
             'icon_info' =>       $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
             'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];
@@ -297,7 +297,7 @@ class SubscriptionGateway extends AbstractGateway
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
                 $response = $this->transaction->createSubscriptionPayment($order_id, $checkout);
-                $response = json_decode(json_encode($response), true);
+                $response = json_decode(wp_json_encode($response), true);
                 if (is_array($response) && $response['success']) {
                     $ref_payco = $response['ref_payco'][0];
                     if (in_array(strtolower($response['estado'][0]),["pendiente","pending"])) {
@@ -345,9 +345,10 @@ class SubscriptionGateway extends AbstractGateway
                     $processReturnFailMessage = $messageError. " " . $errorMessage;
                     return $this->returnFail($processReturnFailMessage, $order);
                 }
+            }else{
+                $processReturnFailMessage = "Token incorrect ";
+                return $this->returnFail($processReturnFailMessage, $order);
             }
-
-            throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
         } catch (\Exception $e) {
             return $this->processReturnFail(
                 $e,
@@ -390,7 +391,7 @@ class SubscriptionGateway extends AbstractGateway
     {
         $order        = wc_get_order($order_id);
         $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
-        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+        $paymentInfo = json_decode(wp_json_encode($lastPaymentId), true);
 
         if (empty($paymentInfo)) {
             return;
@@ -400,8 +401,9 @@ class SubscriptionGateway extends AbstractGateway
             "success" =>true
         );
         $this->transaction = new SubscriptionTransaction($this, $order, []);
-        $transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
-        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+        //$transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
+        $transactionDetails = $this->transaction->sdk->transaction->get($data, true, "POST");
+        $transactionInfo = json_decode(wp_json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {
             return;

@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
 
     <div class="landingResumen">
         <nav class="navEpayco">
-            <img src="https://secure.epayco.co/img/new-logo.svg" alt="logo">
+            <img src="https://eks-checkout-service.epayco.io/img/new-logo.svg" alt="logo">
         </nav>
         <div class="containerResumen">
             <div class="hole"></div>

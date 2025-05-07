@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
 
 class WoocommerceEpayco
 {
-    private const PLUGIN_VERSION = '4.0.0';
+    private const PLUGIN_VERSION = '1.0.0';
     private const PLATFORM_NAME = 'woocommerce';
     private const TICKET_TIME_EXPIRATION = 3;
     private const PLUGIN_NAME = '-wooommerce-epayco-api/woocommerce-epayco.php';
@@ -94,11 +94,11 @@ class WoocommerceEpayco
     {
 
         $methods = [
-                'Epayco\Woocommerce\Gateways\TicketGateway',
-                'Epayco\Woocommerce\Gateways\DaviplataGateway',
-                'Epayco\Woocommerce\Gateways\CreditCardGateway',
-                'Epayco\Woocommerce\Gateways\PseGateway',
-                'Epayco\Woocommerce\Gateways\CheckoutGateway',
+            'Epayco\Woocommerce\Gateways\CheckoutGateway',
+            'Epayco\Woocommerce\Gateways\CreditCardGateway',
+            'Epayco\Woocommerce\Gateways\DaviplataGateway',
+            'Epayco\Woocommerce\Gateways\PseGateway',
+            'Epayco\Woocommerce\Gateways\TicketGateway'
         ];
         if (class_exists('WC_Subscriptions')){
             array_push($methods, 'Epayco\Woocommerce\Gateways\SubscriptionGateway');
@@ -287,7 +287,7 @@ class WoocommerceEpayco
     public function adminNoticeMissWoocoommerceSubscription(): void
     {
         $url_docs = 'https://github.com/wp-premium/woocommerce-subscriptions';
-        $subs = __( 'Subscription ePayco: Woocommerce subscriptions must be installed and active, ') . sprintf(__('<a target="_blank" href="%s">'. __('check documentation for help') .'</a>'), $url_docs);
+        $subs = sprintf( __( 'Subscription ePayco: WooCommerce Subscriptions must be installed and active, <a target="_blank" href="%1$s">%2$s</a>', 'woo-epayco-api' ), esc_url( $url_docs ), __( 'check documentation for help', 'woo-epayco-api' ) );
         add_action(
             'admin_notices',
             function() use($subs) {
@@ -300,7 +300,7 @@ class WoocommerceEpayco
     {
         ?>
         <div class="error notice">
-            <p><?php echo $notice; ?></p>
+            <p><?php echo esc_html( $notice ); ?></p>
         </div>
         <?php
     }
@@ -331,7 +331,7 @@ class WoocommerceEpayco
                 $isInstalled = false;
                 $currentUserCanInstallPlugins = current_user_can('install_plugins');
 
-                $minilogo     = sprintf('%s%s', plugin_dir_url(__FILE__), '../assets/images/minilogo.png');
+                $minilogo     = sprintf('%s%s', plugin_dir_url(__FILE__), '../assets/images/logoepayco.png');
                 $translations = [
                     'activate_woocommerce' => __('Activate WooCommerce', 'woo-epayco-api'),
                     'install_woocommerce'  => __('Install WooCommerce', 'woo-epayco-api'),

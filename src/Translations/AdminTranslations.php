@@ -102,7 +102,7 @@ class AdminTranslations
     private function setHeaderSettingsTranslations(): void
     {
         $titleHeader = sprintf(
-            '<div class="ep-settings-header-title"><p style="font-weight: 900;color: #16161D ;margin:0px 50px;font-size: 19px;line-height: 20px;">%s</p><p style="font-weight: 900;color: #DF5C1F;margin:0px 50px;font-size: 29px;">%s</p><p class="ep-settings-context">%s</p></div>',
+            '<div class="ep-settings-header-title"><p class="ep-settings-header-title-welcome">%s</p><p class="ep-settings-header-title-welcome2">%s</p><p class="ep-settings-context">%s</p></div>',
             __('OPTIMIZE YOUR STORE WITH THE', 'woo-epayco-api'),
             __('ePayco PLUGIN', 'woo-epayco-api'),
             __('Facilitate payments in your online store with the ePayco plugin. With this integration, you will be able to offer your customers a fast, secure and frictionless payment experience.', 'woo-epayco-api'),
@@ -195,7 +195,7 @@ class AdminTranslations
             'title_payments'    => __('2. Activate and set up payment methods', 'woo-epayco-api'),
             'subtitle_payments' => __('Select the payment method you want to appear in your store to activate and set it up.', 'woo-epayco-api'),
             'settings_payment'  => __('Settings', 'woo-epayco-api'),
-            'button_payment'    => __('Continue', 'woo-epayco-api'),
+            'button_payment'    => __('Save and continue', 'woo-epayco-api'),
             'enabled'           => __('Enabled', 'woo-epayco-api'),
             'disabled'          => __('Disabled', 'woo-epayco-api'),
             'empty_credentials' => __('Configure your credentials to enable ePayco payment methods.', 'woo-epayco-api'),
@@ -223,7 +223,7 @@ class AdminTranslations
             'title_message_prod'      => __('ePayco payment methods in Production Mode', 'woo-epayco-api'),
             'title_message_test'      => __('ePayco payment methods in Test Mode', 'woo-epayco-api'),
             'subtitle_message_prod'   => __('The clients can make real purchases in your store.', 'woo-epayco-api'),
-            'button_test_mode'        => __('Save changes', 'woo-epayco-api'),
+            'button_test_mode'        => __('Save and continue', 'woo-epayco-api'),
         ];
     }
 
@@ -402,13 +402,13 @@ class AdminTranslations
     {
         $ePaycoCheckoutDescriptionsEnabled = sprintf(
             '%s <b>%s</b>.',
-            __('One Page Checkout is', 'woo-epayco-api'),
+            __('OnPage Checkout is', 'woo-epayco-api'),
             __('enabled', 'woo-epayco-api')
         );
 
         $ePaycoCheckoutDescriptionsDisabled = sprintf(
             '%s <b>%s</b>.',
-            __('One Page Checkout is', 'woo-epayco-api'),
+            __('OnPage Checkout is', 'woo-epayco-api'),
             __('disabled', 'woo-epayco-api')
         );
         $this->checkoutGatewaySettings = [

@@ -23,16 +23,16 @@ if (!defined('ABSPATH')) {
 <tr valign="top">
     <td class="forminp">
         <div class="credits-info-example-text">
-            <label><?= esc_html($settings['title']) ?></label>
-            <p><?= esc_html($settings['subtitle']) ?></p>
+            <label><?php echo esc_html($settings['title']) ?></label>
+            <p><?php echo esc_html($settings['subtitle']) ?></p>
         </div>
         <div class="credits-info-preview-container">
             <div class="credits-info-example-image-container">
-                <p class="credits-info-example-preview-pill"><?= esc_html($settings['pill_text']) ?></p>
+                <p class="credits-info-example-preview-pill"><?php echo esc_html($settings['pill_text']) ?></p>
                 <div class="credits-info-example-image">
-                    <img alt='example' src="<?= esc_html($settings['image']) ?>">
+                    <img alt='example' src="<?php echo esc_html($settings['image']) ?>">
                 </div>
-                <p class="credits-info-example-preview-footer"><?= esc_html($settings['footer']) ?></p>
+                <p class="credits-info-example-preview-footer"><?php echo esc_html($settings['footer']) ?></p>
             </div>
         </div>
     </td>

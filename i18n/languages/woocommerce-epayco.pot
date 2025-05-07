@@ -396,7 +396,7 @@ msgid ""
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:199
-msgid "Continue"
+msgid "Save and continue"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:106
@@ -746,7 +746,7 @@ msgstr ""
 
 #: src/Translations/StoreTranslations.php:146
 #: src/Translations/StoreTranslations.php:308
-msgid "Holder name as it appears on the card"
+msgid "Name and lastname"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:147
@@ -892,7 +892,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:406
 #: src/Translations/AdminTranslations.php:412
-msgid "One Page Checkout is"
+msgid "OnPage Checkout is"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:78
@@ -1102,11 +1102,11 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:138
 msgid "Save and continue"
-msgstr ""
+msgstr "Guardar y continuar"
 
-#: src/Translations/AdminTranslations.php:227
-msgid "Save changes"
-msgstr ""
+#: src/Translations/AdminTranslations.php:226
+msgid "Save and ended"
+msgstr "Guardar y finalizar"
 
 #: src/Translations/StoreTranslations.php:152
 #: src/Translations/StoreTranslations.php:311

@@ -49,7 +49,7 @@ class CreditCardGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->creditcardCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card.png');
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('credit-card-botton.png');
         $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('credit-card-botton.png');
         $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
 
@@ -253,12 +253,12 @@ class CreditCardGateway extends AbstractGateway
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             //'terms_and_conditions_link_text'   => $termsAndCondiction,
             'and_the'   => $this->storeTranslations['and_the'],
-            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-generales/',
             'personal_data_processing_link_text'    => $this->storeTranslations['personal_data_processing_link_text'],
             'personal_data_processing_link_src'    => 'https://epayco.com/tratamiento-de-datos/',
             'site_id'                          => 'epayco',
             'city'                          => $city,
-            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo-checkout.png'),
             'icon_info' =>       $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
             'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];
@@ -291,7 +291,7 @@ class CreditCardGateway extends AbstractGateway
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
                 $response = $this->transaction->createTcPayment($order_id, $checkout);
-                $response = json_decode(json_encode($response), true);
+                $response = json_decode(wp_json_encode($response), true);
                 if (is_array($response) && $response['success']) {
                     $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
                     if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
@@ -387,7 +387,7 @@ class CreditCardGateway extends AbstractGateway
     {
         $order        = wc_get_order($order_id);
         $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
-        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+        $paymentInfo = json_decode(wp_json_encode($lastPaymentId), true);
 
         if (empty($paymentInfo)) {
             return;
@@ -397,8 +397,9 @@ class CreditCardGateway extends AbstractGateway
             "success" =>true
         );
         $this->transaction = new CreditCardTransaction($this, $order, []);
-        $transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
-        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+        //$transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
+        $transactionDetails = $this->transaction->sdk->transaction->get($data, true, "POST");
+        $transactionInfo = json_decode(wp_json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {
             return;

@@ -47,7 +47,8 @@
             })(t);
             const M = (0, a.useRef)(null),
                 {eventRegistration: o, emitResponse: c} = t,
-                {onPaymentSetup: r} = o;
+                {onPaymentSetup: r} = o,
+                p = ["address_city", "address_federal_unit", "address_zip_code", "address_street_name", "address_street_number", "address_neighborhood", "address_complement"];
             return (0, a.useEffect)((() => {
                 const e = r((async () => {
                     const  n = {

@@ -2,6 +2,7 @@
 
 namespace Epayco\Woocommerce\Gateways;
 
+use Epayco\Woocommerce\Exceptions\InvalidCheckoutDataException;
 use Epayco\Woocommerce\Helpers\Form;
 use Epayco\Woocommerce\Helpers\PaymentStatus;
 use Epayco\Woocommerce\Transactions\PseTransaction;
@@ -50,7 +51,7 @@ class PseGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->pseCheckout;
 
         $this->id    = self::ID;
-        $this->icon  = $this->epayco->hooks->gateway->getGatewayIcon('icon-pse.png');
+        $this->icon  = $this->epayco->hooks->gateway->getGatewayIcon('pse-botton.png');
         $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('pse-botton.png');
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
 
@@ -157,12 +158,12 @@ class PseGateway extends AbstractGateway
         parent::registerCheckoutScripts();
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
-            'wc_epayco_pse_checkout',
+            'wc_epayco_pse_page',
             $this->epayco->helpers->url->getJsAsset('checkouts/pse/ep-pse-page')
         );
 
         $this->epayco->hooks->scripts->registerCheckoutScript(
-            'wc_epayco_pse_checkout',
+            'wc_epayco_pse_elements',
             $this->epayco->helpers->url->getJsAsset('checkouts/pse/ep-pse-elements')
         );
 
@@ -222,7 +223,7 @@ class PseGateway extends AbstractGateway
             'input_country_label'              => $this->storeTranslations['input_country_label'],
             'input_country_helper'             => $this->storeTranslations['input_country_helper'],
             'person_type_label'                => $this->storeTranslations['person_type_label'],
-            'financial_institutions'           => json_encode($this->getFinancialInstitutions()),
+            'financial_institutions'           => wp_json_encode($this->getFinancialInstitutions()),
             'financial_institutions_label'     => $this->storeTranslations['financial_institutions_label'],
             'financial_institutions_helper'    => $this->storeTranslations['financial_institutions_helper'],
             'financial_placeholder'            => $this->storeTranslations['financial_placeholder'],
@@ -230,13 +231,13 @@ class PseGateway extends AbstractGateway
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
-            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-generales/',
             'personal_data_processing_link_text'    => $this->storeTranslations['personal_data_processing_link_text'],
             'and_the'   => $this->storeTranslations['and_the'],
             'personal_data_processing_link_src'    => 'https://epayco.com/tratamiento-de-datos/',
             'city'                          => $city,
             'customer_title'              => $this->storeTranslations['customer_title'],
-            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo-checkout.png'),
             'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];
     }
@@ -255,57 +256,63 @@ class PseGateway extends AbstractGateway
             parent::process_payment($order_id);
 
             $checkout = $this->getCheckoutEpaycoPse($order);
-            $this->epayco->orderMetadata->markPaymentAsBlocks($order, "yes");
+            if ($checkout['bank'] !== '0'
+            ) {
+                $this->epayco->orderMetadata->markPaymentAsBlocks($order, "yes");
 
-            //$this->validateRulesPse($checkout);
-            $this->transaction = new PseTransaction($this, $order, $checkout);
-            $redirect_url =get_site_url() . "/";
-            $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
-            $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
-            $confirm_url = $redirect_url.'&confirmation=1';
-            $checkout['confirm_url'] = $confirm_url;
-            $checkout['response_url'] = $order->get_checkout_order_received_url();
-            $response = $this->transaction->createPsePayment($order_id, $checkout);
-            $response = json_decode(json_encode($response), true);
-            if (is_array($response) && $response['success']) {
-                if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
-                    $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
-                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
-                    $order->update_status("on-hold");
-                    $this->epayco->woocommerce->cart->empty_cart();
-                    /*if ($this->epayco->hooks->options->getGatewayOption($this, 'stock_reduce_mode', 'no') === 'yes') {
-                            wc_reduce_stock_levels($order_id);
-                            wc_increase_stock_levels($order_id);
-                    }*/
-                    return [
-                        'result'   => 'success',
-                        'redirect' => $response['data']['urlbanco'],
-                    ];
+                //$this->validateRulesPse($checkout);
+                $this->transaction = new PseTransaction($this, $order, $checkout);
+                $redirect_url =get_site_url() . "/";
+                $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
+                $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
+                $confirm_url = $redirect_url.'&confirmation=1';
+                $checkout['confirm_url'] = $confirm_url;
+                $checkout['response_url'] = $order->get_checkout_order_received_url();
+                $response = $this->transaction->createPsePayment($order_id, $checkout);
+                $response = json_decode(wp_json_encode($response), true);
+                if (is_array($response) && $response['success']) {
+                    if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
+                        $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
+                        $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
+                        $order->update_status("on-hold");
+                        $this->epayco->woocommerce->cart->empty_cart();
+                        /*if ($this->epayco->hooks->options->getGatewayOption($this, 'stock_reduce_mode', 'no') === 'yes') {
+                                wc_reduce_stock_levels($order_id);
+                                wc_increase_stock_levels($order_id);
+                        }*/
+                        return [
+                            'result'   => 'success',
+                            'redirect' => $response['data']['urlbanco'],
+                        ];
+                    }
+                }else{
+                    //$this->handleWithRejectPayment($response);
+                    $messageError = $response['message']?? $response['titleResponse'];
+                    $errorMessage = "";
+                    if (isset($response['data']['errors'])) {
+                        $errors = $response['data']['errors'];
+                        foreach ($errors as $error) {
+                            $errorMessage = $error['errorMessage'] . "\n";
+                        }
+                    } elseif (isset($response['data']['error']['errores'])) {
+                        $errores = $response['data']['error']['errores'];
+                        foreach ($errores as $error) {
+                            $errorMessage = $error['errorMessage'] . "\n";
+                        }
+                    }elseif (isset($response['data']['error'])) {
+                        $errores = $response['data']['error'];
+                        foreach ($errores as $error) {
+                            $errorMessage = $error['errorMessage'] . "\n";
+                        }
+                    }
+                    $processReturnFailMessage = $messageError. " " . $errorMessage;
+                    return $this->returnFail($processReturnFailMessage, $order);
+
                 }
             }else{
-                //$this->handleWithRejectPayment($response);
-                $messageError = $response['message']?? $response['titleResponse'];
-                $errorMessage = "";
-                if (isset($response['data']['errors'])) {
-                    $errors = $response['data']['errors'];
-                    foreach ($errors as $error) {
-                        $errorMessage = $error['errorMessage'] . "\n";
-                    }
-                } elseif (isset($response['data']['error']['errores'])) {
-                    $errores = $response['data']['error']['errores'];
-                    foreach ($errores as $error) {
-                        $errorMessage = $error['errorMessage'] . "\n";
-                    }
-                }elseif (isset($response['data']['error'])) {
-                    $errores = $response['data']['error'];
-                    foreach ($errores as $error) {
-                        $errorMessage = $error['errorMessage'] . "\n";
-                    }
-                }
-                $processReturnFailMessage = $messageError. " " . $errorMessage;
-                return $this->returnFail($processReturnFailMessage, $order);
-
+                throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
             }
+
             //throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
         } catch (\Exception $e) {
             return $this->processReturnFail(
@@ -324,12 +331,15 @@ class PseGateway extends AbstractGateway
      *
      * @return array
      */
+
+     //Warning: Undefined property: Epayco\Epayco::$bank in C:\xampp82\htdocs\wordpress-6.8\wordpress\wp-content\plugins\-woocommerce-epayco-api-master\src\Gateways\PseGateway.php on line 338
+
     private function getFinancialInstitutions(): array
     {
         $test = $this->epayco->storeConfig->isTestMode();
         $this->transaction = new PseTransaction($this, null, []);
-        //$bancos = $this->transaction->sdk->bank->pseBank($test);
-        $bancos=[];
+        $bancos = $this->transaction->sdk->bank->pseBank($test);
+        //$bancos=[];
         if(isset($bancos) && isset($bancos->data) ){
             $banks = (array) $bancos->data;
             $convertedBanks = array();
@@ -377,7 +387,7 @@ class PseGateway extends AbstractGateway
     {
         $order        = wc_get_order($order_id);
         $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
-        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+        $paymentInfo = json_decode(wp_json_encode($lastPaymentId), true);
 
         if (empty($paymentInfo)) {
             return;
@@ -387,8 +397,8 @@ class PseGateway extends AbstractGateway
             "success" =>true
         );
         $this->transaction = new PseTransaction($this, $order, []);
-        $transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
-        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+        $transactionDetails = $this->transaction->sdk->transaction->get($data, true, "POST");
+        $transactionInfo = json_decode(wp_json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {
             return;

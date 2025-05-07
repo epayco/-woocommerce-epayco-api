@@ -124,6 +124,7 @@
                             termanAndContictionHelpers.classList.remove("ep-error")
                         }
                     });
+
                     const bank = document.getElementsByName('epayco_pse[bank]')[1].value;
                     const bankHelper = document.getElementsByName('epayco_pse[bank]')[0].querySelector('input-helper-epayco').querySelector('div');
                     if("0" === bank){
@@ -193,3 +194,5 @@
         };
     (0, t.registerPaymentMethod)(l)
 })();
+
+

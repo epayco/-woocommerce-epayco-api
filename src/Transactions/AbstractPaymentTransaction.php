@@ -53,7 +53,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $myIp=$this->getCustomerIp();
         $confirm_url = $checkout["confirm_url"];
         $response_url = $checkout["confirm_url"];
-        $end_date = date('y-m-d', strtotime(sprintf('+%s days',$checkout["date_expiration"]) ));
+        $end_date = gmdate( 'Y-m-d', strtotime( '+' . (int) $checkout['date_expiration'] . ' days' ) );
         $testMode = $this->epayco->storeConfig->isTestMode()??false;
         $customerName = $checkout["name"]??$checkout[""]["name"];
         $explodeName = explode(" ", $customerName);
@@ -66,11 +66,11 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout["documentType"];
         $doc_number= $checkout["doc_number"]??$checkout["document"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"];
-        $cellphone= $checkout["cellphonetype"];
+        $cellphone= $checkout["cellphone"];
         //$cellphone=@$order->billing_phone??'0';
         $data = array(
             "paymentMethod" => $checkout["paymentMethod"],
-            "invoice" => (string)$order->get_id()."dd",
+            "invoice" => (string)$order->get_id(),
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,
@@ -101,7 +101,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         );
         $cash = $this->sdk->cash->create($data);
 
-        $cash = json_decode(json_encode($cash), true);
+        $cash = json_decode(wp_json_encode($cash), true);
         return $cash;
     }
 
@@ -150,16 +150,16 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         //$holder_address= $checkout["address"]??$checkout[""]["address"];
         $person_type= 'PN';
         $holder_address=$order->get_billing_address_1();
-        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"];
-        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout["documentType"];
+        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$checkout["document"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];
-        $cellphone= $checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
-        $cellphonetype = $_POST["cellphone"]??$checkout["cellphone"]??$checkout[""]["cellphone"];
+        $cellphonetype= $checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
+        $cellphone = $_POST["cellphone"]??$checkout["cellphone"]??$checkout[""]["cellphone"];
         $cellphonetypeIn = explode("+", $cellphonetype)[1];
         $city = WC()->countries->get_base_city() !='' ? WC()->countries->get_base_city():$order->get_shipping_city();
         $testMode = $this->epayco->storeConfig->isTestMode()??false;
         $data = array(
-            "invoice" => (string)$order->get_id()."dd",
+            "invoice" => (string)$order->get_id(),
             "description" => $descripcion,
             "value" =>(string)$order->get_total(),
             "tax" => (string)$iva,
@@ -189,7 +189,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             "extras_epayco"=>["extra5"=>"P19"]
         );
         $daviplata = $this->sdk->daviplata->create($data);
-        $daviplata= json_decode(json_encode($daviplata), true);
+        $daviplata= json_decode(wp_json_encode($daviplata), true);
         return $daviplata;
     }
 
@@ -332,10 +332,10 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         $bank = $checkout["bank"]??$checkout[""]["bank"];
         $person_type= $checkout["person_type"]??$checkout[""]["person_type"];
         $holder_address= $checkout["address"]??$checkout[""]["address"];
-        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"];
-        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
+        $doc_type= $checkout["identificationtype"]??$checkout["identificationType"]??$checkout[""]["identificationType"]??$checkout["documentType"];
+        $doc_number= $checkout["doc_number"]??$checkout[""]["doc_number"]??$checkout["document"]??$_POST['docNumberError']??$_POST['identificationTypeError'];
         $email= $checkout["email"]??$checkout[""]["email"];
-        $cellphone= $checkout["cellphonetype"]??$checkout[""]["cellphonetype"];
+        $cellphone= $checkout["cellphonetype"]??$checkout[""]["cellphonetype"]??$checkout["cellphone"];
         $data = array(
             "bank" => $bank,
             "invoice" => (string)$order->get_id(),
@@ -465,7 +465,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                 $count_cards = 0;
                 for ($i = 0; $i < count($customerGetData); $i++) {
                     $customers = $this->sdk->customer->get($customerGetData[$i]->customer_id);
-                    $customers = json_decode(json_encode($customers), true);
+                    $customers = json_decode(wp_json_encode($customers), true);
                     if($customers['success']){
                         $cards = $customers['data']['cards'];
                         for ($j = 0; $j < count($cards); $j++) {
@@ -560,7 +560,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                     "default" => true
                 ]
             );
-            $customer = json_decode(json_encode($customer), true);
+            $customer = json_decode(wp_json_encode($customer), true);
             return $customer;
         } catch (\Exception $exception) {
             return [
@@ -962,7 +962,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
 
     public function string_sanitize($string, $force_lowercase = true, $anal = false) {
         $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]","}", "\\", "|", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;","â€”", "â€“", "<", ">", "/", "?");
-        $clean = trim(str_replace($strip, "", strip_tags($string)));
+        $clean = trim(str_replace($strip, "", wp_strip_all_tags($string)));
         $clean = preg_replace('/\s+/', "_", $clean);
         $clean = ($anal) ? preg_replace("/[^a-zA-Z0-9]/", "", $clean) : $clean ;
         return $clean;
@@ -991,22 +991,22 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
 
     public function returnParameterToThankyouPage($transactionInfo, $payment)
     {
-        $x_amount = $transactionInfo['data']['x_amount']??$transactionInfo['data']['amount'];
-        $x_amount_base = $transactionInfo['data']['x_amount_base']??$transactionInfo['data']['taxBaseClient'];
-        $x_cardnumber = $transactionInfo['data']['x_cardnumber']??$transactionInfo['data']['numberCard'];
-        $x_id_invoice = $transactionInfo['data']['x_id_invoice']??$transactionInfo['data']['bill'];
-        $x_franchise = $transactionInfo['data']['x_franchise']??$transactionInfo['data']['bank'];
-        $x_transaction_id = $transactionInfo['data']['x_transaction_id']??$transactionInfo['data']['referencePayco'];
-        $x_transaction_date = $transactionInfo['data']['x_transaction_date']??$transactionInfo['data']['transactionDate'];
-        $x_transaction_state = $transactionInfo['data']['x_transaction_state']??$transactionInfo['data']['status'];
-        $x_customer_ip = $transactionInfo['data']['x_customer_ip']??$transactionInfo['data']['ip'];
-        $x_description = $transactionInfo['data']['x_description']??$transactionInfo['data']['description'];
-        $x_response= $transactionInfo['data']['x_response']??$transactionInfo['data']['status'];
-        $x_response_reason_text= $transactionInfo['data']['x_response_reason_text']??$transactionInfo['data']['response'];
-        $x_approval_code= $transactionInfo['data']['x_approval_code']??$transactionInfo['data']['authorization'];
-        $x_ref_payco= $transactionInfo['data']['x_ref_payco']??$transactionInfo['data']['referencePayco'];
-        $x_tax= $transactionInfo['data']['x_tax']??$transactionInfo['data']['tax'];
-        $x_currency_code= $transactionInfo['data']['x_currency_code']??$transactionInfo['data']['currency'];
+        $x_amount = $transactionInfo['data']['x_amount']??$transactionInfo['data']['amount']??$transactionInfo['data'][0]['amount'];
+        $x_amount_base = $transactionInfo['data']['x_amount_base']??$transactionInfo['data']['taxBaseClient']??$transactionInfo['data'][0]['taxBaseClient'];
+        $x_cardnumber = $transactionInfo['data']['x_cardnumber']??$transactionInfo['data']['numberCard']??$transactionInfo['data'][0]['numberCard'];
+        $x_id_invoice = $transactionInfo['data']['x_id_invoice']??$transactionInfo['data']['bill']??$transactionInfo['data'][0]['bill'];
+        $x_franchise = $transactionInfo['data']['x_franchise']??$transactionInfo['data']['paymentMethod']??$transactionInfo['data'][0]['paymentMethod']??$transactionInfo['data']['bank']??$transactionInfo['data'][0]['bank'];
+        $x_transaction_id = $transactionInfo['data']['x_transaction_id']??$transactionInfo['data']['referencePayco']??$transactionInfo['data'][0]['referencePayco'];
+        $x_transaction_date = $transactionInfo['data']['x_transaction_date']??$transactionInfo['data']['transactionDate']??$transactionInfo['data'][0]['transactionDate'];
+        $x_transaction_state = $transactionInfo['data']['x_transaction_state']??$transactionInfo['data']['status']??$transactionInfo['data'][0]['status'];
+        $x_customer_ip = $transactionInfo['data']['x_customer_ip']??$transactionInfo['data']['ip']??$transactionInfo['data'][0]['ip'];
+        $x_description = $transactionInfo['data']['x_description']??$transactionInfo['data']['description']??$transactionInfo['data'][0]['description'];
+        $x_response= $transactionInfo['data']['x_response']??$transactionInfo['data']['status']??$transactionInfo['data'][0]['status'];
+        $x_response_reason_text= $transactionInfo['data']['x_response_reason_text']??$transactionInfo['data']['response']??$transactionInfo['data'][0]['response'];
+        $x_approval_code= $transactionInfo['data']['x_approval_code']??$transactionInfo['data']['authorization']??$transactionInfo['data'][0]['authorization'];
+        $x_ref_payco= $transactionInfo['data']['x_ref_payco']??$transactionInfo['data']['referencePayco']??$transactionInfo['data'][0]['referencePayco'];
+        $x_tax= $transactionInfo['data']['x_tax']??$transactionInfo['data']['tax']??$transactionInfo['data'][0]['tax'];
+        $x_currency_code= $transactionInfo['data']['x_currency_code']??$transactionInfo['data']['currency']??$transactionInfo['data'][0]['currency'];
         switch ($x_response) {
             case 'Aceptada': {
                 $iconUrl = $payment->epayco->hooks->gateway->getGatewayIcon('check.png');

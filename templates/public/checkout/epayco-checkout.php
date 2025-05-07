@@ -1,5 +1,7 @@
 <?php
 
+use Epayco\Woocommerce\Helpers\Template;
+
 /**
  * @var bool $test_mode
  * @var string $test_mode_title
@@ -26,8 +28,8 @@ if (!defined('ABSPATH')) {
             <?php if ($test_mode) : ?>
                 <div class="ep-checkout-ticket-test-mode-epayco">
                     <test-mode-epayco
-                        title="<?= esc_html($test_mode_title); ?>"
-                        description="<?= esc_html($test_mode_description); ?>"
+                        title="<?php echo esc_html($test_mode_title); ?>"
+                        description="<?php echo esc_html($test_mode_description); ?>"
                         icon-src="<?php echo esc_html($icon_warning); ?>"
                         >
                     </test-mode-epayco>

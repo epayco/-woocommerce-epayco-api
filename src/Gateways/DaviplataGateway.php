@@ -78,7 +78,7 @@ class DaviplataGateway extends AbstractGateway
         $this->id        = self::ID;
         //$this->icon      = $this->getCheckoutIcon();
         //$this->iconAdmin = $this->getCheckoutIcon(true);
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-daviplata.png');
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('DPA50.png');
         $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('DPA50.png');
         $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, 'Daviplata');
 
@@ -259,14 +259,14 @@ class DaviplataGateway extends AbstractGateway
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
-            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-generales/',
             'personal_data_processing_link_text'    => $this->storeTranslations['personal_data_processing_link_text'],
             'and_the'   => $this->storeTranslations['and_the'],
             'personal_data_processing_link_src'    => 'https://epayco.com/tratamiento-de-datos/',
             'site_id'                          => '',
             'city'                          => $city,
             'customer_title'              => $this->storeTranslations['customer_title'],
-            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo-checkout.png'),
             'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];
     }
@@ -286,10 +286,11 @@ class DaviplataGateway extends AbstractGateway
             $checkout = $this->getCheckoutEpaycoDaviplata($order);
 
             parent::process_payment($order_id);
-
+            $cellphoneType = $checkout['cellphonetype']??$checkout['cellphoneType'];
             if (
-                !empty($checkout['cellphonetype'])
+                !empty($cellphoneType)
             ) {
+                $checkout['cellphonetype'] = $cellphoneType;
                 $redirect_url =get_site_url() . "/";
                 $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
                 $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
@@ -306,7 +307,7 @@ class DaviplataGateway extends AbstractGateway
                     $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
                     if (isset($ref_payco)) {
                         $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
-                        $response['urlPayment'] = 'https://vtex.epayco.io/daviplata?refPayco='.$ref_payco;
+                        $response['urlPayment'] = 'https://vtex.epayco.com/daviplata?refPayco='.$ref_payco;
                         $this->epayco->hooks->order->setDaviplataMetadata($order, $response);
                         $description = sprintf(
                             "ePayco: %s <a target='_blank' href='%s'>%s</a>",
@@ -422,7 +423,7 @@ class DaviplataGateway extends AbstractGateway
         $transactionDetails  =  $this->epayco->orderMetadata->getDaviplataTransactionDetailsMeta($order);
         $lastPaymentId  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
         $daviplata_data = json_decode($transactionDetails, true);
-        $paymentInfo = json_decode(json_encode($lastPaymentId), true);
+        $paymentInfo = json_decode(wp_json_encode($lastPaymentId), true);
         if (empty($paymentInfo) && empty($daviplata_data)) {
             return;
         }
@@ -436,7 +437,7 @@ class DaviplataGateway extends AbstractGateway
         ];
         //$transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
         $transactionDetails = $this->transaction->sdk->transaction->get($bodyRequest,true,"POST");
-        $transactionInfo = json_decode(json_encode($transactionDetails), true);
+        $transactionInfo = json_decode(wp_json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {
             return;
@@ -451,7 +452,14 @@ class DaviplataGateway extends AbstractGateway
             "success" => true,
             "data" => end($daviplataTransactionData["data"])
         ];
-        $transaction = $this->transaction->returnParameterToThankyouPage($daviplataTransaction, $this);
+        if(is_array($daviplataTransaction['data'])){
+            $_transaction = $daviplataTransaction;
+        }elseif(is_array($transactionInfo)){
+             $_transaction = $transactionInfo;
+        }else{
+            return;
+        }
+        $transaction = $this->transaction->returnParameterToThankyouPage($_transaction, $this);
 
         if (empty($transaction)) {
             return;
