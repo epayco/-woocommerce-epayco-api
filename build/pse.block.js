@@ -194,3 +194,5 @@
         };
     (0, t.registerPaymentMethod)(l)
 })();
+
+

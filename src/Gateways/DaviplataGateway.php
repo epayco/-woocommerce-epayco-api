@@ -78,7 +78,7 @@ class DaviplataGateway extends AbstractGateway
         $this->id        = self::ID;
         //$this->icon      = $this->getCheckoutIcon();
         //$this->iconAdmin = $this->getCheckoutIcon(true);
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-daviplata.png');
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('DPA50.png');
         $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('DPA50.png');
         $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, 'Daviplata');
 

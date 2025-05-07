@@ -992,8 +992,8 @@ msgstr "en el sitio web de desarrollo."
 
 #: src/Translations/AdminTranslations.php:406
 #: src/Translations/AdminTranslations.php:412
-msgid "One Page Checkout is"
-msgstr "One Page Checkout es"
+msgid "OnPage Checkout is"
+msgstr "OnPage Checkout es"
 
 #: src/Translations/AdminTranslations.php:106
 msgid "OPTIMIZE YOUR STORE WITH THE"

@@ -402,13 +402,13 @@ class AdminTranslations
     {
         $ePaycoCheckoutDescriptionsEnabled = sprintf(
             '%s <b>%s</b>.',
-            __('One Page Checkout is', 'woo-epayco-api'),
+            __('OnPage Checkout is', 'woo-epayco-api'),
             __('enabled', 'woo-epayco-api')
         );
 
         $ePaycoCheckoutDescriptionsDisabled = sprintf(
             '%s <b>%s</b>.',
-            __('One Page Checkout is', 'woo-epayco-api'),
+            __('OnPage Checkout is', 'woo-epayco-api'),
             __('disabled', 'woo-epayco-api')
         );
         $this->checkoutGatewaySettings = [

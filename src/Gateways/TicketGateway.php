@@ -43,6 +43,10 @@ class TicketGateway extends AbstractGateway
 
     const CASH_ENTITIES = [
         [
+            "id" =>"SR",
+            "name" =>"sured"
+        ],
+        [
             "id" =>"EF",
             "name" =>"efecty"
         ],
@@ -58,10 +62,7 @@ class TicketGateway extends AbstractGateway
             "id" =>"RS",
             "name" =>"redservi"
         ],
-        [
-            "id" =>"SR",
-            "name" =>"sured"
-        ],
+        
         [
             'id' => 'SR',
             'name' => 'Punto red',
@@ -114,7 +115,7 @@ class TicketGateway extends AbstractGateway
         $this->id        = self::ID;
         //$this->icon      = $this->getCheckoutIcon();
         //$this->iconAdmin = $this->getCheckoutIcon(true);
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-ticket.png');
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('ticket-botton.png');
         $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('ticket-botton.png');
         $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, 'efecty');
 
@@ -453,90 +454,103 @@ class TicketGateway extends AbstractGateway
     {
         $paymentMethods = [
             [
-                'id' => 'efecty',
-                'name'              => 'Efecty',
-                'status'            => 'active',
-                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/Efecty.png'
-            ],
-            [
-                'id' => 'gana',
-                'name'              => 'Gana',
-                'status'            => 'active',
-                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/gana.png'
-            ],
-            [
-                'id' => 'puntored',
-                'name'              => 'Puntored',
-                'status'            => 'active',
-                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/Punto%20red.png'
-            ],
-            [
-                'id' => 'redservi',
-                'name'              => 'Redservi',
-                'status'            => 'active',
-                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/Red%20servi.png'
-            ],
-            [
                 'id' => 'sured',
-                'name'              => 'Sured',
-                'status'            => 'active',
-                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Sured.png')
-            ],
-            /*[
-                'id' => 'sured',
-                'name'              => 'Punto red',
-                'status'            => 'active',
-                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Puntored.png')
-            ],
-            [
-                'id' => 'sured',
-                'name'              => 'Red de servicios',
-                'status'            => 'active',
-                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Reddeservicios.png')
-            ],
-            [
-                'id' => 'sured',
-                'name'              => 'Apuestas cucuta',
-                'status'            => 'active',
-                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Apuestascucuta.png')
-            ],*/
-            [
-                'id' => 'suchance',
-                'name'              => 'Suchance',
-                'status'            => 'active',
-                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/SuChance.png'
-            ],
-            [
-                'id' => 'laperla',
-                'name'              => 'Laperla',
-                'status'            => 'active',
-                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/La%20perla.png'
-            ],
-            [
-                'id' => 'jer',
-                'name'              => 'Jer',
-                'status'            => 'active',
-                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/Jer.png'
+                'name' => 'Sured',
+                'status' => 'active',
+                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Sured.png')
             ],
             [
                 'id' => 'pagatodo',
-                'name'              => 'Pagatodo',
-                'status'            => 'active',
-                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Pagatodo.png')
+                'name' => 'Pagatodo',
+                'status' => 'active',
+                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Pagatodo.png')
+            ],
+            [
+                'id' => 'gana',
+                'name' => 'Gana',
+                'status' => 'active',
+                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/gana.png'
             ],
             [
                 'id' => 'acertemos',
-                'name'              => 'Acertemos',
-                'status'            => 'active',
-                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/Acertemos.png'
+                'name' => 'Acertemos',
+                'status' => 'active',
+                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/Acertemos.png'
             ],
             [
                 'id' => 'ganagana',
-                'name'              => 'Ganagana',
-                'status'            => 'active',
-                'secure_thumbnail'         => 'https://multimedia.epayco.co/plugins-sdks/Ganagana.png'
+                'name' => 'Ganagana',
+                'status' => 'active',
+                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/Ganagana.png'
             ],
+            [
+                'id' => 'suchance',
+                'name' => 'Suchance',
+                'status' => 'active',
+                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/SuChance.png'
+            ],
+            // [
+            //     'id' => 'sured',
+            //     'name' => 'Red de servicios',
+            //     'status' => 'active',
+            //     'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Reddeservicios.png')
+            // ],
+            [
+                'id' => 'redservicioscesar',
+                'name' => 'Red Servicios del Cesar',
+                'status' => 'active',
+                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('RedServiciosCesar.png')
+            ],
+            // [
+            //     'id' => 'sured',
+            //     'name' => 'Apuestas cucuta',
+            //     'status' => 'active',
+            //     'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Apuestascucuta.png')
+            // ],
+            [
+                'id' => 'apuestascucuta',
+                'name' => 'Apuestas Cúcuta 75',
+                'status' => 'active',
+                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Apuestascucuta.png')
+            ],
+            [
+                'id' => 'jer',
+                'name' => 'Jer',
+                'status' => 'active',
+                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/Jer.png'
+            ],
+            [
+                'id' => 'laperla',
+                'name' => 'Laperla',
+                'status' => 'active',
+                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/La%20perla.png'
+            ],
+            [
+                'id' => 'efecty',
+                'name' => 'Efecty',
+                'status' => 'active',
+                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/Efecty.png'
+            ],
+            // [
+            //     'id' => 'sured',
+            //     'name' => 'Punto red',
+            //     'status' => 'active',
+            //     'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Puntored.png')
+            // ],
+            [
+                'id' => 'puntored',
+                'name' => 'Puntored',
+                'status' => 'active',
+                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/Punto%20red.png'
+            ],
+            [
+                'id' => 'redservi',
+                'name' => 'Redservi',
+                'status' => 'active',
+                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/Red%20servi.png'
+            ]
         ];
+        
 
         $payment_list = [
             'type'                 => 'mp_checkbox_list',
@@ -575,7 +589,7 @@ class TicketGateway extends AbstractGateway
      */
     private function getCheckoutIcon(bool $adminVersion = false): string
     {
-        $iconName = 'icon-ticket.png';
+        $iconName = 'ticket-botton.png';
         return $this->epayco->hooks->gateway->getGatewayIcon($iconName . ($adminVersion ? '-admin' : ''));
     }
 
@@ -587,6 +601,12 @@ class TicketGateway extends AbstractGateway
     private function getPaymentMethods(): array
     {
         $ticketPaymentMethods = [
+            [
+                'id' => 'sured',
+                'name'              => 'Sured',
+                'status'            => 'active',
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Sured.png')
+            ],
             [
                 'id' => 'efecty',
                 'name'              => 'Efecty',
@@ -611,36 +631,32 @@ class TicketGateway extends AbstractGateway
                 'status'            => 'active',
                 'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Redservi.png')
             ],
-            [
-                'id' => 'sured',
-                'name'              => 'Sured',
-                'status'            => 'active',
-                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Sured.png')
-            ],
+        
             /*[
                 'id' => 'sured',
                 'name'              => 'Punto red',
                 'status'            => 'active',
                 'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Puntored.png')
             ],
+            */
+             [
+                 'id' => 'redservicioscesar',
+                 'name'              => 'Red de servicios',
+                 'status'            => 'active',
+                 'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Reddeservicios.png')
+             ],
             [
-                'id' => 'sured',
-                'name'              => 'Red de servicios',
-                'status'            => 'active',
-                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Reddeservicios.png')
-            ],
-            [
-                'id' => 'sured',
+                'id' => 'apuestascucuta',
                 'name'              => 'Apuestas cucuta',
                 'status'            => 'active',
                 'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Apuestascucuta.png')
-            ],*/
+            ],
             [
                 'id' => 'suchance',
                 'name'              => 'Suchance',
                 'status'            => 'active',
                 'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('SuChance.png')
-            ],
+            ], 
             [
                 'id' => 'laperla',
                 'name'              => 'Laperla',

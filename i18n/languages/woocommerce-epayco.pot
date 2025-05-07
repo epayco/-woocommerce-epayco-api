@@ -892,7 +892,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:406
 #: src/Translations/AdminTranslations.php:412
-msgid "One Page Checkout is"
+msgid "OnPage Checkout is"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:78

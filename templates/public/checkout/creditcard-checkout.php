@@ -83,7 +83,7 @@ if (!defined('ABSPATH')) {
             <p style="margin-left: 10px;"><?php echo esc_html($card_form_title) ?></p>
         </div>
 
-        <div id="ep-custom-checkout-form-container" style="margin: 10px;">
+        <div id="ep-custom-checkout-form-container" >
             <div class='ep-checkout-custom-card-form'>
 
                 <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">
@@ -142,7 +142,7 @@ if (!defined('ABSPATH')) {
                         >
                         </input-card-security-code>
                     </div>
-                    <div class='ep-checkout-custom-card-column'>
+                    <div class='ep-checkout-custom-card-column' >
                         <input-installment-epayco
                                 name="epayco_creditcard[installmet]"
                                 label="<?php echo esc_html($card_fees_input_label); ?>"
@@ -162,36 +162,37 @@ if (!defined('ABSPATH')) {
 
                 <p style="margin-left: 10px;"><?php echo esc_html($card_customer_title) ?></p>
             </div>
-        <div id="ep-custom-checkout-form-container" style="margin: 10px;">
+        <div id="ep-custom-checkout-form-container" >
             <div id="ep-custom-checkout-form-container">
 
                 <div id="ep-doc-div" class="ep-checkout-custom-input-document">
                     <input-document-epayco
-                            label-message="<?php echo esc_html($card_document_input_label); ?>"
-                            helper-message="<?php echo esc_html($card_document_input_helper); ?>"
-                            input-name-epayco='epayco_creditcard[doc_number]'
-                            hidden-id="identificationType"
-                            input-data-checkout="doc_number"
-                            select-id="identificationType"
-                            input-id="identificationTypeNumber"
-                            select-name="epayco_creditcard[identificationType]"
-                            select-data-checkout="doc_type"
-                            flag-error="identificationTypeError"
-                            documents='[
-                                {"id":"Type"},
-                                {"id":"CC"},
-                                {"id":"CE"},
-                                {"id":"NIT"},
-                                {"id":"TI"},
-                                {"id":"PPN"},
-                                {"id":"SSN"},
-                                {"id":"LIC"},
-                                {"id":"DNI"}
-                                ]'
-                            validate=true
-                            placeholder="Número de documento"
-                    >
-                    </input-document-epayco>
+                    label-message="<?php echo esc_html($card_document_input_label); ?>"
+                    helper-message="<?php echo esc_html($card_document_input_helper); ?>"
+                    input-name-epayco='epayco_creditcard[doc_number]'
+                    hidden-id="identificationType"
+                    input-data-checkout="doc_number"
+                    select-id="identificationType"
+                    input-id="identificationTypeNumber"
+                    select-name="epayco_creditcard[identificationType]"
+                    select-data-checkout="doc_type"
+                    flag-error="identificationTypeError"
+                    documents='[
+                        {"id":"Tipo"},
+                        {"id":"CC"},
+                        {"id":"NIT"},
+                        {"id":"CE"},
+                        {"id":"PPN"},
+                        {"id":"SSN"},
+                        {"id":"LIC"},
+                        {"id":"DNI"},
+                        {"id":"PEP"},
+                        {"id":"PPT"}
+                    ]'
+                    validate=true
+                    placeholder="Número de documento"
+                    ></input-document-epayco>
+
                 </div>
 
                 <div class='ep-checkout-custom-card-row' id="ep-card-holder-div">

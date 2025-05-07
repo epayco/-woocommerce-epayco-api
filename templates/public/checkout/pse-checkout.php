@@ -118,7 +118,7 @@ if (! defined('ABSPATH')) {
                     >
                     </input-cellphone-epayco>
                 </div>
-                <div class="ep-checkout-pse-person"  style="width: 429px;">
+                <div class="ep-checkout-pse-person"  style="max-width: 429px !important; min-width: 229px !important;">
                     <input-select-epayco
                         name="epayco_pse[person_type]"
                         label=<?php echo esc_html($person_type_label); ?>
@@ -137,25 +137,21 @@ if (! defined('ABSPATH')) {
                             select-id="documentType"
                             input-id="documentTypeNumber"
                             select-name="epayco_pse[documentType]"
-                            select-data-checkout=document_type"
+                            select-data-checkout="document_type"
                             flag-error="documentTypeError"
                             documents='[
-                                    {"id":"Type"},
+                                    {"id":"Tipo"},
                                     {"id":"CC"},
                                     {"id":"CE"},
-                                    {"id":"NIT"},
-                                    {"id":"TI"},
                                     {"id":"PPN"},
-                                    {"id":"SSN"},
-                                    {"id":"LIC"},
-                                    {"id":"DNI"}
+                                    {"id":"NIT"}
                                     ]'
                             validate=true
                             placeholder="Número de documento"
                     >
                     </input-document-epayco>
                 </div>
-                <div class="ep-checkout-pse-input-document">
+                <div class="ep-checkout-pse-input-document" >
                     <input-country-epayco
                             label-message="<?php echo esc_html($input_country_label); ?>"
                             helper-message="<?php echo esc_html($input_country_helper); ?>"
@@ -172,7 +168,7 @@ if (! defined('ABSPATH')) {
                     >
                     </input-country-epayco>
                 </div>
-                <div class="ep-checkout-pse-bank" style="width: 429px;">
+                <div class="ep-checkout-pse-bank" style="width:100%">
                     <input-banks-epayco
                         name="epayco_pse[bank]"
                         label="<?php echo esc_html($financial_institutions_label); ?>"

@@ -126,62 +126,55 @@ if (!defined('ABSPATH')) {
                         </input-cellphone-epayco>
                     </div>
 
-                    <!--<div class="ep-checkout-ticket-input-document">
-                        <input-select
-                                name="epayco_ticket[person_type]"
-                                label=<?php echo esc_html($person_type_label); ?>
-                                optional="false"
-                                options='[{"id":"PN", "description": "Persona natural"},{"id":"PJ", "description": "Persona jurídica"}]'
-                        >
-                        </input-select>
-                    </div>-->
-
-                    <div class="ep-checkout-ticket-input-document">
-                        <input-document-epayco
-                        label-message="<?php echo esc_html($input_document_label); ?>"
-                        helper-message="<?php echo esc_html($input_document_helper); ?>"
-                        input-name-epayco='epayco_ticket[document]'
-                        hidden-id="documentType"
-                        input-data-checkout="document_number"
-                        select-id="documentType"
-                        input-id="documentTypeNumber"
-                        select-name="epayco_ticket[documentType]"
-                        select-data-checkout=document_type"
-                        flag-error="documentTypeError"
-                        documents='[
-                                {"id":"Type"},
-                                {"id":"CC"},
-                                {"id":"CE"},
-                                {"id":"NIT"},
-                                {"id":"TI"},
-                                {"id":"PPN"},
-                                {"id":"SSN"},
-                                {"id":"LIC"},
-                                {"id":"DNI"}
+                    <!-- <div class="ep-checkout-ticket-input-document">
+                    <input-document-epayco
+                            label-message="<?php echo esc_html($input_document_label); ?>"
+                            helper-message="<?php echo esc_html($input_document_helper); ?>"
+                            input-name-epayco='epayco_ticket[document]'
+                            hidden-id="documentType"
+                            input-data-checkout="document_number"
+                            select-id="documentType"
+                            input-id="documentTypeNumber"
+                            select-name="epayco_ticket[documentType]"
+                            select-data-checkout="document_type"
+                            flag-error="documentTypeError"
+                            documents='[
+                                    {"id":"Tipo"},
+                                    {"id":"CC"},
+                                    {"id":"NIT"},
+                                    {"id":"CE"},
+                                    {"id":"PPN"},
+                                    {"id":"SSN"},
+                                    {"id":"LIC"},
+                                    {"id":"DNI"},
+                                    {"id":"PEP"},
+                                    {"id":"PPT"}
                                 ]'
-                        validate=true
-                        placeholder="Número de documento"
-                            >
-                        </input-document-epayco>
-                    </div>
+                            validate=true
+                            placeholder="Número de documento"
+                    >
+                    </input-document-epayco> -->
+                <!-- </div> -->
+                 
+                <!-- <div class="ep-checkout-ticket-input-document">
+                    <input-country-epayco
+                            label-message="<?php echo esc_html($input_country_label); ?>"
+                            helper-message="<?php echo esc_html($input_country_helper); ?>"
+                            input-name-epayco='epayco_ticket[country]'
+                            hidden-id="countryType"
+                            input-data-checkout="country_number"
+                            select-id="countryType"
+                            input-id="countryTypeNumber"
+                            select-name="epayco_ticket[countryType]"
+                            select-data-checkout="doc_type"
+                            flag-error="countryTypeError"
+                            validate=true
+                            placeholder="<?php echo esc_html($city); ?>"
+                    >
+                    </input-country-epayco>
+                </div> -->
 
-                    <!--<div class="ep-checkout-ticket-input-document">
-                        <input-country
-                                label-message="<?php echo esc_html($input_country_label); ?>"
-                                helper-message="<?php echo esc_html($input_country_helper); ?>"
-                                input-name-epayco='epayco_ticket[country]'
-                                hidden-id="countryType"
-                                input-data-checkout="country_number"
-                                select-id="countryType"
-                                input-id="countryTypeNumber"
-                                select-name="epayco_ticket[countryType]"
-                                select-data-checkout="doc_type"
-                                flag-error="countryTypeError"
-                                validate=true
-                                placeholder="<?php echo esc_html($city); ?>"
-                        >
-                        </input-country>
-                    </div>-->
+                   
                 </div>
                 <hr style="margin: 24px auto;"/>
                 <div style="margin-top: 10px; font-weight: bold; display: flex; align-items: center;">

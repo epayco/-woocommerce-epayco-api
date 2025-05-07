@@ -49,7 +49,7 @@ class SubscriptionGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->subscriptionCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card.png');
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('credit-card-botton.png');
         $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('botonsuscripciones.png');
         $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
 
