@@ -49,9 +49,9 @@ class CreditCardGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->creditcardCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('credit-card-botton.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('credit-card-botton.png');
-        $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('tarjeta.png');
+        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('tarjeta.png');
+        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Tarjeta de crédito y/o débito');
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
@@ -65,7 +65,6 @@ class CreditCardGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
-
     }
 
     /**
@@ -122,18 +121,18 @@ class CreditCardGateway extends AbstractGateway
                     'disabled' => $this->adminTranslations['enabled_descriptions_disabled'],
                 ],
             ],
-            'title' => [
-                'type'        => 'text',
-                'title'       => $this->adminTranslations['title_title'],
-                'description' => $this->adminTranslations['title_description'],
-                'default'     => $this->adminTranslations['title_default'],
-                'desc_tip'    => $this->adminTranslations['title_desc_tip'],
-                'class'       => 'limit-title-max-length',
-            ],
-            'card_info_helper' => [
-                'type'  => 'title',
-                'value' => '',
-            ]
+            // 'title' => [
+            //     'type'        => 'text',
+            //     'title'       => $this->adminTranslations['title_title'],
+            //     'description' => $this->adminTranslations['title_description'],
+            //     'default'     => $this->adminTranslations['title_default'],
+            //     'desc_tip'    => $this->adminTranslations['title_desc_tip'],
+            //     'class'       => 'limit-title-max-length',
+            // ],
+            // 'card_info_helper' => [
+            //     'type'  => 'title',
+            //     'value' => '',
+            // ]
         ]);
     }
 
@@ -206,9 +205,9 @@ class CreditCardGateway extends AbstractGateway
     public function getPaymentFieldsParams(): array
     {
         $idioma = substr(get_locale(), 0, 2);
-        if($idioma == 'es'){
+        if ($idioma == 'es') {
             $termsAndCondiction = 'Términos y condiciones';
-        }else{
+        } else {
             $termsAndCondiction = 'Terms and conditions';
         }
         if (strpos($this->storeTranslations['input_country_helper'], "Ciudad") !== false) {
@@ -284,17 +283,17 @@ class CreditCardGateway extends AbstractGateway
                 !empty($checkout['token'])
             ) {
                 $this->transaction = new CreditCardTransaction($this, $order, $checkout);
-                $redirect_url =get_site_url() . "/";
-                $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
-                $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
-                $confirm_url = $redirect_url.'&confirmation=1';
+                $redirect_url = get_site_url() . "/";
+                $redirect_url = add_query_arg('wc-api', self::WEBHOOK_API_NAME, $redirect_url);
+                $redirect_url = add_query_arg('order_id', $order_id, $redirect_url);
+                $confirm_url = $redirect_url . '&confirmation=1';
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
                 $response = $this->transaction->createTcPayment($order_id, $checkout);
                 $response = json_decode(wp_json_encode($response), true);
                 if (is_array($response) && $response['success']) {
-                    $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
-                    if (in_array(strtolower($response['data']['estado']),["pendiente","pending"])) {
+                    $ref_payco = $response['data']['refPayco'] ?? $response['data']['ref_payco'];
+                    if (in_array(strtolower($response['data']['estado']), ["pendiente", "pending"])) {
                         $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
@@ -305,7 +304,7 @@ class CreditCardGateway extends AbstractGateway
                             'redirect' => $urlReceived,
                         ];
                     }
-                    if (in_array(strtolower($response['data']['estado']),["aceptada","acepted"])) {
+                    if (in_array(strtolower($response['data']['estado']), ["aceptada", "acepted"])) {
                         $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                         $order->update_status("processing");
                         $this->epayco->woocommerce->cart->empty_cart();
@@ -314,7 +313,8 @@ class CreditCardGateway extends AbstractGateway
                             'result'   => 'success',
                             'redirect' => $urlReceived,
                         ];
-                    }if (in_array(strtolower($response['data']['estado']),["rechazada","fallida","cancelada","abandonada"])) {
+                    }
+                    if (in_array(strtolower($response['data']['estado']), ["rechazada", "fallida", "cancelada", "abandonada"])) {
                         $urlReceived = wc_get_checkout_url();
                         $return = [
                             'result'   => 'fail',
@@ -323,7 +323,7 @@ class CreditCardGateway extends AbstractGateway
                         ];
                     }
                     return $return;
-                }else{
+                } else {
                     $messageError = $response['message'];
                     $errorMessage = "";
                     if (isset($response['data']['errors'])) {
@@ -337,14 +337,13 @@ class CreditCardGateway extends AbstractGateway
                             $errorMessage = $error['errorMessage'] . "\n";
                         }
                     }
-                    $processReturnFailMessage = $messageError. " " . $errorMessage;
+                    $processReturnFailMessage = $messageError . " " . $errorMessage;
                     return $this->returnFail($processReturnFailMessage, $order);
                 }
-            }else{
+            } else {
                 $processReturnFailMessage = "Token incorrect ";
                 return $this->returnFail($processReturnFailMessage, $order);
             }
-
         } catch (\Exception $e) {
             return $this->processReturnFail(
                 $e,
@@ -377,7 +376,7 @@ class CreditCardGateway extends AbstractGateway
 
         return $checkout;
     }
-    
+
     /**
      * Render thank you page
      *
@@ -394,7 +393,7 @@ class CreditCardGateway extends AbstractGateway
         }
         $data = array(
             "filter" => array("referencePayco" => $paymentInfo),
-            "success" =>true
+            "success" => true
         );
         $this->transaction = new CreditCardTransaction($this, $order, []);
         //$transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
@@ -416,5 +415,4 @@ class CreditCardGateway extends AbstractGateway
             $transaction
         );
     }
-
 }

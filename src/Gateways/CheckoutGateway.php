@@ -48,7 +48,7 @@ class CheckoutGateway extends AbstractGateway
         $this->id        = self::ID;
         $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('botoncheckout.png');
         $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('botoncheckout.png');
-        $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
+        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Checkout ePayco');
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
@@ -125,25 +125,25 @@ class CheckoutGateway extends AbstractGateway
                 'type'         => 'mp_toggle_switch',
                 'title'        => $this->adminTranslations['enabled_title'],
                 'subtitle'     => $this->adminTranslations['enabled_subtitle'],
-                'default'      => 'no',
+                'default'      => 'default',
                 'descriptions' => [
                     'enabled'  => $this->adminTranslations['enabled_enabled'],
                     'disabled' => $this->adminTranslations['enabled_disabled'],
                 ],
             ],
-            'title' => [
-                'type'        => 'text',
-                'title'       => $this->adminTranslations['title_title'],
-                'description' => $this->adminTranslations['title_description'],
-                'default'     => $this->adminTranslations['title_default'],
-                'desc_tip'    => $this->adminTranslations['title_desc_tip'],
-                'class'       => 'limit-title-max-length',
-            ],
+            // 'title' => [
+            //     'type'        => 'text',
+            //     'title'       => $this->adminTranslations['title_title'],
+            //     'description' => $this->adminTranslations['title_description'],
+            //     'default'     => $this->adminTranslations['title_default'],
+            //     'desc_tip'    => $this->adminTranslations['title_desc_tip'],
+            //     'class'       => 'limit-title-max-length',
+            // ],
             'epayco_type_checkout' => [
                 'type'         => 'mp_toggle_switch',
                 'title'        => $this->adminTranslations['epayco_type_checkout_title'],
                 'subtitle'     => $this->adminTranslations['epayco_type_checkout_subtitle'],
-                'default'      => 'no',
+                'default'      => 'yes',
                 'descriptions' => [
                     'enabled'  => $this->adminTranslations['epayco_type_checkout_descriptions_enabled'],
                     'disabled' => $this->adminTranslations['epayco_type_checkout_descriptions_disabled'],

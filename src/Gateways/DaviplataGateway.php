@@ -43,24 +43,24 @@ class DaviplataGateway extends AbstractGateway
 
     const CASH_ENTITIES = [
         [
-            "id" =>"EF",
-            "name" =>"efecty"
+            "id" => "EF",
+            "name" => "efecty"
         ],
         [
-            "id" =>"GA",
-            "name" =>"gana"
+            "id" => "GA",
+            "name" => "gana"
         ],
         [
-            "id" =>"PR",
-            "name" =>"puntored"
+            "id" => "PR",
+            "name" => "puntored"
         ],
         [
-            "id" =>"RS",
-            "name" =>"redservi"
+            "id" => "RS",
+            "name" => "redservi"
         ],
         [
-            "id" =>"SR",
-            "name" =>"sured"
+            "id" => "SR",
+            "name" => "sured"
         ]
     ];
 
@@ -78,9 +78,9 @@ class DaviplataGateway extends AbstractGateway
         $this->id        = self::ID;
         //$this->icon      = $this->getCheckoutIcon();
         //$this->iconAdmin = $this->getCheckoutIcon(true);
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('DPA50.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('DPA50.png');
-        $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, 'Daviplata');
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('daviplata.png');
+        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('daviplata.png');
+        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Daviplata');
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
@@ -94,8 +94,6 @@ class DaviplataGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
-
-
     }
 
     /**
@@ -151,14 +149,14 @@ class DaviplataGateway extends AbstractGateway
                     'disabled' => $this->adminTranslations['enabled_disabled'],
                 ],
             ],
-            'title' => [
-                'type'        => 'text',
-                'title'       => $this->adminTranslations['title_title'],
-                'description' => $this->adminTranslations['title_description'],
-                'default'     => $this->adminTranslations['title_default'],
-                'desc_tip'    => $this->adminTranslations['title_desc_tip'],
-                'class'       => 'limit-title-max-length',
-            ],
+            // 'title' => [
+            //     'type'        => 'text',
+            //     'title'       => $this->adminTranslations['title_title'],
+            //     'description' => $this->adminTranslations['title_description'],
+            //     'default'     => $this->adminTranslations['title_default'],
+            //     'desc_tip'    => $this->adminTranslations['title_desc_tip'],
+            //     'class'       => 'limit-title-max-length',
+            // ],
         ]);
     }
 
@@ -286,28 +284,28 @@ class DaviplataGateway extends AbstractGateway
             $checkout = $this->getCheckoutEpaycoDaviplata($order);
 
             parent::process_payment($order_id);
-            $cellphoneType = $checkout['cellphonetype']??$checkout['cellphoneType'];
+            $cellphoneType = $checkout['cellphonetype'] ?? $checkout['cellphoneType'];
             if (
                 !empty($cellphoneType)
             ) {
                 $checkout['cellphonetype'] = $cellphoneType;
-                $redirect_url =get_site_url() . "/";
-                $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
-                $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
-                $confirm_url = $redirect_url.'&confirmation=1';
+                $redirect_url = get_site_url() . "/";
+                $redirect_url = add_query_arg('wc-api', self::WEBHOOK_API_NAME, $redirect_url);
+                $redirect_url = add_query_arg('order_id', $order_id, $redirect_url);
+                $confirm_url = $redirect_url . '&confirmation=1';
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
-                $payment_method_id= $checkout["payment_method_id"]??$checkout[""]["payment_method_id"];
-                $key = array_search( $payment_method_id, array_column(self::CASH_ENTITIES, 'name'));
+                $payment_method_id = $checkout["payment_method_id"] ?? $checkout[""]["payment_method_id"];
+                $key = array_search($payment_method_id, array_column(self::CASH_ENTITIES, 'name'));
                 $checkout['paymentMethod'] = self::CASH_ENTITIES[$key]['id'];
                 $this->transaction = new DaviplataTransaction($this, $order, $checkout);
                 $response          = $this->transaction->createDaviplataPayment($order, $checkout);
 
                 if (is_array($response) && $response['success']) {
-                    $ref_payco = $response['data']['refPayco']??$response['data']['ref_payco'];
+                    $ref_payco = $response['data']['refPayco'] ?? $response['data']['ref_payco'];
                     if (isset($ref_payco)) {
-                        $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$ref_payco]);
-                        $response['urlPayment'] = 'https://vtex.epayco.com/daviplata?refPayco='.$ref_payco;
+                        $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
+                        $response['urlPayment'] = 'https://vtex.epayco.com/daviplata?refPayco=' . $ref_payco;
                         $this->epayco->hooks->order->setDaviplataMetadata($order, $response);
                         $description = sprintf(
                             "ePayco: %s <a target='_blank' href='%s'>%s</a>",
@@ -317,10 +315,10 @@ class DaviplataGateway extends AbstractGateway
                         );
                         $this->epayco->hooks->order->addOrderNote($order, $description, 1);
                     }
-                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,[$response['data']['refPayco']]);
+                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$response['data']['refPayco']]);
 
 
-                    if (in_array(strtolower($response['data']['estatus']),["pendiente","pending"])) {
+                    if (in_array(strtolower($response['data']['estatus']), ["pendiente", "pending"])) {
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
                         //$urlReceived = $order->get_checkout_order_received_url();
@@ -330,8 +328,8 @@ class DaviplataGateway extends AbstractGateway
                         ];
                         return $return;
                     }
-                }else{
-                    $messageError = $response['message']?? $response['titleResponse'];
+                } else {
+                    $messageError = $response['message'] ?? $response['titleResponse'];
                     $errorMessage = "";
                     if (isset($response['data']['errors'])) {
                         $errors = $response['data']['errors'];
@@ -343,22 +341,21 @@ class DaviplataGateway extends AbstractGateway
                         foreach ($errores as $error) {
                             $errorMessage = $error['errorMessage'] . "\n";
                         }
-                    }elseif (isset($response['data']['errores'])) {
+                    } elseif (isset($response['data']['errores'])) {
                         $errores = $response['data']['errores'];
                         foreach ($errores as $error) {
                             $errorMessage = $error['errorMessage'] . "\n";
                         }
-                    }elseif (isset($response['data']['error']['errores'])) {
+                    } elseif (isset($response['data']['error']['errores'])) {
                         $errores = $response['data']['error']['errores'];
                         foreach ($errores as $error) {
                             $errorMessage = $error['errorMessage'] . "\n";
                         }
                     }
-                    $processReturnFailMessage = $messageError. " " . $errorMessage;
+                    $processReturnFailMessage = $messageError . " " . $errorMessage;
                     return $this->returnFail($processReturnFailMessage, $order);
                 }
-
-            }else{
+            } else {
                 throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
             }
         } catch (\Exception $e) {
@@ -429,14 +426,14 @@ class DaviplataGateway extends AbstractGateway
         }
         $referenceClient = $daviplata_data['data']['invoice'];
         $this->transaction = new  DaviplataTransaction($this, $order, []);
-        $bodyRequest= [
-            "filter"=>[
+        $bodyRequest = [
+            "filter" => [
                 //"referencePayco"=>$paymentInfo
-                "referenceClient"=>$referenceClient
+                "referenceClient" => $referenceClient
             ]
         ];
         //$transactionDetails = $this->transaction->sdk->transaction->get($paymentInfo);
-        $transactionDetails = $this->transaction->sdk->transaction->get($bodyRequest,true,"POST");
+        $transactionDetails = $this->transaction->sdk->transaction->get($bodyRequest, true, "POST");
         $transactionInfo = json_decode(wp_json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {
@@ -452,11 +449,11 @@ class DaviplataGateway extends AbstractGateway
             "success" => true,
             "data" => end($daviplataTransactionData["data"])
         ];
-        if(is_array($daviplataTransaction['data'])){
+        if (is_array($daviplataTransaction['data'])) {
             $_transaction = $daviplataTransaction;
-        }elseif(is_array($transactionInfo)){
-             $_transaction = $transactionInfo;
-        }else{
+        } elseif (is_array($transactionInfo)) {
+            $_transaction = $transactionInfo;
+        } else {
             return;
         }
         $transaction = $this->transaction->returnParameterToThankyouPage($_transaction, $this);

@@ -51,9 +51,10 @@ class PseGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->pseCheckout;
 
         $this->id    = self::ID;
-        $this->icon  = $this->epayco->hooks->gateway->getGatewayIcon('pse-botton.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('pse-botton.png');
-        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
+        $this->icon  = $this->epayco->hooks->gateway->getGatewayIcon('pse.png');
+        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('pse.png');
+        
+        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'PSE');
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
@@ -122,14 +123,14 @@ class PseGateway extends AbstractGateway
                     'disabled' => $this->adminTranslations['enabled_disabled'],
                 ],
             ],
-            'title' => [
-                'type'        => 'text',
-                'title'       => $this->adminTranslations['title_title'],
-                'description' => $this->adminTranslations['title_description'],
-                'default'     => $this->adminTranslations['title_default'],
-                'desc_tip'    => $this->adminTranslations['title_desc_tip'],
-                'class'       => 'limit-title-max-length',
-            ]
+            // 'title' => [
+            //     'type'        => 'text',
+            //     'title'       => $this->adminTranslations['title_title'],
+            //     'description' => $this->adminTranslations['title_description'],
+            //     'default'     => $this->adminTranslations['title_default'],
+            //     'desc_tip'    => $this->adminTranslations['title_desc_tip'],
+            //     'class'       => 'limit-title-max-length',
+            // ]
         ]);
     }
 

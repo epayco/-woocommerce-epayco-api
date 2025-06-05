@@ -30,6 +30,7 @@
     background: url("../../images/settings/frame.png") no-repeat center;
     background-size: cover;
     border-radius: 10px;
+    margin-top: 5px;
 }
 
 .ep-settings-header-img {

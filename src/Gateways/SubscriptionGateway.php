@@ -49,9 +49,10 @@ class SubscriptionGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->subscriptionCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('credit-card-botton.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('botonsuscripciones.png');
-        $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('suscripciones.png');
+        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('suscripciones.png');
+        $this->method_description = $this->adminTranslations['gateway_method_description'];
+        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Suscripciones');
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
@@ -128,18 +129,18 @@ class SubscriptionGateway extends AbstractGateway
                     'disabled' => $this->adminTranslations['enabled_descriptions_disabled'],
                 ],
             ],
-            'title' => [
-                'type'        => 'text',
-                'title'       => $this->adminTranslations['title_title'],
-                'description' => $this->adminTranslations['title_description'],
-                'default'     => $this->adminTranslations['title_default'],
-                'desc_tip'    => $this->adminTranslations['title_desc_tip'],
-                'class'       => 'limit-title-max-length',
-            ],
-            'card_info_helper' => [
-                'type'  => 'title',
-                'value' => '',
-            ]
+            // 'title' => [
+            //     'type'        => 'text',
+            //     'title'       => $this->adminTranslations['title_title'],
+            //     'description' => $this->adminTranslations['title_description'],
+            //     'default'     => $this->adminTranslations['title_default'],
+            //     'desc_tip'    => $this->adminTranslations['title_desc_tip'],
+            //     'class'       => 'limit-title-max-length',
+            // ],
+            // 'card_info_helper' => [
+            //     'type'  => 'title',
+            //     'value' => '',
+            // ]
         ]);
     }
 

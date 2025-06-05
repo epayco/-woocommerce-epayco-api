@@ -43,26 +43,26 @@ class TicketGateway extends AbstractGateway
 
     const CASH_ENTITIES = [
         [
-            "id" =>"SR",
-            "name" =>"sured"
+            "id" => "SR",
+            "name" => "sured"
         ],
         [
-            "id" =>"EF",
-            "name" =>"efecty"
+            "id" => "EF",
+            "name" => "efecty"
         ],
         [
-            "id" =>"GA",
-            "name" =>"gana"
+            "id" => "GA",
+            "name" => "gana"
         ],
         [
-            "id" =>"PR",
-            "name" =>"puntored"
+            "id" => "PR",
+            "name" => "puntored"
         ],
         [
-            "id" =>"RS",
-            "name" =>"redservi"
+            "id" => "RS",
+            "name" => "redservi"
         ],
-        
+
         [
             'id' => 'SR',
             'name' => 'Punto red',
@@ -115,9 +115,9 @@ class TicketGateway extends AbstractGateway
         $this->id        = self::ID;
         //$this->icon      = $this->getCheckoutIcon();
         //$this->iconAdmin = $this->getCheckoutIcon(true);
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('ticket-botton.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('ticket-botton.png');
-        $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, 'efecty');
+        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('efectivo.png');
+        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('efectivo.png');
+        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Efectivo');
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
@@ -189,15 +189,15 @@ class TicketGateway extends AbstractGateway
                     'disabled' => $this->adminTranslations['enabled_disabled'],
                 ],
             ],
-            'title' => [
-                'type'        => 'text',
-                'title'       => $this->adminTranslations['title_title'],
-                'description' => $this->adminTranslations['title_description'],
-                'default'     => $this->adminTranslations['title_default'],
-                'desc_tip'    => $this->adminTranslations['title_desc_tip'],
-                'class'       => 'limit-title-max-length',
-            ],
-            'type_payments'   => $this->generateExPaymentsFields(),
+            // 'title' => [
+            //     'type'        => 'text',
+            //     'title'       => $this->adminTranslations['title_title'],
+            //     'description' => $this->adminTranslations['title_description'],
+            //     'default'     => $this->adminTranslations['title_default'],
+            //     'desc_tip'    => $this->adminTranslations['title_desc_tip'],
+            //     'class'       => 'limit-title-max-length',
+            // ],
+            // 'type_payments'   => $this->generateExPaymentsFields(),
             /*'date_expiration' => [
                 'title'       => $this->adminTranslations['date_expiration_title'],
                 'type'        => 'number',
@@ -335,27 +335,27 @@ class TicketGateway extends AbstractGateway
             if (
                 !empty($checkout['payment_method_id'])
             ) {
-                $redirect_url =get_site_url() . "/";
-                $redirect_url = add_query_arg( 'wc-api', self::WEBHOOK_API_NAME, $redirect_url );
-                $redirect_url = add_query_arg( 'order_id', $order_id, $redirect_url );
-                $confirm_url = $redirect_url.'&confirmation=1';
+                $redirect_url = get_site_url() . "/";
+                $redirect_url = add_query_arg('wc-api', self::WEBHOOK_API_NAME, $redirect_url);
+                $redirect_url = add_query_arg('order_id', $order_id, $redirect_url);
+                $confirm_url = $redirect_url . '&confirmation=1';
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
                 //$checkout['date_expiration'] = $this->settings['date_expiration'];
                 $checkout["date_expiration"] = '9';
-                $payment_method_id= $checkout["payment_method_id"]??$checkout[""]["payment_method_id"];
-                $key = array_search( $payment_method_id, array_column(self::CASH_ENTITIES, 'name'));
+                $payment_method_id = $checkout["payment_method_id"] ?? $checkout[""]["payment_method_id"];
+                $key = array_search($payment_method_id, array_column(self::CASH_ENTITIES, 'name'));
                 $checkout['paymentMethod'] = self::CASH_ENTITIES[$key]['id'];
                 $this->transaction = new TicketTransaction($this, $order, $checkout);
                 $response          = $this->transaction->createCashPayment($order, $checkout);
                 if (is_array($response) && $response['success']) {
                     $epaycoOrder = [
-                      'refPayco'  => $response['data']['refPayco'],
-                      'pin'  => $response['data']['pin'],
-                      'codeProject'  => $response['data']['codeProject'],
-                      'expirationDate' => $response['data']['expirationDate']
+                        'refPayco'  => $response['data']['refPayco'],
+                        'pin'  => $response['data']['pin'],
+                        'codeProject'  => $response['data']['codeProject'],
+                        'expirationDate' => $response['data']['expirationDate']
                     ];
-                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order,$epaycoOrder);
+                    $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, $epaycoOrder);
 
                     /*if (isset($response['data']['token'])) {
                         $response['urlPayment'] = 'https://vtex.epayco.io/es/pin?token='.$response['data']['token'];
@@ -370,7 +370,7 @@ class TicketGateway extends AbstractGateway
                     }*/
 
 
-                    if (in_array(strtolower($response['data']['status']),["pendiente","pending"])) {
+                    if (in_array(strtolower($response['data']['status']), ["pendiente", "pending"])) {
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
@@ -380,8 +380,8 @@ class TicketGateway extends AbstractGateway
                         ];
                         return $return;
                     }
-                }else{
-                    $messageError = $response['message']?? $response['titleResponse'];
+                } else {
+                    $messageError = $response['message'] ?? $response['titleResponse'];
                     $errorMessage = "";
                     if (isset($response['data']['errors'])) {
                         $errors = $response['data']['errors'];
@@ -393,22 +393,21 @@ class TicketGateway extends AbstractGateway
                         foreach ($errores as $error) {
                             $errorMessage = $error['errorMessage'] . "\n";
                         }
-                    }elseif (isset($response['data']['errores'])) {
+                    } elseif (isset($response['data']['errores'])) {
                         $errores = $response['data']['errores'];
                         foreach ($errores as $error) {
                             $errorMessage = $error['errorMessage'] . "\n";
                         }
-                    }elseif (isset($response['data']['error']['errores'])) {
+                    } elseif (isset($response['data']['error']['errores'])) {
                         $errores = $response['data']['error']['errores'];
                         foreach ($errores as $error) {
                             $errorMessage = $error['errorMessage'] . "\n";
                         }
                     }
-                    $processReturnFailMessage = $messageError. " " . $errorMessage;
+                    $processReturnFailMessage = $messageError . " " . $errorMessage;
                     return $this->returnFail($processReturnFailMessage, $order);
                 }
-
-            }else{
+            } else {
                 throw new InvalidCheckoutDataException('exception : Unable to process payment on ' . __METHOD__);
             }
         } catch (\Exception $e) {
@@ -550,7 +549,7 @@ class TicketGateway extends AbstractGateway
                 'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/Red%20servi.png'
             ]
         ];
-        
+
 
         $payment_list = [
             'type'                 => 'mp_checkbox_list',
@@ -589,7 +588,7 @@ class TicketGateway extends AbstractGateway
      */
     private function getCheckoutIcon(bool $adminVersion = false): string
     {
-        $iconName = 'ticket-botton.png';
+        $iconName = 'efectivo.png';
         return $this->epayco->hooks->gateway->getGatewayIcon($iconName . ($adminVersion ? '-admin' : ''));
     }
 
@@ -631,7 +630,7 @@ class TicketGateway extends AbstractGateway
                 'status'            => 'active',
                 'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Redservi.png')
             ],
-        
+
             /*[
                 'id' => 'sured',
                 'name'              => 'Punto red',
@@ -639,12 +638,12 @@ class TicketGateway extends AbstractGateway
                 'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Puntored.png')
             ],
             */
-             [
-                 'id' => 'redservicioscesar',
-                 'name'              => 'Red de servicios',
-                 'status'            => 'active',
-                 'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Reddeservicios.png')
-             ],
+            [
+                'id' => 'redservicioscesar',
+                'name'              => 'Red de servicios',
+                'status'            => 'active',
+                'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('Reddeservicios.png')
+            ],
             [
                 'id' => 'apuestascucuta',
                 'name'              => 'Apuestas cucuta',
@@ -656,7 +655,7 @@ class TicketGateway extends AbstractGateway
                 'name'              => 'Suchance',
                 'status'            => 'active',
                 'secure_thumbnail'         => $this->epayco->hooks->gateway->getGatewayIcon('SuChance.png')
-            ], 
+            ],
             [
                 'id' => 'laperla',
                 'name'              => 'Laperla',
@@ -716,7 +715,7 @@ class TicketGateway extends AbstractGateway
     public function renderThankYouPage($order_id): void
     {
         $order        = wc_get_order($order_id);
-       // $transactionDetails  =  $this->epayco->orderMetadata->getTicketTransactionDetailsMeta($order);
+        // $transactionDetails  =  $this->epayco->orderMetadata->getTicketTransactionDetailsMeta($order);
         $transactionDetails  =  $this->epayco->orderMetadata->getPaymentsIdMeta($order);
         if (empty($transactionDetails)) {
             return;
@@ -741,12 +740,12 @@ class TicketGateway extends AbstractGateway
 
         $data = array(
             "filter" => array("referencePayco" => $paymentsIdArray[0]),
-            "success" =>true
+            "success" => true
         );
         $this->transaction = new TicketTransaction($this, $order, []);
         //$transactionDetails = $this->transaction->sdk->transaction->get($paymentsIdArray[0]);
         $transactionDetails = $this->transaction->sdk->transaction->get($data, true, "POST");
-       // $sdk = $this->sdk->transaction->get($data);
+        // $sdk = $this->sdk->transaction->get($data);
         $transactionInfo = json_decode(wp_json_encode($transactionDetails), true);
 
         if (empty($transactionInfo)) {
