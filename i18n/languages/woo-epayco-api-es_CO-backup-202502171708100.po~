@@ -771,8 +771,8 @@ msgstr ""
 #: src/Translations/AdminTranslations.php:350
 #: src/Translations/AdminTranslations.php:379
 #: src/Translations/AdminTranslations.php:418
-msgid "Go to Settings"
-msgstr "Ir a Ajustes"
+msgid "Return to settings"
+msgstr "Volver a configuración"
 
 #: src/Translations/StoreTranslations.php:265
 msgid ""

@@ -165,7 +165,7 @@ class AdminTranslations
         $this->subscriptionGatewaySettings = [
             'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
             'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
-            'card_settings_button_text'                 => __('Go to Settings', 'woo-epayco-api'),
+            'card_settings_button_text'                 => __('Return to settings', 'woo-epayco-api'),
             'gateway_title'                             => __('Subscriptions', 'woo-epayco-api'),
             'gateway_description'                       => __('Allow your customers to subscribe to recurring payment plans quickly and easily. Automatically charge every set period without requiring additional actions from the customer.', 'woo-epayco-api'),
             'gateway_method_title'                      => __('ePayco - Subscriptions', 'woo-epayco-api'),
@@ -277,7 +277,7 @@ class AdminTranslations
             'header_description'           => __('With the Transparent Checkout, you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woo-epayco-api'),
             'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
             'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
-            'card_settings_button_text'                 => __('Go to Settings', 'woo-epayco-api'),
+            'card_settings_button_text'                 => __('Return to settings', 'woo-epayco-api'),
             'enabled_title'                => __('Enable the Checkout', 'woo-epayco-api'),
             'enabled_subtitle'             => __('By disabling it, you will disable all cash payments from ePayco Transparent Checkout.', 'woo-epayco-api'),
             'enabled_enabled'              => __('Checkout is <b>enabled</b>.', 'woo-epayco-api'),
@@ -311,7 +311,7 @@ class AdminTranslations
             'header_description'           => __('With the Transparent Checkout, you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woo-epayco-api'),
             'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
             'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
-            'card_settings_button_text'                 => __('Go to Settings', 'woo-epayco-api'),
+            'card_settings_button_text'                 => __('Return to settings', 'woo-epayco-api'),
             'enabled_title'                => __('Enable the Checkout', 'woo-epayco-api'),
             'enabled_subtitle'             => __('By disabling it, you will disable daviplata payment from ePayco Transparent Checkout.', 'woo-epayco-api'),
             'enabled_enabled'              => __('Checkout is <b>enabled</b>.', 'woo-epayco-api'),
@@ -346,7 +346,7 @@ class AdminTranslations
         $this->creditcardGatewaySettings = [
             'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
             'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
-            'card_settings_button_text'                 => __('Go to Settings', 'woo-epayco-api'),
+            'card_settings_button_text'                 => __('Return to settings', 'woo-epayco-api'),
             'gateway_title'                             => __('Credit and/or Debit Cards', 'woo-epayco-api'),
             'gateway_description'                       => __('Accept fast and secure payments directly from your store using credit and debit cards from any bank. No redirects, ensuring a seamless shopping experience.  (Visa, Mastercard, Amex & Dinners)', 'woo-epayco-api'),
             'gateway_method_title'                      => __('ePayco - Credit and/or Debit Cards', 'woo-epayco-api'),
@@ -375,7 +375,7 @@ class AdminTranslations
         $this->pseGatewaySettings = [
             'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
             'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
-            'card_settings_button_text'                 => __('Go to Settings', 'woo-epayco-api'),
+            'card_settings_button_text'                 => __('Return to settings', 'woo-epayco-api'),
             'gateway_title'                => __('PSE', 'woo-epayco-api'),
             'gateway_description'          => __('Let your customers pay with direct bank transfers from any Colombian bank, all without leaving your online store. Secure, fast, and interruption-free.', 'woo-epayco-api'),
             'method_title'                 => __('ePayco - PSE', 'woo-epayco-api'),
@@ -414,7 +414,7 @@ class AdminTranslations
         $this->checkoutGatewaySettings = [
             'card_settings_title'          => __('ePayco plugin general settings', 'woo-epayco-api'),
             'card_settings_subtitle'       => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
-            'card_settings_button_text'    => __('Go to Settings', 'woo-epayco-api'),
+            'card_settings_button_text'    => __('Return to settings', 'woo-epayco-api'),
             'gateway_title'                => __('Checkout ePayco', 'woo-epayco-api'),
             'gateway_description'          => __('Offer your customers a complete payment experience with multiple options: cards, bank transfers, digital wallets, and cash. All in one secure and easy-to-use platform!', 'woo-epayco-api'),
             'method_title'                 => __('ePayco - Checkout ePayco ', 'woo-epayco-api'),
