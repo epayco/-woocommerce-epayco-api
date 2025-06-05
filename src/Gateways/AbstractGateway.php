@@ -491,7 +491,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
                 'subtitle'    => $this->epayco->adminTranslations->credentialsSettings['card_homolog_subtitle'],
                 'button_text' => $this->epayco->adminTranslations->credentialsSettings['card_homolog_button_text'],
                 'button_url'  => admin_url('admin.php?page=epayco-settings'),
-                'icon'        => 'ep-icon-badge-warning',
+                'icon'        => 'https://multimedia.epayco.co/plugins-sdks/info.png',
                 'color_card'  => '',
                 'size_card'   => 'ep-card-body-payments-error',
                 'target'      => '_blank',
@@ -517,7 +517,7 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
                         'subtitle'    => $this->epayco->adminTranslations->credentialsSettings['card_info_subtitle'],
                         'button_text' => $this->epayco->adminTranslations->credentialsSettings['card_info_button_text'],
                         'button_url'  => admin_url('admin.php?page=epayco-settings'),
-                        'icon'        => 'ep-icon-badge-warning',
+                        'icon'        => 'https://multimedia.epayco.co/plugins-sdks/info.png',
                         'color_card'  => 'ep-alert-color-error',
                         'size_card'   => 'ep-card-body-size',
                         'target'      => '_self',
@@ -660,16 +660,21 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
      * @return string
      */
     public function generate_mp_toggle_switch_html(string $key, array $settings): string
-    {
-        return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
-            'admin/components/toggle-switch.php',
-            [
-                'field_key'   => $this->get_field_key($key),
-                'field_value' => $this->epayco->hooks->options->getGatewayOption($this, $key, $settings['default']),
-                'settings'    => $settings,
-            ]
-        );
+{
+    // Forzar valor por defecto 'yes' si no hay valor guardado
+    $value = $this->epayco->hooks->options->getGatewayOption($this, $key, $settings['default'] ?? 'yes');
+    if (empty($value)) {
+        $value = 'yes';
     }
+    return $this->epayco->hooks->template->getWoocommerceTemplateHtml(
+        'admin/components/toggle-switch.php',
+        [
+            'field_key'   => $this->get_field_key($key),
+            'field_value' => $value,
+            'settings'    => $settings,
+        ]
+    );
+}
 
     /**
      * Generate custom toggle switch component

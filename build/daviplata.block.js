@@ -9,7 +9,7 @@
     var r;
     const m = "mp_checkout_blocks", d = "woo-epayco-daviplata",
         i = (0, o.getSetting)("woo-epayco-daviplata_data", {}),
-        p = (0, c.decodeEntities)(i.title) || "Checkout daviplata", u = t => {
+        p = (0, c.decodeEntities)(i.title) || "ePayco - Daviplata", u = t => {
             (e => {
                 const {extensionCartUpdate: t} = wc.blocksCheckout, {
                     eventRegistration: o,

@@ -9,7 +9,7 @@
     var r;
     const m = "mp_checkout_blocks", d = "woo-epayco-subscription",
         i = (0, o.getSetting)("woo-epayco-subscription_data", {}),
-        p = (0, c.decodeEntities)(i.title) || "Checkout Subscription", u = t => {
+        p = (0, c.decodeEntities)(i.title) || "ePayco - Suscripciones", u = t => {
             (e => {
                 const {extensionCartUpdate: t} = wc.blocksCheckout, {
                     eventRegistration: o,
