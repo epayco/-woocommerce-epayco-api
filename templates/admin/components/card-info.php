@@ -23,10 +23,12 @@ if (!defined('ABSPATH')) {
             <span class="ep-text-subtitle"><?php echo wp_kses($settings['value']['subtitle'], 'b'); ?></span>
             <a class="ep-button-payments-a" target="<?php echo esc_html($settings['value']['target']); ?>"
                 href="<?php echo esc_html($settings['value']['button_url']); ?>">
-                <button type="button"
-                    class="ep-button-payments"><?php echo esc_html__('Volver a configuración', 'woo-epayco-api'); ?></button>
+                <button type="button" class="ep-button-payments">
+                    <?php echo esc_html($settings['value']['button_text']); ?>
+                </button>
             </a>
         </div>
+
 
     </div>
 </div>

@@ -78,8 +78,8 @@ class DaviplataGateway extends AbstractGateway
         $this->id        = self::ID;
         //$this->icon      = $this->getCheckoutIcon();
         //$this->iconAdmin = $this->getCheckoutIcon(true);
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('daviplata.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('daviplata.png');
+        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/daviplata.png';
+        $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/daviplata.png';
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Daviplata');
 
         $this->init_form_fields();
@@ -403,7 +403,7 @@ class DaviplataGateway extends AbstractGateway
      */
     private function getCheckoutIcon(bool $adminVersion = false): string
     {
-        $iconName = 'icon-daviplata.png';
+        $iconName = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/daviplata.png';
         return $this->epayco->hooks->gateway->getGatewayIcon($iconName . ($adminVersion ? '-admin' : ''));
     }
 

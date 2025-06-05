@@ -51,8 +51,8 @@ class PseGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->pseCheckout;
 
         $this->id    = self::ID;
-        $this->icon  = $this->epayco->hooks->gateway->getGatewayIcon('pse.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('pse.png');
+        $this->icon  = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/pse.png';
+        $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/pse.png';
         
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'PSE');
 

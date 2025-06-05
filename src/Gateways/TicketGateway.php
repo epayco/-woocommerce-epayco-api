@@ -115,8 +115,8 @@ class TicketGateway extends AbstractGateway
         $this->id        = self::ID;
         //$this->icon      = $this->getCheckoutIcon();
         //$this->iconAdmin = $this->getCheckoutIcon(true);
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('efectivo.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('efectivo.png');
+        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/efectivo.png';
+        $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/efectivo.png';
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Efectivo');
 
         $this->init_form_fields();
@@ -588,7 +588,7 @@ class TicketGateway extends AbstractGateway
      */
     private function getCheckoutIcon(bool $adminVersion = false): string
     {
-        $iconName = 'efectivo.png';
+        $iconName = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/efectivo.png';
         return $this->epayco->hooks->gateway->getGatewayIcon($iconName . ($adminVersion ? '-admin' : ''));
     }
 

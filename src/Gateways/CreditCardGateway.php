@@ -49,8 +49,8 @@ class CreditCardGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->creditcardCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('tarjeta.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('tarjeta.png');
+        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjeta.png';
+        $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjeta.png';
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Tarjeta de crédito y/o débito');
 
         $this->init_form_fields();

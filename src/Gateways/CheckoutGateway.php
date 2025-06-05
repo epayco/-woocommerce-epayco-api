@@ -46,8 +46,8 @@ class CheckoutGateway extends AbstractGateway
         $this->adminTranslations = $this->epayco->adminTranslations->checkoutGatewaySettings;
         $this->storeTranslations = $this->epayco->storeTranslations->epaycoCheckout;
         $this->id        = self::ID;
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('botoncheckout.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('botoncheckout.png');
+        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/checkout.png';
+        $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/checkout.png';
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Checkout ePayco');
 
         $this->init_form_fields();

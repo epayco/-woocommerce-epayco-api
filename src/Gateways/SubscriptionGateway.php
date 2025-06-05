@@ -49,8 +49,8 @@ class SubscriptionGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->subscriptionCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('suscripciones.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('suscripciones.png');
+        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/suscripciones.png';
+        $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/suscripciones.png';
         $this->method_description = $this->adminTranslations['gateway_method_description'];
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Suscripciones');
 
