@@ -96,9 +96,11 @@ class WoocommerceEpayco
         $methods = [
             'Epayco\Woocommerce\Gateways\CheckoutGateway',
             'Epayco\Woocommerce\Gateways\CreditCardGateway',
-            'Epayco\Woocommerce\Gateways\DaviplataGateway',
             'Epayco\Woocommerce\Gateways\PseGateway',
-            'Epayco\Woocommerce\Gateways\TicketGateway'
+            'Epayco\Woocommerce\Gateways\TicketGateway',
+            'Epayco\Woocommerce\Gateways\DaviplataGateway',
+           
+            
         ];
         if (class_exists('WC_Subscriptions')){
             array_push($methods, 'Epayco\Woocommerce\Gateways\SubscriptionGateway');

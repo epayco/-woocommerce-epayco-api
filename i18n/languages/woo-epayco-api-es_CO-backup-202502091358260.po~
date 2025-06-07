@@ -370,16 +370,16 @@ msgid "Cash"
 msgstr "Efectivo"
 
 #: src/Translations/AdminTranslations.php:277
-msgid "Cash Checkout"
-msgstr "Pago en efectivo"
+msgid "Cash"
+msgstr "Efectivo"
 
 #: src/Translations/AdminTranslations.php:285
-msgid "Cash is <b>disabled</b>."
-msgstr "El efectivo está <b>desactivado</b>."
+msgid "Checkout is <b>disabled</b>."
+msgstr "El método de pago está <b>desactivado</b>."
 
 #: src/Translations/AdminTranslations.php:284
-msgid "Cash is <b>enabled</b>."
-msgstr "El efectivo está <b>activado</b>."
+msgid "Checkout is <b>enabled</b>."
+msgstr "El método de pago está <b>activado</b>."
 
 #: src/Translations/StoreTranslations.php:219
 msgid "Cellphone"
@@ -416,11 +416,11 @@ msgstr "Pedido"
 
 #: src/Translations/AdminTranslations.php:427
 msgid "Checkout is <b>disabled</b>."
-msgstr "El pago está <b>desactivado</b>."
+msgstr "El método de pago está <b>desactivado</b>."
 
 #: src/Translations/AdminTranslations.php:426
 msgid "Checkout is <b>enabled</b>."
-msgstr "El pago está <b>habilitado</b>."
+msgstr "El método de pago está <b>activado</b>."
 
 #: src/Translations/AdminTranslations.php:432
 msgid "Checkout mode"
@@ -503,20 +503,20 @@ msgid "Credentials were updated"
 msgstr "Se han actualizado las credenciales"
 
 #: src/Translations/AdminTranslations.php:363
-msgid "Credit and debit cards"
-msgstr "Tarjetas de crédito y débito"
+msgid "Credit and/or Debit Cards"
+msgstr "Tarjeta de credito y/o debito"
 
 #: src/Translations/AdminTranslations.php:351
 #: src/Translations/AdminTranslations.php:355
-msgid "Credit and Debit Cards by ePayco"
-msgstr "Tarjetas de crédito y débito de ePayco"
+msgid "Credit and/or Debit Cards"
+msgstr "Tarjeta de credito y/o debito"
 
 #: src/Translations/AdminTranslations.php:156
 #: src/Translations/AdminTranslations.php:162
 #: src/Translations/AdminTranslations.php:337
 #: src/Translations/AdminTranslations.php:343
-msgid "Credit cards is"
-msgstr "Tarjetas de crédito es"
+msgid "Checkout is"
+msgstr "El método de pago está"
 
 #: src/Translations/StoreTranslations.php:85
 #: src/Translations/StoreTranslations.php:124
@@ -543,16 +543,16 @@ msgid "Daviplata"
 msgstr "Daviplata"
 
 #: src/Translations/AdminTranslations.php:311
-msgid "Daviplata Checkout"
-msgstr "Pago Daviplata"
+msgid "Daviplata"
+msgstr "Daviplata"
 
 #: src/Translations/AdminTranslations.php:319
-msgid "Daviplata is <b>disabled</b>."
-msgstr "Daviplata está <b>desactivado</b>."
+msgid "Checkout is <b>disabled</b>."
+msgstr "El método de pago está <b>desactivado</b>."
 
 #: src/Translations/AdminTranslations.php:318
-msgid "Daviplata is <b>enabled</b>."
-msgstr "Daviplata está <b>activado</b>."
+msgid "Checkout is <b>enabled</b>."
+msgstr "El método de pago está <b>activado</b>."
 
 #: src/Translations/StoreTranslations.php:77
 #: src/Translations/StoreTranslations.php:187
@@ -617,7 +617,7 @@ msgstr "Activo"
 #: src/Translations/AdminTranslations.php:338
 #: src/Translations/AdminTranslations.php:407
 msgid "enabled"
-msgstr "habilitado"
+msgstr "activado"
 
 #: src/Translations/AdminTranslations.php:140
 msgid "Enter credentials"
@@ -630,24 +630,24 @@ msgid "ePayco"
 msgstr "ePayco"
 
 #: src/Translations/AdminTranslations.php:276
-msgid "ePayco - Checkout Cash"
-msgstr "ePayco - Pago en efectivo"
+msgid "Cash"
+msgstr "Efectivo"
 
 #: src/Translations/AdminTranslations.php:353
-msgid "ePayco - Checkout Credit card"
-msgstr "ePayco - Pago Tarjeta de crédito"
+msgid "ePayco - Credit and/or Debit Cards"
+msgstr "ePayco - Tarjeta de credito y/o debito"
 
 #: src/Translations/AdminTranslations.php:310
-msgid "ePayco - Checkout Daviplata"
-msgstr "ePayco - Pago Daviplata"
+msgid "ePayco - Daviplata"
+msgstr "ePayco - Daviplata"
 
 #: src/Translations/AdminTranslations.php:382
-msgid "ePayco - Checkout Pse"
-msgstr "ePayco - Pago Pse"
+msgid "ePayco - PSE"
+msgstr "ePayco - PSE"
 
 #: src/Translations/AdminTranslations.php:172
-msgid "ePayco - Checkout Subscription"
-msgstr "ePayco - Suscripción de pago"
+msgid "ePayco - Subscriptions"
+msgstr "ePayco - Suscripciónes"
 
 #: src/Translations/AdminTranslations.php:223
 msgid "ePayco Checkouts Production."
@@ -755,8 +755,8 @@ msgstr ""
 #: src/Translations/AdminTranslations.php:350
 #: src/Translations/AdminTranslations.php:379
 #: src/Translations/AdminTranslations.php:418
-msgid "Go to Settings"
-msgstr "Ir a Ajustes"
+msgid "Return to settings"
+msgstr "Volver a configuración"
 
 #: src/Translations/StoreTranslations.php:265
 msgid ""
@@ -975,7 +975,7 @@ msgstr "en el sitio web de desarrollo."
 #: src/Translations/AdminTranslations.php:406
 #: src/Translations/AdminTranslations.php:412
 msgid "OnPage Checkout is"
-msgstr "OnPage Checkout es"
+msgstr "OnPage Checkout está"
 
 #: src/Translations/AdminTranslations.php:78
 msgid ""
@@ -1120,16 +1120,16 @@ msgstr "PSE"
 
 #: src/Translations/AdminTranslations.php:380
 #: src/Translations/AdminTranslations.php:383
-msgid "PSE by ePayco"
-msgstr "PSE por ePayco"
+msgid "PSE"
+msgstr "PSE"
 
 #: src/Translations/AdminTranslations.php:388
-msgid "PSE is <b>disabled</b>."
-msgstr "PSE está <b>desactivado</b>."
+msgid "Checkout is <b>disabled</b>."
+msgstr "El método de pago está <b>desactivado</b>."
 
 #: src/Translations/AdminTranslations.php:387
-msgid "PSE is <b>enabled</b>."
-msgstr "PSE está <b>activado</b>."
+msgid "Checkout is <b>enabled</b>."
+msgstr "El método de pago está <b>activado</b>."
 
 #: src/Translations/AdminTranslations.php:131
 msgid "PUBLIC_KEY"
@@ -1306,8 +1306,8 @@ msgstr "No se han podido validar los campos de negocio de la tienda"
 #: src/Translations/AdminTranslations.php:174
 #: src/Translations/AdminTranslations.php:182
 #: src/Translations/StoreTranslations.php:307
-msgid "Subscription"
-msgstr "Suscripción"
+msgid "Subscriptions"
+msgstr "Suscripciónes"
 
 #: src/Translations/AdminTranslations.php:451
 #: src/Translations/AdminTranslations.php:453
@@ -1455,8 +1455,8 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:419
 #: src/Translations/AdminTranslations.php:422
-msgid "Web CheckOut"
-msgstr "Pago por Internet"
+msgid "Checkout ePayco"
+msgstr "Checkout ePayco"
 
 #: src/Translations/AdminTranslations.php:76
 msgid ""

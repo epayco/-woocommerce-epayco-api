@@ -9,7 +9,7 @@
     var r;
     const m = "mp_checkout_blocks", d = "woo-epayco-creditcard",
         i = (0, o.getSetting)("woo-epayco-creditcard_data", {}),
-        p = (0, c.decodeEntities)(i.title) || "Checkout Credit card", u = t => {
+        p = (0, c.decodeEntities)(i.title) ||  "ePayco - Tarjeta de credito y/o debito" || "Credit and/or Debit Cards" , u = t => {
             (e => {
                 const {extensionCartUpdate: t} = wc.blocksCheckout, {
                     eventRegistration: o,

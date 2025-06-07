@@ -57,7 +57,7 @@ class Options
      *
      * @return mixed
      */
-    public function getGatewayOption(AbstractGateway $gateway, string $optionName, $default = '')
+    public function getGatewayOption(AbstractGateway $gateway, string $optionName, $default = 'Tarjeta de crédito y/o débito')
     {
         if (in_array($optionName, self::COMMON_CONFIGS, true)) {
             return $this->get($optionName, $default);
