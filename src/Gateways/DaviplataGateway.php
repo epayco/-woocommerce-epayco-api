@@ -459,7 +459,7 @@ class DaviplataGateway extends AbstractGateway
         }else{
             return;
         }
-        $transaction = $this->transaction->returnParameterToThankyouPage($_transaction, $this);
+        $transaction = $this->transaction->returnParameterToThankyouPage($_transaction, $this, $order_id);
 
         if (empty($transaction)) {
             return;

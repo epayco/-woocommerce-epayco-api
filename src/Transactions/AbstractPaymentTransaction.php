@@ -983,7 +983,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         return $ipaddress;
     }
 
-    public function returnParameterToThankyouPage($transactionInfo, $payment)
+    public function returnParameterToThankyouPage($transactionInfo, $payment, $order_id)
     {
         $x_amount = $transactionInfo['data']['x_amount']??$transactionInfo['data']['amount']??$transactionInfo['data'][0]['amount'];
         $x_amount_base = $transactionInfo['data']['x_amount_base']??$transactionInfo['data']['taxBaseClient']??$transactionInfo['data'][0]['taxBaseClient'];
@@ -1019,18 +1019,7 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
                 $message = $payment->storeTranslations['fail_message'];
             }break;
         }
-        $donwload_url =get_site_url() . "/";
-        $donwload_url = add_query_arg( 'wc-api', $payment::WEBHOOK_DONWLOAD, $donwload_url );
-        $donwload_url = add_query_arg( 'refPayco', $x_ref_payco, $donwload_url );
-        $donwload_url = add_query_arg( 'fecha', $x_transaction_date, $donwload_url );
-        $donwload_url = add_query_arg( 'franquicia', $x_franchise, $donwload_url );
-        $donwload_url = add_query_arg( 'descuento', '0', $donwload_url );
-        $donwload_url = add_query_arg( 'autorizacion', $x_approval_code, $donwload_url );
-        $donwload_url = add_query_arg( 'valor', $x_amount, $donwload_url );
-        $donwload_url = add_query_arg( 'estado', $x_response, $donwload_url );
-        $donwload_url = add_query_arg( 'descripcion', $x_description, $donwload_url );
-        $donwload_url = add_query_arg( 'respuesta', $x_response, $donwload_url );
-        $donwload_url = add_query_arg( 'ip', $x_customer_ip, $donwload_url );
+
         $is_cash = false;
         if($x_franchise == 'EF'||
             $x_franchise == 'GA'||
@@ -1048,6 +1037,13 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
             }
             $x_franchise = $x_franchise == 'DaviPlata' ? 'DP' : $x_franchise;
         }
+
+        $donwload_url =get_site_url() . "/";
+        $donwload_url = add_query_arg( 'wc-api', $payment::WEBHOOK_DONWLOAD, $donwload_url );
+        $donwload_url = add_query_arg( 'refPayco', $x_ref_payco, $donwload_url );
+        $donwload_url = add_query_arg( 'order_id', $order_id, $donwload_url );
+        $donwload_url = add_query_arg( 'franchise', $x_franchise, $donwload_url );
+
         $transaction = [
             'franchise_logo' => 'https://secure.epayco.co/img/methods/'.$x_franchise.'.svg',
             'x_amount_base' => $x_amount_base,
