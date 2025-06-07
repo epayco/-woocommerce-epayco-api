@@ -1203,7 +1203,7 @@ msgid "Collection in the name of EPAYCO.COM S.A.S."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:90
-msgid "Download ePayco receipt"
+msgid "Print or save"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:73

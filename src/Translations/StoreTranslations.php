@@ -87,7 +87,7 @@ class StoreTranslations
             'expirationDate'  => __('Expiration Date', 'woo-epayco-api'),
             'ticket_header'  => __('Taking into account the payment date, go to the nearest earning point and indicate the following information:', 'woo-epayco-api'),
             'ticket_footer'  => __('Collection in the name of EPAYCO.COM S.A.S.', 'woo-epayco-api'),
-            'donwload_text'  => __('Download ePayco receipt', 'woo-epayco-api'),
+            'donwload_text'  => __('Print or save', 'woo-epayco-api'),
         ];
     }
 
@@ -142,7 +142,7 @@ class StoreTranslations
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
-            'donwload_text'  => __('Download ePayco receipt', 'woo-epayco-api'),
+            'donwload_text'  => __('Print or save', 'woo-epayco-api'),
 
         ];
     }
@@ -210,7 +210,7 @@ class StoreTranslations
             'authorization'                   => __('Authorization', 'woo-epayco-api'),
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
-            'donwload_text'  => __('Download ePayco receipt', 'woo-epayco-api'),
+            'donwload_text'  => __('Print or save', 'woo-epayco-api'),
         ];
     }
 
@@ -265,7 +265,7 @@ class StoreTranslations
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
-            'donwload_text'  => __('Download ePayco receipt', 'woo-epayco-api'),
+            'donwload_text'  => __('Print or save', 'woo-epayco-api'),
         ];
     }
 
@@ -305,7 +305,7 @@ class StoreTranslations
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
-            'donwload_text'  => __('Download ePayco receipt', 'woo-epayco-api'),
+            'donwload_text'  => __('Print or save', 'woo-epayco-api'),
         ];
     }
 
@@ -372,7 +372,7 @@ class StoreTranslations
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
-            'donwload_text'  => __('Download ePayco receipt', 'woo-epayco-api'),
+            'donwload_text'  => __('Print or save', 'woo-epayco-api'),
         ];
     }
 

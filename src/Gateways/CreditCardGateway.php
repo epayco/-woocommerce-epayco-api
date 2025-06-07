@@ -404,7 +404,7 @@ class CreditCardGateway extends AbstractGateway
             return;
         }
 
-        $transaction = $this->transaction->returnParameterToThankyouPage($transactionInfo, $this);
+        $transaction = $this->transaction->returnParameterToThankyouPage($transactionInfo, $this, $order_id);
 
         if (empty($transaction)) {
             return;

@@ -578,8 +578,8 @@ msgid "disabled"
 msgstr "inactivo"
 
 #: src/Translations/AdminTranslations.php:90
-msgid "Download ePayco receipt"
-msgstr "Descargar recibo ePayco"
+msgid "Print or save"
+msgstr "Imprimir o guardar"
 
 #: src/Translations/StoreTranslations.php:166
 #: src/Translations/StoreTranslations.php:213

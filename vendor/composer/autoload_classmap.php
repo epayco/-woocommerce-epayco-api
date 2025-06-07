@@ -36,6 +36,7 @@ return array(
     'Epayco\\Woocommerce\\Helpers\\Paths' => $baseDir . '/src/Helpers/Paths.php',
     'Epayco\\Woocommerce\\Helpers\\PaymentMethods' => $baseDir . '/src/Helpers/PaymentMethods.php',
     'Epayco\\Woocommerce\\Helpers\\PaymentStatus' => $baseDir . '/src/Helpers/PaymentStatus.php',
+    'Epayco\Woocommerce\Helpers\PDF' => $baseDir . '/src/Helpers/PDF.php',
     'Epayco\\Woocommerce\\Helpers\\Session' => $baseDir . '/src/Helpers/Session.php',
     'Epayco\\Woocommerce\\Helpers\\Strings' => $baseDir . '/src/Helpers/Strings.php',
     'Epayco\\Woocommerce\\Helpers\\Gateways' => $baseDir . '/src/Helpers/Gateways.php',

@@ -70,6 +70,7 @@ class ComposerStaticInit29e4698e2f640ef461d5ff51b7c3
         'Epayco\\Woocommerce\\Helpers\\Paths' => __DIR__ . '/../..' . '/src/Helpers/Paths.php',
         'Epayco\\Woocommerce\\Helpers\\PaymentMethods' => __DIR__ . '/../..' . '/src/Helpers/PaymentMethods.php',
         'Epayco\\Woocommerce\\Helpers\\PaymentStatus' => __DIR__ . '/../..' . '/src/Helpers/PaymentStatus.php',
+        'Epayco\\Woocommerce\\Helpers\\PDF' => __DIR__ . '/../..' . '/src/Helpers/PDF.php',
         'Epayco\\Woocommerce\\Helpers\\Cache' => __DIR__ . '/../..' . '/src/Helpers/Cache.php',
         'Epayco\\Woocommerce\\Helpers\\Cron' => __DIR__ . '/../..' . '/src/Helpers/Cron.php',
         'Epayco\\Woocommerce\\Helpers\\CurrentUser' => __DIR__ . '/../..' . '/src/Helpers/CurrentUser.php',
