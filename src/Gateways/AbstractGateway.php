@@ -9,6 +9,7 @@ use Exception;
 use Epayco\Woocommerce\Exceptions\RejectedPaymentException;
 use WC_Payment_Gateway;
 use TCPDF;
+use Epayco\Woocommerce\Helpers\PDF as EpaycoPDF;
 use Epayco as EpaycoSdk;
 abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatewayInterface
 {
@@ -385,6 +386,9 @@ abstract class AbstractGateway extends WC_Payment_Gateway implements EpaycoGatew
     {
         if (isset($_GET['refPayco'])) {
             $refPayco = htmlspecialchars($_GET['refPayco']);
+            $epaycoPdf = new EpaycoPDF();
+            $epaycoPdf->download($refPayco);
+            die();
             $data = [
                 'Estado' => htmlspecialchars($_GET['estado'] ?? ''),
                 'Referencia' => $refPayco,
