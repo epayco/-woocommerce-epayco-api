@@ -2,7 +2,7 @@
 
 namespace Epayco\Woocommerce\Helpers;
 use Epayco\Woocommerce\WoocommerceEpayco;
-use TCPDF;
+//use TCPDF;
 use Epayco as EpaycoSdk;
 
 if (!defined('ABSPATH')) {
@@ -110,34 +110,22 @@ class PDF
         $x_tax= $transactionInfo['data']['x_tax']??$transactionInfo['data']['tax']??$transactionInfo['data'][0]['tax'];
         $x_currency_code= $transactionInfo['data']['x_currency_code']??$transactionInfo['data']['currency']??$transactionInfo['data'][0]['currency'];
         $iconBaseUrl = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/';
-        $colores = [
-            'aceptada' => [103, 201, 64],
-            'rechazada' => [225, 37, 27],
-            'pendiente' => [255, 209, 0],
-        ];
-        $color = $colores[strtolower($x_transaction_state)] ?? [0, 0, 0];
-
-        $titulo = 'Transacción ' . ucfirst(strtolower($x_transaction_state));
-
-        $description_ = $x_description;
-
-        $heigth = 180;
 
         switch ($x_response) {
             case 'Aceptada': {
                 $iconUrl = $iconBaseUrl.'check.png';
-                $iconColor = $color;
+                $iconColor = '#67C940';
                 $message = $this->epayco->storeTranslations->epaycoCheckout['success_message'];
             }break;
             case 'Pendiente':
             case 'Pending':{
                 $iconUrl = $iconBaseUrl.'warning.png';
-                $iconColor =$color;
+                $iconColor = '#FFD100';
                 $message = $this->epayco->storeTranslations->epaycoCheckout['pending_message'];
             }break;
             default: {
                 $iconUrl = $iconBaseUrl.'error.png';
-                $iconColor = $color;
+                $iconColor = '#E1251B';
                 $message = $this->epayco->storeTranslations->epaycoCheckout['fail_message'];
             }break;
         }
@@ -156,6 +144,7 @@ class PDF
             $expirationDate = $paymentsIdArray[3];
             $expirationDateText = $this->epayco->storeTranslations->ticketCheckout['expirationDate'];
             $code = $this->epayco->storeTranslations->ticketCheckout['code']??null;
+            $ticket_header = $this->epayco->storeTranslations->ticketCheckout['ticket_header'];
             $heigth = 195;
         }else{
             if($x_franchise == 'PSE' ){
@@ -187,197 +176,372 @@ class PDF
         $purchase = $this->epayco->storeTranslations->epaycoCheckout['purchase'];
         $response = $this->epayco->storeTranslations->epaycoCheckout['response'];
 
-        //$pdf = new TCPDF();
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-        $pdf->setPrintHeader(false);
-        $pdf->setPrintFooter(false);
-        $pdf->AddPage();
-
-        // Header negro con logo
-        $pdf->SetFillColor(29, 29, 29);
-        $pdf->Rect(0, 0, 210, 20, 'F');
-        //$pdf->Image('https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/epayco-blanco.png', 80, 5, 50, 10, '', '', '', false, 300, '', false, false, 0);
-        $pdf->Image(
-            'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/epayco-blanco.png',
-            85,    // X
-            6,    // Y (centrado vertical en header de 40)
-            35,    // ancho
-            10,    // alto (ajusta según el logo)
-            '', '', '', 'T'
-        );
-
-        // Tarjeta principal (simula .containerFacture)
-        $pdf->SetFillColor(249, 249, 249);
-        $pdf->SetDrawColor(202, 202, 202);
-        $pdf->RoundedRect(
-            40, // X
-            30, // Y
-            125, // Ancho
-            $heigth, // Alto
-            8, // Radio de las esquinas
-            '1234', // Estilo de las esquinas (1234 = todas las esquinas redondeadas)
-            'DF' // 'DF' = dibujar y rellenar
-        );
-        // Ícono de transacción (simula .transaction img)
-        $pdf->Image($iconUrl, 95, 40, 20, 20, '', '', '', false, 300, '', false, false, 0);
-
-        // Mensaje principal (simula .h1Facture)
-        $pdf->SetFont('dejavusans', 'B', 14);
-        $pdf->SetTextColor($iconColor[0], $iconColor[1], $iconColor[2]);
-        $pdf->SetXY(35, 65);
-        $pdf->Cell(
-            140, // Ancho total de la tarjeta
-            10, // Alto de la celda
-            $message,// Texto a mostrar
-            0, // Borde (0 = sin borde)
-            12, // Salto de línea (2 = salto de línea después de la celda)
-            'C', // Alineación (C = centrado)
-            false // Ajuste automático de ancho
-        );
-
-        // Referencia (simula h2)
-        $pdf->SetFont('dejavusans', 'B', 14);
-        $pdf->SetTextColor($iconColor);
-        $pdf->Cell(140, 8, $epayco_refecence, 0, 2, 'C', false);
-
-        // Fecha
-        $pdf->SetFont('dejavusans', '', 11);
-        $pdf->Cell(140, 8, $x_transaction_date, 0, 2, 'C', false);
-
-        // Subtítulo método de pago
-        $pdf->SetFont('dejavusans', 'B', 12);
-        $pdf->SetXY(55, $pdf->GetY()+5);
-        $pdf->Cell(0, 8, $paymentMethod, 0, 1, 'L', false);
-
-        // Datos de método de pago (simula .parDescription)
-        $pdf->SetFont('dejavusans', '', 10);
-
-
-        $pdf->SetXY(55, $pdf->GetY()+5);
-        $pdf->SetTextColor(80, 80, 80); // Color gris oscuro
-        $pdf->Cell(40, 5, $paymentMethod, 0, 0, 'L');
-        $pdf->Cell(25, 5, '', 0, 0); // Celda vacía de 30mm de ancho como espacio
-        $pdf->Cell(40, 5, $authorizations, 0, 1, 'L');
-/*
-        $pdf->SetXY(55, $pdf->GetY());
-        $pdf->SetTextColor(0,0,0);
-        $pdf->Cell(40, 5, $franchise_logo. " ". $x_cardnumber_, 0, 0, 'L');
-        $pdf->SetX($pdf->GetX() + 25); // Mueve el cursor 30mm a la derecha
-        $pdf->Cell(50, 5, $authorization, 0, 1, 'L');
-*/
-        $pdf->SetXY(55, $pdf->GetY());
-        $pdf->SetTextColor(0,0,0);
-        // Imprime el logo de la franquicia en la posición actual
-        //$pdf->Image($franchise_logo, $pdf->GetX(), $pdf->GetY(), 10, 5, '', '', '', false, 300, '', false, false, 0);
-        $pdf->Image($franchise_logo, 95, 40, 20, 20, '', '', '', false, 300, '', false, false, 0);
-        // Mueve el cursor a la derecha del logo (ajusta el valor 12 si el logo es más ancho)
-        $pdf->SetX($pdf->GetX() + 12);
-        // Imprime el número de tarjeta al lado del logo
-        $pdf->Cell(28, 5, $x_cardnumber_, 0, 0, 'L');
-        // Mueve el cursor a la derecha para la siguiente celda
-        $pdf->SetX($pdf->GetX() + 25);
-        // Imprime la autorización
-        $pdf->Cell(50, 5, $authorization, 0, 1, 'L');
-
-
-
-        $pdf->SetXY(55, $pdf->GetY()+5);
-        $pdf->SetTextColor(80, 80, 80);
-        $pdf->Cell(40, 5, $receipt, 0, 0, 'L');
-        $pdf->SetX($pdf->GetX() + 25);
-        $pdf->Cell(50, 5, $iPaddress, 0, 1, 'L');
-
-        $pdf->SetXY(55, $pdf->GetY());
-        $pdf->SetTextColor(0,0,0);
-        $pdf->Cell(40, 6, $factura, 0, 0, 'L');
-        $pdf->SetX($pdf->GetX() + 25);
-        $pdf->Cell(50, 6, $ip, 0, 1, 'L');
-
-        $pdf->SetXY(55, $pdf->GetY()+5);
-        $pdf->SetTextColor(80, 80, 80);
-        $pdf->Cell(40, 6, $response, 0, 0, 'L');
-        $pdf->SetX($pdf->GetX() + 25);
-        if (!$is_cash) {
-            $pdf->Cell(50, 6, '', 0, 1, 'L');
-        }else{
-            $pdf->Cell(50, 6, $expirationDateText, 0, 1, 'L');
+        try {
+            if ($is_cash) {
+                $cashHtml = '
+                <div class="parDescription">
+                    <table style="width:100%; border-collapse:collapse;">
+                        <tr>
+                            <td style="vertical-align:top; width:50%; padding-right:10px; padding-top:10px;">
+                                <div class="titleAndText">
+                                    <div class="h3Facture" style="color:grey">'.$response.'</div>
+                                    <div class="pFacture">'.$response_reason_text.'</div>
+                                </div>
+                            </td>
+                            <td style="vertical-align:top; width:50%; padding-left:10px; padding-top:10px;">
+                                <div class="titleAndTextRight">
+                                    <div class="h3Facture" style="color:grey">'.$expirationDateText.'</div>
+                                    <div class="pFacture">'.$expirationDate.'</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="parDescription" style="padding-top:10px;">
+                    <div class="pFacture">'.$ticket_header.'</div>
+                </div>
+                <div class="parDescription">
+                    <table style="width:100%; border-collapse:collapse;">
+                        <tr>
+                            <td style="vertical-align:top; width:50%; padding-right:10px; padding-top:10px;">
+                                <div class="titleAndText">
+                                    <div class="h3Facture" style="color:grey">'.$code.'</div>
+                                    <div class="pFacture">'.$codeProject.'</div>
+                                </div>
+                            </td>
+                            <td style="vertical-align:top; width:50%; padding-left:10px; padding-top:10px;">
+                                <div class="titleAndTextRight">
+                                    <div class="h3Facture" style="color:grey">Pin</div>
+                                    <div class="pFacture">'.$pin.'</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                ';
+                        }else{
+                            $cashHtml = '
+                <div class="parDescription">
+                    <table style="width:100%; border-collapse:collapse;">
+                        <tr>
+                            <td style="vertical-align:top; width:50%; padding-right:10px; padding-top:10px;">
+                                <div class="titleAndText">
+                                    <div class="h3Facture" style="color:grey">'.$response.'</div>
+                                    <div class="pFacture">'.$response_reason_text.'</div>
+                                </div>
+                            </td>
+                            <td style="vertical-align:top; width:50%; padding-left:10px; padding-top:10px;">
+                                <div class="titleAndTextRight">
+                                    <div class="h3Facture" style="color:grey"></div>
+                                    <div class="pFacture"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                ';
+                        }
+                        $html = '
+            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+            <style>
+            body, .landingResumen {
+                max-height: 95vh;
+                overflow: hidden;
+                font-family: "poppins", Arial, sans-serif;
+            }
+            .landingResumen {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            }
+            .navEpayco {
+                display: flex;
+                justify-content: center;   /* Centra horizontalmente */
+                align-items: center;       /* Centra verticalmente */
+                height: 40px;              /* Alto del contenedor */
+                background: #1d1d1d;
+                text-align: center;
+            }
+            .navEpayco img {
+                display: block;
+                margin: 0 auto;
+                max-height: 40px;          /* Ajusta el tamaño del logo si es necesario */
+                margin-top: 10px !important; /* Espacio superior */
+            }
+            .containerResumen {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                height: fit-content;
+                gap: 1rem;
+                padding-top: 3rem;
+                padding-bottom: 4.8rem;
+                width: 100%;
+            }
+            .hole {
+                padding-top: 1.6rem;
+                overflow: visible;
+                width: 557px;
+                height: 0px;
+                border-radius: 1.6rem;
+                background: #1d1d1d;
+                margin-left: auto;
+                margin-right: auto;
+                position: relative;
+                z-index: 1;
+            }
+            .containerFacture {
+                position: relative;
+                align-items: center;
+                transform: translateY(-1.95rem);
+                flex-direction: column;
+                background: #f9f9f9;
+                height: fit-content;
+                width: 490px;
+                padding: 32px 24px 40px;
+                gap: 18px;
+                /*box-shadow: 0 8px 16px 0 rgba(0, 0, 0, .08);*/
+                border-radius: 0 0 10px 10px;
+                border-right: 1px solid #cacaca;
+                border-bottom: 1px solid #cacaca;
+                border-left: 1px solid #cacaca;
+                top: 5px;
+                display: flex;
+                justify-content: center;
+                margin-left: auto;   /* <-- centra horizontalmente */
+                margin-right: auto;  /* <-- centra horizontalmente */
+                margin-top: -10px;
+                margin-bottom: 40px;
+                z-index: 2;
+                }
+            .transaction {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                color: #1d1d1d;
+                gap: 1.6rem;
+                text-align: center;
+                margin-left: auto;   /* <-- centra horizontalmente */
+                margin-right: auto;  /* <-- centra horizontalmente */
+            }
+            .transactionText {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: .5rem;
+            }
+            .h1Bold {
+                font-weight: 600;
+            }
+            .h1Facture {
+                font-size: 24px;
+                display: block;
+                font-style: normal;
+                font-weight: bold;
+                line-height: normal;
+            }
+            .pFacture {
+                font-size: 16px;
+                color: #000;
+            }
+            .h3Facture,
+            .pFacture {
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+            .medioPago,
+            .medios {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                margin-left: auto;   /* <-- centra horizontalmente */
+                margin-right: auto;  /* <-- centra horizontalmente */
+            }
+            .medioPago {
+                width: 100%;
+                justify-content: center;
+                align-items: center;
+                margin-left: auto;   /* <-- centra horizontalmente */
+                margin-right: auto;  /* <-- centra horizontalmente */
+            }
+            .medios {
+                width: 380px;
+                align-items: flex-start;
+            }
+            .h2Facture {
+                font-size: 16px;
+                display: block;
+                font-weight: 700;
+            }
+            .parDescription {
+                width: 100%;
+                display: flex;
+                justify-content: center; /* Centra horizontalmente el contenido */
+                align-items: flex-start;
+                margin: 0 auto;
+            }
+            .parDescription table {
+                margin: 0 auto; /* Centra la tabla dentro del div */
+            }
+            .titleAndText,
+            .titleAndTextRight {
+                width: 100%; /* Ocupa todo el espacio de la columna */
+                box-sizing: border-box;
+                padding: 0;
+            }
+            
+            .titleAndTextComplete {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+            .pageAndImage {
+                display: flex;
+                flex-direction: row;      /* Por defecto, pero lo aclaramos */
+                align-items: center;      /* Centra verticalmente */
+                gap: 1rem;                /* Espacio entre logo y número */
+                width: fit-content;
+                justify-content: flex-start;
+            }
+            .metodoPago {
+                align-items: center;
+                height: 1.5rem !important;
+            }
+            </style>
+            
+            <div class="landingResumen">
+                <div class="navEpayco">
+                    <img src="https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/epayco-blanco.png" alt="logo" >
+                </div>
+                <div class="containerResumen">
+                    <div class="hole"></div>
+                    <div class="containerFacture">
+                        <div class="transaction">
+                            <img src="'.$iconUrl.'" alt="check" style="display: block; margin: auto; border-bottom: 25px;">
+                            <div class="transactionText">
+                                <div class="h1Facture h1Bold" style="color:'.$iconColor.'">
+                                    '.$message.'
+                                </div>
+                                <div class="h1Facture">
+                                    <h2 style="font-size: 22px; font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif; font-weight: bold">'.$epayco_refecence.' #'.$x_ref_payco.'</h2>
+                                </div>
+                                <div class="pFacture">
+                                    '.$x_transaction_date.'
+                                </div>
+                            </div>
+                        </div>
+                        <div class="medioPago">
+                            <div class="medios" style="padding-top:10px; margin-left: 20%;"> 
+                                <div class="h2Facture">'.$paymentMethod.'</div>
+                                <div class="parDescription" style="width:100%;">
+                                    <table style="width:100%; border-collapse:collapse;">
+                                        <tr>
+                                        <td style="vertical-align:top; width:50%; padding-right:10px; padding-top:10px;">
+                                            <div class="titleAndText">
+                                                <div class="h3Facture" style="color:grey">'.$paymentMethod.'</div>
+                                                <div class="pageAndImage">
+                                                <img class="metodoPago" src="'.$franchise_logo.'" id="metodoPagoId" alt="logoTransacción">
+                                                  <!--<div class="pFacture">'.$x_cardnumber.'</div>-->
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:top; width:50%; padding-left:10px; padding-top:10px;">
+                                            <div class="titleAndTextRight">
+                                                <div class="h3Facture" style="color:grey">'.$authorizations.'</div>
+                                                <div class="pFacture">'.$authorization.'</div>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                    </table>
+                                </div>
+             
+                                <div class="parDescription">    
+                                    <table style="width:100%; border-collapse:collapse;">
+                                        <tr>
+                                        <td style="vertical-align:top; width:50%; padding-right:10px; padding-top:10px;">
+                                            <div class="titleAndText">
+                                                <div class="h3Facture" style="color:grey">'.$receipt.'</div>
+                                                <div class="pFacture">'.$factura.'</div>
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:top; width:50%; padding-left:10px; padding-top:10px;">
+                                            <div class="titleAndTextRight">
+                                                <div class="h3Facture" style="color:grey">'.$iPaddress.'</div>
+                                                <div class="pFacture">'.$ip.'</div>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                    </table>
+                                </div>'.$cashHtml.'
+                                
+                            <div class="medios" style="margin-top: 10px">
+                                <div class="h2Facture">'.$purchase.'</div>
+                                <div class="parDescription">
+                                    <table style="width:100%; border-collapse:collapse;">
+                                        <tr>
+                                        <td style="vertical-align:top; width:50%; padding-right:10px; padding-top:10px;">
+                                            <div class="titleAndText">
+                                                <div class="h3Facture" style="color:grey">'.$reference.'</div>
+                                                <div class="pFacture">'.$x_ref_payco.'</div>
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:top; width:50%; padding-left:10px; padding-top:10px;">
+                                            <div class="titleAndTextRight">
+                                                <div class="h3Facture" style="color:grey">'.$description.'</div>
+                                                <div class="pFacture">'.$x_description.'</div>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="parDescription">
+                                    <table style="width:100%; border-collapse:collapse;">
+                                        <tr>
+                                        <td style="vertical-align:top; width:50%; padding-right:10px; padding-top:10px;">
+                                            <div class="titleAndText">
+                                                <div class="h3Facture" style="color:grey">'.$totalValue.'</div>
+                                                <div class="pFacture">$'.$x_amount.' '.$currency.'</div>
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:top; width:50%; padding-left:10px; padding-top:10px;">
+                                            <div class="titleAndTextRight">
+                                                <div class="h3Facture" style="color:grey">Subtotal</div>
+                                                <div class="pFacture">$'.$x_amount_base.' '.$currency.'</div>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ';
+            $mpdf = new \Mpdf\Mpdf([
+                'mode' => 'utf-8',
+                'format' => 'A4',
+                'margin_left' => 0,
+                'margin_right' => 0,
+                'margin_top' => 0,
+                'margin_bottom' => 0,
+                'margin_header' => 0,
+                'margin_footer' => 0,
+            ]);
+            $mpdf->SetDisplayMode('fullpage');
+            //$mpdf->SetImportUse();
+            $mpdf->WriteHTML($html);
+            $orden_id  = 1;
+            $path = "factura-orden-{$orden_id}.pdf";
+            $mpdf->Output($path, \Mpdf\Output\Destination::INLINE);
+        } catch (\Exception $err) {
+            echo $err->getMessage();
         }
-
-        $pdf->SetXY(55, $pdf->GetY());
-        $pdf->SetTextColor(0,0,0);
-        $pdf->Cell(40, 6, $response_reason_text, 0, 0, 'L');
-        $pdf->SetX($pdf->GetX() + 25);
-        if (!$is_cash){
-            $pdf->Cell(50, 6, '', 0, 1, 'L');
-        }else{
-            $pdf->Cell(50, 6, $expirationDate, 0, 1, 'L');
-
-
-            $pdf->SetXY(55, $pdf->GetY()+5);
-            $pdf->SetTextColor(80, 80, 80);
-            $pdf->Cell(40, 6, $code, 0, 0, 'L');
-            $pdf->SetX($pdf->GetX() + 25);
-            $pdf->Cell(50, 6, 'Pin', 0, 1, 'L');
-
-            $pdf->SetXY(55, $pdf->GetY());
-            $pdf->SetTextColor(0,0,0);
-            $pdf->Cell(40, 6, $codeProject, 0, 0, 'L');
-            $pdf->SetX($pdf->GetX() + 25);
-            $pdf->Cell(50, 6, $pin, 0, 1, 'L');
-
-        }
-
-        // Subtítulo detalles de la compra
-        $pdf->SetFont('dejavusans', 'B', 12);
-        $pdf->SetXY(55, $pdf->GetY()+5);
-        $pdf->Cell(0, 8, $purchase, 0, 1, 'L', false);
-
-        // Detalles de la compra
-        $pdf->SetFont('dejavusans', '', 10);
-        $pdf->SetXY(55, $pdf->GetY()+5);
-        $pdf->SetTextColor(80, 80, 80);
-        $pdf->Cell(40, 6, $reference, 0, 0, 'L');
-        $pdf->SetX($pdf->GetX() + 25);
-        $pdf->Cell(50, 6, $description, 0, 1, 'L');
-
-        $pdf->SetXY(55, $pdf->GetY());
-        $pdf->SetTextColor(0,0,0);
-        $pdf->Cell(40, 6, $x_ref_payco, 0, 0, 'L');
-        $pdf->SetX($pdf->GetX() + 25);
-        $pdf->Cell(50, 6, $description_, 0, 1, 'L');
-
-        $pdf->SetXY(55, $pdf->GetY()+5);
-        $pdf->SetTextColor(80, 80, 80);
-        $pdf->Cell(40, 6, $totalValue, 0, 0, 'L');
-        $pdf->SetX($pdf->GetX() + 25);
-        $pdf->Cell(50, 6, 'Subtotal', 0, 1, 'L');
-
-        $pdf->SetXY(55, $pdf->GetY());
-        $pdf->SetTextColor(0,0,0);
-        $pdf->Cell(40, 6, $x_amount. " " .$x_currency_code, 0, 0, 'L');
-        $pdf->SetX($pdf->GetX() + 25);
-        $pdf->Cell(50, 6, $x_amount_base. " " .$x_currency_code, 0, 1, 'L');
-
-
-        /*foreach ($data as $key => $value) {
-            $pdf->Cell(50, 10, $key, 1, 0, 'L', true);
-            $pdf->Cell(0, 10, $value, 1, 1, 'L', false);
-        }
-        */
-
-        if (ob_get_length()) {
-            ob_end_clean();
-        }
-
-
-        if (headers_sent()) {
-            //throw new Exception('Error: Los encabezados ya fueron enviados.');
-            exit;
-        }
-
-
-        $pdf->Output('Referencia-' . $x_ref_payco . '.pdf', 'D');
         exit;
 
     }
