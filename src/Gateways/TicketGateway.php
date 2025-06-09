@@ -197,7 +197,7 @@ class TicketGateway extends AbstractGateway
             //     'desc_tip'    => $this->adminTranslations['title_desc_tip'],
             //     'class'       => 'limit-title-max-length',
             // ],
-            // 'type_payments'   => $this->generateExPaymentsFields(),
+             'type_payments'   => $this->generateExPaymentsFields(),
             /*'date_expiration' => [
                 'title'       => $this->adminTranslations['date_expiration_title'],
                 'type'        => 'number',
