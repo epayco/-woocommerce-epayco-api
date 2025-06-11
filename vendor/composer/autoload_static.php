@@ -9,17 +9,36 @@ class ComposerStaticInit29e4698e2f640ef461d5ff51b7c3
     public static $prefixLengthsPsr4 = array (
         'M' => 
         array (
-            'Epayco\\Woocommerce\\' => 24,
-            'EpaycoSdk\\Sdk\\' => 19,
-            'Epayco\\' => 18,
+            'Mpdf\\PsrLogAwareTrait\\' => 22,
+            'Mpdf\\PsrHttpMessageShim\\' => 24,
+            'Mpdf\\' => 5,
         ),
+        'D' =>
+            array (
+                'DeepCopy\\' => 9,
+            ),
+        's' =>
+            array (
+                'setasign\\Fpdi\\' => 14,
+            ),
+        'R' =>
+            array (
+                'Root\\Pdf\\' => 9,
+            ),
+        'P' =>
+            array (
+                'Psr\\Log\\' => 8,
+                'Psr\\Http\\Message\\' => 17,
+            ),
         'W' =>
             array (
                 'WpOrg\\Requests\\' => 15,
             ),
         'E' =>
             array (
-                'Epayco\\' => 7,
+                'Epayco\\Woocommerce\\' => 24,
+                'EpaycoSdk\\Sdk\\' => 19,
+                'Epayco\\' => 18,
             ),
     );
 
@@ -39,6 +58,38 @@ class ComposerStaticInit29e4698e2f640ef461d5ff51b7c3
         'Epayco\\' =>
             array (
                 0 => __DIR__ . '/..' . '/epayco/epayco-php/src',
+            ),
+        'setasign\\Fpdi\\' =>
+            array (
+                0 => __DIR__ . '/..' . '/setasign/fpdi/src',
+            ),
+        'Root\\Pdf\\' =>
+            array (
+                0 => __DIR__ . '/../..' . '/src',
+            ),
+        'Psr\\Log\\' =>
+            array (
+                0 => __DIR__ . '/..' . '/psr/log/src',
+            ),
+        'Psr\\Http\\Message\\' =>
+            array (
+                0 => __DIR__ . '/..' . '/psr/http-message/src',
+            ),
+        'Mpdf\\PsrLogAwareTrait\\' =>
+            array (
+                0 => __DIR__ . '/..' . '/mpdf/psr-log-aware-trait/src',
+            ),
+        'Mpdf\\PsrHttpMessageShim\\' =>
+            array (
+                0 => __DIR__ . '/..' . '/mpdf/psr-http-message-shim/src',
+            ),
+        'Mpdf\\' =>
+            array (
+                0 => __DIR__ . '/..' . '/mpdf/mpdf/src',
+            ),
+        'DeepCopy\\' =>
+            array (
+                0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
             ),
     );
 
@@ -70,6 +121,7 @@ class ComposerStaticInit29e4698e2f640ef461d5ff51b7c3
         'Epayco\\Woocommerce\\Helpers\\Paths' => __DIR__ . '/../..' . '/src/Helpers/Paths.php',
         'Epayco\\Woocommerce\\Helpers\\PaymentMethods' => __DIR__ . '/../..' . '/src/Helpers/PaymentMethods.php',
         'Epayco\\Woocommerce\\Helpers\\PaymentStatus' => __DIR__ . '/../..' . '/src/Helpers/PaymentStatus.php',
+        'Epayco\\Woocommerce\\Helpers\\PDF' => __DIR__ . '/../..' . '/src/Helpers/PDF.php',
         'Epayco\\Woocommerce\\Helpers\\Cache' => __DIR__ . '/../..' . '/src/Helpers/Cache.php',
         'Epayco\\Woocommerce\\Helpers\\Cron' => __DIR__ . '/../..' . '/src/Helpers/Cron.php',
         'Epayco\\Woocommerce\\Helpers\\CurrentUser' => __DIR__ . '/../..' . '/src/Helpers/CurrentUser.php',
@@ -107,17 +159,6 @@ class ComposerStaticInit29e4698e2f640ef461d5ff51b7c3
         'Epayco\\Woocommerce\\WoocommerceEpayco' => __DIR__ . '/../..' . '/src/WoocommerceEpayco.php',
         'Requests' => __DIR__ . '/..' . '/rmccue/requests/library/Requests.php',
         'Epayco' => __DIR__ . '/..' . '/epayco/epayco-php/src/Epayco.php',
-        'TCPDF' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf.php',
-        'TCPDF2DBarcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_barcodes_2d.php',
-        'TCPDFBarcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_barcodes_1d.php',
-        'TCPDF_COLORS' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_colors.php',
-        'TCPDF_FILTERS' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_filters.php',
-        'TCPDF_FONTS' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_fonts.php',
-        'TCPDF_FONT_DATA' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_font_data.php',
-        'TCPDF_IMAGES' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_images.php',
-        'TCPDF_IMPORT' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_import.php',
-        'TCPDF_PARSER' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_parser.php',
-        'TCPDF_STATIC' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_static.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

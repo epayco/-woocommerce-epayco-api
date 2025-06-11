@@ -51,7 +51,8 @@ class CreditCardGateway extends AbstractGateway
         $this->id        = self::ID;
         $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjeta.png';
         $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjeta.png';
-        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Tarjeta de crédito y/o débito');
+        $defaultTitle = (substr(get_locale(), 0, 2) === 'es') ? 'Tarjeta de crédito y/o débito' : 'Credit and/or Debit Cards';
+        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, $defaultTitle);
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
@@ -404,7 +405,7 @@ class CreditCardGateway extends AbstractGateway
             return;
         }
 
-        $transaction = $this->transaction->returnParameterToThankyouPage($transactionInfo, $this);
+        $transaction = $this->transaction->returnParameterToThankyouPage($transactionInfo, $this, $order_id);
 
         if (empty($transaction)) {
             return;

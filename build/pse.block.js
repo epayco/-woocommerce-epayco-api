@@ -9,7 +9,16 @@
     var r;
     const m = "mp_checkout_blocks", d = "woo-epayco-pse",
         i = (0, o.getSetting)("woo-epayco-pse_data", {}),
-        p = (0, c.decodeEntities)(i.title) || "ePayco - PSE", u = t => {
+        p = (() => {
+            let title = i && i.title ? (0, c.decodeEntities)(i.title) : "";
+            if (!title || title.trim() === "") {
+                title = document.documentElement.lang.startsWith('es') 
+                    ? "ePayco - Pago PSE" 
+                    : "ePayco - Checkout PSE";
+            }
+            return title;
+        })(),
+        u = t => {
             (e => {
                 const {extensionCartUpdate: t} = wc.blocksCheckout, {
                     eventRegistration: o,
