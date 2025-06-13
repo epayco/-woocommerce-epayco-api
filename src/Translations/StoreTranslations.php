@@ -87,7 +87,7 @@ class StoreTranslations
             'expirationDate'  => __('Expiration Date', 'woo-epayco-api'),
             'ticket_header'  => __('Taking into account the payment date, go to the nearest earning point and indicate the following information:', 'woo-epayco-api'),
             'ticket_footer'  => __('Collection in the name of EPAYCO.COM S.A.S.', 'woo-epayco-api'),
-            'donwload_text'  => __('Download ePayco receipt', 'woo-epayco-api'),
+            'donwload_text'  => __('Print or save', 'woo-epayco-api'),
         ];
     }
 
@@ -142,7 +142,7 @@ class StoreTranslations
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
-            'donwload_text'  => __('Download ePayco receipt', 'woo-epayco-api'),
+            'donwload_text'  => __('Print or save', 'woo-epayco-api'),
 
         ];
     }
@@ -161,7 +161,7 @@ class StoreTranslations
             'test_mode_link_text'                                 => __('See the rules for the test mode.', 'woo-epayco-api'),
             'card_detail'                                         => __('Card details', 'woo-epayco-api'),
             'card_form_title'                                     => __('Card details', 'woo-epayco-api'),
-            'card_holder_name_input_label'                        => __('Holder name as it appears on the card', 'woo-epayco-api'),
+            'card_holder_name_input_label'                        => __('Name and lastname', 'woo-epayco-api'),
             'card_holder_name_input_helper'                       => __('Holder name is required', 'woo-epayco-api'),
             'card_number_input_label'                             => __('Card number', 'woo-epayco-api'),
             'card_number_input_helper'                            => __('Required Card number', 'woo-epayco-api'),
@@ -210,7 +210,7 @@ class StoreTranslations
             'authorization'                   => __('Authorization', 'woo-epayco-api'),
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
-            'donwload_text'  => __('Download ePayco receipt', 'woo-epayco-api'),
+            'donwload_text'  => __('Print or save', 'woo-epayco-api'),
         ];
     }
 
@@ -265,7 +265,7 @@ class StoreTranslations
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
-            'donwload_text'  => __('Download ePayco receipt', 'woo-epayco-api'),
+            'donwload_text'  => __('Print or save', 'woo-epayco-api'),
         ];
     }
 
@@ -305,7 +305,7 @@ class StoreTranslations
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
-            'donwload_text'  => __('Download ePayco receipt', 'woo-epayco-api'),
+            'donwload_text'  => __('Print or save', 'woo-epayco-api'),
         ];
     }
 
@@ -323,7 +323,7 @@ class StoreTranslations
             'test_mode_link_text'                                 => __('See the rules for the test mode.', 'woo-epayco-api'),
             'card_detail'                                         => __('Card details', 'woo-epayco-api'),
             'card_form_title'                                     => __('Subscription', 'woo-epayco-api'),
-            'card_holder_name_input_label'                        => __('Holder name as it appears on the card', 'woo-epayco-api'),
+            'card_holder_name_input_label'                        => __('Name and lastname', 'woo-epayco-api'),
             'card_holder_name_input_helper'                       => __('Holder name is required', 'woo-epayco-api'),
             'card_number_input_label'                             => __('Card number', 'woo-epayco-api'),
             'card_number_input_helper'                            => __('Required Card number', 'woo-epayco-api'),
@@ -372,7 +372,7 @@ class StoreTranslations
             'paymentMethod'                   => __('Payment method', 'woo-epayco-api'),
             'epayco_refecence'                => __('ePayco Reference', 'woo-epayco-api'),
             'customer_title'                   => __('Customer data', 'woo-epayco-api'),
-            'donwload_text'  => __('Download ePayco receipt', 'woo-epayco-api'),
+            'donwload_text'  => __('Print or save', 'woo-epayco-api'),
         ];
     }
 

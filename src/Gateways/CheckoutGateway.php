@@ -46,9 +46,9 @@ class CheckoutGateway extends AbstractGateway
         $this->adminTranslations = $this->epayco->adminTranslations->checkoutGatewaySettings;
         $this->storeTranslations = $this->epayco->storeTranslations->epaycoCheckout;
         $this->id        = self::ID;
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-checkout.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('botoncheckout.png');
-        $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
+        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/checkout.png';
+        $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/checkout.png';
+        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Checkout ePayco');
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
@@ -125,25 +125,25 @@ class CheckoutGateway extends AbstractGateway
                 'type'         => 'mp_toggle_switch',
                 'title'        => $this->adminTranslations['enabled_title'],
                 'subtitle'     => $this->adminTranslations['enabled_subtitle'],
-                'default'      => 'no',
+                'default'      => 'default',
                 'descriptions' => [
                     'enabled'  => $this->adminTranslations['enabled_enabled'],
                     'disabled' => $this->adminTranslations['enabled_disabled'],
                 ],
             ],
-            'title' => [
-                'type'        => 'text',
-                'title'       => $this->adminTranslations['title_title'],
-                'description' => $this->adminTranslations['title_description'],
-                'default'     => $this->adminTranslations['title_default'],
-                'desc_tip'    => $this->adminTranslations['title_desc_tip'],
-                'class'       => 'limit-title-max-length',
-            ],
+            // 'title' => [
+            //     'type'        => 'text',
+            //     'title'       => $this->adminTranslations['title_title'],
+            //     'description' => $this->adminTranslations['title_description'],
+            //     'default'     => $this->adminTranslations['title_default'],
+            //     'desc_tip'    => $this->adminTranslations['title_desc_tip'],
+            //     'class'       => 'limit-title-max-length',
+            // ],
             'epayco_type_checkout' => [
                 'type'         => 'mp_toggle_switch',
                 'title'        => $this->adminTranslations['epayco_type_checkout_title'],
                 'subtitle'     => $this->adminTranslations['epayco_type_checkout_subtitle'],
-                'default'      => 'no',
+                'default'      => 'yes',
                 'descriptions' => [
                     'enabled'  => $this->adminTranslations['epayco_type_checkout_descriptions_enabled'],
                     'disabled' => $this->adminTranslations['epayco_type_checkout_descriptions_disabled'],
@@ -174,7 +174,7 @@ class CheckoutGateway extends AbstractGateway
         parent::registerCheckoutScripts();
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_checkout',
-            'https://checkout.epayco.co/checkout.js'
+            'https://epayco-checkout-testing.s3.us-east-1.amazonaws.com/checkout.preprod_v1.js'
         );
 
     }
@@ -208,11 +208,11 @@ class CheckoutGateway extends AbstractGateway
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             'and_the'   => $this->storeTranslations['and_the'],
-            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-generales/',
             'personal_data_processing_link_text'    => $this->storeTranslations['personal_data_processing_link_text'],
             'personal_data_processing_link_src'    => 'https://epayco.com/tratamiento-de-datos/',
             'site_id'                          => 'epayco',
-            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo-checkout.png'),
             'icon_info' =>       $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
             'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];
@@ -419,7 +419,7 @@ class CheckoutGateway extends AbstractGateway
             esc_js( trim( $public_key ) ),           //23
             esc_js( trim( $private_key ) )           //24
         );
-        wp_enqueue_script('epayco',  'https://checkout.epayco.co/checkout.js', array(), '1.0.0', null);
+        wp_enqueue_script('epayco',  'https://epayco-checkout-testing.s3.us-east-1.amazonaws.com/checkout.preprod_v1.js', array(), '1.0.0', null);
         return '<form  method="post" id="appGateway">
 		        </form>';
     }
@@ -510,7 +510,7 @@ class CheckoutGateway extends AbstractGateway
         }
 
         if($ref_payco){
-            $url = 'https://secure.epayco.co/validation/v1/reference/'.$ref_payco;
+            $url = 'https://eks-checkout-service.epayco.io/validation/v1/reference/'.$ref_payco;
             $response = wp_remote_get(  $url );
             $body = wp_remote_retrieve_body( $response );
             $jsonData = @json_decode($body, true);
@@ -594,7 +594,7 @@ class CheckoutGateway extends AbstractGateway
 
             }
             $transaction = [
-                'franchise_logo' => 'https://secure.epayco.co/img/methods/'.$x_franchise.'.svg',
+                'franchise_logo' => 'https://eks-checkout-service.epayco.io/img/methods/'.$x_franchise.'.svg',
                 'x_amount_base' => $x_amount_base,
                 'x_cardnumber' => $x_cardnumber_,
                 'status' => $x_response,

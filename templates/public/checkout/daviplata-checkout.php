@@ -73,7 +73,7 @@ if (!defined('ABSPATH')) {
                     <input-name-epayco
                         labelMessage="<?php echo esc_html($input_name_label); ?>"
                         helperMessage="<?php echo esc_html($input_name_helper); ?>"
-                        placeholder="Ex: John Doe"
+                        placeholder="Escribe..."
                         inputName='epayco_daviplata[name]'
                         flagError='epayco_daviplata[nameError]'
                         validate=true
@@ -86,7 +86,7 @@ if (!defined('ABSPATH')) {
                     <input-email-epayco
                         labelMessage="<?php echo esc_html($input_email_label); ?>"
                         helperMessage="<?php echo esc_html($input_email_helper); ?>"
-                        placeholder="Johndoe@example.com"
+                        placeholder="Escribe..."
                         inputName='epayco_daviplata[email]'
                         flagError='epayco_daviplata[emailError]'
                         validate=true
@@ -99,7 +99,7 @@ if (!defined('ABSPATH')) {
                     <input-address
                         labelMessage="<?php echo esc_html($input_address_label); ?>"
                         helperMessage="<?php echo esc_html($input_address_helper); ?>"
-                        placeholder="Street 123"
+                        placeholder="Escribe..."
                         inputName='epayco_daviplata[address]'
                         flagError='epayco_daviplata[addressError]'
                         validate=true
@@ -121,7 +121,7 @@ if (!defined('ABSPATH')) {
                         select-data-checkout="cellphone_type"
                         flag-error="cellphoneTypeError"
                         validate=true
-                        placeholder="0000000000"
+                        placeholder="Número de celular"
                     >
                     </input-cellphone-epayco>
                 </div>
@@ -135,7 +135,7 @@ if (!defined('ABSPATH')) {
                     >
                     </input-select>
                 </div>-->
-
+<!-- 
                 <div class="ep-checkout-daviplata-input-document">
                     <input-document-epayco
                         label-message="<?php echo esc_html($input_document_label); ?>"
@@ -146,24 +146,25 @@ if (!defined('ABSPATH')) {
                         select-id="documentType"
                         input-id="documentTypeNumber"
                         select-name="epayco_daviplata[documentType]"
-                        select-data-checkout=document_type"
+                        select-data-checkout="document_type"
                         flag-error="documentTypeError"
                         documents='[
-                                    {"id":"Type"},
-                                    {"id":"CC"},
-                                    {"id":"CE"},
-                                    {"id":"NIT"},
-                                    {"id":"TI"},
-                                    {"id":"PPN"},
-                                    {"id":"SSN"},
-                                    {"id":"LIC"},
-                                    {"id":"DNI"}
-                                    ]'
+                        {"id":"Tipo"},
+                        {"id":"CC"},
+                        {"id":"NIT"},
+                        {"id":"CE"},
+                        {"id":"PPN"},
+                        {"id":"SSN"},
+                        {"id":"LIC"},
+                        {"id":"DNI"},
+                        {"id":"PEP"},
+                        {"id":"PPT"}
+                    ]'
                         validate=true
-                        placeholder="0000000000"
+                        placeholder="Número de documento"
                     >
                     </input-document-epayco>
-                </div>
+                </div> -->
 
                 <!--<div class="ep-checkout-daviplata-input-document">
                     <input-country
@@ -207,8 +208,8 @@ if (!defined('ABSPATH')) {
             >
             </terms-and-conditions>
         </div>
-        <div style="display: flex;justify-content: center; align-items: center;padding: 15px;">
-            <p>Secure by</p>
+        <div style="display: flex;justify-content: center; align-items: center;padding: 15px; ">
+            <p>Secured by</p>
             <img width="65px" src="<?php echo esc_html($logo); ?>">
         </div>
     </div>

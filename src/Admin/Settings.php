@@ -236,7 +236,7 @@ class Settings
         $testMode   = ($checkboxCheckoutTestMode === 'yes');
 
         $links      = [
-            'epayco_credentials' =>'https://dashboard.epayco.io/configuration'
+            'epayco_credentials' =>'https://dashboard.epayco.co/configuration'
         ];
         $allowedHtmlTags = array(
             'br' => array(),
@@ -339,7 +339,7 @@ class Settings
                     'message'   => $this->translations->updateCredentials['invalid_credentials_title'],
                     'subtitle'  => $this->translations->updateCredentials['invalid_credentials_subtitle'] . ' ',
                     'linkMsg'   => $this->translations->updateCredentials['invalid_credentials_link_message'],
-                    'link'      => 'https://dashboard.epayco.io/login',
+                    'link'      => 'https://dashboard.epayco.co/login',
                     'test_mode' => $this->store->getCheckboxCheckoutTestMode()
                 ];
                 wp_send_json_error($response);

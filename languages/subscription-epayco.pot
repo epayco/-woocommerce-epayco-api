@@ -84,7 +84,7 @@ msgid "Cardholder"
 msgstr ""
 
 #. Name of the plugin
-msgid "Subscription ePayco"
+msgid "ePayco - Checkout Subscriptions"
 msgstr ""
 
 #. Description of the plugin

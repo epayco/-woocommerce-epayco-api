@@ -83,7 +83,7 @@ msgid "Cardholder"
 msgstr "Titular de la tarjeta"
 
 #. Name of the plugin
-msgid "Subscription ePayco"
+msgid "Subscriptions"
 msgstr ""
 
 #. Description of the plugin

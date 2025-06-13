@@ -49,9 +49,11 @@ class SubscriptionGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->subscriptionCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = $this->epayco->hooks->gateway->getGatewayIcon('icon-blue-card.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('botonsuscripciones.png');
-        $this->title     = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
+        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/suscripciones.png';
+        $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/suscripciones.png';
+        $this->method_description = $this->adminTranslations['gateway_method_description'];
+        $defaultTitle = (substr(get_locale(), 0, 2) === 'es') ? 'Suscripciónes' : 'Subscriptions';
+        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, $defaultTitle);
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
@@ -128,18 +130,18 @@ class SubscriptionGateway extends AbstractGateway
                     'disabled' => $this->adminTranslations['enabled_descriptions_disabled'],
                 ],
             ],
-            'title' => [
-                'type'        => 'text',
-                'title'       => $this->adminTranslations['title_title'],
-                'description' => $this->adminTranslations['title_description'],
-                'default'     => $this->adminTranslations['title_default'],
-                'desc_tip'    => $this->adminTranslations['title_desc_tip'],
-                'class'       => 'limit-title-max-length',
-            ],
-            'card_info_helper' => [
-                'type'  => 'title',
-                'value' => '',
-            ]
+            // 'title' => [
+            //     'type'        => 'text',
+            //     'title'       => $this->adminTranslations['title_title'],
+            //     'description' => $this->adminTranslations['title_description'],
+            //     'default'     => $this->adminTranslations['title_default'],
+            //     'desc_tip'    => $this->adminTranslations['title_desc_tip'],
+            //     'class'       => 'limit-title-max-length',
+            // ],
+            // 'card_info_helper' => [
+            //     'type'  => 'title',
+            //     'value' => '',
+            // ]
         ]);
     }
 
@@ -257,14 +259,14 @@ class SubscriptionGateway extends AbstractGateway
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
             //'terms_and_conditions_link_text'   => $termsAndCondiction,
-            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-generales/',
             'personal_data_processing_link_text'    => $this->storeTranslations['personal_data_processing_link_text'],
             'and_the'   => $this->storeTranslations['and_the'],
             'personal_data_processing_link_src'    => 'https://epayco.com/tratamiento-de-datos/',
             'site_id'                          => 'epayco',
             'city'                          => $city,
             'customer_title'              => $this->storeTranslations['customer_title'],
-            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo-checkout.png'),
             'icon_info' =>       $this->epayco->hooks->gateway->getGatewayIcon('icon-info.png'),
             'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];
@@ -411,7 +413,7 @@ class SubscriptionGateway extends AbstractGateway
         if(!$transactionInfo['success']){
             return;
         }
-        $transaction = $this->transaction->returnParameterToThankyouPage($transactionInfo, $this);
+        $transaction = $this->transaction->returnParameterToThankyouPage($transactionInfo, $this, $order_id);
 
         if (empty($transaction)) {
             return;

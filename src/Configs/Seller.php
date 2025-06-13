@@ -26,7 +26,7 @@ class Seller
     private const HOMOLOG_VALIDATE = 'homolog_validate';
     private const TEST_USER = '_test_user_v1';
 
-    private const EP_APIFY  = "https://apify.epayco.co";
+    private const EP_APIFY  = "https://eks-apify-service.epayco.io";
     private Cache $cache;
     private Options $options;
 
@@ -226,9 +226,12 @@ class Seller
                 ];
                 $headers = [];
                 $uri     = '/login';
-                $accessToken = base64_encode($publicKey.":".$private_key);
-                $headers[] = 'Authorization: Basic ' . $accessToken;
-                $headers[] = 'Content-Type: application/json ';
+                $accessToken = base64_encode($publicKey . ':' . $private_key);
+                $headers = [
+                    'Authorization' => 'Basic ' . $accessToken,
+                    'Content-Type'  => 'application/json',
+                ];
+                
                 $body = array(
                     'public_key' => $publicKey,
                     'private_key' => $private_key,
@@ -250,35 +253,37 @@ class Seller
         }
     }
 
-    private function my_woocommerce_post_request($uri, $headers, $body = []) {
-        $url = self::EP_APIFY.$uri;
-        $response = wp_remote_post( $url, array(
-            'body'    => wp_json_encode( $body ),
+    private function my_woocommerce_post_request($uri, $headers, $body = []): array
+    {
+        $url = self::EP_APIFY . $uri;
+
+        $response = wp_remote_post($url, [
+            'body'    => wp_json_encode($body),
             'headers' => $headers,
             'method'  => 'POST',
-        ));
-        /*$curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_HTTPHEADER => $headers,
-        ));
-        $response = curl_exec($curl);
-        curl_close($curl);*/
-        if ( is_wp_error( $response ) ) {
-            $error_message = $response->get_error_message();
-            return "Something went wrong: $error_message";
-        }
-        $response = wp_remote_retrieve_body( $response );
-        $response_data = json_decode( $response, true );
+            'timeout' => 15,
+        ]);
 
-        return $response_data;
+        if (is_wp_error($response)) {
+            return [
+            'error'  => true,
+            'data'   => $response->get_error_message(),
+            'status' => 500,
+            ];
+        }
+
+        $body = wp_remote_retrieve_body($response);
+
+        $data = json_decode($body, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return [
+            'error'  => true,
+            'data'   => 'JSON decode error: ' . json_last_error_msg(),
+            'status' => 500,
+            ];
+        }
+
+        return $data;
     }
 
 

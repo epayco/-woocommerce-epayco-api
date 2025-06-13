@@ -69,7 +69,7 @@ if (! defined('ABSPATH')) {
                     <input-name-epayco
                             labelMessage="<?php echo esc_html($input_name_label); ?>"
                             helperMessage="<?php echo esc_html($input_name_helper); ?>"
-                            placeholder="Ex: John Doe"
+                            placeholder="Escribe..."
                             inputName='epayco_pse[name]'
                             flagRrror='epayco_pse[nameError]'
                             validate=true
@@ -81,7 +81,7 @@ if (! defined('ABSPATH')) {
                     <input-email-epayco
                             labelMessage="<?php echo esc_html($input_email_label); ?>"
                             helperMessage="<?php echo esc_html($input_email_helper); ?>"
-                            placeholder="Johndoe@example.com"
+                            placeholder="Escribe..."
                             inputName='epayco_pse[email]'
                             flagError='epayco_pse[emailError]'
                             validate=true
@@ -93,7 +93,7 @@ if (! defined('ABSPATH')) {
                     <input-address-epayco
                             labelMessage="<?php echo esc_html($input_address_label); ?>"
                             helperMessage="<?php echo esc_html($input_address_helper); ?>"
-                            placeholder="Street 123"
+                            placeholder="Escribe..."
                             inputName='epayco_pse[address]'
                             flagError='epayco_pse[addressError]'
                             validate=true
@@ -114,11 +114,11 @@ if (! defined('ABSPATH')) {
                             select-data-checkout="cellphone_type"
                             flag-error="cellphoneTypeError"
                             validate=true
-                            placeholder="0000000000"
+                            placeholder="Número de celular"
                     >
                     </input-cellphone-epayco>
                 </div>
-                <div class="ep-checkout-pse-person"  style="width: 412px;">
+                <div class="ep-checkout-pse-person"  style="max-width: 429px !important; min-width: 229px !important;">
                     <input-select-epayco
                         name="epayco_pse[person_type]"
                         label=<?php echo esc_html($person_type_label); ?>
@@ -137,25 +137,21 @@ if (! defined('ABSPATH')) {
                             select-id="documentType"
                             input-id="documentTypeNumber"
                             select-name="epayco_pse[documentType]"
-                            select-data-checkout=document_type"
+                            select-data-checkout="document_type"
                             flag-error="documentTypeError"
                             documents='[
-                                    {"id":"Type"},
+                                    {"id":"Tipo"},
                                     {"id":"CC"},
                                     {"id":"CE"},
-                                    {"id":"NIT"},
-                                    {"id":"TI"},
                                     {"id":"PPN"},
-                                    {"id":"SSN"},
-                                    {"id":"LIC"},
-                                    {"id":"DNI"}
+                                    {"id":"NIT"}
                                     ]'
                             validate=true
-                            placeholder="0000000000"
+                            placeholder="Número de documento"
                     >
                     </input-document-epayco>
                 </div>
-                <div class="ep-checkout-pse-input-document">
+                <div class="ep-checkout-pse-input-document" >
                     <input-country-epayco
                             label-message="<?php echo esc_html($input_country_label); ?>"
                             helper-message="<?php echo esc_html($input_country_helper); ?>"
@@ -172,7 +168,7 @@ if (! defined('ABSPATH')) {
                     >
                     </input-country-epayco>
                 </div>
-                <div class="ep-checkout-pse-bank">
+                <div class="ep-checkout-pse-bank" style="width:100%">
                     <input-banks-epayco
                         name="epayco_pse[bank]"
                         label="<?php echo esc_html($financial_institutions_label); ?>"
@@ -211,7 +207,7 @@ if (! defined('ABSPATH')) {
             </terms-and-conditions>
         </div>
         <div style="display: flex;justify-content: center; align-items: center;padding: 15px;">
-            <p>Secure by</p>
+            <p>Secured by</p>
             <img width="65px" src="<?php echo esc_html($logo); ?>">
         </div>
 

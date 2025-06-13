@@ -90,7 +90,7 @@ if (!defined('ABSPATH')) {
                     <input-card-name
                             labelMessage="<?php echo esc_html($card_holder_name_input_label); ?>"
                             helperMessage="<?php echo esc_html($card_holder_name_input_helper); ?>"
-                            placeholder="Ex: John Doe"
+                            placeholder="Escribe..."
                             inputName='epayco_subscription[name]'
                             flagError='epayco_subscription[nameError]'
                             validate=true
@@ -104,7 +104,7 @@ if (!defined('ABSPATH')) {
                     <input-card-number
                             labelMessage="<?php echo esc_html($card_number_input_label); ?>"
                             helperMessage="<?php echo esc_html($card_number_input_helper); ?>"
-                            placeholder="0000 0000 0000 0000"
+                            placeholder="xxxx xxxx xxxx xxxx"
                             inputName='epayco_subscription[card]'
                             flagError='epayco_subscription[cardError]'
                             validate=true
@@ -120,7 +120,7 @@ if (!defined('ABSPATH')) {
                                 class="ep-checkout-custom-left-card-input"
                                 labelMessage="<?php echo esc_html($card_expiration_input_label); ?>"
                                 helperMessage="<?php echo esc_html($card_expiration_input_helper); ?>"
-                                placeholder="MM/YY"
+                                placeholder="MM/AA"
                                 inputName='epayco_subscription[expirationDate]'
                                 flagError='epayco_subscription[expirationDateError]'
                                 validate=true
@@ -180,7 +180,7 @@ if (!defined('ABSPATH')) {
                                 {"id":"DNI"}
                                 ]'
                             validate=true
-                            placeholder="0000000000"
+                            placeholder="Número de documento"
                     >
                     </input-document-epayco>
                 </div>
@@ -189,7 +189,7 @@ if (!defined('ABSPATH')) {
                     <input-address-epayco
                             labelMessage="<?php echo esc_html($card_holder_address_input_label); ?>"
                             helperMessage="<?php echo esc_html($card_holder_address_input_helper); ?>"
-                            placeholder="Street 123"
+                            placeholder="Escribe..."
                             inputName='epayco_subscription[address]'
                             flagError='epayco_subscription[addressError]'
                             validate=true
@@ -202,7 +202,7 @@ if (!defined('ABSPATH')) {
                     <input-card-email
                             labelMessage="<?php echo esc_html($card_holder_email_input_label); ?>"
                             helperMessage="<?php echo esc_html($card_holder_email_input_helper); ?>"
-                            placeholder="John@example.com"
+                            placeholder="Escribe..."
                             inputName='epayco_subscription[email]'
                             flagError='epayco_subscription[emailError]'
                             validate=true
@@ -224,7 +224,7 @@ if (!defined('ABSPATH')) {
                             select-data-checkout="cellphone_type"
                             flag-error="cellphoneTypeError"
                             validate=true
-                            placeholder="0000000000"
+                            placeholder="Número de celular"
                     >
                     </input-cellphone-epayco>
                 </div>
@@ -245,7 +245,7 @@ if (!defined('ABSPATH')) {
                 </terms-and-conditions>
             </div>
             <div style="display: flex;justify-content: center; align-items: center;padding: 15px;">
-                <p>Secure by</p>
+                <p>Secured by</p>
                 <img width="65px" src="<?php echo esc_html($logo); ?>">
             </div>
 
