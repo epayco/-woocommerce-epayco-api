@@ -6,6 +6,12 @@
         a = window.wp.element,
         c = window.wp.htmlEntities,
         n = "epayco_blocks_update_cart";
+    const e = window.React,
+        t = window.wc.wcBlocksRegistry,
+        o = window.wc.wcSettings,
+        a = window.wp.element,
+        c = window.wp.htmlEntities,
+        n = "epayco_blocks_update_cart";
     var r;
     const m = "mp_checkout_blocks", d = "woo-epayco-ticket",
         i = (0, o.getSetting)("woo-epayco-ticket_data", {}),
@@ -92,12 +98,14 @@
                     const cellphoneHelpers = document.querySelector('input-cellphone-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCellphone = (cellphone) => {
 
+
                         if (cellphone === '') {
                             document.querySelector('input-cellphone-epayco').querySelector(".ep-input").classList.add("ep-error");
                             document.querySelector('input-cellphone-epayco').querySelector(".ep-input").parentElement.lastChild.classList.add("ep-error");
                             cellphoneHelpers.style.display = 'flex';
                         }
                     }
+
 
                     //const person_type_value = document.getElementsByName('epayco_ticket[person_type]')[1].value;
                     const doc_type = document.getElementsByName('epayco_ticket[documentType]')[0].value;
@@ -133,6 +141,18 @@
 
 
                     const nn = {
+                        "epayco_ticket[name]": ticketContentName,
+                        //"epayco_ticket[address]": ticketContentAddress,
+                        "epayco_ticket[email]": ticketContentEmail,
+                        "epayco_ticket[cellphone]": ticketContentCellphone,
+                        "epayco_ticket[cellphoneType]": cellphoneType,
+                        //"epayco_ticket[person_type]": person_type_value,
+                        "epayco_ticket[identificationtype]": doc_type,
+                        "epayco_ticket[doc_number]": doc_number_value,
+                        //"epayco_ticket[payment_method_id]": paymentOptionSelected,
+                        //"epayco_ticket[countryType]": countryType,
+                        //"epayco_ticket[country]": ticketContentCountry
+                    };
                         "epayco_ticket[name]": ticketContentName,
                         //"epayco_ticket[address]": ticketContentAddress,
                         "epayco_ticket[email]": ticketContentEmail,
