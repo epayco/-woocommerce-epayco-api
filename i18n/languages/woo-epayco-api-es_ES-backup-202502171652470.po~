@@ -375,19 +375,11 @@ msgstr "Efectivo"
 
 
 #: src/Translations/AdminTranslations.php:285
-<<<<<<< HEAD
 msgid "The payment method is<b>disabled</b>."
 msgstr "El método de pago está <b>desactivado</b>."
 
 #: src/Translations/AdminTranslations.php:284
 msgid "The payment method is<b>enabled</b>."
-=======
-msgid "Checkout is <b>disabled</b>."
-msgstr "El método de pago está <b>desactivado</b>."
-
-#: src/Translations/AdminTranslations.php:284
-msgid "Checkout is <b>enabled</b>."
->>>>>>> develop
 msgstr "El método de pago está <b>activado</b>."
 
 #: src/Translations/StoreTranslations.php:219
@@ -424,19 +416,11 @@ msgid "Checkout"
 msgstr "Pedido"
 
 #: src/Translations/AdminTranslations.php:427
-<<<<<<< HEAD
 msgid "The payment method is <b>disabled</b>."
 msgstr "El método de pago está <b>desactivado</b>."
 
 #: src/Translations/AdminTranslations.php:426
 msgid "The payment method is <b>enabled</b>."
-=======
-msgid "Checkout is <b>disabled</b>."
-msgstr "El método de pago está <b>desactivado</b>."
-
-#: src/Translations/AdminTranslations.php:426
-msgid "Checkout is <b>enabled</b>."
->>>>>>> develop
 msgstr "El método de pago está <b>activado</b>."
 
 #: src/Translations/AdminTranslations.php:432
@@ -564,19 +548,11 @@ msgid "Daviplata"
 msgstr "Daviplata"
 
 #: src/Translations/AdminTranslations.php:319
-<<<<<<< HEAD
 msgid "The payment method is <b>disabled</b>."
 msgstr "El método de pago está <b>desactivado</b>."
 
 #: src/Translations/AdminTranslations.php:318
 msgid "The payment method is <b>enabled</b>."
-=======
-msgid "Checkout is <b>disabled</b>."
-msgstr "El método de pago está <b>desactivado</b>."
-
-#: src/Translations/AdminTranslations.php:318
-msgid "Checkout is <b>enabled</b>."
->>>>>>> develop
 msgstr "El método de pago está <b>activado</b>."
 
 #: src/Translations/StoreTranslations.php:77
@@ -654,42 +630,24 @@ msgid "ePayco"
 msgstr "ePayco"
 
 #: src/Translations/AdminTranslations.php:276
-<<<<<<< HEAD
 msgid "ePayco - Checkout Cash"
 msgstr "ePayco -Pago Efectivo"
 
 #: src/Translations/AdminTranslations.php:353
 msgid "ePayco -  Checkout Credit and/or Debit Cards"
 msgstr "ePayco - Pago Tarjeta de credito y/o debito"
-=======
-msgid "ePayco - Cash"
-msgstr "ePayco - Efectivo"
-
-#: src/Translations/AdminTranslations.php:353
-msgid "ePayco - Credit and/or Debit Cards"
-msgstr "ePayco - Tarjeta de credito y/o debito"
->>>>>>> develop
 
 #: src/Translations/AdminTranslations.php:310
-msgid "ePayco - Daviplata"
-msgstr "ePayco - Daviplata"
+msgid "ePayco - Checkout Daviplata"
+msgstr "ePayco - Pago Daviplata"
 
 #: src/Translations/AdminTranslations.php:382
-<<<<<<< HEAD
 msgid "ePayco - Checkout PSE"
 msgstr "ePayco - Pago PSE"
 
 #: src/Translations/AdminTranslations.php:172
 msgid "ePayco - Checkout Subscriptions"
 msgstr "ePayco - Pago Suscripciónes"
-=======
-msgid "ePayco - PSE"
-msgstr "ePayco - PSE"
-
-#: src/Translations/AdminTranslations.php:172
-msgid "ePayco - Subscriptions"
-msgstr "ePayco - Suscripciónes"
->>>>>>> develop
 
 #: src/Translations/AdminTranslations.php:223
 msgid "ePayco Checkouts Production."
@@ -797,11 +755,7 @@ msgstr ""
 #: src/Translations/AdminTranslations.php:350
 #: src/Translations/AdminTranslations.php:379
 #: src/Translations/AdminTranslations.php:418
-<<<<<<< HEAD
 msgid "Back to Settings"
-=======
-msgid "Return to settings"
->>>>>>> develop
 msgstr "Volver a configuración"
 
 #: src/Translations/StoreTranslations.php:265
@@ -1171,19 +1125,11 @@ msgstr "PSE"
 
 
 #: src/Translations/AdminTranslations.php:388
-<<<<<<< HEAD
 msgid "The payment method is <b>disabled</b>."
 msgstr "El método de pago está <b>desactivado</b>."
 
 #: src/Translations/AdminTranslations.php:387
 msgid "The payment method is <b>enabled</b>."
-=======
-msgid "Checkout is <b>disabled</b>."
-msgstr "El método de pago está <b>desactivado</b>."
-
-#: src/Translations/AdminTranslations.php:387
-msgid "Checkout is <b>enabled</b>."
->>>>>>> develop
 msgstr "El método de pago está <b>activado</b>."
 
 
