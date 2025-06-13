@@ -84,3 +84,6 @@ function activate_epayco_customer()
         dbDelta($sql);
     }
 }
+
+
+ 
