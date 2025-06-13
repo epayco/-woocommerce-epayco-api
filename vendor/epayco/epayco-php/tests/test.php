@@ -194,8 +194,8 @@ class AccessSDKTest extends PHPUnit_Framework_TestCase
             "country" => "CO",
             "cell_phone" => "3010000001",
             "ip" => "186.116.10.133",
-            "url_response" => "https://apify.epayco.co/restpagos/testRest/endpagopse.php",
-            "url_confirmation" => "https://apify.epayco.co/restpagos/testRest/endpagopse.php",
+            "url_response" => "https://eks-checkout-service.epayco.io/restpagos/testRest/endpagopse.php",
+            "url_confirmation" => "https://eks-checkout-service.epayco.io/restpagos/testRest/endpagopse.php",
             "method_confirmation" => "GET",
         ));
         $this->assertGreaterThanOrEqual(1, count($response));
@@ -219,8 +219,8 @@ class AccessSDKTest extends PHPUnit_Framework_TestCase
             "email" => "test@test.com",
             "cell_phone" => "3010000001",
             "end_date" => $end_date,
-            "url_response" => "https://apify.epayco.co/restpagos/testRest/endpagopse.php",
-            "url_confirmation" => "https://apify.epayco.co/restpagos/testRest/endpagopse.php",
+            "url_response" => "https://eks-checkout-service.epayco.io/restpagos/testRest/endpagopse.php",
+            "url_confirmation" => "https://eks-checkout-service.epayco.io/restpagos/testRest/endpagopse.php",
             "method_confirmation" => "GET",
         ));
         $this->assertGreaterThanOrEqual(1, count($response));
