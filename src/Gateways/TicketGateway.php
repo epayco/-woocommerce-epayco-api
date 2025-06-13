@@ -67,6 +67,7 @@ class TicketGateway extends AbstractGateway
             'id' => 'SR',
             'name' => 'Punto Red',
         ],
+
         [
             'id' => 'SR',
             'name' => 'Red Servicios del Cesar',
@@ -638,6 +639,7 @@ class TicketGateway extends AbstractGateway
                 'status' => 'active',
                 'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Reddeservicios.png')
             ],
+            
             [
                 'id' => 'apuestascucuta',
                 'name' => 'Apuestas Cúcuta 75',

@@ -639,8 +639,8 @@ msgid "ePayco -  Checkout Credit and/or Debit Cards"
 msgstr "ePayco - Pago Tarjeta de credito y/o debito"
 
 #: src/Translations/AdminTranslations.php:310
-msgid "ePayco - Checkout Daviplata"
-msgstr "ePayco - Pago Daviplata"
+msgid "ePayco - Daviplata"
+msgstr "ePayco - Daviplata"
 
 #: src/Translations/AdminTranslations.php:382
 msgid "ePayco - Checkout PSE"
