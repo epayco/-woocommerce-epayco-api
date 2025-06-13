@@ -51,9 +51,10 @@ class PseGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->pseCheckout;
 
         $this->id    = self::ID;
-        $this->icon  = $this->epayco->hooks->gateway->getGatewayIcon('icon-pse.png');
-        $this->iconAdmin = $this->epayco->hooks->gateway->getGatewayIcon('pse-botton.png');
-        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, $this->adminTranslations['gateway_title']);
+        $this->icon  = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/pse.png';
+        $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/pse.png';
+        
+        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'PSE');
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
@@ -122,14 +123,14 @@ class PseGateway extends AbstractGateway
                     'disabled' => $this->adminTranslations['enabled_disabled'],
                 ],
             ],
-            'title' => [
-                'type'        => 'text',
-                'title'       => $this->adminTranslations['title_title'],
-                'description' => $this->adminTranslations['title_description'],
-                'default'     => $this->adminTranslations['title_default'],
-                'desc_tip'    => $this->adminTranslations['title_desc_tip'],
-                'class'       => 'limit-title-max-length',
-            ]
+            // 'title' => [
+            //     'type'        => 'text',
+            //     'title'       => $this->adminTranslations['title_title'],
+            //     'description' => $this->adminTranslations['title_description'],
+            //     'default'     => $this->adminTranslations['title_default'],
+            //     'desc_tip'    => $this->adminTranslations['title_desc_tip'],
+            //     'class'       => 'limit-title-max-length',
+            // ]
         ]);
     }
 
@@ -231,13 +232,13 @@ class PseGateway extends AbstractGateway
             'terms_and_conditions_label'       => $this->storeTranslations['terms_and_conditions_label'],
             'terms_and_conditions_description' => $this->storeTranslations['terms_and_conditions_description'],
             'terms_and_conditions_link_text'   => $this->storeTranslations['terms_and_conditions_link_text'],
-            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-usuario-pagador-comprador/',
+            'terms_and_conditions_link_src'    => 'https://epayco.com/terminos-y-condiciones-generales/',
             'personal_data_processing_link_text'    => $this->storeTranslations['personal_data_processing_link_text'],
             'and_the'   => $this->storeTranslations['and_the'],
             'personal_data_processing_link_src'    => 'https://epayco.com/tratamiento-de-datos/',
             'city'                          => $city,
             'customer_title'              => $this->storeTranslations['customer_title'],
-            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo.png'),
+            'logo' =>       $this->epayco->hooks->gateway->getGatewayIcon('logo-checkout.png'),
             'icon_warning' =>       $this->epayco->hooks->gateway->getGatewayIcon('warning.png'),
         ];
     }
@@ -331,6 +332,9 @@ class PseGateway extends AbstractGateway
      *
      * @return array
      */
+
+     //Warning: Undefined property: Epayco\Epayco::$bank in C:\xampp82\htdocs\wordpress-6.8\wordpress\wp-content\plugins\-woocommerce-epayco-api-master\src\Gateways\PseGateway.php on line 338
+
     private function getFinancialInstitutions(): array
     {
         $test = $this->epayco->storeConfig->isTestMode();
@@ -401,7 +405,7 @@ class PseGateway extends AbstractGateway
             return;
         }
 
-        $transaction = $this->transaction->returnParameterToThankyouPage($transactionInfo, $this);
+        $transaction = $this->transaction->returnParameterToThankyouPage($transactionInfo, $this, $order_id);
 
 
         if (empty($transaction)) {

@@ -94,11 +94,13 @@ class WoocommerceEpayco
     {
 
         $methods = [
+            'Epayco\Woocommerce\Gateways\CheckoutGateway',
             'Epayco\Woocommerce\Gateways\CreditCardGateway',
             'Epayco\Woocommerce\Gateways\PseGateway',
-            'Epayco\Woocommerce\Gateways\DaviplataGateway',
             'Epayco\Woocommerce\Gateways\TicketGateway',
-            'Epayco\Woocommerce\Gateways\CheckoutGateway'
+            'Epayco\Woocommerce\Gateways\DaviplataGateway',
+           
+            
         ];
         if (class_exists('WC_Subscriptions')){
             array_push($methods, 'Epayco\Woocommerce\Gateways\SubscriptionGateway');
@@ -331,7 +333,7 @@ class WoocommerceEpayco
                 $isInstalled = false;
                 $currentUserCanInstallPlugins = current_user_can('install_plugins');
 
-                $minilogo     = sprintf('%s%s', plugin_dir_url(__FILE__), '../assets/images/minilogo.png');
+                $minilogo     = sprintf('%s%s', plugin_dir_url(__FILE__), '../assets/images/logoepayco.png');
                 $translations = [
                     'activate_woocommerce' => __('Activate WooCommerce', 'woo-epayco-api'),
                     'install_woocommerce'  => __('Install WooCommerce', 'woo-epayco-api'),

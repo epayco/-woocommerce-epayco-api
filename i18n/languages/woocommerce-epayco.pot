@@ -309,15 +309,15 @@ msgid "Cash"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:277
-msgid "Cash Checkout"
+msgid "Cash"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:285
-msgid "Cash is <b>disabled</b>."
+msgid "The payment method is <b>disabled</b>."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:284
-msgid "Cash is <b>enabled</b>."
+msgid "The payment method is <b>enabled</b>."
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:219
@@ -354,11 +354,11 @@ msgid "Checkout"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:427
-msgid "Checkout is <b>disabled</b>."
+msgid "The payment method is <b>disabled</b>."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:426
-msgid "Checkout is <b>enabled</b>."
+msgid "The payment method is <b>enabled</b>."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:432
@@ -396,7 +396,7 @@ msgid ""
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:199
-msgid "Continue"
+msgid "Save and continue"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:106
@@ -443,19 +443,19 @@ msgid "Credentials were updated"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:363
-msgid "Credit and debit cards"
-msgstr ""
+msgid "Credit and/or Debit Cards"
+msgstr "Tarjetas de Crédito y/o Débito"
 
 #: src/Translations/AdminTranslations.php:351
 #: src/Translations/AdminTranslations.php:355
-msgid "Credit and Debit Cards by ePayco"
-msgstr ""
+msgid "Credit and/or Debit Cards"
+msgstr "Tarjetas de Crédito y/o Débito"
 
 #: src/Translations/AdminTranslations.php:156
 #: src/Translations/AdminTranslations.php:162
 #: src/Translations/AdminTranslations.php:337
 #: src/Translations/AdminTranslations.php:343
-msgid "Credit cards is"
+msgid "Checkout is"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:85
@@ -483,15 +483,15 @@ msgid "Daviplata"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:311
-msgid "Daviplata Checkout"
+msgid "Daviplata"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:319
-msgid "Daviplata is <b>disabled</b>."
+msgid "The payment method is <b>disabled</b>."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:318
-msgid "Daviplata is <b>enabled</b>."
+msgid "The payment method is <b>enabled</b>."
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:77
@@ -569,19 +569,19 @@ msgid "ePayco - Checkout Cash"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:353
-msgid "ePayco - Checkout Credit card"
-msgstr ""
+msgid "ePayco - Checkout Credit and/or Debit Cards"
+msgstr "ePayco - Pago Tarjeta de credito y/o debito"
 
 #: src/Translations/AdminTranslations.php:310
 msgid "ePayco - Checkout Daviplata"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:382
-msgid "ePayco - Checkout Pse"
+msgid "ePayco - Checkout PSE"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:172
-msgid "ePayco - Checkout Subscription"
+msgid "ePayco - Checkout Subscriptions"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:223
@@ -683,7 +683,7 @@ msgstr ""
 #: src/Translations/AdminTranslations.php:350
 #: src/Translations/AdminTranslations.php:379
 #: src/Translations/AdminTranslations.php:418
-msgid "Go to Settings"
+msgid "Back to Settings"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:265
@@ -746,7 +746,7 @@ msgstr ""
 
 #: src/Translations/StoreTranslations.php:146
 #: src/Translations/StoreTranslations.php:308
-msgid "Holder name as it appears on the card"
+msgid "Name and lastname"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:147
@@ -892,7 +892,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:406
 #: src/Translations/AdminTranslations.php:412
-msgid "One Page Checkout is"
+msgid "OnPage Checkout is"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:78
@@ -1037,11 +1037,11 @@ msgid "PSE"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:388
-msgid "PSE is <b>disabled</b>."
+msgid "The payment method is <b>disabled</b>."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:387
-msgid "PSE is <b>enabled</b>."
+msgid "The payment method is <b>enabled</b>."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:131
@@ -1102,11 +1102,11 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:138
 msgid "Save and continue"
-msgstr ""
+msgstr "Guardar y continuar"
 
-#: src/Translations/AdminTranslations.php:227
-msgid "Save changes"
-msgstr ""
+#: src/Translations/AdminTranslations.php:226
+msgid "Save and ended"
+msgstr "Guardar y finalizar"
 
 #: src/Translations/StoreTranslations.php:152
 #: src/Translations/StoreTranslations.php:311
@@ -1203,7 +1203,7 @@ msgid "Collection in the name of EPAYCO.COM S.A.S."
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:90
-msgid "Download ePayco receipt"
+msgid "Print or save"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:73
@@ -1228,8 +1228,8 @@ msgstr ""
 #: src/Translations/AdminTranslations.php:174
 #: src/Translations/AdminTranslations.php:182
 #: src/Translations/StoreTranslations.php:307
-msgid "Subscription"
-msgstr ""
+msgid "Subscriptions"
+msgstr "Suscripciones"
 
 #: src/Translations/AdminTranslations.php:451
 #: src/Translations/AdminTranslations.php:453
@@ -1360,7 +1360,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:419
 #: src/Translations/AdminTranslations.php:422
-msgid "Web CheckOut"
+msgid "Checkout ePayco"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:76

@@ -575,7 +575,7 @@ class Order
         if($afify){
             $url = 'https://apify.epayco.co/'.$path;
         }else{
-            $url = 'https://secure.epayco.co/restpagos/'.$path;
+            $url = 'https://eks-checkout-service.epayco.io/restpagos/'.$path;
         }
 
         $response = wp_remote_post($url, array(

@@ -13,7 +13,6 @@ use WpOrg\Requests\Requests;
  */
 class Client extends GraphqlClient
 {
-
     const BASE_URL = "https://api.secure.payco.co";
     const BASE_URL_SECURE = "https://secure.payco.co";
     const BASE_URL_APIFY = "https://apify.epayco.co";
@@ -158,15 +157,14 @@ class Client extends GraphqlClient
                 $code = 0;
                 $message = "Bad request";
                 try {
-                    $error = (array)json_decode($response->body)->errors[0];
-                    if(count($error) > 0){
-
-                        $code = key($error);
-                        $message = current($error);
-                    }else{
-                        $message = $response->body;
-                    }
-
+                    $errors = (array)json_decode($response->body);
+                    $error = isset($errors['message']) ? $errors['message'] : (isset($errors['errors']) ? $errors['errors'][0] : "Ocurrio un error, por favor contactar con soporte");
+                    $message = $error;
+                    return (object)array(
+                        "status" => false,
+                        "message" => $message,
+                        "data" => array()
+                    );
                 } catch (\Exception $e) {
                     throw new ErrorException($e->getMessage(), $e->getCode());
                 }

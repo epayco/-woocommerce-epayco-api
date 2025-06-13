@@ -9,7 +9,16 @@
     var r;
     const m = "mp_checkout_blocks", d = "woo-epayco-subscription",
         i = (0, o.getSetting)("woo-epayco-subscription_data", {}),
-        p = (0, c.decodeEntities)(i.title) || "Checkout Subscription", u = t => {
+        p = (() => {
+            let title = i && i.title ? (0, c.decodeEntities)(i.title) : "";
+            if (!title || title.trim() === "") {
+                title = document.documentElement.lang.startsWith('es') 
+                    ? "ePayco - Pago Suscripciónes" 
+                    : "ePayco - Checkout Subscriptions";
+            }
+            return title;
+        })(),
+        u = t => {
             (e => {
                 const {extensionCartUpdate: t} = wc.blocksCheckout, {
                     eventRegistration: o,
@@ -123,7 +132,7 @@
                             cellphoneHelpers.style.display = 'flex';
                         }
                     }
-/*
+    /*
                     const countryContentCountry = current.querySelector('#form-checkout__identificationCountry-container').lastChild.querySelector('input');
                     const countryHelpers =  current.querySelector('input-country').querySelector("input-helper").querySelector("div");
                     const verifyCountry = (countryContentCountry) => {
