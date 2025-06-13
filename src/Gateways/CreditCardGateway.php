@@ -273,20 +273,13 @@ class CreditCardGateway extends AbstractGateway
      */
     public function process_payment($order_id): array
     {
-        $logger = wc_get_logger();
-        $log_context = ['source' => self::LOG_SOURCE];
-
         $order = wc_get_order($order_id);
         try {
-            $logger->info("Iniciando process_payment para order_id: $order_id", $log_context);
-
             $checkout = $this->getCheckoutEpaycoCredits($order);
-            $logger->info('Datos de checkout recibidos: ' . print_r($checkout, true), $log_context);
 
             parent::process_payment($order_id);
 
             $checkout['token'] = $checkout['cardTokenId'] ?? $checkout['cardtokenid'] ?? '';
-            $logger->info('Token obtenido: ' . $checkout['token'], $log_context);
 
             if (!empty($checkout['token'])) {
                 $this->transaction = new CreditCardTransaction($this, $order, $checkout);
@@ -297,17 +290,12 @@ class CreditCardGateway extends AbstractGateway
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
 
-                $logger->info('Enviando datos a createTcPayment: ' . print_r($checkout, true), $log_context);
-
                 $response = $this->transaction->createTcPayment($order_id, $checkout);
-                $logger->info('Respuesta de createTcPayment: ' . print_r($response, true), $log_context);
-
                 $response = json_decode(wp_json_encode($response), true);
 
                 if (is_array($response) && $response['success']) {
                     $ref_payco = $response['data']['refPayco'] ?? $response['data']['ref_payco'];
                     $estado = strtolower($response['data']['estado']);
-                    $logger->info("Estado de la transacción: $estado", $log_context);
 
                     if (in_array($estado, ["pendiente", "pending"])) {
                         $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
@@ -339,7 +327,6 @@ class CreditCardGateway extends AbstractGateway
                     }
                     return $return;
                 } else {
-                    $logger->error('Error en la respuesta de createTcPayment: ' . print_r($response, true), $log_context);
                     $messageError = $response['message'];
                     $errorMessage = "";
                     if (isset($response['data']['errors'])) {
@@ -357,12 +344,10 @@ class CreditCardGateway extends AbstractGateway
                     return $this->returnFail($processReturnFailMessage, $order);
                 }
             } else {
-                $logger->error('Token vacío o incorrecto', $log_context);
                 $processReturnFailMessage = "Token incorrect ";
                 return $this->returnFail($processReturnFailMessage, $order);
             }
         } catch (\Exception $e) {
-            $logger->error('Excepción capturada: ' . $e->getMessage(), $log_context);
             return $this->processReturnFail(
                 $e,
                 $e->getMessage(),
