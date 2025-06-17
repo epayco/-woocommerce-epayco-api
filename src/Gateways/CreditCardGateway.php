@@ -307,7 +307,6 @@ class CreditCardGateway extends AbstractGateway
 
                 $response = $this->transaction->createTcPayment($order_id, $checkout);
                 $response = json_decode(wp_json_encode($response), true);
-
                 if (is_array($response) && $response['success']) {
                     $ref_payco = $response['data']['refPayco'] ?? $response['data']['ref_payco'];
                     $estado = strtolower($response['data']['estado']);
@@ -317,6 +316,21 @@ class CreditCardGateway extends AbstractGateway
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
+                        if(isset($response['data']['3DS'])){
+                            $public_key = $this->epayco->sellerConfig->getCredentialsPublicKeyPayment();
+                            $private_key = $this->epayco->sellerConfig->getCredentialsPrivateKeyPayment();
+                            $token = base64_encode($public_key.":".$private_key);
+                            $json_data = json_encode([
+                                "returnUrl" => $urlReceived,
+                                "franquicia" => $response['data']['franquicia'],
+                                "threeDs" => json_encode($response['data']['3DS']),
+                                "ref_payco" => $ref_payco,
+                                "cc_network_response" => $response['data']['cc_network_response'],
+                                "hash" => $token??null
+                            ]);
+                            $idSessionToken = base64_encode($json_data);
+                            $urlReceived = "https://vtex.epayco.io/3ds?token=".$idSessionToken;
+                        }
                         $return = [
                             'result'   => 'success',
                             'redirect' => $urlReceived,
