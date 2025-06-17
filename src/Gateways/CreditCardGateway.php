@@ -67,20 +67,11 @@ class CreditCardGateway extends AbstractGateway
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
 
-        add_action('wp_enqueue_scripts', [$this, 'enqueue_autofill_script']);
-
-    }
-
-    public function enqueue_autofill_script() {
-        if (is_checkout()) {
-            wp_enqueue_script(
-                'epayco-autofill',
-                plugins_url('../../assets/js/checkouts/epayco-autofill.js', __FILE__),
-                ['jquery'],
-                null,
-                true
-            );
-        }
+        // Nuevo registro del script autofill
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_creditcard_autofill',
+            $this->epayco->helpers->url->getJsAsset('checkouts/epayco-autofill')
+        );
     }
 
     /**
