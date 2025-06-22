@@ -86,29 +86,4 @@ function activate_epayco_customer()
 }
 
 
-
-add_action('wp_enqueue_scripts', function() {
-    wp_enqueue_script(
-        'handle-creditcard-block',
-        plugins_url('build/creditcard.block.js', __FILE__),
-        array('jquery'),
-        '1.0.0',
-        true
-    );
-
-    // Aquí debes obtener el título dinámicamente, como lo tienes en tu gateway:
-    $gateway = new \Epayco\Woocommerce\Gateways\CreditCardGateway();
-    $title = $gateway->title;
-
-    wp_add_inline_script(
-        'handle-creditcard-block',
-        'window.wc = window.wc || {}; window.wc.wcSettings = window.wc.wcSettings || {}; window.wc.wcSettings["woo-epayco-creditcard_data"] = ' . json_encode([
-            'title' => $title,
-            // otros datos...
-        ]) . ';',
-        'before'
-    );
-});
-
-
  

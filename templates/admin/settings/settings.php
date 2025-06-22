@@ -198,8 +198,8 @@ if (!defined('ABSPATH')) {
                     </div>
 
                     <div class="ep-settings-mode-container">
-                        <div class="ep-settings-mode-spacing">
-                            <input type="radio" id="ep-settings-testmode-test" class="ep-settings-radio-button" name="ep-test-prod" value="yes" <?php echo checked($testMode) ?> />
+                        <div class="ep-settings-mode-spacing" >
+                            <input type="radio" id="ep-settings-testmode-test" class="ep-settings-radio-button"  name="ep-test-prod" value="yes" <?php echo checked($testMode) ?> />
                         </div>
                         <label for="ep-settings-testmode-test">
                             <span class="ep-settings-subtitle-font-size ep-settings-font-color">

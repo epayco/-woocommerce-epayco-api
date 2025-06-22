@@ -26,7 +26,7 @@ class Seller
     private const HOMOLOG_VALIDATE = 'homolog_validate';
     private const TEST_USER = '_test_user_v1';
 
-    private const EP_APIFY  = "https://apify.epayco.co";
+    private const EP_APIFY  = "https://eks-apify-service.epayco.io";
     private Cache $cache;
     private Options $options;
 

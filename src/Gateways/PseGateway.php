@@ -69,6 +69,12 @@ class PseGateway extends AbstractGateway
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
 
+        // Nuevo registro del script autofill
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_pse_autofill',
+            $this->epayco->helpers->url->getJsAsset('checkouts/epayco-autofill')
+        );
+
     }
 
     /**

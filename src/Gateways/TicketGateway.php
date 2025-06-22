@@ -67,6 +67,7 @@ class TicketGateway extends AbstractGateway
             'id' => 'SR',
             'name' => 'Punto Red',
         ],
+
         [
             'id' => 'SR',
             'name' => 'Red Servicios del Cesar',
@@ -115,8 +116,8 @@ class TicketGateway extends AbstractGateway
         $this->id        = self::ID;
         //$this->icon      = $this->getCheckoutIcon();
         //$this->iconAdmin = $this->getCheckoutIcon(true);
-        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/efectivo.png';
-        $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/efectivo.png';
+        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/efectivo.png';
+        $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/efectivo.png';
         $defaultTitle = (substr(get_locale(), 0, 2) === 'es') ? 'Efectivo' : 'Cash';
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, $defaultTitle);
 
@@ -134,6 +135,12 @@ class TicketGateway extends AbstractGateway
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
         //$this->epayco->hooks->cart->registerCartCalculateFees([$this, 'registerDiscountAndCommissionFeesOnCart']);
+
+        // Nuevo registro del script autofill
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_ticket_autofill',
+            $this->epayco->helpers->url->getJsAsset('checkouts/epayco-autofill')
+        );
 
     }
 
@@ -638,6 +645,7 @@ class TicketGateway extends AbstractGateway
                 'status' => 'active',
                 'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Reddeservicios.png')
             ],
+            
             [
                 'id' => 'apuestascucuta',
                 'name' => 'Apuestas Cúcuta 75',
