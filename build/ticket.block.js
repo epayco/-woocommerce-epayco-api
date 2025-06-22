@@ -231,7 +231,7 @@
                         src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/iconosEfectivo.png",
                         alt: "ePayco",
                         style: {
-                            maxWidth: "200px",
+                            maxWidth: "250px",
                             width: "auto",
                             margin: "0px",
                             maxHeight: "50px",
