@@ -128,6 +128,7 @@ $pdf->Output();
 ```
 
 A full end-user documentation and API reference is available [here](https://manuals.setasign.com/fpdi-manual/).
+<<<<<<< HEAD
 
 FPDI - Free PDF Document Importer
 =================================
@@ -259,3 +260,5 @@ $pdf->Output();
 ```
 
 A full end-user documentation and API reference is available [here](https://manuals.setasign.com/fpdi-manual/).
+=======
+>>>>>>> ef6650b307d6b4257ea29ecca8ee43ee889268b7

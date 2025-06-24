@@ -228,17 +228,10 @@
                 },
                     (0, e.createElement)(o, { text: n }),
                     showLogo && (0, e.createElement)("img", {
-<<<<<<< HEAD
                         src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/iconosEfectivo.png",
                         alt: "ePayco",
                         style: {
-                            maxWidth: "250px",
-=======
-                        src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/PaymentCASH.png",
-                        alt: "ePayco",
-                        style: {
                             maxWidth: "200px",
->>>>>>> ef6650b307d6b4257ea29ecca8ee43ee889268b7
                             width: "auto",
                             margin: "0px",
                             maxHeight: "50px",
