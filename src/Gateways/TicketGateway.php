@@ -464,37 +464,37 @@ class TicketGateway extends AbstractGateway
                 'id' => 'sured',
                 'name' => 'Su Red',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Sured.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Sured.png"
             ],
             [
                 'id' => 'pagatodo',
                 'name' => 'Paga Todo',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Pagatodo.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Pagatodo.png"
             ],
             [
                 'id' => 'gana',
                 'name' => 'Gana',
                 'status' => 'active',
-                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/gana.png'
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/gana.png"
             ],
             [
                 'id' => 'acertemos',
                 'name' => 'Acertemos',
                 'status' => 'active',
-                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/Acertemos.png'
+                'secure_thumbnail' =>  "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Acertemos.png"
             ],
             [
                 'id' => 'ganagana',
                 'name' => 'Gana Gana',
                 'status' => 'active',
-                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/Ganagana.png'
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Ganagana.png"
             ],
             [
                 'id' => 'suchance',
                 'name' => 'SuChance',
                 'status' => 'active',
-                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/SuChance.png'
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/SuChance.png"
             ],
             // [
             //     'id' => 'sured',
@@ -506,7 +506,7 @@ class TicketGateway extends AbstractGateway
                 'id' => 'redservicioscesar',
                 'name' => 'Red Servicios del Cesar',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('RedServiciosCesar.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Reddeservicios.png"
             ],
             // [
             //     'id' => 'sured',
@@ -518,25 +518,25 @@ class TicketGateway extends AbstractGateway
                 'id' => 'apuestascucuta',
                 'name' => 'Apuestas Cúcuta 75',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Apuestascucuta.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Apuestascucuta.png"
             ],
             [
                 'id' => 'jer',
                 'name' => 'Jer',
                 'status' => 'active',
-                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/Jer.png'
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Jer.png"
             ],
             [
                 'id' => 'laperla',
                 'name' => 'La Perla',
                 'status' => 'active',
-                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/La%20perla.png'
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Laperla.png"
             ],
             [
                 'id' => 'efecty',
                 'name' => 'Efecty',
                 'status' => 'active',
-                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/Efecty.png'
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Efecty.png"
             ],
             // [
             //     'id' => 'sured',
@@ -548,13 +548,13 @@ class TicketGateway extends AbstractGateway
                 'id' => 'puntored',
                 'name' => 'Punto Red',
                 'status' => 'active',
-                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/Punto%20red.png'
+                'secure_thumbnail' =>  "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Puntored.png"
             ],
             [
                 'id' => 'redservi',
                 'name' => 'Red Servi',
                 'status' => 'active',
-                'secure_thumbnail' => 'https://multimedia.epayco.co/plugins-sdks/Red%20servi.png'
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Redservi.png"
             ]
         ];
 
@@ -613,80 +613,80 @@ class TicketGateway extends AbstractGateway
                 'id' => 'sured',
                 'name' => 'Su Red',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Sured.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Sured.png"
             ],
             [
                 'id' => 'efecty',
                 'name' => 'Efecty',
                 'status' => 'active',
-                'thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Efecty.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Efecty.png"
             ],
             [
                 'id' => 'gana',
                 'name' => 'Gana',
                 'status' => 'active',
-                'thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('gana.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/gana.png"
             ],
             [
                 'id' => 'puntored',
                 'name' => 'Punto Red',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Puntored.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Puntored.png"
             ],
             [
                 'id' => 'redservi',
                 'name' => 'Red Servi',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Redservi.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Redservi.png"
             ],
             [
                 'id' => 'redservicioscesar',
                 'name' => 'Red Servicios del Cesar',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Reddeservicios.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Reddeservicios.png"
             ],
             
             [
                 'id' => 'apuestascucuta',
                 'name' => 'Apuestas Cúcuta 75',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Apuestascucuta.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Apuestascucuta.png"
             ],
             [
                 'id' => 'suchance',
                 'name' => 'SuChance',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('SuChance.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/SuChance.png"
             ],
             [
                 'id' => 'laperla',
                 'name' => 'La Perla',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Laperla.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Laperla.png"
             ],
             [
                 'id' => 'jer',
                 'name' => 'Jer',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Jer.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Jer.png"
             ],
             [
                 'id' => 'pagatodo',
                 'name' => 'Paga Todo',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Pagatodo.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Pagatodo.png"
             ],
             [
                 'id' => 'acertemos',
                 'name' => 'Acertemos',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Acertemos.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Acertemos.png"
             ],
             [
                 'id' => 'ganagana',
                 'name' => 'Gana Gana',
                 'status' => 'active',
-                'secure_thumbnail' => $this->epayco->hooks->gateway->getGatewayIcon('Ganagana.png')
+                'secure_thumbnail' => "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/cash/Ganagana.png"
             ],
         ];
 
