@@ -12,25 +12,25 @@
         p = (() => {
             let title = i && i.title ? (0, c.decodeEntities)(i.title) : "";
             if (!title || title.trim() === "") {
-                title = document.documentElement.lang.startsWith('es') 
-                    ? "ePayco - Pago Efectivo" 
+                title = document.documentElement.lang.startsWith('es')
+                    ? "ePayco - Pago Efectivo"
                     : "ePayco - Checkout Cash";
             }
             return title;
         })(),
         u = t => {
             (e => {
-                const {extensionCartUpdate: t} = wc.blocksCheckout, {
+                const { extensionCartUpdate: t } = wc.blocksCheckout, {
                     eventRegistration: o,
                     emitResponse: c
-                } = e, {onPaymentSetup: r, onCheckoutSuccess: i, onCheckoutFail: p} = o;
+                } = e, { onPaymentSetup: r, onCheckoutSuccess: i, onCheckoutFail: p } = o;
                 (0, a.useEffect)((() => {
                     ((e, t) => {
-                        e({namespace: n, data: {action: "add", gateway: t}})
+                        e({ namespace: n, data: { action: "add", gateway: t } })
                     })(t, d);
-                    const e = r((() => ({type: c.responseTypes.SUCCESS})));
+                    const e = r((() => ({ type: c.responseTypes.SUCCESS })));
                     return () => (((e, t) => {
-                        e({namespace: n, data: {action: "remove", gateway: t}})
+                        e({ namespace: n, data: { action: "remove", gateway: t } })
                     })(t, d), e())
                 }), [r]), (0, a.useEffect)((() => {
                     const e = i((async e => {
@@ -55,15 +55,15 @@
                 }), [p])
             })(t);
             const M = (0, a.useRef)(null),
-                {eventRegistration: o, emitResponse: c} = t,
-                {onPaymentSetup: r} = o,
+                { eventRegistration: o, emitResponse: c } = t,
+                { onPaymentSetup: r } = o,
                 p = ["address_city", "address_federal_unit", "address_zip_code", "address_street_name", "address_street_number", "address_neighborhood", "address_complement"];
             return (0, a.useEffect)((() => {
                 const e = r((async () => {
                     var e;
-                    const ticketName = document.getElementsByName('epayco_ticket[name]')[0]??document.getElementsByName('epayco_ticket[nameError]')[0];
+                    const ticketName = document.getElementsByName('epayco_ticket[name]')[0] ?? document.getElementsByName('epayco_ticket[nameError]')[0];
                     const ticketContentName = ticketName.value;
-                    const nameHelpers =  document.querySelector('input-helper-epayco').querySelector("div");
+                    const nameHelpers = document.querySelector('input-helper-epayco').querySelector("div");
                     const verifyName = (nameElement) => {
                         if (nameElement === '' || nameElement.length < 2) {
                             document.querySelector('input-name-epayco').querySelector(".ep-input").classList.add("ep-error");
@@ -79,17 +79,17 @@
                      }
                  }*/
                     const ticketContentEmail = document.getElementsByName('epayco_ticket[email]')[0].value;
-                    const emailHelpers =  document.querySelector('input-email-epayco').querySelector("input-helper-epayco").querySelector("div");
+                    const emailHelpers = document.querySelector('input-email-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyEmail = (emailElement) => {
                         if (emailElement === '') {
                             document.querySelector('input-email-epayco').querySelector(".ep-input").classList.add("ep-error");
                             emailHelpers.style.display = 'flex';
                         }
                     }
-                
-                    const ticketContentCellphone  = document.getElementsByName('epayco_ticket[cellphone]')[0].value;
+
+                    const ticketContentCellphone = document.getElementsByName('epayco_ticket[cellphone]')[0].value;
                     const cellphoneType = document.getElementsByName('epayco_ticket[cellphoneType]')[0].value;
-                    const cellphoneHelpers =  document.querySelector('input-cellphone-epayco').querySelector("input-helper-epayco").querySelector("div");
+                    const cellphoneHelpers = document.querySelector('input-cellphone-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCellphone = (cellphone) => {
 
                         if (cellphone === '') {
@@ -101,7 +101,7 @@
 
                     //const person_type_value = document.getElementsByName('epayco_ticket[person_type]')[1].value;
                     const doc_type = document.getElementsByName('epayco_ticket[documentType]')[0].value;
-                    const documentHelpers =  document.querySelector('input-document-epayco').querySelector("input-helper-epayco").querySelector("div");
+                    const documentHelpers = document.querySelector('input-document-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyDocument = (ticketContentDocument) => {
                         if (ticketContentDocument === '') {
                             document.querySelector('input-document-epayco').querySelector(".ep-input").classList.add("ep-error");
@@ -109,7 +109,7 @@
                             documentHelpers.style.display = 'flex';
                         }
                     }
-                    const doc_number = document.getElementsByName('epayco_ticket[document]').length>0?document.getElementsByName('epayco_ticket[document]'):document.getElementsByName('documentTypeError');
+                    const doc_number = document.getElementsByName('epayco_ticket[document]').length > 0 ? document.getElementsByName('epayco_ticket[document]') : document.getElementsByName('documentTypeError');
                     const doc_number_value = doc_number[0].value;
 
                     /*const countryType = document.getElementsByName('epayco_ticket[countryType]')[0].value;
@@ -125,7 +125,7 @@
 
                     const termanAndContictionContent = document.querySelector('terms-and-conditions').querySelector('input');
                     const termanAndContictionHelpers = document.querySelector('terms-and-conditions').querySelector(".ep-terms-and-conditions-container");
-                    termanAndContictionContent.addEventListener('click', function() {
+                    termanAndContictionContent.addEventListener('click', function () {
                         if (termanAndContictionContent.checked) {
                             termanAndContictionHelpers.classList.remove("ep-error")
                         }
@@ -146,17 +146,17 @@
                         //"epayco_ticket[country]": ticketContentCountry
                     };
                     var paymentOptionSelected;
-                    const paymentselpers =  document.querySelector(".ep-checkout-ticket-container").querySelectorAll(".ep-input-radio-radio")[0].parentElement.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('input-helper-epayco').querySelector('div');
+                    const paymentselpers = document.querySelector(".ep-checkout-ticket-container").querySelectorAll(".ep-input-radio-radio")[0].parentElement.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('input-helper-epayco').querySelector('div');
                     document.querySelector(".ep-checkout-ticket-container").querySelectorAll(".ep-input-radio-radio").forEach((e => {
                         if (e.checked) {
                             paymentOptionSelected = e.value;
                         }
                     }))
 
-                    if(paymentOptionSelected !==''&& paymentOptionSelected !== undefined){
+                    if (paymentOptionSelected !== '' && paymentOptionSelected !== undefined) {
                         m(paymentselpers, "none")
                         nn["epayco_ticket[payment_method_id]"] = paymentOptionSelected;
-                    }else{
+                    } else {
                         m(paymentselpers, "flex")
                     }
 
@@ -164,12 +164,12 @@
                     "" === ticketContentEmail && verifyEmail(ticketContentEmail);
                     //"" === ticketContentAddress && verifyAddress(ticketContentAddress);
                     "" === ticketContentCellphone && verifyCellphone(ticketContentCellphone);
-                    "Type"||"Tipo" === doc_type && verifyDocument(doc_number_value);
+                    "Type" || "Tipo" === doc_type && verifyDocument(doc_number_value);
                     "" === doc_number_value && verifyDocument(doc_number_value);
                     //"" === ticketContentCountry && verifyCountry(ticketContentCountry);
                     !termanAndContictionContent.checked && termanAndContictionHelpers.classList.add("ep-error");
 
-                    let validation = d(nameHelpers)||  d(emailHelpers)|| d(documentHelpers)||d(termanAndContictionContent)||d(paymentselpers)||d(cellphoneHelpers)
+                    let validation = d(nameHelpers) || d(emailHelpers) || d(documentHelpers) || d(termanAndContictionContent) || d(paymentselpers) || d(cellphoneHelpers)
                     function m(e, t) {
                         e && e.style && (e.style.display = t)
                     }
@@ -179,31 +179,88 @@
                     }
 
                     return "" !== ticketContentName &&
-                    //"" !== ticketContentAddress &&
-                    "" !==  ticketContentEmail &&
-                    "" !== ticketContentCellphone &&
-                    "" !== doc_number_value &&
-                    //"" !== ticketContentCountry &&
-                    "" !== paymentOptionSelected &&
-                    "Type"||"Tipo" !== doc_type,{
-                        type: validation || !termanAndContictionContent.checked  ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
-                        meta: {paymentMethodData: nn}
+                        //"" !== ticketContentAddress &&
+                        "" !== ticketContentEmail &&
+                        "" !== ticketContentCellphone &&
+                        "" !== doc_number_value &&
+                        //"" !== ticketContentCountry &&
+                        "" !== paymentOptionSelected &&
+                        "Type" || "Tipo" !== doc_type, {
+                        type: validation || !termanAndContictionContent.checked ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
+                        meta: { paymentMethodData: nn }
                     }
                 }));
                 return () => e()
-            }), [c.responseTypes.ERROR, c.responseTypes.SUCCESS, r]), (0, e.createElement)("div", {dangerouslySetInnerHTML: {__html: i.params.content}})
+            }), [c.responseTypes.ERROR, c.responseTypes.SUCCESS, r]), (0, e.createElement)("div", { dangerouslySetInnerHTML: { __html: i.params.content } })
         }, l = {
             name: d,
             label: (0, e.createElement)((t => {
-                const {PaymentMethodLabel: o} = t.components, a = (0, c.decodeEntities)(i?.params?.fee_title || ""),
-                    n = `${p} ${a}`;
-                return (0, e.createElement)(o, {text: n})
+                const { PaymentMethodLabel: o } = t.components;
+                const a = (0, c.decodeEntities)(i?.params?.fee_title || "");
+                const n = `${p} ${a}`;
+                const [showLogo, setShowLogo] = e.useState(true);
+
+                e.useEffect(() => {
+                    let timer = setTimeout(() => setShowLogo(false), 15000);
+
+                    const observer = new MutationObserver(() => {
+                        const hasClass = document.querySelector('.ep-checkout-ticket-content') !== null;
+                        setShowLogo(!hasClass);
+                    });
+
+                    observer.observe(document.body, { childList: true, subtree: true });
+
+                    return () => {
+                        clearTimeout(timer);
+                        observer.disconnect();
+                    };
+                }, []);
+
+                return (0, e.createElement)("div", {
+                    style: {
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        width: "100%",
+                        maxWidth: "100%",
+                    },
+                    className: "epayco-payment-label-responsive"
+                },
+                    (0, e.createElement)(o, { text: n }),
+                    showLogo && (0, e.createElement)("img", {
+                        src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/iconosEfectivo.png",
+                        alt: "ePayco",
+                        style: {
+                            maxWidth: "200px",
+                            width: "auto",
+                            margin: "0px",
+                            maxHeight: "50px",
+                            height: "50px",
+                        }
+                    }),
+                    (0, e.createElement)("style", null, `
+                        @media (max-width: 480px) {
+                            .epayco-payment-label-responsive img {
+                                max-width: 100% !important;
+                                width: 100% !important;
+                                height: auto !important;
+                            }
+                            .epayco-payment-label-responsive {
+                                align-items: stretch !important;
+                            }
+                        }
+                        /* Oculta el icono cuando el checkout embebido está abierto, en cualquier tamaño */
+                        .epayco-cash-checkout-open .epayco-payment-label-responsive img {
+                            display: none !important;
+                        }
+                    `)
+                );
             }), null),
             content: (0, e.createElement)(u, null),
             edit: (0, e.createElement)(u, null),
             canMakePayment: () => !0,
             ariaLabel: p,
-            supports: {features: null !== (r = i?.supports) && void 0 !== r ? r : []}
+            supports: { features: null !== (r = i?.supports) && void 0 !== r ? r : [] }
         };
     (0, t.registerPaymentMethod)(l)
 })();

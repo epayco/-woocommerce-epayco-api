@@ -66,6 +66,12 @@ class CreditCardGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
+
+        // Nuevo registro del script autofill
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_creditcard_autofill',
+            $this->epayco->helpers->url->getJsAsset('checkouts/epayco-autofill')
+        );
     }
 
     /**
@@ -280,9 +286,8 @@ class CreditCardGateway extends AbstractGateway
             parent::process_payment($order_id);
 
             $checkout['token'] = $checkout['cardTokenId'] ?? $checkout['cardtokenid'] ?? '';
-            if (
-                !empty($checkout['token'])
-            ) {
+
+            if (!empty($checkout['token'])) {
                 $this->transaction = new CreditCardTransaction($this, $order, $checkout);
                 $redirect_url = get_site_url() . "/";
                 $redirect_url = add_query_arg('wc-api', self::WEBHOOK_API_NAME, $redirect_url);
@@ -290,22 +295,39 @@ class CreditCardGateway extends AbstractGateway
                 $confirm_url = $redirect_url . '&confirmation=1';
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
+
                 $response = $this->transaction->createTcPayment($order_id, $checkout);
                 $response = json_decode(wp_json_encode($response), true);
                 if (is_array($response) && $response['success']) {
                     $ref_payco = $response['data']['refPayco'] ?? $response['data']['ref_payco'];
-                    if (in_array(strtolower($response['data']['estado']), ["pendiente", "pending"])) {
+                    $estado = strtolower($response['data']['estado']);
+
+                    if (in_array($estado, ["pendiente", "pending"])) {
                         $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
-                        //$this->epayco->hooks->order->addOrderNote($order, $this->storeTranslations['customer_not_paid']);
                         $urlReceived = $order->get_checkout_order_received_url();
+                        if(isset($response['data']['3DS'])){
+                            $public_key = $this->epayco->sellerConfig->getCredentialsPublicKeyPayment();
+                            $private_key = $this->epayco->sellerConfig->getCredentialsPrivateKeyPayment();
+                            $token = base64_encode($public_key.":".$private_key);
+                            $json_data = json_encode([
+                                "returnUrl" => $urlReceived,
+                                "franquicia" => $response['data']['franquicia'],
+                                "threeDs" => json_encode($response['data']['3DS']),
+                                "ref_payco" => $ref_payco,
+                                "cc_network_response" => $response['data']['cc_network_response'],
+                                "hash" => $token??null
+                            ]);
+                            $idSessionToken = base64_encode($json_data);
+                            $urlReceived = "https://vtex.epayco.io/3ds?token=".$idSessionToken;
+                        }
                         $return = [
                             'result'   => 'success',
                             'redirect' => $urlReceived,
                         ];
                     }
-                    if (in_array(strtolower($response['data']['estado']), ["aceptada", "acepted"])) {
+                    if (in_array($estado, ["aceptada", "acepted"])) {
                         $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                         $order->update_status("processing");
                         $this->epayco->woocommerce->cart->empty_cart();
@@ -315,7 +337,7 @@ class CreditCardGateway extends AbstractGateway
                             'redirect' => $urlReceived,
                         ];
                     }
-                    if (in_array(strtolower($response['data']['estado']), ["rechazada", "fallida", "cancelada", "abandonada"])) {
+                    if (in_array($estado, ["rechazada", "fallida", "cancelada", "abandonada"])) {
                         $urlReceived = wc_get_checkout_url();
                         $return = [
                             'result'   => 'fail',

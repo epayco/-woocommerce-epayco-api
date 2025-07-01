@@ -75,8 +75,13 @@ class SubscriptionGateway extends AbstractGateway
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
 
+        // Nuevo registro del script autofill
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_subscription_autofill',
+            $this->epayco->helpers->url->getJsAsset('checkouts/epayco-autofill')
+        );
     }
-
+    
     /**
      * Get checkout name
      *
