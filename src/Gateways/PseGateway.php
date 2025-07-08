@@ -343,23 +343,43 @@ class PseGateway extends AbstractGateway
 
     private function getFinancialInstitutions(): array
     {
-        $test = $this->epayco->storeConfig->isTestMode();
-        $this->transaction = new PseTransaction($this, null, []);
-        $bancos = $this->transaction->sdk->bank->pseBank($test);
-        //$bancos=[];
-        if(isset($bancos) && isset($bancos->data) ){
-            $banks = (array) $bancos->data;
-            $convertedBanks = array();
-            foreach ($banks as $bank) {
-                $convertedBanks[] = array(
-                    'id' => $bank->bankCode,
-                    'description' => $bank->bankName
-                );
+        try{
+            $test = $this->epayco->storeConfig->isTestMode();
+            $this->transaction = new PseTransaction($this, null, []);
+            $bancos = $this->transaction->sdk->bank->pseBank($test);
+            //$bancos=[];
+            if(isset($bancos) && isset($bancos->data) ){
+                $banks = (array) $bancos->data;
+                $convertedBanks = array();
+                $first = true;
+                foreach ($banks as $bank) {
+                    if ($first) {
+                        $convertedBanks[] = array(
+                            'id' => '0',
+                            'description' => 'A continuación seleccione su banco'
+                        );
+                        $first = false;
+                    } else {
+                        $convertedBanks[] = array(
+                            'id' => isset($bank->bankCode)?$bank->bankCode:null,
+                            'description' => isset($bank->bankName)?$bank->bankName:null
+                        );
+                    }
+                }
+            }else{
+                $convertedBanks[] =['id' => 0, 'description' => "Selecciona el banco"];
             }
-        }else{
-            $convertedBanks[] =['id' => 0, 'description' => "Selecciona el banco"];
+            return $convertedBanks;
+        } catch (\Exception $e) {
+            return $this->processReturnFail(
+                $e,
+                $e->getMessage(),
+                self::LOG_SOURCE,
+                (array)[],
+                true
+            );
         }
-        return $convertedBanks;
+
     }
 
     /**
