@@ -257,10 +257,35 @@ class Gateway
                 $enable = \WC_Subscriptions_Cart::cart_contains_subscription();
             }
 
-            if (!$enable && isset($methods['woo-epayco-subscription'])){
+            if (!$enable && isset($methods['woo-epayco-subscription'])) {
                 unset($methods['woo-epayco-subscription']);
             }
-            return $methods;
+
+            // Orden deseado de los métodos
+            $orden_deseado = array(
+                'CheckoutGateway',
+                'CreditCardGateway',
+                'PseGateway',
+                'TicketGateway',
+                'DaviplataGateway'
+            );
+
+            // Reorganizar métodos según el orden deseado
+            $ordenado = array();
+            foreach ($orden_deseado as $id) {
+                if (isset($methods[$id])) {
+                    $ordenado[$id] = $methods[$id];
+                }
+            }
+
+            // Agregar los métodos que no estaban en el orden personalizado
+            foreach ($methods as $id => $gateway) {
+                if (!isset($ordenado[$id])) {
+                    $ordenado[$id] = $gateway;
+                }
+            }
+            return $ordenado;
+            //return $methods;
         });
     }
 

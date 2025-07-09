@@ -99,8 +99,6 @@ class WoocommerceEpayco
             'Epayco\Woocommerce\Gateways\PseGateway',
             'Epayco\Woocommerce\Gateways\TicketGateway',
             'Epayco\Woocommerce\Gateways\DaviplataGateway',
-           
-            
         ];
         if (class_exists('WC_Subscriptions')){
             array_push($methods, 'Epayco\Woocommerce\Gateways\SubscriptionGateway');
@@ -133,6 +131,7 @@ class WoocommerceEpayco
         $this->registerGateways();
 
         $this->hooks->gateway->registerAvailablePaymentGateway();
+        $this->hooks->cron->registerSchedulesPaymentEvent();
 
         $this->hooks->gateway->registerSaveCheckoutSettings();
         if ($this->storeConfig->getExecuteActivate()) {
@@ -157,10 +156,12 @@ class WoocommerceEpayco
                 function (PaymentMethodRegistry $payment_method_registry) {
                     $payment_method_registry->register(new CheckoutBlock());
                     $payment_method_registry->register(new CreditCardBlock());
-                    $payment_method_registry->register(new SubscriptionBlock());
-                    $payment_method_registry->register(new DaviplataBlock());
                     $payment_method_registry->register(new PseBlock());
                     $payment_method_registry->register(new TicketBlock());
+                    $payment_method_registry->register(new DaviplataBlock());
+                    if (class_exists('WC_Subscriptions')){
+                        $payment_method_registry->register(new SubscriptionBlock());
+                    }
                 }
             );
         }
@@ -187,6 +188,7 @@ class WoocommerceEpayco
     public function disablePlugin()
     {
         $this->funnel->updateStepDisable();
+        $this->hooks->cron->unregisterScheduledEvent('epayco_event');
     }
 
     /**
