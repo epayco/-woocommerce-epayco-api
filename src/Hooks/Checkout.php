@@ -32,13 +32,18 @@ class Checkout
     /**
      * Register review order before payment hook
      *
-     * @param mixed $callback
-     *
      * @return void
      */
-    public function registerReviewOrderBeforePayment($callback)
+    public function registerReviewOrderBeforePayment()
     {
-        add_action('woocommerce_review_order_before_payment', $callback);
+        add_action('woocommerce_review_order_before_payment', function() {
+            $gateways = WC()->payment_gateways()->get_available_payment_gateways();
+            if ( class_exists( 'WC_Logger' ) ) {
+                $logger = new \WC_Logger();
+                //$logger->add( 'ePaycoEvent',"event epayco_event 1" );
+            }
+            echo '<pre>'; print_r(array_keys($gateways)); echo '</pre>';
+        });
     }
 
     /**
