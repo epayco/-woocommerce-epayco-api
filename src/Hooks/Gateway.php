@@ -263,11 +263,11 @@ class Gateway
 
             // Orden deseado de los métodos
             $orden_deseado = array(
-                'CheckoutGateway',
-                'CreditCardGateway',
-                'PseGateway',
-                'TicketGateway',
-                'DaviplataGateway'
+                'woo-epayco-checkout',
+                'woo-epayco-creditcard',
+                'woo-epayco-pse',
+                'woo-epayco-ticket',
+                'woo-epayco-daviplata'
             );
 
             // Reorganizar métodos según el orden deseado

@@ -133,6 +133,7 @@ class WoocommerceEpayco
         $this->hooks->gateway->registerAvailablePaymentGateway();
         $this->hooks->cron->registerSchedulesPaymentEvent();
         $this->hooks->checkout->registerReviewOrderBeforePayment();
+        $this->hooks->checkout->registerListOrderBeforePaymentOnBlocks();
 
         $this->hooks->gateway->registerSaveCheckoutSettings();
         if ($this->storeConfig->getExecuteActivate()) {
