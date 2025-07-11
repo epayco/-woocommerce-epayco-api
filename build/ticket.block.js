@@ -146,7 +146,7 @@
                         //"epayco_ticket[country]": ticketContentCountry
                     };
                     var paymentOptionSelected;
-                    const paymentselpers = document.querySelector(".ep-checkout-ticket-container").querySelectorAll(".ep-input-radio-radio")[0].parentElement.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('input-helper-epayco').querySelector('div');
+                    const paymentselpers = document.querySelector(".ep-checkout-ticket-container").querySelectorAll(".ep-input-radio-radio")[0].parentElement.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('input-helper-epayco').querySelector('div');
                     document.querySelector(".ep-checkout-ticket-container").querySelectorAll(".ep-input-radio-radio").forEach((e => {
                         if (e.checked) {
                             paymentOptionSelected = e.value;
@@ -216,76 +216,45 @@
                     };
                 }, []);
 
-            return (0, e.createElement)("div", {
-                style: {
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    width: "100%",
-                    maxWidth: "100%",
-                    margin: "0 20px 0 0",
-                    flexWrap: "wrap",
-                },
-                className: "epayco-payment-label-responsive"
-            },
-                (0, e.createElement)("img", {
-                        src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/efectivo_transaparente.png",
-                        alt: "ePayco Efectivo Icono",
-                        className: "epayco-icon-mobile-hide",
-                        style: {
-                            maxWidth: "45px",
-                            width: "auto",
-                            height: "auto",
-                            maxHeight: "45px",
-                            marginBottom: "5px",
-                            marginRight: "5px",
-                        }
-                    }), 
-                (0, e.createElement)("div", {
-                    className: "epayco-payment-label-texts", 
+                return (0, e.createElement)("div", {
                     style: {
                         display: "flex",
-                        flexDirection: "column"
-                
-                    }
+                        alignItems: "center",
+                        gap: "10px",
+                        width: "100%",
+                        maxWidth: "100%",
+                    },
+                    className: "epayco-payment-label-responsive"
                 },
-                    (0, e.createElement)("strong", null, n),
-                    (0, e.createElement)("span", {
+                    (0, e.createElement)(o, { text: n }),
+                    showLogo && (0, e.createElement)("img", {
+                        src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/iconosEfectivo.png",
+                        alt: "ePayco",
                         style: {
-                            fontSize: "12px",
-                            color: "#666",
-                            marginTop: "2px"
+                            maxWidth: "200px",
+                            width: "auto",
+                            margin: "0px",
+                            maxHeight: "50px",
+                            height: "50px",
                         }
-                    }, document.documentElement.lang.startsWith('es')
-                        ? "Efecty, Sured, Gana, Puntored & más"
-                        : "Efecty, Sured, Gana, Puntored & more")
-                ),
-                showLogo && (0, e.createElement)("img", {
-                    //pago en bloque 
-                    src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/iconosEfectivo.png",
-                    alt: "ePayco",
-                    className: "epayco-logos-final",
-                    style: {
-                        maxWidth: "280px",
-                        width: "auto",
-                        marginLeft: "10px",
-                        maxHeight: "70px",
-                        height: "50px",
-                    }
-                }),
-                (0,  e.createElement)("style", null, `
-                    @media (max-width: 430px) {
-                        .epayco-logos-final {
-                            max-width: 200px !important;
-                            height: auto !important;
+                    }),
+                    (0, e.createElement)("style", null, `
+                        @media (max-width: 480px) {
+                            .epayco-payment-label-responsive img {
+                                max-width: 100% !important;
+                                width: 100% !important;
+                                height: auto !important;
+                            }
+                            .epayco-payment-label-responsive {
+                                align-items: stretch !important;
+                            }
                         }
-                        .epayco-icon-mobile-hide{
-                            max-width: 25px;
-                            height: 25px;
+                        /* Oculta el icono cuando el checkout embebido está abierto, en cualquier tamaño */
+                        .epayco-cash-checkout-open .epayco-payment-label-responsive img {
+                            display: none !important;
                         }
-                    }
                     `)
-            );
+                );
             }), null),
             content: (0, e.createElement)(u, null),
             edit: (0, e.createElement)(u, null),
@@ -295,4 +264,3 @@
         };
     (0, t.registerPaymentMethod)(l)
 })();
-

@@ -42,7 +42,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 ?>
-<meta charset="UTF-8">
+
 <div class='ep-checkout-container'>
     <div class="ep-checkout-pse-container" style="max-width: 452px;margin: auto;">
         <div class="ep-checkout-pse-content">

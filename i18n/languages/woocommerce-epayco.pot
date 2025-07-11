@@ -44,7 +44,7 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:231
 #: src/Translations/StoreTranslations.php:271
 #: src/Translations/StoreTranslations.php:338
-msgid " Personal data processing policy"
+msgid " personal data processing policy"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:72
@@ -211,7 +211,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:309
 msgid ""
-"Add the DaviPlata payment option directly in your store. Perfect for "
+"Add the Daviplata payment option directly in your store. Perfect for "
 "customers who prefer paying at physical locations, with no hassles or "
 "redirects."
 msgstr ""
@@ -285,7 +285,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:317
 msgid ""
-"By disabling it, you will disable DaviPlata payment from ePayco Transparent "
+"By disabling it, you will disable daviplata payment from ePayco Transparent "
 "Checkout."
 msgstr ""
 
@@ -479,11 +479,11 @@ msgid "Date and time"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:308
-msgid "DaviPlata"
+msgid "Daviplata"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:311
-msgid "DaviPlata"
+msgid "Daviplata"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:319
@@ -573,7 +573,7 @@ msgid "ePayco - Checkout Credit and/or Debit Cards"
 msgstr "ePayco - Pago Tarjeta de credito y/o debito"
 
 #: src/Translations/AdminTranslations.php:310
-msgid "ePayco - Checkout DaviPlata"
+msgid "ePayco - Checkout Daviplata"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:382

@@ -168,7 +168,8 @@ class Dependencies
             $this->orderHook,
             $this->pluginHook,
             $this->scriptsHook,
-            $this->templateHook
+            $this->templateHook,
+            $this->cronHelper
         );
     }
 

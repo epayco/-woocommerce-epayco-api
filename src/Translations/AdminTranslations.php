@@ -304,16 +304,16 @@ class AdminTranslations
     private function setDaviplataGatewaySettingsTranslations(): void
     {
         $this->daviplataGatewaySettings = [
-            'gateway_title'                => __('DaviPlata', 'woo-epayco-api'),
-            'gateway_description'          => __('Add the DaviPlata payment option directly in your store. Perfect for customers who prefer paying at physical locations, with no hassles or redirects.', 'woo-epayco-api'),
-            'method_title'                 => __('ePayco - Checkout DaviPlata', 'woo-epayco-api'),
-            'header_title'                 => __('DaviPlata', 'woo-epayco-api'),
+            'gateway_title'                => __('Daviplata', 'woo-epayco-api'),
+            'gateway_description'          => __('Add the Daviplata payment option directly in your store. Perfect for customers who prefer paying at physical locations, with no hassles or redirects.', 'woo-epayco-api'),
+            'method_title'                 => __('ePayco - Checkout Daviplata', 'woo-epayco-api'),
+            'header_title'                 => __('Daviplata', 'woo-epayco-api'),
             'header_description'           => __('With the Transparent Checkout, you can sell inside your store environment, without redirection and all the safety from ePayco.', 'woo-epayco-api'),
             'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
             'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
             'card_settings_button_text'                 => __('Back to Settings', 'woo-epayco-api'),
             'enabled_title'                => __('Enable the Checkout', 'woo-epayco-api'),
-            'enabled_subtitle'             => __('By disabling it, you will disable DaviPlata payment from ePayco Transparent Checkout.', 'woo-epayco-api'),
+            'enabled_subtitle'             => __('By disabling it, you will disable daviplata payment from ePayco Transparent Checkout.', 'woo-epayco-api'),
             'enabled_enabled'              => __('The payment method is <b>enabled</b>.', 'woo-epayco-api'),
             'enabled_disabled'             => __('The payment method is <b>disabled</b>.', 'woo-epayco-api'),
             'title_title'                  => __('Title in the store Checkout', 'woo-epayco-api'),

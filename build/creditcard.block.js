@@ -252,96 +252,9 @@
         }, l = {
             name: d,
             label: (0, e.createElement)((t => {
-                const { PaymentMethodLabel: o } = t.components;
-                const a = (0, c.decodeEntities)(i?.params?.fee_title || "");
-                const n = `${p} ${a}`;
-                const [showLogo, setShowLogo] = e.useState(true);
-
-                e.useEffect(() => {
-                    let timer = setTimeout(() => setShowLogo(false), 15000);
-
-                    const observer = new MutationObserver(() => {
-                        const hasClass = document.querySelector('.ep-checkout-creditcard-container') !== null;
-                        setShowLogo(!hasClass);
-                    });
-
-                    observer.observe(document.body, { childList: true, subtree: true });
-
-                    return () => {
-                        clearTimeout(timer);
-                        observer.disconnect();
-                    };
-                }, []);
-
-            return (0, e.createElement)("div", {
-                style: {
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    width: "100%",
-                    maxWidth: "100%",
-                    margin: "0 20px 0 0",
-                    flexWrap: "wrap",
-                },
-                className: "epayco-payment-label-responsive"
-            },
-                (0, e.createElement)("img", {
-                        src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjetaCreditoDebito.png",
-                        alt: "ePayco Efectivo Icono",
-                        className: "epayco-icon-mobile-hide",
-                        style: {
-                            maxWidth: "45px",
-                            width: "auto",
-                            height: "auto",
-                            maxHeight: "45px",
-                            marginBottom: "5px",
-                            marginRight: "5px",
-                        }
-                    }), 
-                (0, e.createElement)("div", {
-                    className: "epayco-payment-label-texts", 
-                    style: {
-                        display: "flex",
-                        flexDirection: "column"
-                
-                    }
-                },
-                    (0, e.createElement)("strong", null, n),
-                    (0, e.createElement)("span", {
-                        style: {
-                            fontSize: "12px",
-                            color: "#666",
-                            marginTop: "2px"
-                        }
-                    }, document.documentElement.lang.startsWith('es')
-                        ? "Visa, MasterCard, Amex, Diners y Codensa."
-                        : "Visa, MasterCard, Amex, Diners and Codensa.")
-                ),
-                showLogo && (0, e.createElement)("img", {
-                    src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/iconosTarjetas.png",
-                    alt: "ePayco",
-                    className: "epayco-logos-final",
-                    style: {
-                        maxWidth: "280px",
-                        width: "auto",
-                        marginLeft: "10px",
-                        maxHeight: "70px",
-                        height: "auto",
-                    }
-                }),
-                (0,  e.createElement)("style", null, `
-                    @media (max-width: 430px) {
-                        .epayco-logos-final {
-                            max-width: 200px !important;
-                            height: auto !important;
-                        }
-                        .epayco-icon-mobile-hide{
-                            max-width: 25px;
-                            height: 25px;
-                        }
-                    }
-                    `)
-            );
+                const {PaymentMethodLabel: o} = t.components, a = (0, c.decodeEntities)(i?.params?.fee_title || ""),
+                    n = `${p} ${a}`;
+                return (0, e.createElement)(o, {text: n})
             }), null),
             content: (0, e.createElement)(u, null),
             edit: (0, e.createElement)(u, null),

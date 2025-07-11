@@ -311,71 +311,30 @@ div .ep-error {
 }
 
 .payment_method_woo-epayco-daviplata {
-    border: 1px solid #e5e5e5 !important;
+    padding-left: 0rem !important;
     max-width: 500px;
-    margin: 5px 0;
-    padding: 10px 0px !important;
-    min-height: 62px !important;
 }
 
 .payment_method_woo-epayco-pse {
-    border: 1px solid #e5e5e5 !important;
+    padding-left: 0rem !important;
     max-width: 500px;
-    margin: 5px 0;
-    padding: 10px 0px !important;
-    min-height: 62px !important;
-
 }
 
 .payment_method_woo-epayco-ticket {
-    border: 1px solid #e5e5e5 !important;
+    padding-left: 0rem !important;
     max-width: 500px;
-    margin: 5px 0;
-    padding: 10px 0px !important;
-    min-height: 62px !important;
 }
 
 .payment_method_woo-epayco-creditcard {
-    border: 1px solid #e5e5e5 !important;
+    padding-left: 0rem !important;
     max-width: 500px;
-    margin: 5px 0;
-    padding: 10px 0px !important;
-    min-height: 62px !important;
 }
 
 .payment_method_woo-epayco-checkout {
-    border: 1px solid #e5e5e5 !important;
+    padding-left: 0rem !important;
     max-width: 500px;
-    margin: 5px 0;
-    padding: 10px 0px !important;
-    min-height: 62px !important;
 }
-.epayco-title-wrapper {
-    display: inline-flex; 
-    align-items: center; 
-    gap: 10px; 
-    vertical-align: middle; 
-    font-size: 12px !important;
-}
-.epayco-brand-icons{
-    margin: 0 !important;
-    width: 45px !important;
-}
-.epayco-text{
-    display: flex !important; 
-    flex-direction: column !important;
-}
-input#payment_method_woo-epayco-daviplata, input#payment_method_woo-epayco-pse, input#payment_method_woo-epayco-ticket, input#payment_method_woo-epayco-creditcard, input#payment_method_woo-epayco-checkout {
-    margin:0 8px !important;
-}
-@media (max-width: 524px) {
-    .epayco-brand-icons {
-        width: 30px !important;
-    }
-    .epayco-text {
-        font-size: 10px !important;
-    }
-}
+
 .ep-test-mode-epayco-badge {
     align-items: center !important;
     background: #f73 !important;

@@ -49,7 +49,7 @@ class CreditCardGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->creditcardCheckout;
 
         $this->id        = self::ID;
-        // $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjeta.png';
+        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjeta.png';
         $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjeta.png';
         $defaultTitle = (substr(get_locale(), 0, 2) === 'es') ? 'Tarjeta de crédito y/o débito' : 'Credit and/or Debit Cards';
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, $defaultTitle);
@@ -66,6 +66,12 @@ class CreditCardGateway extends AbstractGateway
         $this->epayco->hooks->gateway->registerThankYouPage($this->id, [$this, 'renderThankYouPage']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_DONWLOAD, [$this, 'validate_epayco_request']);
         $this->epayco->hooks->endpoints->registerApiEndpoint(self::WEBHOOK_API_NAME, [$this, 'webhook']);
+
+        // Nuevo registro del script autofill
+        $this->epayco->hooks->scripts->registerCheckoutScript(
+            'wc_epayco_creditcard_autofill',
+            $this->epayco->helpers->url->getJsAsset('checkouts/epayco-autofill')
+        );
     }
 
     /**
@@ -77,24 +83,7 @@ class CreditCardGateway extends AbstractGateway
     {
         return self::CHECKOUT_NAME;
     }
-    
-    public function get_title() {
-        $lang = substr(get_locale(), 0, 2);
-        $description = ($lang === 'es')
-        ? 'Visa, MasterCard, Amex, Diners y Codensa.'
-        : 'Visa, MasterCard, Amex, Diners and Codensa.';
-        return sprintf(
-            '<div class="epayco-title-wrapper">
-                <img class="epayco-brand-icons" src="https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjetaCreditoDebito.png" alt="Medios de pago" />
-                <span class="epayco-text">
-                <span style="font-weight: bold;">%s</span>
-                <span style="color: #888;">%s</span>                    
-                </span>
-            </div>',
-            esc_html($this->title),
-            esc_html($description)
-        );
-    }
+
     /**
      * Init form fields for checkout configuration
      *
@@ -290,20 +279,13 @@ class CreditCardGateway extends AbstractGateway
      */
     public function process_payment($order_id): array
     {
-        $logger = wc_get_logger();
-        $log_context = ['source' => self::LOG_SOURCE];
-
         $order = wc_get_order($order_id);
         try {
-            $logger->info("Iniciando process_payment para order_id: $order_id", $log_context);
-
             $checkout = $this->getCheckoutEpaycoCredits($order);
-            $logger->info('Datos de checkout recibidos: ' . print_r($checkout, true), $log_context);
 
             parent::process_payment($order_id);
 
             $checkout['token'] = $checkout['cardTokenId'] ?? $checkout['cardtokenid'] ?? '';
-            $logger->info('Token obtenido: ' . $checkout['token'], $log_context);
 
             if (!empty($checkout['token'])) {
                 $this->transaction = new CreditCardTransaction($this, $order, $checkout);
@@ -314,23 +296,32 @@ class CreditCardGateway extends AbstractGateway
                 $checkout['confirm_url'] = $confirm_url;
                 $checkout['response_url'] = $order->get_checkout_order_received_url();
 
-                $logger->info('Enviando datos a createTcPayment: ' . print_r($checkout, true), $log_context);
-
                 $response = $this->transaction->createTcPayment($order_id, $checkout);
-                $logger->info('Respuesta de createTcPayment: ' . print_r($response, true), $log_context);
-
                 $response = json_decode(wp_json_encode($response), true);
-
                 if (is_array($response) && $response['success']) {
                     $ref_payco = $response['data']['refPayco'] ?? $response['data']['ref_payco'];
                     $estado = strtolower($response['data']['estado']);
-                    $logger->info("Estado de la transacción: $estado", $log_context);
 
                     if (in_array($estado, ["pendiente", "pending"])) {
                         $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
+                        if(isset($response['data']['3DS'])){
+                            $public_key = $this->epayco->sellerConfig->getCredentialsPublicKeyPayment();
+                            $private_key = $this->epayco->sellerConfig->getCredentialsPrivateKeyPayment();
+                            $token = base64_encode($public_key.":".$private_key);
+                            $json_data = json_encode([
+                                "returnUrl" => $urlReceived,
+                                "franquicia" => $response['data']['franquicia'],
+                                "threeDs" => json_encode($response['data']['3DS']),
+                                "ref_payco" => $ref_payco,
+                                "cc_network_response" => $response['data']['cc_network_response'],
+                                "hash" => $token??null
+                            ]);
+                            $idSessionToken = base64_encode($json_data);
+                            $urlReceived = "https://vtex.epayco.io/3ds?token=".$idSessionToken;
+                        }
                         $return = [
                             'result'   => 'success',
                             'redirect' => $urlReceived,
@@ -356,7 +347,6 @@ class CreditCardGateway extends AbstractGateway
                     }
                     return $return;
                 } else {
-                    $logger->error('Error en la respuesta de createTcPayment: ' . print_r($response, true), $log_context);
                     $messageError = $response['message'];
                     $errorMessage = "";
                     if (isset($response['data']['errors'])) {
@@ -374,12 +364,10 @@ class CreditCardGateway extends AbstractGateway
                     return $this->returnFail($processReturnFailMessage, $order);
                 }
             } else {
-                $logger->error('Token vacío o incorrecto', $log_context);
                 $processReturnFailMessage = "Token incorrect ";
                 return $this->returnFail($processReturnFailMessage, $order);
             }
         } catch (\Exception $e) {
-            $logger->error('Excepción capturada: ' . $e->getMessage(), $log_context);
             return $this->processReturnFail(
                 $e,
                 $e->getMessage(),
