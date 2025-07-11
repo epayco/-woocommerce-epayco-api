@@ -653,15 +653,6 @@ input:checked+.ep-settings-slider:before {
     max-height: 16px
 }
 
-
-@media screen and (max-width: 768px) {
-    .ep-settings-radio-button {
-        max-width: 21px !important;
-        max-height: 22px !important;
-        -webkit-appearance: auto !important;
-    }
-}
-
 .ep-settings-alert-payment-methods {
     display: flex;
     align-items: stretch;

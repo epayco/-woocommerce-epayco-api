@@ -13,9 +13,10 @@ use WpOrg\Requests\Requests;
  */
 class Client extends GraphqlClient
 {
-    const BASE_URL = "https://eks-subscription-api-lumen-service.epayco.io";
-    const BASE_URL_SECURE = "https://eks-rest-pagos-service.epayco.io/restpagos";
+    const BASE_URL = "https://eks-checkout-service.epayco.io";
+    const BASE_URL_SECURE = "https://eks-checkout-service.epayco.io/restpagos";
     const BASE_URL_APIFY = "https://eks-apify-service.epayco.io";
+
     const IV = "0000000000000000";
     const LENGUAGE = "php";
 

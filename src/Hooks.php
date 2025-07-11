@@ -2,7 +2,6 @@
 
 namespace Epayco\Woocommerce;
 
-use Epayco\Woocommerce\Helpers\Cron;
 use Epayco\Woocommerce\Hooks\Options;
 use Epayco\Woocommerce\Hooks\Order;
 use Epayco\Woocommerce\Hooks\Plugin;
@@ -40,8 +39,6 @@ class Hooks
 
     public Template $template;
 
-    public Cron $cron;
-
     public function __construct(
         Admin $admin,
         Blocks $blocks,
@@ -52,8 +49,7 @@ class Hooks
         Order $order,
         Plugin $plugin,
         Scripts $scripts,
-        Template $template,
-        Cron $cron,
+        Template $template
     ){
         $this->admin     = $admin;
         $this->blocks    = $blocks;
@@ -65,7 +61,6 @@ class Hooks
         $this->plugin    = $plugin;
         $this->scripts   = $scripts;
         $this->template  = $template;
-        $this->cron      = $cron;
     }
 
 
