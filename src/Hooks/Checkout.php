@@ -32,14 +32,47 @@ class Checkout
     /**
      * Register review order before payment hook
      *
-     * @param mixed $callback
+     * @return void
+     */
+    public function registerReviewOrderBeforePayment()
+    {
+        add_action('woocommerce_review_order_before_payment', function() {
+            $gateways = WC()->payment_gateways()->get_available_payment_gateways();
+            echo '<pre>'; print_r(array_keys($gateways)); echo '</pre>';
+        });
+    }
+
+
+    /**
+     * Register List order  payment block
      *
      * @return void
      */
-    public function registerReviewOrderBeforePayment($callback)
+    public function registerListOrderBeforePaymentOnBlocks()
     {
-        add_action('woocommerce_review_order_before_payment', $callback);
+        add_filter('woocommerce_gateway_sort', function($gateways, $request) {
+            $orden_deseado = array(
+                'woo-epayco-checkout',
+                'woo-epayco-creditcard',
+                'woo-epayco-pse',
+                'woo-epayco-ticket',
+                'woo-epayco-daviplata'
+            );
+
+            usort($gateways, function ($a, $b) use ($orden_deseado) {
+                $a_pos = array_search($a->id, $orden_deseado);
+                $b_pos = array_search($b->id, $orden_deseado);
+
+                $a_pos = $a_pos === false ? PHP_INT_MAX : $a_pos;
+                $b_pos = $b_pos === false ? PHP_INT_MAX : $b_pos;
+
+                return $a_pos <=> $b_pos;
+            });
+
+            return $gateways;
+        });
     }
+
 
     /**
      * Register before woocommerce pay

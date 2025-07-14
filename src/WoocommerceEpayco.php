@@ -132,6 +132,8 @@ class WoocommerceEpayco
 
         $this->hooks->gateway->registerAvailablePaymentGateway();
         $this->hooks->cron->registerSchedulesPaymentEvent();
+        $this->hooks->checkout->registerReviewOrderBeforePayment();
+        $this->hooks->checkout->registerListOrderBeforePaymentOnBlocks();
 
         $this->hooks->gateway->registerSaveCheckoutSettings();
         if ($this->storeConfig->getExecuteActivate()) {
@@ -235,7 +237,7 @@ class WoocommerceEpayco
         $this->adminTranslations = $dependencies->adminTranslations;
         $this->storeTranslations = $dependencies->storeTranslations;
 
-        // Hooks
+        // HooksregisterReviewOrderBeforePayment
         $this->hooks = $dependencies->hooks;
 
         // Exclusive
