@@ -175,10 +175,52 @@
             }), [c.responseTypes.ERROR, c.responseTypes.SUCCESS, r]), (0, e.createElement)("div", {dangerouslySetInnerHTML: {__html: i.params.content}})
         }, l = {
             name: d,
-            label: (0, e.createElement)((t => {
-                const {PaymentMethodLabel: o} = t.components, a = (0, c.decodeEntities)(i?.params?.fee_title || ""),
-                    n = `${p} ${a}`;
-                return (0, e.createElement)(o, {text: n})
+            label: (0, e.createElement)((() => {
+                const a = (0, c.decodeEntities)(i?.params?.fee_title || "");
+                const n = `${p} ${a}`;
+                return (0, e.createElement)("div", {
+                    style: {
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        width: "100%",
+                        maxWidth: "100%",
+                        margin: "0 20px 0 0",
+                    },
+                    className: "epayco-payment-label-responsive"
+                },
+                    // Ícono pequeño a la izquierda
+                    (0, e.createElement)("img", {
+                        src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/daviPlata.png",
+                        alt: "ePayco PSE Icono",
+                        className: "epayco-icon-mobile-hide",
+                        style: {
+                            maxWidth: "45px",
+                            maxHeight: "45px",
+                            marginBottom: "5px",
+                            width: "auto",
+                            height: "auto",
+                        }
+                    }),
+                    // Texto
+                    (0, e.createElement)("div", {
+                        className: "epayco-payment-label-texts", 
+                        style: {
+                            display: "flex",
+                            flexDirection: "column"
+                        }
+                    },
+                        (0, e.createElement)("strong", null, n),
+                        (0, e.createElement)("span", {
+                            style: {
+                                fontSize: "12px",
+                                color: "#666"
+                            }
+                        }, document.documentElement.lang.startsWith('es')
+                            ? "Pague fácil, rapido y seguro."
+                            : "Pay easy, fast and secure.")
+                    )
+                );
             }), null),
             content: (0, e.createElement)(u, null),
             edit: (0, e.createElement)(u, null),

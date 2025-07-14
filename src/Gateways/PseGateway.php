@@ -51,7 +51,7 @@ class PseGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->pseCheckout;
 
         $this->id    = self::ID;
-        $this->icon  = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/pse.png';
+        // $this->icon  = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/pse.png';
         $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/pse.png';
         
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'PSE');
@@ -87,6 +87,24 @@ class PseGateway extends AbstractGateway
         return self::CHECKOUT_NAME;
     }
 
+    public function get_title() {
+        $lang = substr(get_locale(), 0, 2);
+        $description = ($lang === 'es')
+            ? 'Pagos desde cuentas de ahorro o corriente.'
+            : 'Pay from savings or checking accounts.';
+
+        return sprintf(
+            '<div class="epayco-title-wrapper">
+                <img class="epayco-brand-icons" height="32" src="https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/cuentaAhorrosCorriente.png" alt="ePayco Icono" />
+                <span class="epayco-text">
+                    <span style="font-weight: bold;">%s</span>
+                    <span style="color: #888;">%s</span>
+                </span>
+            </div>',
+            esc_html($this->title),
+            esc_html($description)
+        );
+    }
     /**
      * Init form fields for checkout configuration
      *
