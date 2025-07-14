@@ -38,7 +38,7 @@ class Checkout
     {
         add_action('woocommerce_review_order_before_payment', function() {
             $gateways = WC()->payment_gateways()->get_available_payment_gateways();
-            echo '<pre>'; print_r(array_keys($gateways)); echo '</pre>';
+            /*echo '<pre>'; print_r(array_keys($gateways)); echo '</pre>';*/
         });
     }
 

@@ -169,7 +169,7 @@ if (!defined('ABSPATH')) {
                         <?php echo wp_kses($testModeTranslations['title_test_mode'], $allowedHtmlTags) ?>
                     </span>
                     <div id="ep-mode-badge" class="ep-settings-margin-left ep-settings-margin-right <?php echo $testMode ? 'ep-settings-test-mode-epayco-alert' : 'ep-settings-prod-mode-alert' ?>">
-                        <span id="ep-mode-badge-test" style="display: <?php $testMode ? 'block' : 'none' ?>">
+                        <span id="ep-mode-badge-test" style="display: <?php echo !$testMode ? 'none' : 'block' ?>">
                             <?php echo wp_kses($testModeTranslations['badge_test'], $allowedHtmlTags) ?>
                         </span>
                         <span id="ep-mode-badge-prod" style="display: <?php echo $testMode ? 'none' : 'block' ?>">
