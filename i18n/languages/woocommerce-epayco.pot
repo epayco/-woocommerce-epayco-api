@@ -211,7 +211,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:309
 msgid ""
-"Add the Daviplata payment option directly in your store. Perfect for "
+"Add the DaviPlata payment option directly in your store. Perfect for "
 "customers who prefer paying at physical locations, with no hassles or "
 "redirects."
 msgstr ""
@@ -479,11 +479,11 @@ msgid "Date and time"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:308
-msgid "Daviplata"
+msgid "DaviPlata"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:311
-msgid "Daviplata"
+msgid "DaviPlata"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:319
@@ -573,7 +573,7 @@ msgid "ePayco - Checkout Credit and/or Debit Cards"
 msgstr "ePayco - Pago Tarjeta de credito y/o debito"
 
 #: src/Translations/AdminTranslations.php:310
-msgid "ePayco - Checkout Daviplata"
+msgid "ePayco - Checkout DaviPlata"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:382

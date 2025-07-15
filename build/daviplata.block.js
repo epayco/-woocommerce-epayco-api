@@ -13,8 +13,8 @@
             let title = i && i.title ? (0, c.decodeEntities)(i.title) : "";
             if (!title || title.trim() === "") {
                 title = document.documentElement.lang.startsWith('es') 
-                    ? "ePayco - Pago Daviplata" 
-                    : "ePayco - Checkout Daviplata";
+                    ? "ePayco - Pago DaviPlata" 
+                    : "ePayco - Checkout DaviPlata";
             }
             return title;
         })(),
