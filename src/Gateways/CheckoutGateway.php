@@ -461,7 +461,7 @@ class CheckoutGateway extends AbstractGateway
         if ($idioma === "en") {
             $epaycoButtonImage = 'https://multimedia.epayco.co/epayco-landing/btns/Boton-epayco-color-Ingles.png';
         }else{
-            $epaycoButtonImage = 'https://multimedia.epayco.co/epayco-landing/btns/Boton-epayco-color1.png';
+            $epaycoButtonImage = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/botonPagarEpayco.png';
         }
         echo '<p>       
                  <center>
