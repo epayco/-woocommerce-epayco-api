@@ -53,7 +53,7 @@ class Hooks
         Plugin $plugin,
         Scripts $scripts,
         Template $template,
-        Cron $cron,
+        Cron $cron
     ){
         $this->admin     = $admin;
         $this->blocks    = $blocks;

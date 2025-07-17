@@ -46,7 +46,7 @@ class CheckoutGateway extends AbstractGateway
         $this->adminTranslations = $this->epayco->adminTranslations->checkoutGatewaySettings;
         $this->storeTranslations = $this->epayco->storeTranslations->epaycoCheckout;
         $this->id        = self::ID;
-        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/checkout.png';
+        // $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/checkout.png';
         $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/checkout.png';
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Checkout ePayco');
 
@@ -85,6 +85,25 @@ class CheckoutGateway extends AbstractGateway
     public function getCheckoutName(): string
     {
         return self::CHECKOUT_NAME;
+    }
+    
+    public function get_title() {
+        $lang = substr(get_locale(), 0, 2);
+        $description = ($lang === 'es')
+            ? 'Otros métodos de pago.'
+            : 'Other payment methods.';
+
+        return sprintf(
+            '<div class="epayco-title-wrapper">
+                <img class="epayco-brand-icons" src="https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/checkoutEpayco.png" alt="ePayco Icono" />
+                <span class="epayco-text">
+                    <span style="font-weight: bold;">%s</span>
+                    <span style="color: #888;">%s</span>
+                </span>
+            </div>',
+            esc_html($this->title),
+            esc_html($description)
+        );
     }
 
     /**
@@ -442,7 +461,7 @@ class CheckoutGateway extends AbstractGateway
         if ($idioma === "en") {
             $epaycoButtonImage = 'https://multimedia.epayco.co/epayco-landing/btns/Boton-epayco-color-Ingles.png';
         }else{
-            $epaycoButtonImage = 'https://multimedia.epayco.co/epayco-landing/btns/Boton-epayco-color1.png';
+            $epaycoButtonImage = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/botonPagarEpayco.png';
         }
         echo '<p>       
                  <center>
