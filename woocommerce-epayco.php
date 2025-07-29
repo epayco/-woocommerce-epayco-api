@@ -85,5 +85,11 @@ function activate_epayco_customer()
     }
 }
 
-
- 
+function epayco_on_schedule()
+{
+    if ( class_exists( 'WC_Logger' ) ) {
+        $logger = new \WC_Logger();
+        //$logger->add( 'ePaycoEvent',"event epayco_event 1" );
+    }
+}
+add_action( 'epaycoEvent', 'epayco_on_schedule' );

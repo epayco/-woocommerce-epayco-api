@@ -23,7 +23,7 @@
     "url_confirmation": "url_confirmacion",
     "metodoconfirmacion": "metodoconfirmacion",
     "method_confirmation": "method_confirmation",
-    "end_date": "fechaexpiracion",
+    "end_date": "expiracion",
     "splitpayment": "splitpayment",
     "split_app_id": "split_app_id",
     "split_merchant_id": "split_merchant_id",

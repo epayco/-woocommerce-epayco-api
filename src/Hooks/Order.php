@@ -236,7 +236,24 @@ class Order
         $bank= $paymentInfo->data->bank;
         $authorization= $paymentInfo->data->authorization;
         $order_id = $paymentInfo->data->bill;
-
+        /*
+        if($bank == 'ERECFTY'||
+            $bank == 'GANA'||
+            $bank == 'PUNTORED'||
+            $bank == 'REDSERVI'||
+            $bank == 'SURED'
+        ){
+            $bank = null;
+            $is_cash = true;
+        }else{
+            if($bank == 'PSE' || $bank == 'DP' || $bank == 'DaviPlata' ){
+                $bank = null;
+            }else{
+                //$bank = isset($x_cardnumber)?substr($x_cardnumber, -8):null;
+            }
+            $bank = $bank == 'DaviPlata' ? 'DP' : $bank;
+        }
+        */
         if(!$order_id){
             return false;
         }
@@ -301,74 +318,77 @@ class Order
             false
         );
 
-        switch ($paymentStatusType) {
-            case 'success':{
-                if($upload_order){
-                    if($WooOrderstatus !== 'processing'){
-                        $order->update_status("processing");
-                    }
-                }
-                return [
-                    'card_title'        => $this->adminTranslations->statusSync['card_title'],
-                    'img_src'           => $this->url->getImageAsset('icons/icon-success'),
-                    'alert_title'       => $alert_title,
-                    'alert_description' => $alert_description,
-                    'link'              => 'https://epayco.com',
-                    'border_left_color' => '#00A650',
-                    'link_description'  => $this->adminTranslations->statusSync['link_description_success'],
-                    'sync_button_text'  => $this->adminTranslations->statusSync['sync_button_success'],
-                    'ref_payco'         => $ref_payco,
-                    'test'              => $test,
-                    'transactionDateTime'              => $transactionDateTime,
-                    'bank'              => $bank,
-                    'authorization'     => $authorization
-                ];
-            }break;
-            case 'pending':
-                return [
-                    'card_title'        => $this->adminTranslations->statusSync['card_title'],
-                    'img_src'           => $this->url->getImageAsset('icons/icon-alert'),
-                    'alert_title'       => $alert_title,
-                    'alert_description' => $alert_description,
-                    'link'              => 'https://epayco.com',
-                    'border_left_color' => '#f73',
-                    'link_description'  => $this->adminTranslations->statusSync['link_description_pending'],
-                    'sync_button_text'  => $this->adminTranslations->statusSync['sync_button_pending'],
-                    'ref_payco'         => $ref_payco,
-                    'test'              => $test,
-                    'transactionDateTime'              => $transactionDateTime,
-                    'bank'              => $bank,
-                    'authorization'     => $authorization
-                ];
-                break;
-            case 'rejected':
-            case 'refunded':
-            case 'charged_back':{
-                if($upload_order){
-                    if($WooOrderstatus !== 'cancelled'){
-                        $order->update_status("cancelled");
-                    }
-                }
+        $statusConfig = [
+            'success' => [
+                'img' => 'icons/icon-success',
+                'color' => '#00A650',
+                'link_description' => $this->adminTranslations->statusSync['link_description_success'],
+                'sync_button_text' => $this->adminTranslations->statusSync['sync_button_success'],
+                'update_status' => 'processing',
+                'link' => 'https://epayco.com'
+            ],
+            'pending' => [
+                'img' => 'icons/icon-alert',
+                'color' => '#f73',
+                'link_description' => $this->adminTranslations->statusSync['link_description_pending'],
+                'sync_button_text' => $this->adminTranslations->statusSync['sync_button_pending'],
+                'update_status' => null,
+                'link' => 'https://epayco.com'
+            ],
+            'rejected' => [
+                'img' => 'icons/icon-warning',
+                'color' => '#F23D4F',
+                'link_description' => $this->adminTranslations->statusSync['link_description_failure'],
+                'sync_button_text' => $this->adminTranslations->statusSync['sync_button_failure'],
+                'update_status' => 'cancelled',
+                'link' => 'reasons_refusals'
+            ],
+            'refunded' => [
+                'img' => 'icons/icon-warning',
+                'color' => '#F23D4F',
+                'link_description' => $this->adminTranslations->statusSync['link_description_failure'],
+                'sync_button_text' => $this->adminTranslations->statusSync['sync_button_failure'],
+                'update_status' => 'cancelled',
+                'link' => 'reasons_refusals'
+            ],
+            'charged_back' => [
+                'img' => 'icons/icon-warning',
+                'color' => '#F23D4F',
+                'link_description' => $this->adminTranslations->statusSync['link_description_failure'],
+                'sync_button_text' => $this->adminTranslations->statusSync['sync_button_failure'],
+                'update_status' => 'cancelled',
+                'link' => 'reasons_refusals'
+            ]
+        ];
 
-                return [
-                    'card_title'        => $this->adminTranslations->statusSync['card_title'],
-                    'img_src'           => $this->url->getImageAsset('icons/icon-warning'),
-                    'alert_title'       => $alert_title,
-                    'alert_description' => $alert_description,
-                    'link'              => 'reasons_refusals',
-                    'border_left_color' => '#F23D4F',
-                    'link_description'  => $this->adminTranslations->statusSync['link_description_failure'],
-                    'sync_button_text'  => $this->adminTranslations->statusSync['sync_button_failure'],
-                    'ref_payco'         => $ref_payco,
-                    'test'              => $test,
-                    'transactionDateTime'              => $transactionDateTime,
-                    'bank'              => $bank,
-                    'authorization'     => $authorization
-                ];
-            }break;
-            default:
-                return [];
+        if (isset($statusConfig[$paymentStatusType])) {
+            $config = $statusConfig[$paymentStatusType];
+
+            // Actualiza el estado del pedido si aplica
+            if ($upload_order && !empty($config['update_status']) && $WooOrderstatus !== $config['update_status']) {
+                $order->update_status($config['update_status']);
+            }
+
+            return [
+                'card_title'        => $this->adminTranslations->statusSync['card_title'],
+                'img_src'           => $this->url->getImageAsset($config['img']),
+                'alert_title'       => $alert_title,
+                'alert_description' => $alert_description,
+                'link'              => $config['link'],
+                'border_left_color' => $config['color'],
+                'link_description'  => $config['link_description'],
+                'sync_button_text'  => $config['sync_button_text'],
+                'ref_payco'         => $ref_payco,
+                'test'              => $test,
+                'transactionDateTime' => $transactionDateTime,
+                'bank'              => $bank,
+                'authorization'     => $authorization,
+                'ServiceType'       => 'API'
+            ];
         }
+
+        return [];
+
     }
 
     /**

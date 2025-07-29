@@ -24,20 +24,10 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
     {
         $order = new \WC_Order($order_id);
         $descripcionParts = array();
-        $iva = 0;
-        $ico = 0;
-        foreach ($order->get_items('tax') as $item_id => $item) {
-            $tax_label = trim(strtolower($item->get_label()));
-            $tax_name = trim(strtolower($order->get_items_tax_classes()[0]));
-            if ($tax_label == 'iva' || $tax_name == 'iva' ) {
-                $iva = round($order->get_total_tax(), 2);
-            }
-            if ($tax_label == 'ico'|| $tax_name == 'ico') {
-                $ico = round($order->get_total_tax(), 2);
-            }
-        }
-        //$iva = $iva !== 0 ? $iva :$order->get_total_tax();
-        $base_tax = ($iva !== 0) ? ($order->get_total() - $order->get_total_tax()): (($ico !== 0) ? ($order->get_total() - $order->get_total_tax()): $order->get_subtotal() );
+        $getCheckoutValues = $this->getCheckoutValues($order);
+        $iva = $getCheckoutValues['iva'];
+        $ico = $getCheckoutValues['ico'];
+        $base_tax = $getCheckoutValues['base_tax'];
         foreach ($order->get_items() as $product) {
             $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
             $descripcionParts[] = $clearData;
@@ -114,20 +104,10 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
     {
         $order = new \WC_Order($order_id);
         $descripcionParts = array();
-        $iva = 0;
-        $ico = 0;
-        foreach ($order->get_items('tax') as $item_id => $item) {
-            $tax_label = trim(strtolower($item->get_label()));
-            $tax_name = trim(strtolower($order->get_items_tax_classes()[0]));
-            if ($tax_label == 'iva' || $tax_name == 'iva' ) {
-                $iva = round($order->get_total_tax(), 2);
-            }
-            if ($tax_label == 'ico'|| $tax_name == 'ico') {
-                $ico = round($order->get_total_tax(), 2);
-            }
-        }
-        //$iva = $iva !== 0 ? $iva :$order->get_total_tax();
-        $base_tax = ($iva !== 0) ? ($order->get_total() - $order->get_total_tax()): (($ico !== 0) ? ($order->get_total() - $order->get_total_tax()): $order->get_subtotal() );
+        $getCheckoutValues = $this->getCheckoutValues($order);
+        $iva = $getCheckoutValues['iva'];
+        $ico = $getCheckoutValues['ico'];
+        $base_tax = $getCheckoutValues['base_tax'];
         foreach ($order->get_items() as $product) {
             $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
             $descripcionParts[] = $clearData;
@@ -201,21 +181,10 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
     {
         $order = new \WC_Order($order_id);
         $descripcionParts = array();
-        $iva = 0;
-        $ico = 0;
-        foreach ($order->get_items('tax') as $item_id => $item) {
-            $tax_label = trim(strtolower($item->get_label()));
-            $tax_name = trim(strtolower($order->get_items_tax_classes()[0]));
-            if ($tax_label == 'iva' || $tax_name == 'iva' ) {
-                $iva = round($order->get_total_tax(), 2);
-            }
-
-            if ($tax_label == 'ico'|| $tax_name == 'ico') {
-                $ico = round($order->get_total_tax(), 2);
-            }
-        }
-        //$iva = $iva !== 0 ? $iva :$order->get_total_tax();
-        $base_tax = ($iva !== 0) ? ($order->get_total() - $order->get_total_tax()): (($ico !== 0) ? ($order->get_total() - $order->get_total_tax()): $order->get_subtotal() );
+        $getCheckoutValues = $this->getCheckoutValues($order);
+        $iva = $getCheckoutValues['iva'];
+        $ico = $getCheckoutValues['ico'];
+        $base_tax = $getCheckoutValues['base_tax'];
         foreach ($order->get_items() as $product) {
             $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
             $descripcionParts[] = $clearData;
@@ -291,20 +260,10 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
     {
         $order = new \WC_Order($order_id);
         $descripcionParts = array();
-        $iva = 0;
-        $ico = 0;
-        foreach ($order->get_items('tax') as $item_id => $item) {
-            $tax_label = trim(strtolower($item->get_label()));
-            $tax_name = trim(strtolower($order->get_items_tax_classes()[0]));
-            if ($tax_label == 'iva' || $tax_name == 'iva' ) {
-                $iva = round($order->get_total_tax(), 2);
-            }
-            if ($tax_label == 'ico'|| $tax_name == 'ico') {
-                $ico = round($order->get_total_tax(), 2);
-            }
-        }
-        //$iva = $iva !== 0 ? $iva :$order->get_total_tax();
-        $base_tax = ($iva !== 0) ? ($order->get_total() - $order->get_total_tax()): (($ico !== 0) ? ($order->get_total() - $order->get_total_tax()): $order->get_subtotal() );
+        $getCheckoutValues = $this->getCheckoutValues($order);
+        $iva = $getCheckoutValues['iva'];
+        $ico = $getCheckoutValues['ico'];
+        $base_tax = $getCheckoutValues['base_tax'];
         foreach ($order->get_items() as $product) {
             $clearData = str_replace('_', ' ', $this->string_sanitize($product['name']));
             $descripcionParts[] = $clearData;
@@ -981,6 +940,35 @@ abstract class AbstractPaymentTransaction extends AbstractTransaction
         else
             $ipaddress = 'UNKNOWN';
         return $ipaddress;
+    }
+
+    private function getCheckoutValues($order){
+        $iva = 0;
+        $ico = 0;
+
+        foreach ($order->get_items('tax') as $item_id => $item) {
+            $tax_label = trim(strtolower($item->get_label()));
+            $tax_name = trim(strtolower($order->get_items_tax_classes()[0]));
+            if ($tax_label == 'iva' || $tax_name == 'iva' ) {
+                $iva = round($order->get_total_tax(), 2);
+            }
+
+            if ($tax_label == 'ico'|| $tax_name == 'ico') {
+                $ico = round($order->get_total_tax(), 2);
+            }
+        }
+
+        //$iva = $iva !== 0 ? $iva :$order->get_total_tax();
+        //$base_tax = ($iva !== 0) ? ($order->get_total() - $order->get_total_tax()): (($ico !== 0) ? ($order->get_total() - $order->get_total_tax()): $order->get_subtotal() );
+        $base_tax = $order->get_total() - $iva - $ico;
+
+        return [
+            "iva" => $iva,
+            "ico" => $ico,
+            "base_tax" => $base_tax,
+            "total" => $order->get_total()
+        ];
+
     }
 
     public function returnParameterToThankyouPage($transactionInfo, $payment, $order_id)

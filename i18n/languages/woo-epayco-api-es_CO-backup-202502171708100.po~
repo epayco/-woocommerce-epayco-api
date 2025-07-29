@@ -260,11 +260,11 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:309
 msgid ""
-"Add the Daviplata payment option directly in your store. Perfect for "
+"Add the DaviPlata payment option directly in your store. Perfect for "
 "customers who prefer paying at physical locations, with no hassles or "
 "redirects."
 msgstr ""
-"Añada la opción de pago Daviplata directamente en su tienda. Perfecto para "
+"Añada la opción de pago DaviPlata directamente en su tienda. Perfecto para "
 "los clientes que prefieren pagar en lugares físicos, sin molestias ni "
 "redireccionamientos."
 
@@ -344,10 +344,10 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:317
 msgid ""
-"By disabling it, you will disable daviplata payment from ePayco Transparent "
+"By disabling it, you will disable DaviPlata payment from ePayco Transparent "
 "Checkout."
 msgstr ""
-"Al desactivarlo, desactivará el pago daviplata desde ePayco Transparent "
+"Al desactivarlo, desactivará el pago DaviPlata desde ePayco Transparent "
 "Checkout."
 
 #: src/Translations/AdminTranslations.php:177
