@@ -443,13 +443,13 @@ msgid "Credentials were updated"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:363
-msgid "Credit and/or Debit Cards"
-msgstr "Tarjetas de Crédito y/o Débito"
+msgid "Credit and Debit Cards"
+msgstr "Tarjetas de Crédito y Débito"
 
 #: src/Translations/AdminTranslations.php:351
 #: src/Translations/AdminTranslations.php:355
-msgid "Credit and/or Debit Cards"
-msgstr "Tarjetas de Crédito y/o Débito"
+msgid "Credit and Debit Cards"
+msgstr "Tarjetas de Crédito y Débito"
 
 #: src/Translations/AdminTranslations.php:156
 #: src/Translations/AdminTranslations.php:162
@@ -569,8 +569,8 @@ msgid "ePayco - Checkout Cash"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:353
-msgid "ePayco - Checkout Credit and/or Debit Cards"
-msgstr "ePayco - Pago Tarjeta de credito y/o debito"
+msgid "ePayco - Checkout Credit and Debit Cards"
+msgstr "ePayco - Pago Tarjeta de credito y debito"
 
 #: src/Translations/AdminTranslations.php:310
 msgid "ePayco - Checkout DaviPlata"

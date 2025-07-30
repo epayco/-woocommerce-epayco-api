@@ -126,7 +126,7 @@ if (!defined('ABSPATH')) {
                     </input-cellphone-epayco>
                 </div>
 
-                <!--<div class="ep-checkout-daviplata-input-document">
+                <div class="ep-checkout-daviplata-input-document">
                     <input-select
                         name="epayco_daviplata[person_type]"
                         label=<?php echo esc_html($person_type_label); ?>
@@ -134,8 +134,8 @@ if (!defined('ABSPATH')) {
                         options='[{"id":"PN", "description": "Persona natural"},{"id":"PJ", "description": "Persona jurídica"}]'
                     >
                     </input-select>
-                </div>-->
-<!-- 
+                </div>
+ 
                 <div class="ep-checkout-daviplata-input-document">
                     <input-document-epayco
                         label-message="<?php echo esc_html($input_document_label); ?>"
@@ -164,7 +164,7 @@ if (!defined('ABSPATH')) {
                         placeholder="Número de documento"
                     >
                     </input-document-epayco>
-                </div> -->
+                </div> 
 
                 <!--<div class="ep-checkout-daviplata-input-document">
                     <input-country
