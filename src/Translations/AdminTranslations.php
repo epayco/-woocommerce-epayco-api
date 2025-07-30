@@ -347,11 +347,11 @@ class AdminTranslations
             'card_settings_title'                       => __('ePayco plugin general settings', 'woo-epayco-api'),
             'card_settings_subtitle'                    => __('Set the deadlines and fees, test your store or access the Plugin manual.', 'woo-epayco-api'),
             'card_settings_button_text'                 => __('Back to Settings', 'woo-epayco-api'),
-            'gateway_title'                             => __('Credit and/or Debit Cards', 'woo-epayco-api'),
+            'gateway_title'                             => __('Credit and Debit Cards', 'woo-epayco-api'),
             'gateway_description'                       => __('Accept fast and secure payments directly from your store using credit and debit cards from any bank. No redirects, ensuring a seamless shopping experience.  (Visa, Mastercard, Amex & Dinners)', 'woo-epayco-api'),
-            'gateway_method_title'                      => __('ePayco - Checkout Credit and/or Debit Cards', 'woo-epayco-api'),
+            'gateway_method_title'                      => __('ePayco - Checkout Credit and Debit Cards', 'woo-epayco-api'),
             'gateway_method_description'                => __('Payments without leaving your store with our customizable checkout', 'woo-epayco-api'),
-            'header_title'                              => __('Credit and/or Debit Cards', 'woo-epayco-api'),
+            'header_title'                              => __('Credit and Debit Cards', 'woo-epayco-api'),
             'header_description'                        => __('With the Credit card payment, you can sell inside your store environment, without redirection and with the security from ePayco.', 'woo-epayco-api'),
             'enabled_title'                             => __('Enable', 'woo-epayco-api'),
             'enabled_subtitle'                          => __('By disabling it, you will disable all credit cards payments from ePayco.', 'woo-epayco-api'),
@@ -359,7 +359,7 @@ class AdminTranslations
             'enabled_descriptions_disabled'             => __('The payment method is <b>disabled</b>.', 'woo-epayco-api'),
             'title_title'                               => __('Title in the store Checkout', 'woo-epayco-api'),
             'title_description'                         => __('Change the display text in Checkout, maximum characters: 85', 'woo-epayco-api'),
-            'title_default'                             => __('Credit and/or Debit Cards', 'woo-epayco-api'),
+            'title_default'                             => __('Credit and Debit Cards', 'woo-epayco-api'),
             'title_desc_tip'                            => __('The text inserted here will not be translated to other languages', 'woo-epayco-api')
         ];
         $this->creditcardGatewaySettings  = array_merge($this->creditcardGatewaySettings, $this->setSupportLinkTranslations());

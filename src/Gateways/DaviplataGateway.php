@@ -80,7 +80,7 @@ class DaviplataGateway extends AbstractGateway
         //$this->iconAdmin = $this->getCheckoutIcon(true);
         // $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/daviplata.png';
         $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/daviplata.png';
-        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Daviplata');
+        $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'DaviPlata');
 
         $this->init_form_fields();
         $this->payment_scripts($this->id);
@@ -330,7 +330,7 @@ class DaviplataGateway extends AbstractGateway
                     $ref_payco = $response['data']['refPayco'] ?? $response['data']['ref_payco'];
                     if (isset($ref_payco)) {
                         $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
-                        $response['urlPayment'] = 'https://vtex.epayco.com/daviplata?refPayco=' . $ref_payco;
+                        $response['urlPayment'] = 'https://vtex.epayco.io/daviplata?refPayco=' . $ref_payco;
                         $this->epayco->hooks->order->setDaviplataMetadata($order, $response);
                         $description = sprintf(
                             "ePayco: %s <a target='_blank' href='%s'>%s</a>",
