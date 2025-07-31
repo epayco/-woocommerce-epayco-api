@@ -9,9 +9,15 @@
     var r;
     const m = "mp_checkout_blocks", d = "woo-epayco-daviplata",
         i = (0, o.getSetting)("woo-epayco-daviplata_data", {}),
-        p = document.documentElement.lang.startsWith('es')
-            ? "ePayco - Pago DaviPlata"
-            : "ePayco - Checkout DaviPlata",
+        p = (() => {
+            let title = i && i.title ? (0, c.decodeEntities)(i.title) : "";
+            if (!title || title.trim() === "") {
+                title = document.documentElement.lang.startsWith('es') 
+                    ? "ePayco - Pago DaviPlata" 
+                    : "ePayco - Checkout DaviPlata";
+            }
+            return title;
+        })(),
         u = t => {
             (e => {
                 const {extensionCartUpdate: t} = wc.blocksCheckout, {

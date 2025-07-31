@@ -635,7 +635,7 @@ msgstr "ePayco -Pago Efectivo"
 
 #: src/Translations/AdminTranslations.php:353
 msgid "ePayco -  Checkout Credit and Debit Cards"
-msgstr "ePayco - Pago Tarjeta de credito y debito"
+msgstr "ePayco - Pago Tarjeta de crédito y débito"
 
 #: src/Translations/AdminTranslations.php:310
 msgid "ePayco - Checkout DaviPlata"
