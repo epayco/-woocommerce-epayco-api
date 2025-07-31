@@ -192,7 +192,7 @@
                     // Ícono pequeño a la izquierda
                     (0, e.createElement)("img", {
                         src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/daviPlata.png",
-                        alt: "ePayco PSE Icono",
+                        alt: "ePayco DaviPlata Icono",
                         className: "epayco-icon-mobile-hide",
                         style: {
                             maxWidth: "45px",

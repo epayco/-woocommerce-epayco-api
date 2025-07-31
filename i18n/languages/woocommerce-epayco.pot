@@ -285,7 +285,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:317
 msgid ""
-"By disabling it, you will disable daviplata payment from ePayco Transparent "
+"By disabling it, you will disable DaviPlata payment from ePayco Transparent "
 "Checkout."
 msgstr ""
 
