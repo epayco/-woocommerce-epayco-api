@@ -169,7 +169,7 @@
             name: d,
             label: (0, e.createElement)((() => {
                 const a = (0, c.decodeEntities)(i?.params?.fee_title || "");
-                const n = `${p}`;
+                const n = `${p} ${a}`;
                 return (0, e.createElement)("div", {
                     style: {
                         display: "flex",
