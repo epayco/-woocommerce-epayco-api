@@ -173,13 +173,13 @@
                             return await new Promise(function(resolve, reject) {
                                 ePayco.token.create($form, function(data) {
                                     if(data.status == 'error' || data.error){
-                                        reject(false)
+                                        reject(data)
                                     }else{
                                         if(data.status == 'success'){
                                             document.querySelector('#cardTokenId').value = data.data.token;
-                                            resolve(data.data.token)
+                                            resolve(data)
                                         }else{
-                                            reject(false)
+                                            reject(data)
                                         }
                                     }
                                 });
@@ -192,26 +192,35 @@
                             ePayco.setPublicKey(publicKey);
                             ePayco.setLanguage("es");
                             var token = await createTokenEpayco(current);
-                            if(!token){
-                                validation = true;
+                            var tokenValue;
+                            var errorMesage;
+                            if(token.status == 'error' || token.error){
+                                errorMesage = token.description;
+                            }else{
+                                if(token.status == 'success'){
+                                    tokenValue = token.data.token;
+                                    validation = true;
+                                }else{
+                                    errorMesage = token.description;
+                                }
                             }
                         }else{
                             return {
                                 type: c.responseTypes.FAIL,
-                                messageContext: "PAYMENTS",
-                                message: "error"
+                                messageContext: c.noticeContexts.PAYMENTS,
+                                message: errorMesage ?? "error"
                             }
                         }
                     } catch (e) {
-                        console.warn("Token creation error: ", e)
+                        console.error("Token creation error: ", e)
                         return {
-                            type: c.responseTypes.ERROR,
-                            messageContext: "PAYMENTS",
-                            message: "error"
+                            type: c.responseTypes.FAIL,
+                            messageContext: c.noticeContexts.PAYMENTS,
+                            message: e.description
                         }
                     }
                     const nn = {
-                        "epayco_creditcard[cardTokenId]": token,
+                        "epayco_creditcard[cardTokenId]": tokenValue,
                         "epayco_creditcard[name]": customContentName.value,
                         "epayco_creditcard[address]": customContentAddress.value,
                         "epayco_creditcard[email]": customContentEmail.value,

@@ -508,6 +508,10 @@ class Order
             $order = wc_get_order($order_id);
             if ($order) {
                 $orderStatus = $order->get_status();
+                if ( class_exists( 'WC_Logger' ) ) {
+                    $logger = new \WC_Logger();
+                    $logger->add( 'epaycoUploadOrderStatus',"code". $x_cod_transaction_state." ref_payco". $x_ref_payco );
+                }
                 switch ($x_cod_transaction_state) {
                     case 1: {
                         $order->payment_complete($x_ref_payco);
