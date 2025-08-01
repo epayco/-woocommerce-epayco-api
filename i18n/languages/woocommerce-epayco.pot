@@ -44,7 +44,7 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:231
 #: src/Translations/StoreTranslations.php:271
 #: src/Translations/StoreTranslations.php:338
-msgid " personal data processing policy"
+msgid " Personal data processing policy"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:72
@@ -285,7 +285,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:317
 msgid ""
-"By disabling it, you will disable daviplata payment from ePayco Transparent "
+"By disabling it, you will disable DaviPlata payment from ePayco Transparent "
 "Checkout."
 msgstr ""
 
@@ -570,7 +570,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:353
 msgid "ePayco - Checkout Credit and Debit Cards"
-msgstr "ePayco - Pago Tarjeta de credito y debito"
+msgstr "ePayco - Pago Tarjeta de crédito y débito"
 
 #: src/Translations/AdminTranslations.php:310
 msgid "ePayco - Checkout DaviPlata"

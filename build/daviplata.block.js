@@ -9,15 +9,7 @@
     var r;
     const m = "mp_checkout_blocks", d = "woo-epayco-daviplata",
         i = (0, o.getSetting)("woo-epayco-daviplata_data", {}),
-        p = (() => {
-            let title = i && i.title ? (0, c.decodeEntities)(i.title) : "";
-            if (!title || title.trim() === "") {
-                title = document.documentElement.lang.startsWith('es') 
-                    ? "ePayco - Pago DaviPlata" 
-                    : "ePayco - Checkout DaviPlata";
-            }
-            return title;
-        })(),
+        p = "DaviPlata",
         u = t => {
             (e => {
                 const {extensionCartUpdate: t} = wc.blocksCheckout, {
@@ -176,8 +168,7 @@
         }, l = {
             name: d,
             label: (0, e.createElement)((() => {
-                const a = (0, c.decodeEntities)(i?.params?.fee_title || "");
-                const n = `${p} ${a}`;
+                const n = `${p}`;
                 return (0, e.createElement)("div", {
                     style: {
                         display: "flex",
@@ -192,7 +183,7 @@
                     // Ícono pequeño a la izquierda
                     (0, e.createElement)("img", {
                         src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/daviPlata.png",
-                        alt: "ePayco PSE Icono",
+                        alt: "ePayco DaviPlata Icono",
                         className: "epayco-icon-mobile-hide",
                         style: {
                             maxWidth: "45px",
