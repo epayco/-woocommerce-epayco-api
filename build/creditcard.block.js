@@ -175,8 +175,15 @@
                     try {
                         var createTokenEpayco = async function  ($form) {
                             return await new Promise(function(resolve, reject) {
-                                ePayco.token.create($form, function(data) {
-                                    if(data.status == 'error' || data.error){
+                                ePayco.token.create($form, function(error, data) {
+                                    if(data.status == 'error' || data.error || error){
+                                        if(error){
+                                            console.error("Error creating token: ", error);
+                                            data = {
+                                                status: 'error',
+                                                description: error.message || "An error occurred while creating the token."
+                                            };
+                                        }
                                         reject(data)
                                     }else{
                                         if(data.status == 'success'){
@@ -198,16 +205,19 @@
                             var token = await createTokenEpayco(current);
                             var tokenValue;
                             var errorMesage;
-                            if(token.status == 'error' || token.error){
-                                errorMesage = token.description;
-                            }else{
-                                if(token.status == 'success'){
-                                    tokenValue = token.data.token;
-                                    validation = true;
-                                }else{
+                            if(token){
+                                if(token.status == 'error' || token.error){
                                     errorMesage = token.description;
+                                }else{
+                                    if(token.status == 'success'){
+                                        tokenValue = token.data.token;
+                                        validation = true;
+                                    }else{
+                                        errorMesage = token.description;
+                                    }
                                 }
                             }
+                            
                         }else{
                             return {
                                 type: c.responseTypes.FAIL,
@@ -245,8 +255,8 @@
                         return e && "flex" === e.style.display
                     }
 
-
-                    return "" !== customContentName.value &&
+                    const validationDocumentType = doc_type.value === "Type" || doc_type.value === "Tipo";
+                    const validationInpustsForm =  "" !== customContentName.value &&
                     "" !== cardNumberContentName.value &&
                     "" !== cardExpirationContentName.value &&
                     "" !== cardSecurityContentName.value &&
@@ -254,11 +264,18 @@
                     "" !== customContentEmail.value &&
                     "" !== customContentCellphone.value &&
                     "" !== countryContentCountry.value &&
-                    "" !== doc_number_value &&
-                    "Type"||"Tipo" !== doc_type.value,{
+                    "" !== doc_number_value && !validationDocumentType;
+                    if(validationInpustsForm){
+                        return {
+                            type: validation || !termanAndContictionContent.checked   ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
+                            meta: {paymentMethodData: nn} 
+                        }
+                    }
+                    /*return validationInpustsForm,{
                         type: validation || !termanAndContictionContent.checked   ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
                         meta: {paymentMethodData: nn}
                     }
+                        */
                 }));
                 return () => e()
             }), [c.responseTypes.ERROR, c.responseTypes.SUCCESS, r]), (0, e.createElement)("div", {dangerouslySetInnerHTML: {__html: i.params.content}})
