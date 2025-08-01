@@ -87,9 +87,12 @@ function activate_epayco_customer()
 
 function epayco_on_schedule()
 {
+    /*
     if ( class_exists( 'WC_Logger' ) ) {
         $logger = new \WC_Logger();
-        //$logger->add( 'ePaycoEvent',"event epayco_event 1" );
+        $logger->add( 'ePaycoEvent',"event epayco_event 133000" );
     }
+    do_action('epayco_sync_pending_status_order_action');
+*/
 }
 add_action( 'epaycoEvent', 'epayco_on_schedule' );

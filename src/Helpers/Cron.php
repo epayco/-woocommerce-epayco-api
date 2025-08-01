@@ -92,8 +92,9 @@ class Cron
             try {
                 if ( class_exists( 'WC_Logger' ) ) {
                     $logger = new \WC_Logger();
-                    $logger->add( 'ePaycoEvent',"event epayco_event" );
+                    //$logger->add( 'ePaycoEvent',"event epayco_event" );
                 }
+                do_action('epayco_sync_pending_status_order_action');
             } catch (\Exception $ex) {
                 $error_message = "Unable to update batch of orders on action got error: {$ex->getMessage()}";
 
