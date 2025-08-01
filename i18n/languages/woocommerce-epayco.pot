@@ -44,7 +44,7 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:231
 #: src/Translations/StoreTranslations.php:271
 #: src/Translations/StoreTranslations.php:338
-msgid " personal data processing policy"
+msgid " Personal data processing policy"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:72

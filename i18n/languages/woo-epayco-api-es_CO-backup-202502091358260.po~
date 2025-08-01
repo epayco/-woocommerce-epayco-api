@@ -44,7 +44,7 @@ msgstr " de ePayco."
 #: src/Translations/StoreTranslations.php:271
 #: src/Translations/StoreTranslations.php:338
 msgid " Personal data processing policy"
-msgstr "Política de Tratamiento de datos personales"
+msgstr " Política de Tratamiento de datos personales"
 
 #: src/Translations/AdminTranslations.php:72
 #, php-format
