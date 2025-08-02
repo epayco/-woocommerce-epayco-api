@@ -510,7 +510,7 @@ class CheckoutGateway extends AbstractGateway
         }
 
         if($ref_payco){
-            $url = 'https://eks-checkout-service.epayco.io/validation/v1/reference/'.$ref_payco;
+            $url = 'https://api.secure.payco.co/validation/v1/reference/'.$ref_payco;
             $response = wp_remote_get(  $url );
             $body = wp_remote_retrieve_body( $response );
             $jsonData = @json_decode($body, true);
@@ -594,7 +594,7 @@ class CheckoutGateway extends AbstractGateway
 
             }
             $transaction = [
-                'franchise_logo' => 'https://eks-checkout-service.epayco.io/img/methods/'.$x_franchise.'.svg',
+                'franchise_logo' => 'https://api.secure.payco.co/img/methods/'.$x_franchise.'.svg',
                 'x_amount_base' => $x_amount_base,
                 'x_cardnumber' => $x_cardnumber_,
                 'status' => $x_response,

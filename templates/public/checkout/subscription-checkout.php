@@ -168,17 +168,7 @@ if (!defined('ABSPATH')) {
                             select-name="epayco_subscription[identificationType]"
                             select-data-checkout="doc_type"
                             flag-error="identificationTypeError"
-                            documents='[
-                                {"id":"Type"},
-                                {"id":"CC"},
-                                {"id":"CE"},
-                                {"id":"NIT"},
-                                {"id":"TI"},
-                                {"id":"PPN"},
-                                {"id":"SSN"},
-                                {"id":"LIC"},
-                                {"id":"DNI"}
-                                ]'
+                            documents='<?php print_r($documents); ?>'
                             validate=true
                             placeholder="Número de documento"
                     >

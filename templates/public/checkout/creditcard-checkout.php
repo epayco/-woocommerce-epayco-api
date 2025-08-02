@@ -177,18 +177,7 @@ if (!defined('ABSPATH')) {
                     select-name="epayco_creditcard[identificationType]"
                     select-data-checkout="doc_type"
                     flag-error="identificationTypeError"
-                    documents='[
-                        {"id":"Tipo"},
-                        {"id":"CC"},
-                        {"id":"NIT"},
-                        {"id":"CE"},
-                        {"id":"PPN"},
-                        {"id":"SSN"},
-                        {"id":"LIC"},
-                        {"id":"DNI"},
-                        {"id":"PEP"},
-                        {"id":"PPT"}
-                    ]'
+                    documents='<?php print_r($documents); ?>'
                     validate=true
                     placeholder="Número de documento"
                     ></input-document-epayco>
