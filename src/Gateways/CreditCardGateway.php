@@ -49,7 +49,7 @@ class CreditCardGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->creditcardCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjeta.png';
+        // $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjeta.png';
         $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjeta.png';
         $defaultTitle = (substr(get_locale(), 0, 2) === 'es') ? 'Tarjeta de crédito y/o débito' : 'Credit and/or Debit Cards';
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, $defaultTitle);
@@ -83,7 +83,23 @@ class CreditCardGateway extends AbstractGateway
     {
         return self::CHECKOUT_NAME;
     }
-
+        public function get_title() {
+        $lang = substr(get_locale(), 0, 2);
+        $description = ($lang === 'es')
+        ? 'Visa, MasterCard, Amex, Diners y Codensa.'
+        : 'Visa, MasterCard, Amex, Diners and Codensa.';
+        return sprintf(
+            '<div class="epayco-title-wrapper">
+                <img class="epayco-brand-icons" src="https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjetaCreditoDebito.png" alt="Medios de pago" />
+                <span class="epayco-text">
+                <span style="font-weight: bold;">%s</span>
+                <span style="color: #888;">%s</span>                    
+                </span>
+            </div>',
+            esc_html($this->title),
+            esc_html($description)
+        );
+    }
     /**
      * Init form fields for checkout configuration
      *

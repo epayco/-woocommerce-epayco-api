@@ -116,7 +116,7 @@ class TicketGateway extends AbstractGateway
         $this->id        = self::ID;
         //$this->icon      = $this->getCheckoutIcon();
         //$this->iconAdmin = $this->getCheckoutIcon(true);
-        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/efectivo.png';
+        // $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/efectivo.png';
         $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/efectivo.png';
         $defaultTitle = (substr(get_locale(), 0, 2) === 'es') ? 'Efectivo' : 'Cash';
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, $defaultTitle);
@@ -153,7 +153,25 @@ class TicketGateway extends AbstractGateway
     {
         return self::CHECKOUT_NAME;
     }
+    
+    public function get_title() {
+        $lang = substr(get_locale(), 0, 2);
+        $description = ($lang === 'es')
+            ? 'Paga en efectivo desde puntos autorizados.'
+            : 'Pay in cash at authorized points.';
 
+        return sprintf(
+            '<div class="epayco-title-wrapper">
+                <img class="epayco-brand-icons" height="32" src="https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/efectivo_transaparente.png" alt="ePayco Efectivo" />
+                <span class="epayco-text">
+                    <span style="font-weight: bold;">%s</span>
+                    <span style="color: #888;">%s</span>
+                </span>
+            </div>',
+            esc_html($this->title),
+            esc_html($description)
+        );
+    }
     /**
      * Init form fields for checkout configuration
      *
