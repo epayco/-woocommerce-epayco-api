@@ -302,7 +302,7 @@ class CreditCardGateway extends AbstractGateway
             parent::process_payment($order_id);
 
             $checkout['token'] = $checkout['cardTokenId'] ?? $checkout['cardtokenid'] ?? '';
-
+            
             if (!empty($checkout['token'])) {
                 $this->transaction = new CreditCardTransaction($this, $order, $checkout);
                 $redirect_url = get_site_url() . "/";
@@ -323,6 +323,7 @@ class CreditCardGateway extends AbstractGateway
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
+                        $threeDs = null;
                         if(isset($response['data']['3DS'])){
                             $public_key = $this->epayco->sellerConfig->getCredentialsPublicKeyPayment();
                             $private_key = $this->epayco->sellerConfig->getCredentialsPrivateKeyPayment();
@@ -337,9 +338,12 @@ class CreditCardGateway extends AbstractGateway
                             ]);
                             $idSessionToken = base64_encode($json_data);
                             $urlReceived = "https://vtex.epayco.io/3ds?token=".$idSessionToken;
+                            $threeDs = json_encode($response['data']['3DS']);
                         }
                         $return = [
                             'result'   => 'success',
+                            'message' => $response['data']['respuesta'],
+                            'threeDs' => $threeDs,
                             'redirect' => $urlReceived,
                         ];
                     }
@@ -350,6 +354,7 @@ class CreditCardGateway extends AbstractGateway
                         $urlReceived = $order->get_checkout_order_received_url();
                         $return = [
                             'result'   => 'success',
+                            'message' => $response['data']['respuesta'],
                             'redirect' => $urlReceived,
                         ];
                     }
@@ -377,6 +382,10 @@ class CreditCardGateway extends AbstractGateway
                         }
                     }
                     $processReturnFailMessage = $messageError . " " . $errorMessage;
+                    if (class_exists('WC_Logger')) {
+                        $logger = wc_get_logger();
+                        $logger->info("token: ".$processReturnFailMessage);
+                    }
                     return $this->returnFail($processReturnFailMessage, $order);
                 }
             } else {

@@ -9,7 +9,19 @@
     var r;
     const m = "mp_checkout_blocks", d = "woo-epayco-daviplata",
         i = (0, o.getSetting)("woo-epayco-daviplata_data", {}),
+<<<<<<< HEAD
         p = "DaviPlata",
+=======
+        p = (() => {
+            let title = i && i.title ? (0, c.decodeEntities)(i.title) : "";
+            if (!title || title.trim() === "") {
+                title = document.documentElement.lang.startsWith('es') 
+                    ? "ePayco - Pago DaviPlata" 
+                    : "ePayco - Checkout DaviPlata";
+            }
+            return title;
+        })(),
+>>>>>>> 699f697755eddd922296ceab8bd36b41f6345750
         u = t => {
             (e => {
                 const {extensionCartUpdate: t} = wc.blocksCheckout, {
