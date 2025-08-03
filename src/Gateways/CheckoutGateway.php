@@ -193,7 +193,7 @@ class CheckoutGateway extends AbstractGateway
         parent::registerCheckoutScripts();
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_checkout',
-            'https://epayco-checkout-testing.s3.us-east-1.amazonaws.com/checkout.preprod_v1.js'
+            'https://checkout.epayco.co/checkout.js'
         );
 
     }
@@ -438,7 +438,7 @@ class CheckoutGateway extends AbstractGateway
             esc_js( trim( $public_key ) ),           //23
             esc_js( trim( $private_key ) )           //24
         );
-        wp_enqueue_script('epayco',  'https://epayco-checkout-testing.s3.us-east-1.amazonaws.com/checkout.preprod_v1.js', array(), '1.0.0', null);
+      //  wp_enqueue_script('epayco',  'https://checkout.epayco.co/checkout.js', array(), '1.0.0', null);
         return '<form  method="post" id="appGateway">
 		        </form>';
     }
