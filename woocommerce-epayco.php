@@ -85,5 +85,30 @@ function activate_epayco_customer()
     }
 }
 
+function epayco_on_schedule()
+{
+    /*
+    if ( class_exists( 'WC_Logger' ) ) {
+        $logger = new \WC_Logger();
+        $logger->add( 'ePaycoEvent',"event epayco_event 133000" );
+    }
+    do_action('epayco_sync_pending_status_order_action');
+*/
+}
+add_action( 'epaycoEvent', 'epayco_on_schedule' );
 
- 
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_script(
+        'choices-js',
+        'https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js',
+        [],
+        null,
+        true
+    );
+    wp_enqueue_style(
+        'choices-js-style',
+        'https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css',
+        [],
+        null
+    );
+});
