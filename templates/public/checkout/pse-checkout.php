@@ -139,7 +139,7 @@ if (! defined('ABSPATH')) {
                             select-name="epayco_pse[documentType]"
                             select-data-checkout="document_type"
                             flag-error="documentTypeError"
-                            documents='<?php print_r($documents); ?>'
+                            documents='<?php print_r($documents);?>'
                             validate=true
                             placeholder="Número de documento"
                     >
