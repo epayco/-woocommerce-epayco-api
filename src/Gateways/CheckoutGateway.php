@@ -193,7 +193,7 @@ class CheckoutGateway extends AbstractGateway
         parent::registerCheckoutScripts();
         $this->epayco->hooks->scripts->registerCheckoutScript(
             'wc_epayco_checkout',
-            'https://checkout.epayco.co/checkout.js'
+            'https://epayco-checkout-testing.s3.us-east-1.amazonaws.com/checkout.preprod_v1.js'
         );
 
     }
@@ -377,7 +377,7 @@ class CheckoutGateway extends AbstractGateway
                         headers["privatekey"] = privatekey;
                         headers["apikey"] = apikey;
                         var payment =   function (){
-                            return  fetch("https://cms.epayco.co/checkout/payment/session", {
+                            return  fetch("https://eks-cms-backend-platforms-service.epayco.io/checkout/payment/session", {
                                 method: "POST",
                                 body: JSON.stringify(info),
                                 headers
@@ -438,7 +438,7 @@ class CheckoutGateway extends AbstractGateway
             esc_js( trim( $public_key ) ),           //23
             esc_js( trim( $private_key ) )           //24
         );
-      //  wp_enqueue_script('epayco',  'https://checkout.epayco.co/checkout.js', array(), '1.0.0', null);
+        wp_enqueue_script('epayco',  'https://epayco-checkout-testing.s3.us-east-1.amazonaws.com/checkout.preprod_v1.js', array(), '1.0.0', null);
         return '<form  method="post" id="appGateway">
 		        </form>';
     }
@@ -529,7 +529,7 @@ class CheckoutGateway extends AbstractGateway
         }
 
         if($ref_payco){
-            $url = 'https://api.secure.payco.co/validation/v1/reference/'.$ref_payco;
+            $url = 'https://eks-apify-service.epayco.io/validation/v1/reference/'.$ref_payco;
             $response = wp_remote_get(  $url );
             $body = wp_remote_retrieve_body( $response );
             $jsonData = @json_decode($body, true);
