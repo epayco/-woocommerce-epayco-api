@@ -43,8 +43,8 @@ msgstr " de ePayco."
 #: src/Translations/StoreTranslations.php:231
 #: src/Translations/StoreTranslations.php:271
 #: src/Translations/StoreTranslations.php:338
-msgid "Personal data processing policy"
-msgstr "Política de Tratamiento de datos personales"
+msgid " Personal data processing policy"
+msgstr " Política de Tratamiento de datos personales"
 
 #: src/Translations/AdminTranslations.php:72
 #, php-format
@@ -344,10 +344,10 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:317
 msgid ""
-"By disabling it, you will disable daviplata payment from ePayco Transparent "
+"By disabling it, you will disable DaviPlata payment from ePayco Transparent "
 "Checkout."
 msgstr ""
-"Al desactivarlo, desactivará el pago daviplata desde ePayco Transparent "
+"Al desactivarlo, desactivará el pago DaviPlata desde ePayco Transparent "
 "Checkout."
 
 #: src/Translations/AdminTranslations.php:177
@@ -508,13 +508,13 @@ msgid "Credentials were updated"
 msgstr "Se han actualizado las credenciales"
 
 #: src/Translations/AdminTranslations.php:363
-msgid "Credit and/or Debit Cards"
-msgstr "Tarjeta de credito y/o debito"
+msgid "Credit and Debit Cards"
+msgstr "Tarjeta de credito y debito"
 
 #: src/Translations/AdminTranslations.php:351
 #: src/Translations/AdminTranslations.php:355
-msgid "Credit and/or Debit Cards"
-msgstr "Tarjeta de credito y/o debito"
+msgid "Credit and Debit Cards"
+msgstr "Tarjeta de credito y debito"
 
 #: src/Translations/AdminTranslations.php:156
 #: src/Translations/AdminTranslations.php:162
@@ -638,8 +638,8 @@ msgid "ePayco - Checkout Cash"
 msgstr "ePayco -Pago Efectivo"
 
 #: src/Translations/AdminTranslations.php:353
-msgid "ePayco - Checkout Credit and/or Debit Cards"
-msgstr "ePayco - Pago Tarjeta de credito y/o debito"
+msgid "ePayco - Checkout Credit and Debit Cards"
+msgstr "ePayco - Pago Tarjeta de crédito y débito"
 
 #: src/Translations/AdminTranslations.php:310
 msgid "ePayco - Checkout DaviPlata"

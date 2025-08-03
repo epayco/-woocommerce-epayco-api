@@ -13,8 +13,8 @@
             let title = i && i.title ? (0, c.decodeEntities)(i.title) : "";
             if (!title || title.trim() === "") {
                 title = document.documentElement.lang.startsWith('es') 
-                    ? "ePayco - Pago Tarjeta de credito y/o debito" 
-                    : "ePayco - Credit and/or Debit Cards";
+                ? "ePayco - Pago Tarjeta de credito y debito" 
+                : "ePayco - Credit and Debit Cards";
             }
             return title;
         })(),
@@ -35,6 +35,10 @@
                 }), [r]), (0, a.useEffect)((() => {
                     const e = i((async e => {
                         const t = e.processingResponse;
+                        if(t.paymentDetails.threeDs){
+                            const threeds = JSON.parse(t.paymentDetails.threeDs);
+                            console.log(t.paymentDetails.threeDs);
+                        }
                         return {
                             type: c.responseTypes.SUCCESS,
                             messageContext: c.noticeContexts.PAYMENTS,
@@ -167,7 +171,7 @@
                     "" === customContentCellphone.value && verifyCellphone(customContentCellphone);
                     "" === countryContentCountry.value && verifyCountry(countryContentCountry);
                     !termanAndContictionContent.checked && termanAndContictionHelpers.classList.add("ep-error");
-                    let validation = d(nameHelpers) || d(cardNumberHelpers) || d(cardExpirationHelpers) || d(cardSecurityHelpers) || d(documentHelpers) || d(addressHelpers) || d(emailHelpers) || d(cellphoneHelpers) || d(countryHelpers);
+                    let validation = d(nameHelpers) || d(cardNumberHelpers) || d(cardExpirationHelpers) || d(cardSecurityHelpers) || d(documentHelpers) || d(addressHelpers) || d(emailHelpers) || d(cellphoneHelpers) || d(countryHelpers) || !termanAndContictionContent.checked;
                     try {
                         var createTokenEpayco = async function  ($form) {
                             return await new Promise(function(resolve, reject) {

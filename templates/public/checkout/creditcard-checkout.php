@@ -115,7 +115,7 @@ if (!defined('ABSPATH')) {
                 </div>
 
                 <div class='ep-checkout-custom-card-row ep-checkout-custom-dual-column-row'>
-                    <div class='ep-checkout-custom-card-column'>
+                    <div class='ep-checkout-custom-card-column' style="white-space: nowrap;">
                         <input-card-expiration-date
                                 class="ep-checkout-custom-left-card-input"
                                 labelMessage="<?php echo esc_html($card_expiration_input_label); ?>"
