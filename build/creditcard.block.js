@@ -13,8 +13,8 @@
             let title = i && i.title ? (0, c.decodeEntities)(i.title) : "";
             if (!title || title.trim() === "") {
                 title = document.documentElement.lang.startsWith('es') 
-                ? "ePayco - Pago Tarjeta de credito y debito" 
-                : "ePayco - Credit and Debit Cards";
+                    ? "ePayco - Pago Tarjeta de credito y debito" 
+                    : "ePayco - Credit and/or Debit Cards";
             }
             return title;
         })(),
@@ -35,10 +35,6 @@
                 }), [r]), (0, a.useEffect)((() => {
                     const e = i((async e => {
                         const t = e.processingResponse;
-                        if(t.paymentDetails.threeDs){
-                            const threeds = JSON.parse(t.paymentDetails.threeDs);
-                            console.log(t.paymentDetails.threeDs);
-                        }
                         return {
                             type: c.responseTypes.SUCCESS,
                             messageContext: c.noticeContexts.PAYMENTS,
@@ -171,26 +167,19 @@
                     "" === customContentCellphone.value && verifyCellphone(customContentCellphone);
                     "" === countryContentCountry.value && verifyCountry(countryContentCountry);
                     !termanAndContictionContent.checked && termanAndContictionHelpers.classList.add("ep-error");
-                    let validation = d(nameHelpers) || d(cardNumberHelpers) || d(cardExpirationHelpers) || d(cardSecurityHelpers) || d(documentHelpers) || d(addressHelpers) || d(emailHelpers) || d(cellphoneHelpers) || d(countryHelpers) || !termanAndContictionContent.checked;
+                    let validation = d(nameHelpers) || d(cardNumberHelpers) || d(cardExpirationHelpers) || d(cardSecurityHelpers) || d(documentHelpers) || d(addressHelpers) || d(emailHelpers) || d(cellphoneHelpers) || d(countryHelpers);
                     try {
                         var createTokenEpayco = async function  ($form) {
                             return await new Promise(function(resolve, reject) {
-                                ePayco.token.create($form, function(error, data) {
-                                    if(data.status == 'error' || data.error || error){
-                                        if(error){
-                                            console.error("Error creating token: ", error);
-                                            data = {
-                                                status: 'error',
-                                                description: error.message || "An error occurred while creating the token."
-                                            };
-                                        }
-                                        reject(data)
+                                ePayco.token.create($form, function(data) {
+                                    if(data.status == 'error' || data.error){
+                                        reject(false)
                                     }else{
                                         if(data.status == 'success'){
                                             document.querySelector('#cardTokenId').value = data.data.token;
-                                            resolve(data)
+                                            resolve(data.data.token)
                                         }else{
-                                            reject(data)
+                                            reject(false)
                                         }
                                     }
                                 });
@@ -203,38 +192,26 @@
                             ePayco.setPublicKey(publicKey);
                             ePayco.setLanguage("es");
                             var token = await createTokenEpayco(current);
-                            var tokenValue;
-                            var errorMesage;
-                            if(token){
-                                if(token.status == 'error' || token.error){
-                                    errorMesage = token.description;
-                                }else{
-                                    if(token.status == 'success'){
-                                        tokenValue = token.data.token;
-                                        validation = true;
-                                    }else{
-                                        errorMesage = token.description;
-                                    }
-                                }
+                            if(!token){
+                                validation = true;
                             }
-                            
                         }else{
                             return {
                                 type: c.responseTypes.FAIL,
-                                messageContext: c.noticeContexts.PAYMENTS,
-                                message: errorMesage ?? "error"
+                                messageContext: "PAYMENTS",
+                                message: "error"
                             }
                         }
                     } catch (e) {
-                        console.error("Token creation error: ", e)
+                        console.warn("Token creation error: ", e)
                         return {
-                            type: c.responseTypes.FAIL,
-                            messageContext: c.noticeContexts.PAYMENTS,
-                            message: e.description
+                            type: c.responseTypes.ERROR,
+                            messageContext: "PAYMENTS",
+                            message: "error"
                         }
                     }
                     const nn = {
-                        "epayco_creditcard[cardTokenId]": tokenValue,
+                        "epayco_creditcard[cardTokenId]": token,
                         "epayco_creditcard[name]": customContentName.value,
                         "epayco_creditcard[address]": customContentAddress.value,
                         "epayco_creditcard[email]": customContentEmail.value,
@@ -255,8 +232,8 @@
                         return e && "flex" === e.style.display
                     }
 
-                    const validationDocumentType = doc_type.value === "Type" || doc_type.value === "Tipo";
-                    const validationInpustsForm =  "" !== customContentName.value &&
+
+                    return "" !== customContentName.value &&
                     "" !== cardNumberContentName.value &&
                     "" !== cardExpirationContentName.value &&
                     "" !== cardSecurityContentName.value &&
@@ -264,114 +241,20 @@
                     "" !== customContentEmail.value &&
                     "" !== customContentCellphone.value &&
                     "" !== countryContentCountry.value &&
-                    "" !== doc_number_value && !validationDocumentType;
-                    if(validationInpustsForm){
-                        return {
-                            type: validation || !termanAndContictionContent.checked   ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
-                            meta: {paymentMethodData: nn} 
-                        }
-                    }
-                    /*return validationInpustsForm,{
+                    "" !== doc_number_value &&
+                    "Type"||"Tipo" !== doc_type.value,{
                         type: validation || !termanAndContictionContent.checked   ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
                         meta: {paymentMethodData: nn}
                     }
-                        */
                 }));
                 return () => e()
             }), [c.responseTypes.ERROR, c.responseTypes.SUCCESS, r]), (0, e.createElement)("div", {dangerouslySetInnerHTML: {__html: i.params.content}})
         }, l = {
             name: d,
             label: (0, e.createElement)((t => {
-                const { PaymentMethodLabel: o } = t.components;
-                const a = (0, c.decodeEntities)(i?.params?.fee_title || "");
-                const n = `${p} ${a}`;
-                const [showLogo, setShowLogo] = e.useState(true);
-
-                e.useEffect(() => {
-                    let timer = setTimeout(() => setShowLogo(false), 15000);
-
-                    const observer = new MutationObserver(() => {
-                        const hasClass = document.querySelector('.ep-checkout-creditcard-container') !== null;
-                        setShowLogo(!hasClass);
-                    });
-
-                    observer.observe(document.body, { childList: true, subtree: true });
-
-                    return () => {
-                        clearTimeout(timer);
-                        observer.disconnect();
-                    };
-                }, []);
-
-            return (0, e.createElement)("div", {
-                style: {
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    width: "100%",
-                    maxWidth: "100%",
-                    margin: "0 20px 0 0",
-                    flexWrap: "wrap",
-                },
-                className: "epayco-payment-label-responsive"
-            },
-                (0, e.createElement)("img", {
-                        src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjetaCreditoDebito.png",
-                        alt: "ePayco Efectivo Icono",
-                        className: "epayco-icon-mobile-hide",
-                        style: {
-                            maxWidth: "45px",
-                            width: "auto",
-                            height: "auto",
-                            maxHeight: "45px",
-                            marginBottom: "5px",
-                            marginRight: "5px",
-                        }
-                    }), 
-                (0, e.createElement)("div", {
-                    className: "epayco-payment-label-texts", 
-                    style: {
-                        display: "flex",
-                        flexDirection: "column"
-                
-                    }
-                },
-                    (0, e.createElement)("strong", null, n),
-                    (0, e.createElement)("span", {
-                        style: {
-                            fontSize: "12px",
-                            color: "#666",
-                            marginTop: "2px"
-                        }
-                    }, document.documentElement.lang.startsWith('es')
-                        ? "Visa, MasterCard, Amex, Diners y Codensa."
-                        : "Visa, MasterCard, Amex, Diners and Codensa.")
-                ),
-                showLogo && (0, e.createElement)("img", {
-                    src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/iconosTarjetas.png",
-                    alt: "ePayco",
-                    className: "epayco-logos-final",
-                    style: {
-                        maxWidth: "280px",
-                        width: "auto",
-                        marginLeft: "10px",
-                        maxHeight: "70px",
-                        height: "auto",
-                    }
-                }),
-                (0,  e.createElement)("style", null, `
-                    @media (max-width: 430px) {
-                        .epayco-logos-final {
-                            max-width: 200px !important;
-                            height: auto !important;
-                        }
-                        .epayco-icon-mobile-hide{
-                            max-width: 25px;
-                            height: 25px;
-                        }
-                    }
-                    `)
-            );
+                const {PaymentMethodLabel: o} = t.components, a = (0, c.decodeEntities)(i?.params?.fee_title || ""),
+                    n = `${p} ${a}`;
+                return (0, e.createElement)(o, {text: n})
             }), null),
             content: (0, e.createElement)(u, null),
             edit: (0, e.createElement)(u, null),
