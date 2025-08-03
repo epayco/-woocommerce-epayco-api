@@ -13,8 +13,8 @@
             let title = i && i.title ? (0, c.decodeEntities)(i.title) : "";
             if (!title || title.trim() === "") {
                 title = document.documentElement.lang.startsWith('es') 
-                ? "ePayco - Pago Tarjeta de credito y debito" 
-                : "ePayco - Credit and Debit Cards";
+                    ? "ePayco - Pago Tarjeta de crédito y débito" 
+                    : "ePayco - Credit and Debit Cards";
             }
             return title;
         })(),
