@@ -529,7 +529,7 @@ class CheckoutGateway extends AbstractGateway
         }
 
         if($ref_payco){
-            $url = 'ttps://api.secure.payco.co/validation/v1/reference/'.$ref_payco;
+            $url = 'https://api.secure.payco.co/validation/v1/reference/'.$ref_payco;
             $response = wp_remote_get(  $url );
             $body = wp_remote_retrieve_body( $response );
             $jsonData = @json_decode($body, true);
