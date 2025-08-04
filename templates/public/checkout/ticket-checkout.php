@@ -123,31 +123,20 @@ if (!defined('ABSPATH')) {
 
                 <div class="ep-checkout-ticket-input-document">
                     <input-document-epayco
-                        label-message="<?php echo esc_html($input_document_label); ?>"
-                        helper-message="<?php echo esc_html($input_document_helper); ?>"
-                        input-name-epayco='epayco_ticket[document]'
-                        hidden-id="documentType"
-                        input-data-checkout="document_number"
-                        select-id="documentType"
-                        input-id="documentTypeNumber"
-                        select-name="epayco_ticket[documentType]"
-                        select-data-checkout="document_type"
-                        flag-error="documentTypeError"
-                        documents='[
-                                     {"id":"CC"},
-                                {"id":"CE"},
-                                {"id":"NIT"},
-                                {"id":"TI"},
-                                {"id":"PPN"},
-                                {"id":"SSN"},
-                                {"id":"LIC"},
-                                {"id":"DNI"},
-                                {"id":"RFC"},
-                                {"id":"PEP"},
-                                {"id":"PPT"}
-                                ]'
-                        validate=true
-                        placeholder="Número de documento">
+                            label-message="<?php echo esc_html($input_document_label); ?>"
+                            helper-message="<?php echo esc_html($input_document_helper); ?>"
+                            input-name-epayco='epayco_ticket[document]'
+                            hidden-id="documentType"
+                            input-data-checkout="document_number"
+                            select-id="documentType"
+                            input-id="documentTypeNumber"
+                            select-name="epayco_ticket[documentType]"
+                            select-data-checkout="document_type"
+                            flag-error="documentTypeError"
+                             documents='<?php print_r($documents); ?>'
+                            validate=true
+                            placeholder="Número de documento"
+                    >
                     </input-document-epayco>
                 </div>
 

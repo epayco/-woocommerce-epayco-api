@@ -96,3 +96,21 @@ function epayco_on_schedule()
 */
 }
 add_action( 'epaycoEvent', 'epayco_on_schedule' );
+
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_script(
+        'choices-js',
+        'https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js',
+        [],
+        null,
+        true
+    );
+    wp_enqueue_style(
+        'choices-js-style',
+        'https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css',
+        [],
+        null
+    );
+});
+
+ // wp_enqueue_script('epayco',  'https://checkout.epayco.co/checkout.js', array(), '1.0.0', null);

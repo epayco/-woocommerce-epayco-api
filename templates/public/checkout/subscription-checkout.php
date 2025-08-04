@@ -153,33 +153,20 @@ if (!defined('ABSPATH')) {
 
                 <div id="ep-doc-div" class="ep-checkout-custom-input-document">
                     <input-document-epayco
-                        label-message="<?php echo esc_html($card_document_input_label); ?>"
-                        helper-message="<?php echo esc_html($card_document_input_helper); ?>"
-                        input-name-epayco='epayco_subscription[doc_number]'
-                        hidden-id="identificationType"
-                        input-data-checkout="doc_number"
-                        select-id="identificationType"
-                        input-id="identificationTypeNumber"
-                        select-name="epayco_subscription[identificationType]"
-                        select-data-checkout="doc_type"
-                        flag-error="identificationTypeError"
-                        documents='[
-                                {"id":"Tipo"},
-                                {"id":"CC"},
-                                {"id":"CE"},
-                                {"id":"NIT"},
-                                {"id":"TI"},
-                                {"id":"PPN"},
-                                {"id":"SSN"},
-                                {"id":"LIC"},
-                                {"id":"DNI"},
-                                {"id":"RFC"},
-                                {"id":"PEP"},
-                                {"id":"PPT"}
-                                
-                                ]'
-                        validate=true
-                        placeholder="Número de documento">
+                            label-message="<?php echo esc_html($card_document_input_label); ?>"
+                            helper-message="<?php echo esc_html($card_document_input_helper); ?>"
+                            input-name-epayco='epayco_subscription[doc_number]'
+                            hidden-id="identificationType"
+                            input-data-checkout="doc_number"
+                            select-id="identificationType"
+                            input-id="identificationTypeNumber"
+                            select-name="epayco_subscription[identificationType]"
+                            select-data-checkout="doc_type"
+                            flag-error="identificationTypeError"
+                            documents='<?php print_r($documents); ?>'
+                            validate=true
+                            placeholder="Número de documento"
+                    >
                     </input-document-epayco>
                 </div>
 
