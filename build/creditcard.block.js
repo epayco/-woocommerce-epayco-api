@@ -13,7 +13,7 @@
             let title = i && i.title ? (0, c.decodeEntities)(i.title) : "";
             if (!title || title.trim() === "") {
                 title = document.documentElement.lang.startsWith('es') 
-                    ? "ePayco - Pago Tarjeta de crédito y débito" 
+                    ? "ePayco - Pago Tarjeta de credito y debito" 
                     : "ePayco - Credit and Debit Cards";
             }
             return title;
@@ -175,15 +175,25 @@
                     try {
                         var createTokenEpayco = async function  ($form) {
                             return await new Promise(function(resolve, reject) {
-                                ePayco.token.create($form, function(data) {
-                                    if(data.status == 'error' || data.error){
-                                        reject(false)
+                                
+                                ePayco.token.create($form, function(error, data) {
+                                    //debugger;
+                                    debugger;
+                                    if(data.status == 'error' || data.error || error){
+                                        if(error){
+                                            console.error("Error creating token: ", error);
+                                            data = {
+                                                status: 'error',
+                                                description: error.message || "An error occurred while creating the token."
+                                            };
+                                        }
+                                        reject(data)
                                     }else{
                                         if(data.status == 'success'){
                                             document.querySelector('#cardTokenId').value = data.data.token;
-                                            resolve(data.data.token)
+                                            resolve(data)
                                         }else{
-                                            reject(false)
+                                            reject(data)
                                         }
                                     }
                                 });
@@ -196,26 +206,40 @@
                             ePayco.setPublicKey(publicKey);
                             ePayco.setLanguage("es");
                             var token = await createTokenEpayco(current);
-                            if(!token){
-                                validation = true;
+                            var tokenValue;
+                            var errorMesage;
+                            if(token){
+                                if(token.status == 'error' || token.error){
+                                    errorMesage = token.description;
+                                }else{
+                                    if(token.status == 'success'){
+                                        tokenValue = token.data.token;
+                                        validation = true;
+                                    }else{
+                                        errorMesage = token.description;
+                                    }
+                                }
                             }
+                            
                         }else{
                             return {
                                 type: c.responseTypes.FAIL,
-                                messageContext: "PAYMENTS",
-                                message: "error"
+                                messageContext: c.noticeContexts.PAYMENTS,
+                                message: errorMesage ?? "error"
                             }
                         }
                     } catch (e) {
-                        console.warn("Token creation error: ", e)
+                        //debugger;
+                        debugger;
+                        console.error("Token creation error: " + e);
                         return {
-                            type: c.responseTypes.ERROR,
-                            messageContext: "PAYMENTS",
-                            message: "error"
+                            type: c.responseTypes.FAIL,
+                            messageContext: c.noticeContexts.PAYMENTS,
+                            message: e.description
                         }
                     }
                     const nn = {
-                        "epayco_creditcard[cardTokenId]": token,
+                        "epayco_creditcard[cardTokenId]": tokenValue,
                         "epayco_creditcard[name]": customContentName.value,
                         "epayco_creditcard[address]": customContentAddress.value,
                         "epayco_creditcard[email]": customContentEmail.value,
@@ -236,8 +260,8 @@
                         return e && "flex" === e.style.display
                     }
 
-
-                    return "" !== customContentName.value &&
+                    const validationDocumentType = doc_type.value === "Type" || doc_type.value === "Tipo";
+                    const validationInpustsForm =  "" !== customContentName.value &&
                     "" !== cardNumberContentName.value &&
                     "" !== cardExpirationContentName.value &&
                     "" !== cardSecurityContentName.value &&
@@ -245,11 +269,18 @@
                     "" !== customContentEmail.value &&
                     "" !== customContentCellphone.value &&
                     "" !== countryContentCountry.value &&
-                    "" !== doc_number_value &&
-                    "Type"||"Tipo" !== doc_type.value,{
+                    "" !== doc_number_value && !validationDocumentType;
+                    if(validationInpustsForm){
+                        return {
+                            type: validation || !termanAndContictionContent.checked   ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
+                            meta: {paymentMethodData: nn} 
+                        }
+                    }
+                    /*return validationInpustsForm,{
                         type: validation || !termanAndContictionContent.checked   ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
                         meta: {paymentMethodData: nn}
                     }
+                        */
                 }));
                 return () => e()
             }), [c.responseTypes.ERROR, c.responseTypes.SUCCESS, r]), (0, e.createElement)("div", {dangerouslySetInnerHTML: {__html: i.params.content}})

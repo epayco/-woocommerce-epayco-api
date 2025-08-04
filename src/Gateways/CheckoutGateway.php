@@ -192,7 +192,7 @@ class CheckoutGateway extends AbstractGateway
     {
         parent::registerCheckoutScripts();
         $this->epayco->hooks->scripts->registerCheckoutScript(
-            'wc_epayco_checkout',
+            'wc_epayco_checkout-new-checkout',
             'https://epayco-checkout-testing.s3.us-east-1.amazonaws.com/checkout.preprod_v1.js'
         );
 
@@ -325,7 +325,7 @@ class CheckoutGateway extends AbstractGateway
         $private_key = $this->epayco->sellerConfig->getCredentialsPrivateKeyPayment();
         $testMode = $this->epayco->storeConfig->isTestMode() ? "true" : "false";
         echo  sprintf('
-                    <script> var handler = ePayco.checkout.configure({
+                    <script> var handler = window.ePayco.checkout.configure({
                         key: "%1$s",
                         test: "%2$s"
                     })
