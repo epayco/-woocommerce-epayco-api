@@ -13,7 +13,7 @@
             let title = i && i.title ? (0, c.decodeEntities)(i.title) : "";
             if (!title || title.trim() === "") {
                 title = document.documentElement.lang.startsWith('es') 
-                    ? "ePayco - Pago Tarjeta de credito y debito" 
+                    ? "ePayco - Pago Tarjeta de crédito y débito" 
                     : "ePayco - Credit and Debit Cards";
             }
             return title;
@@ -175,9 +175,9 @@
                     try {
                         var createTokenEpayco = async function  ($form) {
                             return await new Promise(function(resolve, reject) {
-                                
-                                ePayco.token.create($form, function(error, data) {
-                                    if(data.status == 'error' || data.error || error){
+                                ePayco.token.create($form, function(data,error) {
+                                    // debugger;
+                                   if(data.status == 'error' || data.error || error){
                                         if(error){
                                             console.error("Error creating token: ", error);
                                             data = {
@@ -204,9 +204,8 @@
                             ePayco.setPublicKey(publicKey);
                             ePayco.setLanguage("es");
                             var token = await createTokenEpayco(current);
-                            var tokenValue;
-                            var errorMesage;
-                            if(token){
+                            //   debugger;
+                            if(!token){
                                 if(token.status == 'error' || token.error){
                                     errorMesage = token.description;
                                 }else{
@@ -217,25 +216,25 @@
                                         errorMesage = token.description;
                                     }
                                 }
-                            }
                             
+                            }
                         }else{
                             return {
                                 type: c.responseTypes.FAIL,
-                                messageContext: c.noticeContexts.PAYMENTS,
-                                message: errorMesage ?? "error"
+                                messageContext: "PAYMENTS",
+                                message: "error"
                             }
                         }
                     } catch (e) {
-                        console.error("Token creation error: " + e);
+                        console.warn("Token creation error: ", e)
                         return {
-                            type: c.responseTypes.FAIL,
-                            messageContext: c.noticeContexts.PAYMENTS,
-                            message: e.description
+                            type: c.responseTypes.ERROR,
+                            messageContext: "PAYMENTS",
+                            message: "error"
                         }
                     }
                     const nn = {
-                        "epayco_creditcard[cardTokenId]": tokenValue,
+                        "epayco_creditcard[cardTokenId]": token,
                         "epayco_creditcard[name]": customContentName.value,
                         "epayco_creditcard[address]": customContentAddress.value,
                         "epayco_creditcard[email]": customContentEmail.value,
@@ -256,8 +255,8 @@
                         return e && "flex" === e.style.display
                     }
 
-                    const validationDocumentType = doc_type.value === "Type" || doc_type.value === "Tipo";
-                    const validationInpustsForm =  "" !== customContentName.value &&
+
+                    return "" !== customContentName.value &&
                     "" !== cardNumberContentName.value &&
                     "" !== cardExpirationContentName.value &&
                     "" !== cardSecurityContentName.value &&
@@ -265,18 +264,11 @@
                     "" !== customContentEmail.value &&
                     "" !== customContentCellphone.value &&
                     "" !== countryContentCountry.value &&
-                    "" !== doc_number_value && !validationDocumentType;
-                    if(validationInpustsForm){
-                        return {
-                            type: validation || !termanAndContictionContent.checked   ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
-                            meta: {paymentMethodData: nn} 
-                        }
-                    }
-                    /*return validationInpustsForm,{
+                    "" !== doc_number_value &&
+                    "Type"||"Tipo" !== doc_type.value,{
                         type: validation || !termanAndContictionContent.checked   ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
                         meta: {paymentMethodData: nn}
                     }
-                        */
                 }));
                 return () => e()
             }), [c.responseTypes.ERROR, c.responseTypes.SUCCESS, r]), (0, e.createElement)("div", {dangerouslySetInnerHTML: {__html: i.params.content}})
