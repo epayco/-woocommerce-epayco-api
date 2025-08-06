@@ -177,8 +177,6 @@
                             return await new Promise(function(resolve, reject) {
                                 
                                 ePayco.token.create($form, function(error, data) {
-                                    //debugger;
-                                    debugger;
                                     if(data.status == 'error' || data.error || error){
                                         if(error){
                                             console.error("Error creating token: ", error);
@@ -229,8 +227,6 @@
                             }
                         }
                     } catch (e) {
-                        //debugger;
-                        debugger;
                         console.error("Token creation error: " + e);
                         return {
                             type: c.responseTypes.FAIL,
