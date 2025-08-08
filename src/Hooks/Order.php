@@ -601,7 +601,7 @@ class Order
         }else{
             $url = 'https://eks-rest-pagos-service.epayco.io/restpagos/'.$path;
         }
-
+        
         $response = wp_remote_post($url, array(
             'method'    => $method,
             'headers' => $headers,
