@@ -505,19 +505,19 @@ msgstr "Se han actualizado las credenciales"
 
 #: src/Translations/AdminTranslations.php:363
 msgid "Credit and Debit Cards"
-msgstr "Tarjeta de credito y debito"
+msgstr "Tarjeta de crédito y débito"
 
 #: src/Translations/AdminTranslations.php:351
 #: src/Translations/AdminTranslations.php:355
 msgid "Credit and Debit Cards"
-msgstr "Tarjeta de credito y debito"
+msgstr "Tarjeta de crédito y débito"
 
 #: src/Translations/AdminTranslations.php:156
 #: src/Translations/AdminTranslations.php:162
 #: src/Translations/AdminTranslations.php:337
 #: src/Translations/AdminTranslations.php:343
 msgid "Credit and Debit Cards"
-msgstr "Tarjeta de credito y debito"
+msgstr "Tarjeta de crédito y débito"
 
 #: src/Translations/StoreTranslations.php:85
 #: src/Translations/StoreTranslations.php:124
