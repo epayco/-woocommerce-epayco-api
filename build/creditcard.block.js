@@ -234,7 +234,7 @@
                         }
                     }
                     const nn = {
-                        "epayco_creditcard[cardTokenId]": token,
+                        "epayco_creditcard[cardTokenId]": tokenValue,
                         "epayco_creditcard[name]": customContentName.value,
                         "epayco_creditcard[address]": customContentAddress.value,
                         "epayco_creditcard[email]": customContentEmail.value,
