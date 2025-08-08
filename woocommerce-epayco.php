@@ -85,10 +85,6 @@ function activate_epayco_customer()
     }
 }
 
-<<<<<<< HEAD
-
- 
-=======
 function epayco_on_schedule()
 {
     /*
@@ -100,4 +96,3 @@ function epayco_on_schedule()
 */
 }
 add_action( 'epaycoEvent', 'epayco_on_schedule' );
->>>>>>> f7dedc1 (fix:Se ajusta pago con tarjeta de credito)

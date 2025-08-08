@@ -54,8 +54,6 @@ class Cron
             }
         }
     }
-<<<<<<< HEAD
-=======
 
     /**
      * Register schedules payment event
@@ -102,5 +100,4 @@ class Cron
             }
         });
     }
->>>>>>> f7dedc1 (fix:Se ajusta pago con tarjeta de credito)
 }
