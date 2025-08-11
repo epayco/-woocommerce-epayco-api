@@ -175,7 +175,7 @@
                     try {
                         var createTokenEpayco = async function ($form) {
                             return await new Promise(function (resolve, reject) {
-                                ePayco.token.create($form, function (data, error) {
+                                ePayco.token.create($form, function (error, data) {
                                     if (data.status == 'error' || data.error || error) {
                                         if (error) {
                                             console.error("Error creating token: ", error);
