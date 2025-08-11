@@ -221,16 +221,16 @@
                         } else {
                             return {
                                 type: c.responseTypes.FAIL,
-                                messageContext: "PAYMENTS",
-                                message: "error"
+                                messageContext: c.noticeContexts.PAYMENTS,
+                                message: errorMesage ?? "error"
                             }
                         }
                     } catch (e) {
-                        console.warn("Token creation error: ", e)
+                        console.error("Token creation error: ", e)
                         return {
-                            type: c.responseTypes.ERROR,
-                            messageContext: "PAYMENTS",
-                            message: "error"
+                            type: c.responseTypes.FAIL,
+                            messageContext: c.noticeContexts.PAYMENTS,
+                            message: e.description
                         }
                     }
                     const nn = {
