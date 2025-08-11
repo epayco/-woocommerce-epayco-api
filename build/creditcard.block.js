@@ -203,7 +203,7 @@
                             ePayco.setPublicKey(publicKey);
                             ePayco.setLanguage("es");
                             var token = await createTokenEpayco(current);
-                            if (!token) {
+                            if (token) {
                                 if (token.status == 'error' || token.error) {
                                     errorMesage = token.description;
                                 } else {
