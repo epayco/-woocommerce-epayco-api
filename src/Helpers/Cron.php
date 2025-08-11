@@ -10,6 +10,12 @@ if (!defined('ABSPATH')) {
 
 class Cron
 {
+
+    public function __construct()
+    {
+        $this->registerSyncStatusOrdersAction();
+    }
+
     /**
      * Register an scheduled event
      *

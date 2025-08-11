@@ -179,9 +179,11 @@
     vertical-align: baseline;
     cursor: pointer;
 }
+
 .ep-input-radio-radio {
     display: none;
 }
+
 .ep-input-radio-label {
     display: inline-block;
     width: 40px;
@@ -199,7 +201,7 @@
     transition: all 0.3s ease;
 }
 
-.ep-input-radio-container-checked{
+.ep-input-radio-container-checked {
     color: green;
     background: url(../../images/settings/Boton_aceptado.png) no-repeat center;
     background-size: cover;
@@ -208,7 +210,8 @@
     position: relative;
     transform: scale(0.7);
 }
-.ep-input-radio-container-unchecked{
+
+.ep-input-radio-container-unchecked {
     color: green;
     background: url(../../images/settings/Boton.png) no-repeat center;
     background-size: cover;
@@ -274,7 +277,7 @@ div .ep-error {
     font-weight: bold !important;
     flex-wrap: nowrap;
     width: 13px !important;
-    box-sizing:unset !important;
+    box-sizing: unset !important;
     word-break: keep-all !important;
 
 }
@@ -311,28 +314,80 @@ div .ep-error {
 }
 
 .payment_method_woo-epayco-daviplata {
-    padding-left: 0rem !important;
+    border: 1px solid #e5e5e5 !important;
     max-width: 500px;
+    margin: 5px 0;
+    padding: 10px 0px !important;
+    min-height: 62px !important;
 }
 
 .payment_method_woo-epayco-pse {
-    padding-left: 0rem !important;
+    border: 1px solid #e5e5e5 !important;
     max-width: 500px;
+    margin: 5px 0;
+    padding: 10px 0px !important;
+    min-height: 62px !important;
+
 }
 
 .payment_method_woo-epayco-ticket {
-    padding-left: 0rem !important;
+    border: 1px solid #e5e5e5 !important;
     max-width: 500px;
+    margin: 5px 0;
+    padding: 10px 0px !important;
+    min-height: 62px !important;
 }
 
 .payment_method_woo-epayco-creditcard {
-    padding-left: 0rem !important;
+    border: 1px solid #e5e5e5 !important;
     max-width: 500px;
+    margin: 5px 0;
+    padding: 10px 0px !important;
+    min-height: 62px !important;
 }
 
 .payment_method_woo-epayco-checkout {
-    padding-left: 0rem !important;
+    border: 1px solid #e5e5e5 !important;
     max-width: 500px;
+    margin: 5px 0;
+    padding: 10px 0px !important;
+    min-height: 62px !important;
+}
+
+.epayco-title-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    vertical-align: middle;
+    font-size: 12px !important;
+}
+
+.epayco-brand-icons {
+    margin: 0 !important;
+    width: 45px !important;
+}
+
+.epayco-text {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+input#payment_method_woo-epayco-daviplata,
+input#payment_method_woo-epayco-pse,
+input#payment_method_woo-epayco-ticket,
+input#payment_method_woo-epayco-creditcard,
+input#payment_method_woo-epayco-checkout {
+    margin: 0 8px !important;
+}
+
+@media (max-width: 524px) {
+    .epayco-brand-icons {
+        width: 30px !important;
+    }
+
+    .epayco-text {
+        font-size: 10px !important;
+    }
 }
 
 .ep-test-mode-epayco-badge {
@@ -407,10 +462,11 @@ div .ep-error {
 }
 
 .ep-checkout-custom-card-form .ep-checkout-custom-card-row {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
-    justify-content: space-between;
-    margin-bottom: 10px;
+    justify-content: space-between !important;
+    margin-bottom: 10px !important;
+    width: 99% !important;
 }
 
 .ep-checkout-custom-card-form .ep-checkout-custom-card-column {
@@ -517,7 +573,7 @@ div .ep-error {
     border-radius: 8px !important;
     display: flex !important;
     height: 48px !important;
-    width: 97% !important;
+    width: 99% !important;
 }
 
 
@@ -557,7 +613,7 @@ div .ep-error {
     border: 0 !important;
     border-radius: 8px !important;
     box-shadow: none !important;
-    color: #000;
+     color: #2f2f2f !important; 
     font-size: 16px !important;
     font-style: normal !important;
     font-weight: 400 !important;
@@ -673,11 +729,13 @@ div .ep-error {
     display: flex !important;
     width: 100%;
 }
-@media (max-width: 425px){
+
+@media (max-width: 425px) {
+
     .ep-input-table-epayco-label,
     .ep-input-table-epayco-option {
         flex-direction: column;
-    }  
+    }
 }
 
 .ep-input-table-epayco-label {
@@ -775,4 +833,148 @@ option {
     display: flex !important;
     justify-content: center !important;
     padding: 16px 0 24px !important;
+}
+
+.custom-select {
+    position: relative;
+    width: 260px;
+    font-family: Arial, sans-serif;
+}
+
+.selected-option,
+.option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.selected-option {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.options-list {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 0 0 4px 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.option:hover {
+    background: #f0f0f0;
+}
+
+.option img,
+.selected-option img {
+    width: 22px;
+    height: 16px;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+.choices__input {
+    display: flex !important;
+    vertical-align: top !important;
+    width: 100% !important;
+    /* background-color: #f9f9f9; */
+    padding: 15.5px 18.5px 8.75px !important;
+    /* border: 1px solid #ddd; */
+    border-radius: 2.5px !important;
+    font-size: 19px !important;
+    min-height: 50px !important;
+    overflow: hidden !important;
+}
+
+.choices__inner {
+    display: table-cell !important;
+    vertical-align: top !important;
+    width: 100% !important;
+    /* background-color: #f9f9f9; */
+    padding: 7.5px 7.5px 3.75px !important;
+    /* border: 1px solid #ddd; */
+    border-radius: 2.5px !important;
+    font-size: 14px !important;
+    min-height: 38px !important;
+    overflow: hidden !important;
+
+}
+
+.choices[data-type*=select-one] .choices__input {
+
+    width: 100% !important;
+    padding: 10px !important;
+
+    padding-bottom: 1.5px !important;
+    margin: 0 !important;
+}
+
+.choices[data-type*=select-one] .choices__inner {
+    width: 10% !important;
+    padding: 12.4px 14px !important;
+    padding-bottom: -4.5px !important;
+    margin: 4px 4px 3px -1px !important;
+    border: 1px solid rgba(0, 0, 0, .25);
+    border-radius: 8px !important;
+    background-color: #ffff !important;
+    color: #000 !important;
+
+
+}
+
+
+.choices[data-type*=select-one]:hover .choices__inner {
+    border: 1px solid black !important;
+}
+
+.choices__list--single .choices__item {
+    width: 85px !important;
+    font-size: 16px !important;
+    background-color: #ffff !important;
+    color: #000;
+    margin-left: inherit !important;
+}
+
+.choices[data-type*=select-one] {
+    cursor: pointer !important;
+    margin-top: 2px !important;
+}
+
+.choices:last-child {
+    margin-bottom: -1px !important;
+    margin-left: -8px !important;
+    width: 135px !important;
+}
+
+
+
+#cellphoneType .ep-input-element img.wp-smiley,
+#cellphoneType img.emoji {
+    display: inline !important;
+    width: 22px !important;
+    height: 22px !important;
+    vertical-align: -0.35em !important;
+}
+
+
+.choices[data-type*=select-one]::after {
+    content: "" !important;
+    height: 0 !important;
+    width: 0 !important;
+    border-style: solid !important;
+    border-color: #333 transparent transparent !important;
+    border-width: 5px !important;
+    position: absolute !important;
+    right: 25.5px !important;
+    top: 50% !important;
+    margin-top: -3.5px !important;
+    pointer-events: none !important;
 }

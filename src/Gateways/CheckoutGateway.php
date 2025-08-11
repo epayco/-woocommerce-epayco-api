@@ -46,7 +46,7 @@ class CheckoutGateway extends AbstractGateway
         $this->adminTranslations = $this->epayco->adminTranslations->checkoutGatewaySettings;
         $this->storeTranslations = $this->epayco->storeTranslations->epaycoCheckout;
         $this->id        = self::ID;
-        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/checkout.png';
+        // $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/checkout.png';
         $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/checkout.png';
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, 'Checkout ePayco');
 
@@ -85,6 +85,25 @@ class CheckoutGateway extends AbstractGateway
     public function getCheckoutName(): string
     {
         return self::CHECKOUT_NAME;
+    }
+    
+    public function get_title() {
+        $lang = substr(get_locale(), 0, 2);
+        $description = ($lang === 'es')
+            ? 'Otros métodos de pago.'
+            : 'Other payment methods.';
+
+        return sprintf(
+            '<div class="epayco-title-wrapper">
+                <img class="epayco-brand-icons" src="https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/checkoutEpayco.png" alt="ePayco Icono" />
+                <span class="epayco-text">
+                    <span style="font-weight: bold;">%s</span>
+                    <span style="color: #888;">%s</span>
+                </span>
+            </div>',
+            esc_html($this->title),
+            esc_html($description)
+        );
     }
 
     /**
@@ -358,7 +377,7 @@ class CheckoutGateway extends AbstractGateway
                         headers["privatekey"] = privatekey;
                         headers["apikey"] = apikey;
                         var payment =   function (){
-                            return  fetch("https://cms.epayco.co/checkout/payment/session", {
+                            return  fetch("https://eks-cms-backend-platforms-service.epayco.io/checkout/payment/session", {
                                 method: "POST",
                                 body: JSON.stringify(info),
                                 headers
@@ -442,7 +461,7 @@ class CheckoutGateway extends AbstractGateway
         if ($idioma === "en") {
             $epaycoButtonImage = 'https://multimedia.epayco.co/epayco-landing/btns/Boton-epayco-color-Ingles.png';
         }else{
-            $epaycoButtonImage = 'https://multimedia.epayco.co/epayco-landing/btns/Boton-epayco-color1.png';
+            $epaycoButtonImage = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/botonPagarEpayco.png';
         }
         echo '<p>       
                  <center>
@@ -510,7 +529,7 @@ class CheckoutGateway extends AbstractGateway
         }
 
         if($ref_payco){
-            $url = 'https://api.secure.payco.co/validation/v1/reference/'.$ref_payco;
+            $url = 'https://eks-apify-service.epayco.io/validation/v1/reference/'.$ref_payco;
             $response = wp_remote_get(  $url );
             $body = wp_remote_retrieve_body( $response );
             $jsonData = @json_decode($body, true);

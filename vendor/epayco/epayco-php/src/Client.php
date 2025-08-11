@@ -13,9 +13,9 @@ use WpOrg\Requests\Requests;
  */
 class Client extends GraphqlClient
 {
-    const BASE_URL = "https://api.secure.payco.co";
-    const BASE_URL_SECURE = "https://secure.payco.co/restpagos";
-    const BASE_URL_APIFY = "https://apify.epayco.co";
+    const BASE_URL = "https://eks-subscription-api-lumen-service.epayco.io";
+    const BASE_URL_SECURE = "https://eks-rest-pagos-service.epayco.io/restpagos";
+    const BASE_URL_APIFY = "https://eks-apify-service.epayco.io";
     const IV = "0000000000000000";
     const LENGUAGE = "php";
 
@@ -153,37 +153,75 @@ class Client extends GraphqlClient
                 }
                 return json_decode($response->body);
             }
-            if ($response->status_code == 400) {
-                $code = 0;
-                $message = "Bad request";
-                try {
-                    $errors = (array)json_decode($response->body);
-                    $error = isset($errors['message']) ? $errors['message'] : (isset($errors['errors']) ? $errors['errors'][0] : "Ocurrio un error, por favor contactar con soporte");
-                    $message = $error;
-                    return (object)array(
-                        "status" => false,
-                        "message" => $message,
-                        "data" => array()
-                    );
-                } catch (\Exception $e) {
-                    throw new ErrorException($e->getMessage(), $e->getCode());
+            if ($response->status_code >= 400 && $response->status_code < 500) {
+                $body = $response->body;
+                if (class_exists('WC_Logger')) {
+                    $logger = wc_get_logger();
+                    error_log("checkout_error".json_encode($body));
+                    $logger->info("checkout_error".json_encode($body));
                 }
-                throw new ErrorException($message , 103);
+
+                if (empty($body)) {
+                    $responseDataBody = array(
+                        "status" => false,
+                        "message" => "La respuesta del servidor está vacía o no es válida.",
+                        "data" => []
+                    );
+                    return json_encode($responseDataBody, JSON_PRETTY_PRINT);
+                }
+
+                $decoded = (array)json_decode($body, true);
+                $message = 'Ocurrió un error procesando el pago.';
+
+                $error = "Ocurrió un error, por favor contactar con soporte.";
+
+                if (is_array($decoded)) {
+                    $message = $decoded['message'] ?? $message;
+                    $errores_listados = [];
+                    if (isset($decoded['data']['errors']) && is_array($decoded['data']['errors'])) {
+                        foreach ($decoded['data']['errors'] as $campo => $mensajes) {
+                            foreach ($mensajes as $msg) {
+                                $errores_listados[] = ucfirst($campo) . ': ' . $msg;
+                            }
+                        }
+                    }
+                    if (isset($decoded['data']->errors) && is_array($decoded['data']->errors)) {
+                        foreach ($decoded['data']->errors as $campo => $mensajes) {
+                            foreach ($mensajes as $msg) {
+                                $errores_listados[] = ucfirst($campo) . ': ' . $msg;
+                            }
+                        }
+                    }
+                }
+                /*
+                $errors_list = isset($errors['data']['errors']) ? $errors['data']['errors'] :( isset($errors['data']->errors) ? $errors['data']->errors : []);
+                $errorMessages = [];
+                foreach ($errors_list as $field => $messages) {
+                    foreach ($messages as $msg) {
+                        $errorMessages[] = ucfirst($field) . ': ' . $msg;
+                    }
+                }
+                 $errorMessage = $message . ' → ' . implode(' | ', $errorMessages);
+                */
+
+                $errorMessage = $message;
+                if (!empty($errores_listados)) {
+                    $errorMessage .=  implode(' | ', $errores_listados);
+                }
+                return (object)[
+                    "status" => false,
+                    "message" => $errorMessage,
+                    "data" => (object)[]
+                ];
+            }else {
+                throw new ErrorException('Internal error', 102);
             }
-            if ($response->status_code == 401) {
-                throw new ErrorException('Unauthorized', 104);
-            }
-            if ($response->status_code == 404) {
-                throw new ErrorException('Not found', 105);
-            }
-            if ($response->status_code == 403) {
-                throw new ErrorException('Permission denegated', 106);
-            }
-            if ($response->status_code == 405) {
-                throw new ErrorException('Not allowed', 107);
-            }
-            throw new ErrorException('Internal error', 102);
         } catch (\Exception $e) {
+            error_log("checkout_error".$e->getMessage()." " .$e->getCode());
+            if (class_exists('WC_Logger')) {
+                $logger = wc_get_logger();
+                $logger->info("checkout_error".$e->getMessage()." " .$e->getCode());
+            }
             throw new ErrorException($e->getMessage(), $e->getCode());
         }
     }

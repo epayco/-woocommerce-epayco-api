@@ -139,13 +139,7 @@ if (! defined('ABSPATH')) {
                             select-name="epayco_pse[documentType]"
                             select-data-checkout="document_type"
                             flag-error="documentTypeError"
-                            documents='[
-                                    {"id":"Tipo"},
-                                    {"id":"CC"},
-                                    {"id":"CE"},
-                                    {"id":"PPN"},
-                                    {"id":"NIT"}
-                                    ]'
+                            documents='<?php print_r($documents);?>'
                             validate=true
                             placeholder="Número de documento"
                     >
@@ -214,3 +208,4 @@ if (! defined('ABSPATH')) {
     </div>
 </div>
 
+<script src="../../../assets/js/checkouts/ep-plugins-components.min.js"></script>

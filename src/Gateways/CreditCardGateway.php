@@ -49,9 +49,9 @@ class CreditCardGateway extends AbstractGateway
         $this->storeTranslations = $this->epayco->storeTranslations->creditcardCheckout;
 
         $this->id        = self::ID;
-        $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjeta.png';
+        // $this->icon      = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjeta.png';
         $this->iconAdmin = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjeta.png';
-        $defaultTitle = (substr(get_locale(), 0, 2) === 'es') ? 'Tarjeta de crédito y/o débito' : 'Credit and/or Debit Cards';
+        $defaultTitle = (substr(get_locale(), 0, 2) === 'es') ? 'Tarjeta de crédito y débito' : 'Credit and Debit Cards';
         $this->title = $this->epayco->storeConfig->getGatewayTitle($this, $defaultTitle);
 
         $this->init_form_fields();
@@ -83,7 +83,23 @@ class CreditCardGateway extends AbstractGateway
     {
         return self::CHECKOUT_NAME;
     }
-
+        public function get_title() {
+        $lang = substr(get_locale(), 0, 2);
+        $description = ($lang === 'es')
+        ? 'Visa, MasterCard, Amex, Diners y Codensa.'
+        : 'Visa, MasterCard, Amex, Diners and Codensa.';
+        return sprintf(
+            '<div class="epayco-title-wrapper">
+                <img class="epayco-brand-icons" src="https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjetaCreditoDebito.png" alt="Medios de pago" />
+                <span class="epayco-text">
+                <span style="font-weight: bold;">%s</span>
+                <span style="color: #888;">%s</span>                    
+                </span>
+            </div>',
+            esc_html($this->title),
+            esc_html($description)
+        );
+    }
     /**
      * Init form fields for checkout configuration
      *
@@ -286,7 +302,7 @@ class CreditCardGateway extends AbstractGateway
             parent::process_payment($order_id);
 
             $checkout['token'] = $checkout['cardTokenId'] ?? $checkout['cardtokenid'] ?? '';
-
+            
             if (!empty($checkout['token'])) {
                 $this->transaction = new CreditCardTransaction($this, $order, $checkout);
                 $redirect_url = get_site_url() . "/";
@@ -307,6 +323,7 @@ class CreditCardGateway extends AbstractGateway
                         $order->update_status("on-hold");
                         $this->epayco->woocommerce->cart->empty_cart();
                         $urlReceived = $order->get_checkout_order_received_url();
+                        $threeDs = null;
                         if(isset($response['data']['3DS'])){
                             $public_key = $this->epayco->sellerConfig->getCredentialsPublicKeyPayment();
                             $private_key = $this->epayco->sellerConfig->getCredentialsPrivateKeyPayment();
@@ -321,9 +338,12 @@ class CreditCardGateway extends AbstractGateway
                             ]);
                             $idSessionToken = base64_encode($json_data);
                             $urlReceived = "https://vtex.epayco.io/3ds?token=".$idSessionToken;
+                            $threeDs = json_encode($response['data']['3DS']);
                         }
                         $return = [
                             'result'   => 'success',
+                            'message' => $response['data']['respuesta'],
+                            'threeDs' => $threeDs,
                             'redirect' => $urlReceived,
                         ];
                     }
@@ -334,6 +354,7 @@ class CreditCardGateway extends AbstractGateway
                         $urlReceived = $order->get_checkout_order_received_url();
                         $return = [
                             'result'   => 'success',
+                            'message' => $response['data']['respuesta'],
                             'redirect' => $urlReceived,
                         ];
                     }
@@ -361,6 +382,10 @@ class CreditCardGateway extends AbstractGateway
                         }
                     }
                     $processReturnFailMessage = $messageError . " " . $errorMessage;
+                    if (class_exists('WC_Logger')) {
+                        $logger = wc_get_logger();
+                        $logger->info("token: ".$processReturnFailMessage);
+                    }
                     return $this->returnFail($processReturnFailMessage, $order);
                 }
             } else {

@@ -12,29 +12,33 @@
         p = (() => {
             let title = i && i.title ? (0, c.decodeEntities)(i.title) : "";
             if (!title || title.trim() === "") {
-                title = document.documentElement.lang.startsWith('es') 
-                    ? "ePayco - Pago Tarjeta de credito y/o debito" 
-                    : "ePayco - Credit and/or Debit Cards";
+                title = document.documentElement.lang.startsWith('es')
+                    ? "ePayco - Pago Tarjeta de crédito y débito"
+                    : "ePayco - Credit and Debit Cards";
             }
             return title;
         })(),
         u = t => {
             (e => {
-                const {extensionCartUpdate: t} = wc.blocksCheckout, {
+                const { extensionCartUpdate: t } = wc.blocksCheckout, {
                     eventRegistration: o,
                     emitResponse: c
-                } = e, {onPaymentSetup: r, onCheckoutSuccess: i, onCheckoutFail: p} = o;
+                } = e, { onPaymentSetup: r, onCheckoutSuccess: i, onCheckoutFail: p } = o;
                 (0, a.useEffect)((() => {
                     ((e, t) => {
-                        e({namespace: n, data: {action: "add", gateway: t}})
+                        e({ namespace: n, data: { action: "add", gateway: t } })
                     })(t, d);
-                    const e = r((() => ({type: c.responseTypes.SUCCESS})));
+                    const e = r((() => ({ type: c.responseTypes.SUCCESS })));
                     return () => (((e, t) => {
-                        e({namespace: n, data: {action: "remove", gateway: t}})
+                        e({ namespace: n, data: { action: "remove", gateway: t } })
                     })(t, d), e())
                 }), [r]), (0, a.useEffect)((() => {
                     const e = i((async e => {
                         const t = e.processingResponse;
+                        if (t.paymentDetails.threeDs) {
+                            const threeds = JSON.parse(t.paymentDetails.threeDs);
+                            console.log(t.paymentDetails.threeDs);
+                        }
                         return {
                             type: c.responseTypes.SUCCESS,
                             messageContext: c.noticeContexts.PAYMENTS,
@@ -55,15 +59,15 @@
                 }), [p])
             })(t);
             const M = (0, a.useRef)(null),
-                {eventRegistration: o, emitResponse: c} = t,
-                {onPaymentSetup: r} = o;
+                { eventRegistration: o, emitResponse: c } = t,
+                { onPaymentSetup: r } = o;
             return (0, a.useEffect)((() => {
                 const e = r((async () => {
                     var e;
 
-                    const current =  document.querySelector(".ep-checkout-creditcard-container");
+                    const current = document.querySelector(".ep-checkout-creditcard-container");
                     const customContentName = current.querySelector('input-card-name').querySelector('input');
-                    const nameHelpers =  current.querySelector('input-helper-epayco').querySelector("div");
+                    const nameHelpers = current.querySelector('input-helper-epayco').querySelector("div");
                     const verifyName = (nameElement) => {
                         if (nameElement.value === '') {
                             current.querySelector('input-card-name').querySelector(".ep-input").classList.add("ep-error");
@@ -71,7 +75,7 @@
                         }
                     }
                     const cardNumberContentName = current.querySelector('input-card-number').querySelector('input');
-                    const cardNumberHelpers =  current.querySelector('input-card-number').querySelector("input-helper-epayco").querySelector("div");
+                    const cardNumberHelpers = current.querySelector('input-card-number').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCardNumber = (nameElement) => {
                         if (nameElement.value === '') {
                             current.querySelector('input-card-number').querySelector(".ep-input").classList.add("ep-error");
@@ -79,7 +83,7 @@
                         }
                     }
                     const cardExpirationContentName = current.querySelector('input-card-expiration-date').querySelector('input');
-                    const cardExpirationHelpers =  current.querySelector('input-card-expiration-date').querySelector("input-helper-epayco").querySelector("div");
+                    const cardExpirationHelpers = current.querySelector('input-card-expiration-date').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCardExpiration = (nameElement) => {
                         if (nameElement.value === '') {
                             current.querySelector('input-card-expiration-date').querySelector(".ep-input").classList.add("ep-error");
@@ -87,7 +91,7 @@
                         }
                     }
                     const cardSecurityContentName = current.querySelector('input-card-security-code').querySelector('input');
-                    const cardSecurityHelpers =  current.querySelector('input-card-security-code').querySelector("input-helper-epayco").querySelector("div");
+                    const cardSecurityHelpers = current.querySelector('input-card-security-code').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCardSecurity = (nameElement) => {
                         if (nameElement.value === '') {
                             current.querySelector('input-card-security-code').querySelector(".ep-input").classList.add("ep-error");
@@ -97,7 +101,7 @@
 
 
                     const cardContentDocument = current.querySelector('input-document-epayco').querySelector('input');
-                    const documentHelpers =  current.querySelector('input-document-epayco').querySelector("input-helper-epayco").querySelector("div");
+                    const documentHelpers = current.querySelector('input-document-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyDocument = (cardContentDocument) => {
                         if (cardContentDocument.value === '') {
                             current.querySelector('input-document-epayco').querySelector(".ep-input").classList.add("ep-error");
@@ -107,7 +111,7 @@
                     }
 
                     const customContentAddress = current.querySelector('input-address-epayco').querySelector('input');
-                    const addressHelpers =  current.querySelector('input-address-epayco').querySelector("input-helper-epayco").querySelector("div");
+                    const addressHelpers = current.querySelector('input-address-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyAddress = (addressElement) => {
                         if (addressElement.value === '') {
                             current.querySelector('input-address-epayco').querySelector(".ep-input").classList.add("ep-error");
@@ -116,7 +120,7 @@
                     }
 
                     const customContentEmail = current.querySelector('input-card-email').querySelector('input');
-                    const emailHelpers =  current.querySelector('input-card-email').querySelector("input-helper-epayco").querySelector("div");
+                    const emailHelpers = current.querySelector('input-card-email').querySelector("input-helper-epayco").querySelector("div");
                     const verifyEmail = (emailElement) => {
                         if (emailElement.value === '') {
                             current.querySelector('input-card-email').querySelector(".ep-input").classList.add("ep-error");
@@ -125,7 +129,7 @@
                     }
 
                     const customContentCellphone = current.querySelector('input-cellphone-epayco').querySelector('#cellphoneTypeNumber').querySelector('input');
-                    const cellphoneHelpers =  current.querySelector('input-cellphone-epayco').querySelector("input-helper-epayco").querySelector("div");
+                    const cellphoneHelpers = current.querySelector('input-cellphone-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCellphone = (customContentCellphone) => {
                         if (customContentCellphone.value === '') {
                             current.querySelector('input-cellphone-epayco').querySelector(".ep-input").classList.add("ep-error");
@@ -135,7 +139,7 @@
                     }
 
                     const countryContentCountry = current.querySelector('#form-checkout__identificationCountry-container').lastChild.querySelector('input');
-                    const countryHelpers =  current.querySelector('input-country-epayco').querySelector("input-helper-epayco").querySelector("div");
+                    const countryHelpers = current.querySelector('input-country-epayco').querySelector("input-helper-epayco").querySelector("div");
                     const verifyCountry = (countryContentCountry) => {
                         if (countryContentCountry.value === '') {
                             current.querySelector('input-country-epayco').querySelector(".ep-input").classList.add("ep-error");
@@ -145,35 +149,36 @@
                     }
                     const termanAndContictionContent = document.querySelector('terms-and-conditions').querySelector('input');
                     const termanAndContictionHelpers = document.querySelector('terms-and-conditions').querySelector(".ep-terms-and-conditions-container");
-                    termanAndContictionContent.addEventListener('click', function() {
+                    termanAndContictionContent.addEventListener('click', function () {
                         if (termanAndContictionContent.checked) {
                             termanAndContictionHelpers.classList.remove("ep-error")
                         }
                     });
-                    const customContentInstallments =document.getElementById('epayco_creditcard[installmet]').value;
-                    const doc_type =document.getElementById('epayco_creditcard[identificationType]');
+                    const customContentInstallments = document.getElementById('epayco_creditcard[installmet]').value;
+                    const doc_type = document.getElementById('epayco_creditcard[identificationType]');
                     const cellphoneType = customContentCellphone.parentElement.parentElement.querySelector(".ep-input-select-select").value;
                     const countryType = countryContentCountry.parentElement.parentElement.querySelector(".ep-input-select-select").value;
-                    const doc_number_value =cardContentDocument.value;
+                    const doc_number_value = cardContentDocument.value;
 
                     "" === customContentName.value && verifyName(customContentName);
                     "" === cardNumberContentName.value && verifyCardNumber(cardNumberContentName);
                     "" === cardExpirationContentName.value && verifyCardExpiration(cardExpirationContentName);
                     "" === cardSecurityContentName.value && verifyCardSecurity(cardSecurityContentName);
-                    "Type"||"Tipo" === doc_type.value && verifyDocument(cardContentDocument);
+                    "Type" || "Tipo" === doc_type.value && verifyDocument(cardContentDocument);
                     "" === cardContentDocument.value && verifyDocument(cardContentDocument);
                     "" === customContentAddress.value && verifyAddress(customContentAddress);
                     "" === customContentEmail.value && verifyEmail(customContentEmail);
                     "" === customContentCellphone.value && verifyCellphone(customContentCellphone);
                     "" === countryContentCountry.value && verifyCountry(countryContentCountry);
                     !termanAndContictionContent.checked && termanAndContictionHelpers.classList.add("ep-error");
-                    let validation = d(nameHelpers) || d(cardNumberHelpers) || d(cardExpirationHelpers) || d(cardSecurityHelpers) || d(documentHelpers) || d(addressHelpers) || d(emailHelpers) || d(cellphoneHelpers) || d(countryHelpers);
+                    let validation = d(nameHelpers) || d(cardNumberHelpers) || d(cardExpirationHelpers) || d(cardSecurityHelpers) || d(documentHelpers) || d(addressHelpers) || d(emailHelpers) || d(cellphoneHelpers) || d(countryHelpers) || !termanAndContictionContent.checked;
                     try {
-                        var createTokenEpayco = async function  ($form) {
-                            return await new Promise(function(resolve, reject) {
-                                ePayco.token.create($form, function(error, data) {
-                                    if(data.status == 'error' || data.error || error){
-                                        if(error){
+                        var createTokenEpayco = async function ($form) {
+                            return await new Promise(function (resolve, reject) {
+                                ePayco.token.create($form, function (data, error) {
+                                    // debugger;
+                                    if (data.status == 'error' || data.error || error) {
+                                        if (error) {
                                             console.error("Error creating token: ", error);
                                             data = {
                                                 status: 'error',
@@ -181,11 +186,11 @@
                                             };
                                         }
                                         reject(data)
-                                    }else{
-                                        if(data.status == 'success'){
+                                    } else {
+                                        if (data.status == 'success') {
                                             document.querySelector('#cardTokenId').value = data.data.token;
                                             resolve(data)
-                                        }else{
+                                        } else {
                                             reject(data)
                                         }
                                     }
@@ -199,22 +204,21 @@
                             ePayco.setPublicKey(publicKey);
                             ePayco.setLanguage("es");
                             var token = await createTokenEpayco(current);
-                            var tokenValue;
-                            var errorMesage;
-                            if(token){
-                                if(token.status == 'error' || token.error){
+                            //   debugger;
+                            if (!token) {
+                                if (token.status == 'error' || token.error) {
                                     errorMesage = token.description;
-                                }else{
-                                    if(token.status == 'success'){
+                                } else {
+                                    if (token.status == 'success') {
                                         tokenValue = token.data.token;
                                         validation = true;
-                                    }else{
+                                    } else {
                                         errorMesage = token.description;
                                     }
                                 }
+
                             }
-                            
-                        }else{
+                        } else {
                             return {
                                 type: c.responseTypes.FAIL,
                                 messageContext: c.noticeContexts.PAYMENTS,
@@ -241,7 +245,7 @@
                         "epayco_creditcard[cellphone]": customContentCellphone.value,
                         "epayco_creditcard[country]": countryContentCountry.value,
                         "epayco_creditcard[installmet]": customContentInstallments,
-                        };
+                    };
 
                     function m(e, t) {
                         e && e.style && (e.style.display = t)
@@ -252,19 +256,19 @@
                     }
 
                     const validationDocumentType = doc_type.value === "Type" || doc_type.value === "Tipo";
-                    const validationInpustsForm =  "" !== customContentName.value &&
-                    "" !== cardNumberContentName.value &&
-                    "" !== cardExpirationContentName.value &&
-                    "" !== cardSecurityContentName.value &&
-                    "" !== customContentAddress.value &&
-                    "" !== customContentEmail.value &&
-                    "" !== customContentCellphone.value &&
-                    "" !== countryContentCountry.value &&
-                    "" !== doc_number_value && !validationDocumentType;
-                    if(validationInpustsForm){
+                    const validationInpustsForm = "" !== customContentName.value &&
+                        "" !== cardNumberContentName.value &&
+                        "" !== cardExpirationContentName.value &&
+                        "" !== cardSecurityContentName.value &&
+                        "" !== customContentAddress.value &&
+                        "" !== customContentEmail.value &&
+                        "" !== customContentCellphone.value &&
+                        "" !== countryContentCountry.value &&
+                        "" !== doc_number_value && !validationDocumentType;
+                    if (validationInpustsForm) {
                         return {
-                            type: validation || !termanAndContictionContent.checked   ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
-                            meta: {paymentMethodData: nn} 
+                            type: validation || !termanAndContictionContent.checked ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
+                            meta: { paymentMethodData: nn }
                         }
                     }
                     /*return validationInpustsForm,{
@@ -274,19 +278,106 @@
                         */
                 }));
                 return () => e()
-            }), [c.responseTypes.ERROR, c.responseTypes.SUCCESS, r]), (0, e.createElement)("div", {dangerouslySetInnerHTML: {__html: i.params.content}})
+            }), [c.responseTypes.ERROR, c.responseTypes.SUCCESS, r]), (0, e.createElement)("div", { dangerouslySetInnerHTML: { __html: i.params.content } })
         }, l = {
             name: d,
             label: (0, e.createElement)((t => {
-                const {PaymentMethodLabel: o} = t.components, a = (0, c.decodeEntities)(i?.params?.fee_title || ""),
-                    n = `${p} ${a}`;
-                return (0, e.createElement)(o, {text: n})
+                const { PaymentMethodLabel: o } = t.components;
+                const a = (0, c.decodeEntities)(i?.params?.fee_title || "");
+                const n = `${p} ${a}`;
+                const [showLogo, setShowLogo] = e.useState(true);
+
+                e.useEffect(() => {
+                    let timer = setTimeout(() => setShowLogo(false), 15000);
+
+                    const observer = new MutationObserver(() => {
+                        const hasClass = document.querySelector('.ep-checkout-creditcard-container') !== null;
+                        setShowLogo(!hasClass);
+                    });
+
+                    observer.observe(document.body, { childList: true, subtree: true });
+
+                    return () => {
+                        clearTimeout(timer);
+                        observer.disconnect();
+                    };
+                }, []);
+
+                return (0, e.createElement)("div", {
+                    style: {
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        width: "100%",
+                        maxWidth: "100%",
+                        margin: "0 20px 0 0",
+                        flexWrap: "wrap",
+                    },
+                    className: "epayco-payment-label-responsive"
+                },
+                    (0, e.createElement)("img", {
+                        src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/tarjetaCreditoDebito.png",
+                        alt: "ePayco Efectivo Icono",
+                        className: "epayco-icon-mobile-hide",
+                        style: {
+                            maxWidth: "45px",
+                            width: "auto",
+                            height: "auto",
+                            maxHeight: "45px",
+                            marginBottom: "5px",
+                            marginRight: "5px",
+                        }
+                    }),
+                    (0, e.createElement)("div", {
+                        className: "epayco-payment-label-texts",
+                        style: {
+                            display: "flex",
+                            flexDirection: "column"
+
+                        }
+                    },
+                        (0, e.createElement)("strong", null, n),
+                        (0, e.createElement)("span", {
+                            style: {
+                                fontSize: "12px",
+                                color: "#666",
+                                marginTop: "2px"
+                            }
+                        }, document.documentElement.lang.startsWith('es')
+                            ? "Visa, MasterCard, Amex, Diners y Codensa."
+                            : "Visa, MasterCard, Amex, Diners and Codensa.")
+                    ),
+                    showLogo && (0, e.createElement)("img", {
+                        src: "https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/new/iconosTarjetas.png",
+                        alt: "ePayco",
+                        className: "epayco-logos-final",
+                        style: {
+                            maxWidth: "280px",
+                            width: "auto",
+                            marginLeft: "10px",
+                            maxHeight: "70px",
+                            height: "auto",
+                        }
+                    }),
+                    (0, e.createElement)("style", null, `
+                    @media (max-width: 430px) {
+                        .epayco-logos-final {
+                            max-width: 200px !important;
+                            height: auto !important;
+                        }
+                        .epayco-icon-mobile-hide{
+                            max-width: 25px;
+                            height: 25px;
+                        }
+                    }
+                    `)
+                );
             }), null),
             content: (0, e.createElement)(u, null),
             edit: (0, e.createElement)(u, null),
             canMakePayment: () => !0,
             ariaLabel: p,
-            supports: {features: null !== (r = i?.supports) && void 0 !== r ? r : []}
+            supports: { features: null !== (r = i?.supports) && void 0 !== r ? r : [] }
         };
     (0, t.registerPaymentMethod)(l)
 })();

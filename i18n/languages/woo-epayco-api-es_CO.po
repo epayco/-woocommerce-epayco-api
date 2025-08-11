@@ -44,7 +44,7 @@ msgstr " de ePayco."
 #: src/Translations/StoreTranslations.php:271
 #: src/Translations/StoreTranslations.php:338
 msgid " Personal data processing policy"
-msgstr "Política de Tratamiento de datos personales"
+msgstr " Política de Tratamiento de datos personales"
 
 #: src/Translations/AdminTranslations.php:72
 #, php-format
@@ -260,11 +260,11 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:309
 msgid ""
-"Add the Daviplata payment option directly in your store. Perfect for "
+"Add the DaviPlata payment option directly in your store. Perfect for "
 "customers who prefer paying at physical locations, with no hassles or "
 "redirects."
 msgstr ""
-"Añada la opción de pago Daviplata directamente en su tienda. Perfecto para "
+"Añada la opción de pago DaviPlata directamente en su tienda. Perfecto para "
 "los clientes que prefieren pagar en lugares físicos, sin molestias ni "
 "redireccionamientos."
 
@@ -344,10 +344,10 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:317
 msgid ""
-"By disabling it, you will disable daviplata payment from ePayco Transparent "
+"By disabling it, you will disable DaviPlata payment from ePayco Transparent "
 "Checkout."
 msgstr ""
-"Al desactivarlo, desactivará el pago daviplata desde ePayco Transparent "
+"Al desactivarlo, desactivará el pago DaviPlata desde ePayco Transparent "
 "Checkout."
 
 #: src/Translations/AdminTranslations.php:177
@@ -508,13 +508,13 @@ msgid "Credentials were updated"
 msgstr "Se han actualizado las credenciales"
 
 #: src/Translations/AdminTranslations.php:363
-msgid "Credit and/or Debit Cards"
-msgstr "Tarjeta de credito y/o debito"
+msgid "Credit and Debit Cards"
+msgstr "Tarjeta de credito y debito"
 
 #: src/Translations/AdminTranslations.php:351
 #: src/Translations/AdminTranslations.php:355
-msgid "Credit and/or Debit Cards"
-msgstr "Tarjeta de credito y/o debito"
+msgid "Credit and Debit Cards"
+msgstr "Tarjeta de credito y debito"
 
 #: src/Translations/AdminTranslations.php:156
 #: src/Translations/AdminTranslations.php:162
@@ -544,12 +544,12 @@ msgid "Date and time"
 msgstr "Fecha y hora"
 
 #: src/Translations/AdminTranslations.php:308
-msgid "Daviplata"
-msgstr "Daviplata"
+msgid "DaviPlata"
+msgstr "DaviPlata"
 
 #: src/Translations/AdminTranslations.php:311
-msgid "Daviplata"
-msgstr "Daviplata"
+msgid "DaviPlata"
+msgstr "DaviPlata"
 
 #: src/Translations/AdminTranslations.php:319
 msgid "The payment method is <b>disabled</b>."
@@ -639,12 +639,12 @@ msgid "ePayco - Checkout Cash"
 msgstr "ePayco -Pago Efectivo"
 
 #: src/Translations/AdminTranslations.php:353
-msgid "ePayco -  Checkout Credit and/or Debit Cards"
-msgstr "ePayco - Pago Tarjeta de credito y/o debito"
+msgid "ePayco -  Checkout Credit and Debit Cards"
+msgstr "ePayco - Pago Tarjeta de crédito y débito"
 
 #: src/Translations/AdminTranslations.php:310
-msgid "ePayco - Checkout Daviplata"
-msgstr "ePayco - Pago Daviplata"
+msgid "ePayco - Checkout DaviPlata"
+msgstr "ePayco - Pago DaviPlata"
 
 #: src/Translations/AdminTranslations.php:382
 msgid "ePayco - Checkout PSE"
