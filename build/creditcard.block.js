@@ -176,7 +176,6 @@
                         var createTokenEpayco = async function ($form) {
                             return await new Promise(function (resolve, reject) {
                                 ePayco.token.create($form, function (data, error) {
-                                    // debugger;
                                     if (data.status == 'error' || data.error || error) {
                                         if (error) {
                                             console.error("Error creating token: ", error);
@@ -204,7 +203,6 @@
                             ePayco.setPublicKey(publicKey);
                             ePayco.setLanguage("es");
                             var token = await createTokenEpayco(current);
-                            //   debugger;
                             if (!token) {
                                 if (token.status == 'error' || token.error) {
                                     errorMesage = token.description;
