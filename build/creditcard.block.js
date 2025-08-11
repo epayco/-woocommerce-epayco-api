@@ -175,8 +175,7 @@
                     try {
                         var createTokenEpayco = async function ($form) {
                             return await new Promise(function (resolve, reject) {
-                                ePayco.token.create($form, function (data, error) {
-                                    // debugger;
+                                ePayco.token.create($form, function (error, data) {
                                     if (data.status == 'error' || data.error || error) {
                                         if (error) {
                                             console.error("Error creating token: ", error);
@@ -204,7 +203,6 @@
                             ePayco.setPublicKey(publicKey);
                             ePayco.setLanguage("es");
                             var token = await createTokenEpayco(current);
-                            //   debugger;
                             if (!token) {
                                 if (token.status == 'error' || token.error) {
                                     errorMesage = token.description;
@@ -221,16 +219,16 @@
                         } else {
                             return {
                                 type: c.responseTypes.FAIL,
-                                messageContext: "PAYMENTS",
-                                message: "error"
+                                messageContext: c.noticeContexts.PAYMENTS,
+                                message: errorMesage ?? "error"
                             }
                         }
                     } catch (e) {
-                        console.warn("Token creation error: ", e)
+                        console.error("Token creation error: ", e)
                         return {
-                            type: c.responseTypes.ERROR,
-                            messageContext: "PAYMENTS",
-                            message: "error"
+                            type: c.responseTypes.FAIL,
+                            messageContext: c.noticeContexts.PAYMENTS,
+                            message: e.description
                         }
                     }
                     const nn = {
