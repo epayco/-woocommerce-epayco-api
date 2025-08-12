@@ -197,6 +197,7 @@
                             });
                         }
                         var tokenValue;
+                        var errorMesage;
                         if (!validation) {
                             var publicKey = wc_epayco_creditcard_checkout_params.public_key_epayco;
                             var lang = wc_epayco_creditcard_checkout_params.lang
