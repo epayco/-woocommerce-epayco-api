@@ -265,17 +265,13 @@
                         "" !== customContentCellphone.value &&
                         "" !== countryContentCountry.value &&
                         "" !== doc_number_value && !validationDocumentType;
-                    if (validationInpustsForm) {
+                    if (validationInpustsForm && validation) {
                         return {
-                            type: validation || !termanAndContictionContent.checked ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
-                            meta: { paymentMethodData: nn }
+                            type: c.responseTypes.SUCCESS,
+                            meta: {paymentMethodData: nn}
                         }
                     }
-                    /*return validationInpustsForm,{
-                        type: validation || !termanAndContictionContent.checked   ? c.responseTypes.ERROR : c.responseTypes.SUCCESS,
-                        meta: {paymentMethodData: nn}
-                    }
-                        */
+                    
                 }));
                 return () => e()
             }), [c.responseTypes.ERROR, c.responseTypes.SUCCESS, r]), (0, e.createElement)("div", { dangerouslySetInnerHTML: { __html: i.params.content } })
