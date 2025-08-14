@@ -347,7 +347,7 @@ msgid ""
 "By disabling it, you will disable DaviPlata payment from ePayco Transparent "
 "Checkout."
 msgstr ""
-"Al desactivarlo, desactivará el pago DaviPlata desde ePayco Transparent "
+"Al desactivarlo, desactivará el pago DaviPlata desde ePayco Checkout Transparente. "
 "Checkout."
 
 #: src/Translations/AdminTranslations.php:177
