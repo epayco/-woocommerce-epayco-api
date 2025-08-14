@@ -332,7 +332,7 @@ msgid ""
 "By disabling it, you will disable all cash payments from ePayco Transparent "
 "Checkout."
 msgstr ""
-"Al desactivarlo, desactivará todos los pagos en efectivo de ePayco "
+"Al desactivarlo, desactivará todos los pagos en efectivo de ePayco Checkout Transparente. "
 "Transparent Checkout."
 
 #: src/Translations/AdminTranslations.php:358
