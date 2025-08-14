@@ -83,6 +83,26 @@ if (!defined('ABSPATH')) {
                 </div>
 
                 <div class="ep-checkout-daviplata-input-document">
+                    <input-document-epayco
+                        label-message="<?php echo esc_html($input_document_label); ?>"
+                        helper-message="<?php echo esc_html($input_document_helper); ?>"
+                        input-name-epayco='epayco_daviplata[document]'
+                        hidden-id="documentType"
+                        input-data-checkout="document_number"
+                        select-id="documentType"
+                        input-id="documentTypeNumber"
+                        select-name="epayco_daviplata[documentType]"
+                        select-data-checkout="document_type"
+                        flag-error="documentTypeError"
+                      documents='<?php print_r($documents); ?>'
+                        validate=true
+                        placeholder="Número de documento"
+                    >
+                    </input-document-epayco>
+                </div> 
+
+
+                <div class="ep-checkout-daviplata-input-document">
                     <input-email-epayco
                         labelMessage="<?php echo esc_html($input_email_label); ?>"
                         helperMessage="<?php echo esc_html($input_email_helper); ?>"
@@ -136,25 +156,7 @@ if (!defined('ABSPATH')) {
                     </input-select>
                 </div>
  
-                <div class="ep-checkout-daviplata-input-document">
-                    <input-document-epayco
-                        label-message="<?php echo esc_html($input_document_label); ?>"
-                        helper-message="<?php echo esc_html($input_document_helper); ?>"
-                        input-name-epayco='epayco_daviplata[document]'
-                        hidden-id="documentType"
-                        input-data-checkout="document_number"
-                        select-id="documentType"
-                        input-id="documentTypeNumber"
-                        select-name="epayco_daviplata[documentType]"
-                        select-data-checkout="document_type"
-                        flag-error="documentTypeError"
-                      documents='<?php print_r($documents); ?>'
-                        validate=true
-                        placeholder="Número de documento"
-                    >
-                    </input-document-epayco>
-                </div> 
-
+              
                 <!--<div class="ep-checkout-daviplata-input-document">
                     <input-country
                         label-message="<?php echo esc_html($input_country_label); ?>"
