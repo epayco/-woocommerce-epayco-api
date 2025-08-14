@@ -77,47 +77,7 @@ if (! defined('ABSPATH')) {
                     >
                     </input-name-epayco>
                 </div>
-                <div class='ep-checkout-pse-input-cellphone-epayco'>
-                    <input-email-epayco
-                            labelMessage="<?php echo esc_html($input_email_label); ?>"
-                            helperMessage="<?php echo esc_html($input_email_helper); ?>"
-                            placeholder="Escribe..."
-                            inputName='epayco_pse[email]'
-                            flagError='epayco_pse[emailError]'
-                            validate=true
-                            hiddenId= "hidden-email-pse"
-                    >
-                    </input-email-epayco>
-                </div>
-                <div class='ep-checkout-pse-input-cellphone-epayco'>
-                    <input-address-epayco
-                            labelMessage="<?php echo esc_html($input_address_label); ?>"
-                            helperMessage="<?php echo esc_html($input_address_helper); ?>"
-                            placeholder="Escribe..."
-                            inputName='epayco_pse[address]'
-                            flagError='epayco_pse[addressError]'
-                            validate=true
-                            hiddenId= "hidden-adress-pse"
-                    >
-                    </input-address-epayco>
-                </div>
-                <div class='ep-checkout-pse-input-cellphone-epayco'>
-                    <input-cellphone-epayco
-                            label-message="<?php echo esc_html($input_ind_phone_label); ?>"
-                            helper-message="<?php echo esc_html($input_ind_phone_helper); ?>"
-                            input-name-epayco='epayco_pse[cellphone]'
-                            hidden-id="cellphoneType"
-                            input-data-checkout="cellphone_number"
-                            select-id="cellphoneType"
-                            input-id="cellphoneTypeNumber"
-                            select-name="epayco_pse[cellphoneType]"
-                            select-data-checkout="cellphone_type"
-                            flag-error="cellphoneTypeError"
-                            validate=true
-                            placeholder="Número de celular"
-                    >
-                    </input-cellphone-epayco>
-                </div>
+
                 <div class="ep-checkout-pse-person"  style="max-width: 429px !important; min-width: 229px !important;">
                     <input-select-epayco
                         name="epayco_pse[person_type]"
@@ -145,6 +105,51 @@ if (! defined('ABSPATH')) {
                     >
                     </input-document-epayco>
                 </div>
+
+                <div class='ep-checkout-pse-input-cellphone-epayco'>
+                    <input-address-epayco
+                            labelMessage="<?php echo esc_html($input_address_label); ?>"
+                            helperMessage="<?php echo esc_html($input_address_helper); ?>"
+                            placeholder="Escribe..."
+                            inputName='epayco_pse[address]'
+                            flagError='epayco_pse[addressError]'
+                            validate=true
+                            hiddenId= "hidden-adress-pse"
+                    >
+                    </input-address-epayco>
+                </div>
+
+                <div class='ep-checkout-pse-input-cellphone-epayco'>
+                    <input-email-epayco
+                            labelMessage="<?php echo esc_html($input_email_label); ?>"
+                            helperMessage="<?php echo esc_html($input_email_helper); ?>"
+                            placeholder="Escribe..."
+                            inputName='epayco_pse[email]'
+                            flagError='epayco_pse[emailError]'
+                            validate=true
+                            hiddenId= "hidden-email-pse"
+                    >
+                    </input-email-epayco>
+                </div>
+                
+                <div class='ep-checkout-pse-input-cellphone-epayco'>
+                    <input-cellphone-epayco
+                            label-message="<?php echo esc_html($input_ind_phone_label); ?>"
+                            helper-message="<?php echo esc_html($input_ind_phone_helper); ?>"
+                            input-name-epayco='epayco_pse[cellphone]'
+                            hidden-id="cellphoneType"
+                            input-data-checkout="cellphone_number"
+                            select-id="cellphoneType"
+                            input-id="cellphoneTypeNumber"
+                            select-name="epayco_pse[cellphoneType]"
+                            select-data-checkout="cellphone_type"
+                            flag-error="cellphoneTypeError"
+                            validate=true
+                            placeholder="Número de celular"
+                    >
+                    </input-cellphone-epayco>
+                </div>
+                
                 <div class="ep-checkout-pse-input-document" >
                     <input-country-epayco
                             label-message="<?php echo esc_html($input_country_label); ?>"

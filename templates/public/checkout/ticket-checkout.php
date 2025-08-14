@@ -80,17 +80,8 @@ if (!defined('ABSPATH')) {
                     </input-name-epayco>
                 </div>
 
-                <div class="ep-checkout-ticket-input-document">
-                    <input-email-epayco
-                        labelMessage="<?php echo esc_html($input_email_label); ?>"
-                        helperMessage="<?php echo esc_html($input_email_helper); ?>"
-                        placeholder="Escribe..."
-                        inputName='epayco_ticket[email]'
-                        flagError='epayco_ticket[emailError]'
-                        validate=true
-                        hiddenId="hidden-email-ticket">
-                    </input-email-epayco>
-                </div>
+              
+                
 
                 <div class="ep-checkout-ticket-input-document">
                     <input-address
@@ -104,22 +95,6 @@ if (!defined('ABSPATH')) {
                     </input-address>
                 </div>
 
-                <div class="ep-checkout-ticket-input-document">
-                    <input-cellphone-epayco
-                        label-message="<?php echo esc_html($input_ind_phone_label); ?>"
-                        helper-message="<?php echo esc_html($input_ind_phone_helper); ?>"
-                        input-name-epayco='epayco_ticket[cellphone]'
-                        hidden-id="cellphoneType"
-                        input-data-checkout="cellphone_number"
-                        select-id="cellphoneType"
-                        input-id="cellphoneTypeNumber"
-                        select-name="epayco_ticket[cellphoneType]"
-                        select-data-checkout="cellphone_type"
-                        flag-error="cellphoneTypeError"
-                        validate=true
-                        placeholder="Número de celular">
-                    </input-cellphone-epayco>
-                </div>
 
                 <div class="ep-checkout-ticket-input-document">
                     <input-document-epayco
@@ -140,6 +115,37 @@ if (!defined('ABSPATH')) {
                     </input-document-epayco>
                 </div>
 
+                <div class="ep-checkout-ticket-input-document">
+                    <input-email-epayco
+                        labelMessage="<?php echo esc_html($input_email_label); ?>"
+                        helperMessage="<?php echo esc_html($input_email_helper); ?>"
+                        placeholder="Escribe..."
+                        inputName='epayco_ticket[email]'
+                        flagError='epayco_ticket[emailError]'
+                        validate=true
+                        hiddenId="hidden-email-ticket">
+                    </input-email-epayco>
+                </div>
+
+
+                <div class="ep-checkout-ticket-input-document">
+                    <input-cellphone-epayco
+                        label-message="<?php echo esc_html($input_ind_phone_label); ?>"
+                        helper-message="<?php echo esc_html($input_ind_phone_helper); ?>"
+                        input-name-epayco='epayco_ticket[cellphone]'
+                        hidden-id="cellphoneType"
+                        input-data-checkout="cellphone_number"
+                        select-id="cellphoneType"
+                        input-id="cellphoneTypeNumber"
+                        select-name="epayco_ticket[cellphoneType]"
+                        select-data-checkout="cellphone_type"
+                        flag-error="cellphoneTypeError"
+                        validate=true
+                        placeholder="Número de celular">
+                    </input-cellphone-epayco>
+                </div>
+
+               
                 <div class="ep-checkout-ticket-input-document">
                     <input-country-epayco
                         label-message="<?php echo esc_html($input_country_label); ?>"
