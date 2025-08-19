@@ -752,11 +752,11 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:147
 #: src/Translations/StoreTranslations.php:309
 msgid "Holder name is required"
-msgstr ""
+msgstr "El nombre del titular es obligatorio"
 
 #: src/Translations/StoreTranslations.php:169
 #: src/Translations/StoreTranslations.php:330
-msgid "Holder Phone"
+msgid "Holder Cell phone"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:244
@@ -986,11 +986,11 @@ msgstr ""
 
 #: src/Translations/StoreTranslations.php:55
 #: src/Translations/StoreTranslations.php:114
-msgid "Person type"
+msgid "Type of person"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:223
-msgid "Person type "
+msgid "Type of person"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:470

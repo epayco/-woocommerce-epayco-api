@@ -78,15 +78,29 @@ if (! defined('ABSPATH')) {
                     </input-name-epayco>
                 </div>
 
+                <div class='ep-checkout-pse-input-cellphone-epayco'>
+                    <input-email-epayco
+                            labelMessage="<?php echo esc_html($input_email_label); ?>"
+                            helperMessage="<?php echo esc_html($input_email_helper); ?>"
+                            placeholder="Escribe..."
+                            inputName='epayco_pse[email]'
+                            flagError='epayco_pse[emailError]'
+                            validate=true
+                            hiddenId= "hidden-email-pse"
+                    >
+                    </input-email-epayco>
+                </div>
+
                 <div class="ep-checkout-pse-person"  style="max-width: 429px !important; min-width: 229px !important;">
                     <input-select-epayco
                         name="epayco_pse[person_type]"
-                        label=<?php echo esc_html($person_type_label); ?>
+                        label="<?php echo esc_html($person_type_label); ?>"
                         optional="false"
                         options='[{"id":"PN", "description": "Persona natural"},{"id":"PJ", "description": "Persona jurídica"}]'
                     >
                     </input-select-epayco>
                 </div>
+                
                 <div class="ep-checkout-pse-input-document">
                     <input-document-epayco
                             label-message="<?php echo esc_html($input_document_label); ?>"
@@ -119,18 +133,6 @@ if (! defined('ABSPATH')) {
                     </input-address-epayco>
                 </div>
 
-                <div class='ep-checkout-pse-input-cellphone-epayco'>
-                    <input-email-epayco
-                            labelMessage="<?php echo esc_html($input_email_label); ?>"
-                            helperMessage="<?php echo esc_html($input_email_helper); ?>"
-                            placeholder="Escribe..."
-                            inputName='epayco_pse[email]'
-                            flagError='epayco_pse[emailError]'
-                            validate=true
-                            hiddenId= "hidden-email-pse"
-                    >
-                    </input-email-epayco>
-                </div>
                 
                 <div class='ep-checkout-pse-input-cellphone-epayco'>
                     <input-cellphone-epayco
