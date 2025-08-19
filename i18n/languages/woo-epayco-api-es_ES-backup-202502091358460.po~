@@ -270,12 +270,12 @@ msgstr ""
 
 #: src/Translations/StoreTranslations.php:215
 msgid "Address"
-msgstr "Dirección de residencia"
+msgstr "Dirección"
 
 #: src/Translations/StoreTranslations.php:164
 #: src/Translations/StoreTranslations.php:325
 msgid "Address "
-msgstr "Dirección de residencia"
+msgstr "Dirección"
 
 #: src/Translations/AdminTranslations.php:295
 msgid "All payment methods"
@@ -384,7 +384,7 @@ msgstr "El método de pago está <b>activado</b>."
 
 #: src/Translations/StoreTranslations.php:219
 msgid "Cellphone"
-msgstr "Teléfono"
+msgstr "Celular"
 
 #: src/Translations/AdminTranslations.php:181
 #: src/Translations/AdminTranslations.php:287
@@ -529,7 +529,7 @@ msgstr "Tarjeta de crédito y débito"
 #: src/Translations/StoreTranslations.php:315
 #: src/Translations/StoreTranslations.php:349
 msgid "Customer data"
-msgstr "Datos de usuario"
+msgstr "Datos del cliente"
 
 #: src/Translations/StoreTranslations.php:74
 #: src/Translations/StoreTranslations.php:184
@@ -715,11 +715,11 @@ msgstr "ePayco WooCommerce"
 #: src/Translations/StoreTranslations.php:150
 #: src/Translations/StoreTranslations.php:312
 msgid "Expiration"
-msgstr "Fecha expiración"
+msgstr "Fecha de expiración"
 
 #: src/Translations/StoreTranslations.php:87
 msgid "Expiration Date"
-msgstr "Fecha expiración"
+msgstr "Fecha de expiración"
 
 #: src/Translations/StoreTranslations.php:154
 #: src/Translations/StoreTranslations.php:316
@@ -769,7 +769,7 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:51
 #: src/Translations/StoreTranslations.php:110
 msgid "Holder address"
-msgstr "Dirección de residencia"
+msgstr "Dirección"
 
 #: src/Translations/StoreTranslations.php:165
 #: src/Translations/StoreTranslations.php:326
@@ -779,7 +779,7 @@ msgstr "Se requiere la dirección"
 #: src/Translations/StoreTranslations.php:53
 #: src/Translations/StoreTranslations.php:112
 msgid "Holder cellphone"
-msgstr "Teléfono"
+msgstr "Celular"
 
 #: src/Translations/StoreTranslations.php:58
 #: src/Translations/StoreTranslations.php:117
@@ -795,22 +795,22 @@ msgstr "País"
 #: src/Translations/StoreTranslations.php:217
 #: src/Translations/StoreTranslations.php:323
 msgid "Holder document"
-msgstr "Documento de identidad"
+msgstr "Documento"
 
 #: src/Translations/StoreTranslations.php:49
 #: src/Translations/StoreTranslations.php:108
 msgid "Holder email"
-msgstr "Correo electrónico del titular"
+msgstr "Correo electrónico "
 
 #: src/Translations/StoreTranslations.php:168
 #: src/Translations/StoreTranslations.php:329
 msgid "Holder email invalid"
-msgstr "Correo electrónico del titular no válido"
+msgstr "Correo electrónico  no válido"
 
 #: src/Translations/StoreTranslations.php:167
 #: src/Translations/StoreTranslations.php:328
 msgid "Holder email is required"
-msgstr "Se requiere el correo electrónico del titular"
+msgstr "Se requiere el Correo electrónico "
 
 #: src/Translations/StoreTranslations.php:47
 #: src/Translations/StoreTranslations.php:106
@@ -821,7 +821,7 @@ msgstr "Nombre del titular"
 #: src/Translations/StoreTranslations.php:146
 #: src/Translations/StoreTranslations.php:308
 msgid "Name and lastname"
-msgstr "Nombre y apellido"
+msgstr "Nombres y Apellidos"
 
 #: src/Translations/StoreTranslations.php:147
 #: src/Translations/StoreTranslations.php:309
@@ -830,8 +830,8 @@ msgstr "El nombre del titular es obligatorio"
 
 #: src/Translations/StoreTranslations.php:169
 #: src/Translations/StoreTranslations.php:330
-msgid "Holder Phone"
-msgstr "Teléfono"
+msgid "Holder Cell phone"
+msgstr "Celular"
 
 #: src/Translations/AdminTranslations.php:244
 msgid "how to enter the credentials the right way."
@@ -883,7 +883,7 @@ msgstr "Dirección no válida"
 #: src/Translations/StoreTranslations.php:113
 #: src/Translations/StoreTranslations.php:220
 msgid "Invalid cellphone"
-msgstr "Teléfono móvil no válido"
+msgstr "Celular no válido"
 
 #: src/Translations/StoreTranslations.php:59
 #: src/Translations/StoreTranslations.php:118
@@ -920,7 +920,7 @@ msgstr "Nombre no válido"
 #: src/Translations/StoreTranslations.php:170
 #: src/Translations/StoreTranslations.php:331
 msgid "Invalid Phone"
-msgstr "Teléfono no válido"
+msgstr "celular no válido"
 
 #: src/Translations/AdminTranslations.php:288
 #: src/Translations/AdminTranslations.php:322
@@ -1071,11 +1071,11 @@ msgstr "Transacción pendiente"
 
 #: src/Translations/StoreTranslations.php:55
 #: src/Translations/StoreTranslations.php:114
-msgid "Person type"
+msgid "Type of person"
 msgstr "Tipo de persona"
 
 #: src/Translations/StoreTranslations.php:223
-msgid "Person type "
+msgid "Type of person"
 msgstr "Tipo de persona"
 
 #: src/Translations/AdminTranslations.php:470
