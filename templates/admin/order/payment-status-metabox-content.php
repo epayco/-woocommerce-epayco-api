@@ -62,7 +62,7 @@ if (!defined('ABSPATH')) {
         <div class="order_data_column_container">
             <div class="order_data_column">
                 <div class="address">
-                    <p><strong>Ref_payco:</strong> <a href="http://eks-dashboard-service.epayco.io/transacciones/detalle/<?php echo esc_html($ref_payco); ?>" target="_blank"><?php echo esc_html($ref_payco); ?></a></p>
+                    <p><strong>Ref_payco:</strong> <a href="https://dashboard.epayco.com/transacciones/detalle/<?php echo esc_html($ref_payco); ?>" target="_blank"><?php echo esc_html($ref_payco); ?></a></p>
                     <p><strong>Modo:</strong> <?php echo esc_html($test); ?></p>
                 </div>
             </div>
@@ -75,7 +75,7 @@ if (!defined('ABSPATH')) {
             <div class="order_data_column">
                 <div class="address">
                     <p><strong>Código de autorización:</strong> <?php echo esc_html($authorization); ?></p>
-                    <p><a href="http://eks-dashboard-service.epayco.io/transacciones/detalle/<?php echo esc_html($ref_payco); ?>" target="_blank">Detalle Dashboard ePayco</a></p>
+                    <p><a href="https://dashboard.epayco.com/transacciones/detalle/<?php echo esc_html($ref_payco); ?>" target="_blank">Detalle Dashboard ePayco</a></p>
                 </div>
             </div>
         </div>

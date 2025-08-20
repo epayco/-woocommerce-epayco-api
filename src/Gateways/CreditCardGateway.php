@@ -337,7 +337,7 @@ class CreditCardGateway extends AbstractGateway
                                 "hash" => $token??null
                             ]);
                             $idSessionToken = base64_encode($json_data);
-                            $urlReceived = "https://vtex.epayco.io/3ds?token=".$idSessionToken;
+                            $urlReceived = "https://vtex.epayco.com/3ds?token=".$idSessionToken;
                             $threeDs = json_encode($response['data']['3DS']);
                         }
                         $return = [
