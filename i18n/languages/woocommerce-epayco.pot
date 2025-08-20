@@ -44,7 +44,7 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:231
 #: src/Translations/StoreTranslations.php:271
 #: src/Translations/StoreTranslations.php:338
-msgid " personal data processing policy"
+msgid " Personal data processing policy"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:72
@@ -211,7 +211,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:309
 msgid ""
-"Add the Daviplata payment option directly in your store. Perfect for "
+"Add the DaviPlata payment option directly in your store. Perfect for "
 "customers who prefer paying at physical locations, with no hassles or "
 "redirects."
 msgstr ""
@@ -285,7 +285,7 @@ msgstr ""
 
 #: src/Translations/AdminTranslations.php:317
 msgid ""
-"By disabling it, you will disable daviplata payment from ePayco Transparent "
+"By disabling it, you will disable DaviPlata payment from ePayco Transparent "
 "Checkout."
 msgstr ""
 
@@ -443,13 +443,13 @@ msgid "Credentials were updated"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:363
-msgid "Credit and/or Debit Cards"
-msgstr "Tarjetas de Crédito y/o Débito"
+msgid "Credit and Debit Cards"
+msgstr "Tarjetas de Crédito y Débito"
 
 #: src/Translations/AdminTranslations.php:351
 #: src/Translations/AdminTranslations.php:355
-msgid "Credit and/or Debit Cards"
-msgstr "Tarjetas de Crédito y/o Débito"
+msgid "Credit and Debit Cards"
+msgstr "Tarjetas de Crédito y Débito"
 
 #: src/Translations/AdminTranslations.php:156
 #: src/Translations/AdminTranslations.php:162
@@ -479,11 +479,11 @@ msgid "Date and time"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:308
-msgid "Daviplata"
+msgid "DaviPlata"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:311
-msgid "Daviplata"
+msgid "DaviPlata"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:319
@@ -569,11 +569,11 @@ msgid "ePayco - Checkout Cash"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:353
-msgid "ePayco - Checkout Credit and/or Debit Cards"
-msgstr "ePayco - Pago Tarjeta de credito y/o debito"
+msgid "ePayco - Checkout Credit and Debit Cards"
+msgstr "ePayco - Pago Tarjeta de crédito y débito"
 
 #: src/Translations/AdminTranslations.php:310
-msgid "ePayco - Checkout Daviplata"
+msgid "ePayco - Checkout DaviPlata"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:382
@@ -752,11 +752,11 @@ msgstr ""
 #: src/Translations/StoreTranslations.php:147
 #: src/Translations/StoreTranslations.php:309
 msgid "Holder name is required"
-msgstr ""
+msgstr "El nombre del titular es obligatorio"
 
 #: src/Translations/StoreTranslations.php:169
 #: src/Translations/StoreTranslations.php:330
-msgid "Holder Phone"
+msgid "Holder Cell phone"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:244
@@ -986,11 +986,11 @@ msgstr ""
 
 #: src/Translations/StoreTranslations.php:55
 #: src/Translations/StoreTranslations.php:114
-msgid "Person type"
+msgid "Type of person"
 msgstr ""
 
 #: src/Translations/StoreTranslations.php:223
-msgid "Person type "
+msgid "Type of person"
 msgstr ""
 
 #: src/Translations/AdminTranslations.php:470

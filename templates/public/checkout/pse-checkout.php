@@ -77,6 +77,7 @@ if (! defined('ABSPATH')) {
                     >
                     </input-name-epayco>
                 </div>
+
                 <div class='ep-checkout-pse-input-cellphone-epayco'>
                     <input-email-epayco
                             labelMessage="<?php echo esc_html($input_email_label); ?>"
@@ -89,6 +90,36 @@ if (! defined('ABSPATH')) {
                     >
                     </input-email-epayco>
                 </div>
+
+                <div class="ep-checkout-pse-person"  style="max-width: 429px !important; min-width: 229px !important;">
+                    <input-select-epayco
+                        name="epayco_pse[person_type]"
+                        label="<?php echo esc_html($person_type_label); ?>"
+                        optional="false"
+                        options='[{"id":"PN", "description": "Persona natural"},{"id":"PJ", "description": "Persona jurídica"}]'
+                    >
+                    </input-select-epayco>
+                </div>
+                
+                <div class="ep-checkout-pse-input-document">
+                    <input-document-epayco
+                            label-message="<?php echo esc_html($input_document_label); ?>"
+                            helper-message="<?php echo esc_html($input_document_helper); ?>"
+                            input-name-epayco='epayco_pse[document]'
+                            hidden-id="documentType"
+                            input-data-checkout="document_number"
+                            select-id="documentType"
+                            input-id="documentTypeNumber"
+                            select-name="epayco_pse[documentType]"
+                            select-data-checkout="document_type"
+                            flag-error="documentTypeError"
+                            documents='<?php print_r($documents);?>'
+                            validate=true
+                            placeholder="Número de documento"
+                    >
+                    </input-document-epayco>
+                </div>
+
                 <div class='ep-checkout-pse-input-cellphone-epayco'>
                     <input-address-epayco
                             labelMessage="<?php echo esc_html($input_address_label); ?>"
@@ -101,6 +132,8 @@ if (! defined('ABSPATH')) {
                     >
                     </input-address-epayco>
                 </div>
+
+                
                 <div class='ep-checkout-pse-input-cellphone-epayco'>
                     <input-cellphone-epayco
                             label-message="<?php echo esc_html($input_ind_phone_label); ?>"
@@ -118,39 +151,7 @@ if (! defined('ABSPATH')) {
                     >
                     </input-cellphone-epayco>
                 </div>
-                <div class="ep-checkout-pse-person"  style="max-width: 429px !important; min-width: 229px !important;">
-                    <input-select-epayco
-                        name="epayco_pse[person_type]"
-                        label=<?php echo esc_html($person_type_label); ?>
-                        optional="false"
-                        options='[{"id":"PN", "description": "Persona natural"},{"id":"PJ", "description": "Persona jurídica"}]'
-                    >
-                    </input-select-epayco>
-                </div>
-                <div class="ep-checkout-pse-input-document">
-                    <input-document-epayco
-                            label-message="<?php echo esc_html($input_document_label); ?>"
-                            helper-message="<?php echo esc_html($input_document_helper); ?>"
-                            input-name-epayco='epayco_pse[document]'
-                            hidden-id="documentType"
-                            input-data-checkout="document_number"
-                            select-id="documentType"
-                            input-id="documentTypeNumber"
-                            select-name="epayco_pse[documentType]"
-                            select-data-checkout="document_type"
-                            flag-error="documentTypeError"
-                            documents='[
-                                    {"id":"Tipo"},
-                                    {"id":"CC"},
-                                    {"id":"CE"},
-                                    {"id":"PPN"},
-                                    {"id":"NIT"}
-                                    ]'
-                            validate=true
-                            placeholder="Número de documento"
-                    >
-                    </input-document-epayco>
-                </div>
+                
                 <div class="ep-checkout-pse-input-document" >
                     <input-country-epayco
                             label-message="<?php echo esc_html($input_country_label); ?>"
@@ -214,3 +215,4 @@ if (! defined('ABSPATH')) {
     </div>
 </div>
 
+<script src="../../../assets/js/checkouts/ep-plugins-components.min.js"></script>

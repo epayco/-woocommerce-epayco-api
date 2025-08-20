@@ -108,7 +108,7 @@ class PDF
         $x_approval_code= $transactionInfo['data']['x_approval_code']??$transactionInfo['data']['authorization']??$transactionInfo['data'][0]['authorization'];
         $x_ref_payco= $transactionInfo['data']['x_ref_payco']??$transactionInfo['data']['referencePayco']??$transactionInfo['data'][0]['referencePayco'];
         $x_tax= $transactionInfo['data']['x_tax']??$transactionInfo['data']['tax']??$transactionInfo['data'][0]['tax'];
-        $x_currency_code= $transactionInfo['data']['x_currency_code']??$transactionInfo['data']['currency']??$transactionInfo['data'][0]['currency'];
+        $currency= $transactionInfo['data']['x_currency_code']??$transactionInfo['data']['currency']??$transactionInfo['data'][0]['currency'];
         $iconBaseUrl = 'https://multimedia-epayco-preprod.s3.us-east-1.amazonaws.com/plugins-sdks/';
 
         switch ($x_response) {
@@ -410,7 +410,7 @@ class PDF
             }
             .metodoPago {
                 align-items: center;
-                height: 1.5rem !important;
+                height: 2.0rem !important;
             }
             </style>
             
