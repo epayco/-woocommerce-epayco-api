@@ -328,16 +328,18 @@ class CreditCardGateway extends AbstractGateway
                             $public_key = $this->epayco->sellerConfig->getCredentialsPublicKeyPayment();
                             $private_key = $this->epayco->sellerConfig->getCredentialsPrivateKeyPayment();
                             $token = base64_encode($public_key.":".$private_key);
-                            $json_data = json_encode([
+                            $json_data = $response['data'];
+                            /*$json_data = json_encode([
                                 "returnUrl" => $urlReceived,
                                 "franquicia" => $response['data']['franquicia'],
                                 "threeDs" => json_encode($response['data']['3DS']),
                                 "ref_payco" => $ref_payco,
                                 "cc_network_response" => $response['data']['cc_network_response'],
                                 "hash" => $token??null
-                            ]);
+                            ]);*/
                             $idSessionToken = base64_encode($json_data);
-                            $urlReceived = "https://vtex.epayco.io/3ds?token=".$idSessionToken;
+                            //$urlReceived = "https://vtex.epayco.io/3ds?token=".$idSessionToken;
+                            $urlReceived = "https://eks-cms-backend-platforms-service.epayco.io/3ds?token=".$idSessionToken;
                             $threeDs = json_encode($response['data']['3DS']);
                         }
                         $return = [
