@@ -331,7 +331,7 @@ class DaviplataGateway extends AbstractGateway
                     if (isset($ref_payco)) {
                         $this->epayco->orderMetadata->updatePaymentsOrderMetadata($order, [$ref_payco]);
                         // $response['urlPayment'] = 'https://vtex.epayco.com/daviplata?refPayco=' . $ref_payco;
-                        $response['urlPayment'] = 'https://vtex.epayco.io/daviplata?refPayco=' . $ref_payco;
+                        $response['urlPayment'] = 'https://eks-cms-backend-platforms-service.epayco.io/daviplata?refPayco=' . $ref_payco;
                         $this->epayco->hooks->order->setDaviplataMetadata($order, $response);
                         $description = sprintf(
                             "ePayco: %s <a target='_blank' href='%s'>%s</a>",
